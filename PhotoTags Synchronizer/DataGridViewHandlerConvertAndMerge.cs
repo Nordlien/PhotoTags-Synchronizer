@@ -1921,18 +1921,12 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Write
-        public static void Write(DataGridView dataGridView,
-            string executeFile, string musicFile, int duration,
-            int resolutionWidth, int resolutionHeight, string tempfileExtension,
-            string videoMergeArgument, string videoMergeArguFile,
-            string imageConcatArgument, string imageConcatArguFile,
-            string videoConvertArgument, string outputFile)
+        public static List<string> GetFileNames(DataGridView dataGridView)
         {
-            int columnIndex = DataGridViewHandler.GetColumnIndexFirstFullFilePath(dataGridView, headerConvertAndMergeFilename, false);
-            if (columnIndex == -1) return;
-
             List<string> files = new List<string>();
+
+            int columnIndex = DataGridViewHandler.GetColumnIndexFirstFullFilePath(dataGridView, headerConvertAndMergeFilename, false);
+            if (columnIndex == -1) return files;
 
             for (int rowIndex = 0; rowIndex < DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView); rowIndex++)
             {
@@ -1940,7 +1934,17 @@ namespace PhotoTagsSynchronizer
                 DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndex);
                 if (dataGridViewGenericRow != null && dataGridViewGenericRow.IsHeader == false) files.Add(dataGridViewGenericRow.RowName);
             }
-           
+            return files;
+        }
+
+        #region Write
+        public static void Write(List<string> files,
+            string executeFile, string musicFile, int duration,
+            int resolutionWidth, int resolutionHeight, string tempfileExtension,
+            string videoMergeArgument, string videoMergeArguFile,
+            string imageConcatArgument, string imageConcatArguFile,
+            string videoConvertArgument, string outputFile)
+        {
             ConvertAndMerge(files, executeFile, musicFile, duration, resolutionWidth, resolutionHeight, tempfileExtension, videoMergeArgument, videoMergeArguFile, imageConcatArgument, imageConcatArguFile, videoConvertArgument, outputFile);
         }
         #endregion

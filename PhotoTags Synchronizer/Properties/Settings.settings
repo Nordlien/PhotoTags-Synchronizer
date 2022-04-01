@@ -824,7 +824,7 @@ duration {Duration}</Value>
       <Value Profile="(Default)">-analyzeduration 2147483647 -probesize 2147483647 -y -f concat -safe 0 -i "{ArgumentFileFullPath}" -c:v copy "{TempFileFullPath}"</Value>
     </Setting>
     <Setting Name="ConvertAndMergeConcatVideosArguFile" Type="System.String" Scope="User">
-      <Value Profile="(Default)">{VideoFileFullPath}</Value>
+      <Value Profile="(Default)">file '{VideoFileFullPath}'</Value>
     </Setting>
     <Setting Name="ConvertAndMergeMusic" Type="System.String" Scope="User">
       <Value Profile="(Default)">.\Resources\Silent.wav</Value>

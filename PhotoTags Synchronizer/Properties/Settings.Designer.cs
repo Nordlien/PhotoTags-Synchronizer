@@ -1237,7 +1237,7 @@ explorer ms-photos?filename=""{FileFullPath}""")]
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("{VideoFileFullPath}")]
+        [global::System.Configuration.DefaultSettingValueAttribute("file \'{VideoFileFullPath}\'")]
         public string ConvertAndMergeConcatVideosArguFile {
             get {
                 return ((string)(this["ConvertAndMergeConcatVideosArguFile"]));

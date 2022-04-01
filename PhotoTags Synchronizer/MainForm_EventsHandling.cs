@@ -6116,12 +6116,16 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.IsApplicationClosing) return;
             try
             {
+                DataGridView dataGridView = dataGridViewConvertAndMerge;
+                List<string> files = DataGridViewHandlerConvertAndMerge.GetFileNames(dataGridView);
+
                 SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-                //saveFileDialog1.InitialDirectory = @"C:\";      
+                //saveFileDialog1.InitialDirectory = @"C:\";
                 saveFileDialog1.Title = "Where to save converted and merged video file";
                 saveFileDialog1.CheckFileExists = false;
                 saveFileDialog1.CheckPathExists = true;
                 saveFileDialog1.DefaultExt = "mp4";
+                if (files.Count == 1) saveFileDialog1.FileName = Path.GetFileNameWithoutExtension(files[0]);
                 saveFileDialog1.Filter = "Video file (*.mp4)|*.mp4|All files (*.*)|*.*";
                 saveFileDialog1.FilterIndex = 1;
                 saveFileDialog1.RestoreDirectory = true;
@@ -6131,8 +6135,7 @@ namespace PhotoTagsSynchronizer
                     {
                         string outputFile = saveFileDialog1.FileName;
 
-                        DataGridView dataGridView = dataGridViewConvertAndMerge;
-                        DataGridViewHandlerConvertAndMerge.Write(dataGridView,
+                        DataGridViewHandlerConvertAndMerge.Write(files,
                             Properties.Settings.Default.ConvertAndMergeExecute,
                             Properties.Settings.Default.ConvertAndMergeMusic,
                             (int)Properties.Settings.Default.ConvertAndMergeImageDuration,
