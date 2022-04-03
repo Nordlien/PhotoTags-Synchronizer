@@ -1921,6 +1921,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region GetFileNames
         public static List<string> GetFileNames(DataGridView dataGridView)
         {
             List<string> files = new List<string>();
@@ -1936,6 +1937,7 @@ namespace PhotoTagsSynchronizer
             }
             return files;
         }
+        #endregion
 
         #region Write
         public static void Write(List<string> files,

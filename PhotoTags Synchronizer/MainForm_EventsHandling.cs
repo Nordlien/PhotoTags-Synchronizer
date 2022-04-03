@@ -10410,6 +10410,74 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region ActionSelectMediaFilesWithErrors
+        private void ActionSelectMediaFilesWithErrors()
+        {
+
+            if (GlobalData.IsApplicationClosing) return;
+            try
+            {
+                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
+                ImageListViewHandler.SuspendLayout(imageListView1);
+
+                using (new WaitCursor())
+                {
+                    ImageListViewSuspendLayoutInvoke(imageListView1);
+                    imageListView1.ClearSelection();
+
+                    lock (queueErrorQueueLock)
+                    {
+                        foreach (string fileFullPath in queueErrorQueue.Keys)
+                        {
+                            ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView1.Items, fileFullPath);
+                            if (foundItem != null) foundItem.Selected = true;
+                        }
+                    }
+                    ImageListViewResumeLayoutInvoke(imageListView1);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
+                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+            finally
+            {
+                ImageListViewHandler.ResumeLayout(imageListView1);
+                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
+
+                ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false);
+            }
+        }
+        #endregion
+
+        #region kryptonRibbonGroupButtonToolsReselectFilesHasErrors_Click
+        private void kryptonRibbonGroupButtonToolsReselectFilesHasErrors_Click(object sender, EventArgs e)
+        {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Select Media Files with errors")) return;
+            if (IsPopulatingAnything("Select Media Files with errors")) return;
+            //if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            try
+            {
+                GlobalData.IsPerformingAButtonAction = true;
+                ActionSelectMediaFilesWithErrors();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
+                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+            finally
+            {
+                GlobalData.IsPerformingAButtonAction = false;
+            }
+        }
+        #endregion 
+
         #region ActionSelectMediaFilesMatchCells
         private void SelectDataGridViewColumn(DataGridView dataGridView, HashSet<FileEntry> selectedFileEntries)
         {

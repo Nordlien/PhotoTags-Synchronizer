@@ -1720,10 +1720,10 @@ namespace PhotoTagsSynchronizer
                                 {
                                     for (int i = 0; i < writeCount; i++)
                                     {
-                                        FileEntry fileEntry = exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUser[0].FileEntry;
+                                        FileEntry fileEntryOriginal = exiftoolSave_QueueSaveUsingExiftool_MetadataOrigialBeforeUserUpdate[0].FileEntry;
 
                                         #region Check file status
-                                        FileStatus fileStatus = FileHandler.GetFileStatus(fileEntry.FileFullPath);
+                                        FileStatus fileStatus = FileHandler.GetFileStatus(fileEntryOriginal.FileFullPath);
 
                                         #region File not Exist, forget file
                                         if (!fileStatus.FileExists)
@@ -1731,7 +1731,7 @@ namespace PhotoTagsSynchronizer
                                             fileStatus.FileExists = false;
                                             fileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.FileInaccessibleOrError;
 
-                                            FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(fileEntry, FileEntryVersion.ExtractedNowUsingExiftoolFileNotExist);
+                                            FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(fileEntryOriginal, FileEntryVersion.ExtractedNowUsingExiftoolFileNotExist);
                                             DataGridView_Populate_FileEntryAttributeInvoke(fileEntryAttribute);
                                         }
                                         #endregion
@@ -1746,28 +1746,28 @@ namespace PhotoTagsSynchronizer
                                         else if (fileStatus.FileExists && fileStatus.IsInCloudOrVirtualOrOffline)
                                         {
                                             #region Touched file failed
-                                            if (FileHandler.IsOfflineFileTouchedAndFailedWithoutTimedOut(fileEntry.FileFullPath))
+                                            if (FileHandler.IsOfflineFileTouchedAndFailedWithoutTimedOut(fileEntryOriginal.FileFullPath))
                                             {
                                                 fileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.FileInaccessibleOrError; //TimeOut Error
                                                 fileStatus.FileErrorMessage = "Failed download";
 
-                                                FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(fileEntry, FileEntryVersion.ExtractedNowUsingExiftoolTimeout);
+                                                FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(fileEntryOriginal, FileEntryVersion.ExtractedNowUsingExiftoolTimeout);
                                                 DataGridView_Populate_FileEntryAttributeInvoke(fileEntryAttribute);
                                             }
                                             #endregion
                                             else
                                             #region Touch file and put back in queue
                                             {
-                                                FileHandler.TouchOfflineFileToGetFileOnline(fileEntry.FileFullPath);
+                                                FileHandler.TouchOfflineFileToGetFileOnline(fileEntryOriginal.FileFullPath);
                                                 fileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.WaitOfflineBecomeLocal;
 
-                                                AddQueueReadFromSourceExiftoolLock(fileEntry); //Add last in queue and wait for become downloaded
+                                                AddQueueReadFromSourceExiftoolLock(fileEntryOriginal); //Add last in queue and wait for become downloaded
                                             }
                                             #endregion
                                         }
                                         #endregion
 
-                                        ImageListView_UpdateItemFileStatusInvoke(fileEntry.FileFullPath, fileStatus);
+                                        ImageListView_UpdateItemFileStatusInvoke(fileEntryOriginal.FileFullPath, fileStatus);
 
                                         #endregion
 
