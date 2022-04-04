@@ -1662,7 +1662,7 @@ namespace Exiftool
                                             tempExiftoolDataNewLatitude.Parameter = "-" + tempExiftoolDataNewLatitude.Parameter;
 
                                         float? newLocationLatitude = ConvertAndCheckNumberFromString(tempExiftoolDataNewLatitude, oldExifToolGPSLatitude,
-                                            CompositeTags.GPSCoordinatesLatitude, ref metadata.errors);
+                                            CompositeTags.GPSLatitude, ref metadata.errors);
                                         metadata.LocationLatitude = newLocationLatitude;
                                         oldExifToolGPSLatitude = new ExiftoolData(tempExiftoolDataNewLatitude, metadata.LocationLatitude, true);
                                         #endregion
@@ -1675,7 +1675,7 @@ namespace Exiftool
                                             tempExiftoolDataNewLongitude.Parameter = "-" + tempExiftoolDataNewLongitude.Parameter;
 
                                         float? newLocationLongitude = ConvertAndCheckNumberFromString(tempExiftoolDataNewLongitude, oldExifToolGPSLongitude,
-                                            CompositeTags.GPSCoordinatesLongitude, ref metadata.errors);
+                                            CompositeTags.GPSLongitude, ref metadata.errors);
                                         metadata.LocationLongitude = newLocationLongitude;
                                         oldExifToolGPSLongitude = new ExiftoolData(tempExiftoolDataNewLongitude, metadata.LocationLongitude, true);
                                         #endregion
