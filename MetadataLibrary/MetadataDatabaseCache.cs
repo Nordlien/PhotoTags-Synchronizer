@@ -1294,18 +1294,22 @@ namespace MetadataLibrary
             listOfBrokers.Add(MetadataBrokerType.ExifToolWriteError);
             listOfBrokers.Add(MetadataBrokerType.MicrosoftPhotos);
             listOfBrokers.Add(MetadataBrokerType.WindowsLivePhotoGallery);
-            listOfBrokers.Add(MetadataBrokerType.WebScraping);
             listOfBrokers.Add(MetadataBrokerType.UserSavedData);
+            listOfBrokers.Add(MetadataBrokerType.WebScraping); //Need to be last (oldDirectory = WebScapingFolderName; newDirectory = WebScapingFolderName;)
+
 
             foreach (MetadataBrokerType broker in listOfBrokers)
             {
+                string oldDirectoryBroker = oldDirectory;
+                string newDirectoryBroker = newDirectory;
+
                 if (broker == MetadataBrokerType.WebScraping)
                 {
-                    oldDirectory = WebScapingFolderName;
-                    newDirectory = WebScapingFolderName;
+                    oldDirectoryBroker = WebScapingFolderName;
+                    newDirectoryBroker = WebScapingFolderName;
                 }
-                string oldPath = Path.Combine(oldDirectory, oldFilename).ToLower();
-                string newPath = Path.Combine(newDirectory, newFilename).ToLower();
+                string oldPath = Path.Combine(oldDirectoryBroker, oldFilename).ToLower();
+                string newPath = Path.Combine(newDirectoryBroker, newFilename).ToLower();
                 if (string.Compare(oldPath, newPath) != 0)
                 {
                     Mono.Data.Sqlite.SqliteTransaction sqlTransaction;
@@ -1324,9 +1328,9 @@ namespace MetadataLibrary
                             //commandDatabase.Prepare();
                             commandDatabase.Parameters.AddWithValue("@Broker", (int)broker);
                             commandDatabase.Parameters.AddWithValue("@OldFileName", oldFilename);
-                            commandDatabase.Parameters.AddWithValue("@OldFileDirectory", oldDirectory);
+                            commandDatabase.Parameters.AddWithValue("@OldFileDirectory", oldDirectoryBroker);
                             commandDatabase.Parameters.AddWithValue("@NewFileName", newFilename);
-                            commandDatabase.Parameters.AddWithValue("@NewFileDirectory", newDirectory);
+                            commandDatabase.Parameters.AddWithValue("@NewFileDirectory", newDirectoryBroker);
                             if (commandDatabase.ExecuteNonQuery() == -1) movedOk = false;
                         }
                         #endregion
