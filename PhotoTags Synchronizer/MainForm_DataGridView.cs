@@ -1702,7 +1702,7 @@ namespace PhotoTagsSynchronizer
                 FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(metadataFixedAndCorrected.FileEntry, FileEntryVersion.MetadataToSave);
 
                 int debugColumn = -1;
-                int columnIndexTagsAndKeywords = DataGridViewHandler.GetColumnIndexWhenAddColumn(dataGridViewConvertAndMerge, fileEntryAttribute, out FileEntryVersionCompare fileEntryVersionCompareTagsAndKeywords);
+                int columnIndexTagsAndKeywords = DataGridViewHandler.GetColumnIndexWhenAddColumn(dataGridViewTagsAndKeywords, fileEntryAttribute, out FileEntryVersionCompare fileEntryVersionCompareTagsAndKeywords);
                 if (DataGridViewHandler.IsColumnPopulated(dataGridViewTagsAndKeywords, columnIndexTagsAndKeywords))
                     DataGridViewHandler.SetColumnHeaderMetadata(dataGridViewTagsAndKeywords, metadataFixedAndCorrected, columnIndexTagsAndKeywords);
 

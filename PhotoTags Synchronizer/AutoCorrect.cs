@@ -303,6 +303,7 @@ namespace PhotoTagsSynchronizer
         public bool WriteAlbumOnDescription { get; set; }
         public bool UseTitle { get; set; }
 
+        #region UseAutoCorrectFormData
         public static void UseAutoCorrectFormData(ref Metadata metadataToSave, AutoCorrectFormVaraibles autoCorrectFormVaraibles)
         {
             if (autoCorrectFormVaraibles != null)
@@ -332,6 +333,7 @@ namespace PhotoTagsSynchronizer
                 }
             }
         }
+        #endregion
     }
 
     class AutoCorrect
