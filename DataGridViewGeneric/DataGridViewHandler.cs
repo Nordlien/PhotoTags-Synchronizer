@@ -1451,10 +1451,13 @@ namespace DataGridViewGeneric
                     if (createNewColumn)
                     {
                         dataGridView.Columns.Insert(columnIndex, dataGridViewColumn);
-                        if (isErrorColumn || showErrorColumns) 
+                        if (isErrorColumn || showErrorColumns)
                             fileEntryVersionCompareReason = FileEntryVersionCompare.WonColumnCreatedHistoricalOrError;
                         else
-                            fileEntryVersionCompareReason = FileEntryVersionCompare.WonColumnCreatedHistoricalOrError; //DEBUG REMOVE?
+                        {
+                            //DEBUG
+                            //    fileEntryVersionCompareReason = FileEntryVersionCompare.WonColumnCreatedHistoricalOrError; //DEBUG REMOVE?
+                        }
                     }
                 }
                 #endregion

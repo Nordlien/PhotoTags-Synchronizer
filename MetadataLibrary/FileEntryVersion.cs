@@ -284,12 +284,10 @@ namespace MetadataLibrary
                         case FileEntryVersion.ExtractedNowUsingWindowsLivePhotoGallery: //DataGridView Column
                         case FileEntryVersion.ExtractedNowUsingMicrosoftPhotos:         //DataGridView Column
                         case FileEntryVersion.ExtractedNowUsingWebScraping:             //DataGridView Column
-                            return FileEntryVersionCompare.LostWasOlder;              //DataGridView Column
-
+                            return FileEntryVersionCompare.LostWasOlder;                
                         case FileEntryVersion.MetadataToSave:                           //DataGridView Column
                         case FileEntryVersion.CompatibilityFixedAndAutoUpdated:         //DataGridView Column
-                            return FileEntryVersionCompare.WonWasNewer;               //DataGridView Column
-
+                            return FileEntryVersionCompare.WonWasNewer;                 
                         case FileEntryVersion.CurrentVersionInDatabase:                 //DataGridView Column
                             if (fileEntryAttributeFromQueue.LastWriteDateTime > fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
                                 return FileEntryVersionCompare.WonWasNewer;
@@ -316,9 +314,36 @@ namespace MetadataLibrary
                     #endregion
                     break;
                 case FileEntryVersion.Error:                                            //From queue
+                    #region Error, Historical
+                    switch (fileEntryAttributeDataGridViewColumn.FileEntryVersion)
+                    {
+                        case FileEntryVersion.ExtractedNowUsingExiftool:                //DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingReadMediaFile:           //DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingWindowsLivePhotoGallery: //DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingMicrosoftPhotos:         //DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingWebScraping:             //DataGridView Column
+                        case FileEntryVersion.MetadataToSave:                           //DataGridView Column
+                        case FileEntryVersion.CompatibilityFixedAndAutoUpdated:         //DataGridView Column
+                        case FileEntryVersion.CurrentVersionInDatabase:                 //DataGridView Column
+                        case FileEntryVersion.Historical:                               //DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingExiftoolTimeout:         //DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingExiftoolFileNotExist:    //DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingExiftoolWithError:       //DataGridView Column
+                            return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch;
+                        case FileEntryVersion.Error:                                    //DataGridView Column
+                            if (fileEntryAttributeFromQueue.LastWriteDateTime == fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
+                                return FileEntryVersionCompare.WonWasEqual;
+                            return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch;
+                        case FileEntryVersion.NotAvailable:                             //DataGridView Column
+                            return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch;
+                        default:
+                            throw new NotImplementedException();
+                    }
+                    #endregion
+
                 case FileEntryVersion.ExtractedNowUsingExiftoolTimeout:                 //From queue
                 case FileEntryVersion.ExtractedNowUsingExiftoolFileNotExist:            //From queue
-                case FileEntryVersion.ExtractedNowUsingExiftoolWithError:               //From queue
+                case FileEntryVersion.ExtractedNowUsingExiftoolWithError:               //From queue                
                 case FileEntryVersion.Historical:                                       //From queue
                     #region Error, Historical
                     switch (fileEntryAttributeDataGridViewColumn.FileEntryVersion)
@@ -332,14 +357,14 @@ namespace MetadataLibrary
                         case FileEntryVersion.CompatibilityFixedAndAutoUpdated:         //DataGridView Column
                         case FileEntryVersion.CurrentVersionInDatabase:                 //DataGridView Column
                             return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch;
-
                         case FileEntryVersion.Historical:                               //DataGridView Column
+                            if (fileEntryAttributeFromQueue.LastWriteDateTime == fileEntryAttributeDataGridViewColumn.LastWriteDateTime) 
+                                return FileEntryVersionCompare.WonWasEqual;
+                            return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch;
                         case FileEntryVersion.ExtractedNowUsingExiftoolTimeout:         //DataGridView Column
                         case FileEntryVersion.ExtractedNowUsingExiftoolFileNotExist:    //DataGridView Column
                         case FileEntryVersion.ExtractedNowUsingExiftoolWithError:       //DataGridView Column
                         case FileEntryVersion.Error:                                    //DataGridView Column
-                            if (fileEntryAttributeFromQueue.LastWriteDateTime == fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
-                                return FileEntryVersionCompare.WonWasEqual;
                             return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch;
                         case FileEntryVersion.NotAvailable:                             //DataGridView Column
                             return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch;
