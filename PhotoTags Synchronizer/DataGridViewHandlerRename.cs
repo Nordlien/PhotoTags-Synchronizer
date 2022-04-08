@@ -299,6 +299,7 @@ namespace PhotoTagsSynchronizer
 
             //Check if file is in DataGridView, and needs updated
             if (!DataGridViewHandler.DoesColumnFilenameExist(dataGridView, headerNewFilename)) return;
+            if (!FileEntryVersionHandler.IsCurrenOrUpdatedVersion(fileEntryAttribute.FileEntryVersion)) return;
 
             //When file found, Tell it's populating file, avoid two process updates
             DataGridViewHandler.SetIsPopulatingFile(dataGridView, true);
