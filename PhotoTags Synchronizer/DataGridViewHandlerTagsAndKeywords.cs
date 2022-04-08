@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using Thumbnails;
 using static Manina.Windows.Forms.ImageListView;
 using Krypton.Toolkit;
+using System.Threading;
 
 namespace PhotoTagsSynchronizer
 {
@@ -301,6 +302,7 @@ namespace PhotoTagsSynchronizer
                 if (metadataMicrosoftPhotos != null) PopulateKeywords(dataGridView, metadataMicrosoftPhotos, columnIndex, metadataMicrosoftPhotos.Broker, fileEntryAttribute);
                 if (metadataWindowsLivePhotoGallery != null) PopulateKeywords(dataGridView, metadataWindowsLivePhotoGallery, columnIndex, metadataWindowsLivePhotoGallery.Broker, fileEntryAttribute);
                 if (metadataWebScraping != null) PopulateKeywords(dataGridView, metadataWebScraping, columnIndex, metadataWebScraping.Broker, fileEntryAttribute);
+
 
                 DataGridViewHandler.SetColumnPopulatedFlag(dataGridView, columnIndex, true);
             }

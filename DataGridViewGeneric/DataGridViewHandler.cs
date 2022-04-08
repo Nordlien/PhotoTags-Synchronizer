@@ -1182,16 +1182,15 @@ namespace DataGridViewGeneric
                 FileEntryVersionHandler.ConvertCurrentErrorHistorical(fileEntryAttribute.FileEntryVersion));
 
             #region Cache logic
-            if (columnIndexCache.ContainsKey(fileEntryAttributeSearch))
+            if (columnIndexCache.TryGetValue(fileEntryAttributeSearch, out int columnIndexFound))
             {
-                int columnIndex = columnIndexCache[fileEntryAttributeSearch];
-                DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-                if (columnIndex < dataGridView.ColumnCount && dataGridViewGenericColumn != null)
+                DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndexFound);
+                if (columnIndexFound < dataGridView.ColumnCount && dataGridViewGenericColumn != null)
                 {
                     FileEntryAttribute fileEntryAttributeCompare = new FileEntryAttribute(dataGridViewGenericColumn.FileEntryAttribute.FileEntry,
                         FileEntryVersionHandler.ConvertCurrentErrorHistorical(dataGridViewGenericColumn.FileEntryAttribute.FileEntryVersion));
                     if (fileEntryAttributeCompare == fileEntryAttributeSearch) 
-                        return columnIndex; //It's still same file in column, (means not column has been added in front)
+                        return columnIndexFound; //It's still same file in column, (means not column has been added in front)
                     else
                         columnIndexCache.Clear(); //It's a diffrent file, means a column has been added in front, need rebuid cache
                 }
@@ -1258,10 +1257,8 @@ namespace DataGridViewGeneric
                 #region Cache logic
                 lock (columnIndexCachePrioritiesLock)
                 {
-                    if (columnIndexCachePriorities.ContainsKey(fileEntryAttributeSearch))
-                    {
-                        int columnIndex = columnIndexCachePriorities[fileEntryAttributeSearch];
-
+                    if (columnIndexCachePriorities.TryGetValue(fileEntryAttributeSearch, out int columnIndex))
+                    { 
                         DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
                         if (dataGridViewGenericColumn != null)
                         {
@@ -1801,14 +1798,13 @@ namespace DataGridViewGeneric
         public static int GetRowIndex(DataGridView dataGridView, RowIndenifier rowIndenifier)
         {
             #region Cache logic
-            if (rowIndexCache.ContainsKey(rowIndenifier))
+            if (rowIndexCache.TryGetValue(rowIndenifier, out int rowIndexFound))
             {
-                int rowIndex = rowIndexCache[rowIndenifier];
-                DataGridViewGenericRow dataGridViewGenericRowCheck = GetRowDataGridViewGenericRow(dataGridView, rowIndex);
+                DataGridViewGenericRow dataGridViewGenericRowCheck = GetRowDataGridViewGenericRow(dataGridView, rowIndexFound);
 
                 if (dataGridViewGenericRowCheck != null && 
                     dataGridViewGenericRowCheck.RowIndenifier == rowIndenifier) 
-                    return rowIndex;
+                    return rowIndexFound;
                 else 
                     rowIndexCache.Clear();
             }

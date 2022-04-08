@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Thumbnails;
 using TimeZone;
@@ -497,6 +498,28 @@ namespace PhotoTagsSynchronizer
                 DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMetadataDates, tagFileDateModified), TimeZoneLibrary.ToStringW3CDTF(metadataExiftool?.FileDateModified), true, false);
                 DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMetadataDates, tagFileLastAccessed), TimeZoneLibrary.ToStringW3CDTF(metadataExiftool?.FileDateAccessed), true, false);
 
+                PopulateExiftoolData(dataGridView, fileEntryAttribute);
+                PopulateTimeZone(dataGridView, columnIndex, null);
+
+                DataGridViewHandler.SetColumnPopulatedFlag(dataGridView, columnIndex, true);
+            }
+
+            //-----------------------------------------------------------------
+            DataGridViewHandler.SetIsPopulatingFile(dataGridView, false);
+            //-----------------------------------------------------------------
+            return columnIndex;
+        }
+        #endregion
+
+        public static void PopulateExiftoolData(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute)
+        {
+            
+            FileEntryBroker fileEntryBrokerReadVersion = fileEntryAttribute.GetFileEntryBroker(MetadataBrokerType.ExifTool);
+
+            int columnIndex = DataGridViewHandler.GetColumnIndexWhenAddColumn(dataGridView, fileEntryAttribute, out FileEntryVersionCompare fileEntryVersionCompareReason);
+
+            if (columnIndex != -1)
+            {
                 //Exiftool data
                 List<ExiftoolData> exifToolDataList = DatabaseExiftoolData.Read(fileEntryBrokerReadVersion);
                 string lastRegion = "";
@@ -516,18 +539,8 @@ namespace PhotoTagsSynchronizer
                             new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Disabled, true), true);
                     }
                 }
-
-                PopulateTimeZone(dataGridView, columnIndex, null);
-
-                DataGridViewHandler.SetColumnPopulatedFlag(dataGridView, columnIndex, true);
             }
-
-            //-----------------------------------------------------------------
-            DataGridViewHandler.SetIsPopulatingFile(dataGridView, false);
-            //-----------------------------------------------------------------
-            return columnIndex;
         }
-        #endregion
 
         #region PopulateSelectedFiles
         public static void PopulateSelectedFiles(DataGridView dataGridView, HashSet<FileEntry> imageListViewSelectItems, DataGridViewSize dataGridViewSize, ShowWhatColumns showWhatColumns)
