@@ -11,21 +11,12 @@ namespace PhotoTagsSynchronizer
         private static HashSet<FileEntry> imageListViewSelectedFileEntriesCache = null;
         private static HashSet<string> imageListViewSelectedFilesCache = null;
 
-        //private static HashSet<FileEntry> imageListViewFileEntriesCache = null; //See MainForm_FileHandling
-
         #region ImageListView - Cache - ClearCacheFileEntries
         public static void ClearCacheFileEntries(ImageListView imageListView)
         {
             //imageListViewFileEntriesCache = null;
         }
         #endregion
-
-        //#region ImageListView - Cache - SetFileEntriesNewCache
-        //public static void SetFileEntriesNewCache(ImageListView imageListView, HashSet<FileEntry> newFileList)
-        //{
-        //    imageListViewFileEntriesCache = new HashSet<FileEntry>(newFileList);
-        //}
-        //#endregion
 
         #region ImageListView - Cache - ClearAllAndCaches
         public static void ClearAllAndCaches(ImageListView imageListeView)

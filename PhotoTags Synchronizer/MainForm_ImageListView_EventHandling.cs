@@ -348,7 +348,7 @@ namespace PhotoTagsSynchronizer
 
                     #region Add to read queue, when data missing and not marked as Error record
                     if (metadataError == null && fileStatus.FileExists) 
-                        AddQueueLazyLoadningAllSourcesMetadataAndRegionThumbnailsLock(fileEntryAttribute);
+                        AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(fileEntryAttribute);
                     #endregion
 
                 }
@@ -582,10 +582,10 @@ namespace PhotoTagsSynchronizer
                 ImageListViewHandler.ClearCacheFileEntriesSelectedItems(imageListView1);
                 FastGroupSelection_Clear();
                 SetDataGridViewForLocationAnalytics();
+                ClearQueueLazyLoadningSelectedFilesLock();
 
-                ImageListViewSuspendLayoutInvoke(imageListView1);
                 ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false);
-                ImageListViewResumeLayoutInvoke(imageListView1);
+                
 
                 MaximizeOrRestoreWorkspaceMainCellAndChilds();
             }
@@ -610,7 +610,7 @@ namespace PhotoTagsSynchronizer
             try
             {
                 GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
-                ImageListViewHandler.SuspendLayout(imageListView1);
+                ImageListViewSuspendLayoutInvoke(imageListView1);
 
                 using (new WaitCursor())
                 {
@@ -619,6 +619,7 @@ namespace PhotoTagsSynchronizer
                     HashSet<FileEntry> fileEntries = ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, allowUseCache);
                     ImageListView_SelectionChanged_Action_RemoveNoneExistFilesFromSelectedFiles(ref fileEntries);
                     DataGridView_CleanAll();
+                    
                     DataGridView_Populate_SelectedItemsThread(fileEntries);
                     PopulateImageListViewOpenWithToolStripThread(fileEntries, ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true));
                     UpdateRibbonsWhenWorkspaceChanged();
@@ -632,7 +633,7 @@ namespace PhotoTagsSynchronizer
             }
             finally
             {
-                ImageListViewHandler.ResumeLayout(imageListView1);
+                ImageListViewResumeLayoutInvoke(imageListView1);
                 GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
             }
         }

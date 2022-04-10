@@ -77,6 +77,9 @@ namespace PhotoTagsSynchronizer
         #region Process Queues
 
         #region LazyLoading
+        private static List<FileEntryBroker> commonQueueLazyLoadingSelectedFiles = new List<FileEntryBroker>();
+        private static readonly Object commonQueueLazyLoadingSelectedFilesLock = new Object();
+
         private static List<FileEntryAttribute> commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnails = new List<FileEntryAttribute>();
         private static readonly Object commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnailsLock = new Object();
 
@@ -527,35 +530,8 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-        #region DataGridView - GetDataGridViewWatingToBePopulatedCount
-        public int GetDataGridView_ColumnsEntriesInReadQueues_Count()
-        {
-            DataGridView dataGridView = GetAnyAgregatedDataGridView();
-            int queueCount = 0;
-            if (dataGridView != null)
-            {
-                for (int columnIndex = 0; columnIndex < DataGridViewHandler.GetColumnCount(dataGridView); columnIndex++)
-                {
-                    if (!DataGridViewHandler.IsColumnPopulated(dataGridView, columnIndex))
-                    {
-                        queueCount++;
-                    }
-                    else
-                    {
-                        DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-                        if (dataGridViewGenericColumn != null)
-                        {
-                            if (IsFileInQueueLazyloadingAllSourcesOrReadMetadataFromSourceExiftoolLock(dataGridViewGenericColumn.FileEntryAttribute)) queueCount++;
-                        }
-                    }
-                }
-            }
-            return queueCount;
-        }
-        #endregion
-
         #region LazyLoading - All Versions / All Sources / Metadata And Region Thumbnails - AddQueue - (Read order: Cache, Database, Source) - AfterPopulateSelectedFiles 
-        private void AddQueueLazyLoadningAllVersionsAllSourcesMetadataAndRegionThumbnailsLock_AfterPopulateSelectedFiles(HashSet<FileEntry> imageListViewSelectItems)
+        private void AddQueueLazyLoadning_AllSources_AllVersions_MetadataAndRegionThumbnailsLock_AfterPopulateSelectedFiles(HashSet<FileEntry> imageListViewSelectItems)
         {
             List<FileEntryAttribute> lazyLoadingAllExiftoolVersionOfMediaFile = new List<FileEntryAttribute>();
 
@@ -576,31 +552,88 @@ namespace PhotoTagsSynchronizer
                 ImageListView_UpdateItemFileStatusInvoke(fileEntry.FileFullPath, fileStaus);
             }
 
-            AddQueueLazyLoadningAllSourcesMetadataAndRegionThumbnailsLock(lazyLoadingAllExiftoolVersionOfMediaFile);
+            AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(lazyLoadingAllExiftoolVersionOfMediaFile);
             AddQueueLazyLoadningMediaThumbnailLock(lazyLoadingAllExiftoolVersionOfMediaFile);
             AddQueueLazyLoadingMapNomnatatimLock(lazyLoadingAllExiftoolVersionOfMediaFile, forceReloadUsingReverseGeocoder: false);
             StartThreads();
         }
-        #endregion 
+        #endregion
 
-        #region LazyLoading - All Sources / Metadata And Region Thumbnails - AddQueue - (Read order: Cache, Database, Source)
-        public void AddQueueLazyLoadningAllSourcesMetadataAndRegionThumbnailsLock(FileEntryAttribute fileEntryAttribute)
+        #region LazyLoading - Clear SelectedFiles
+        public void ClearQueueLazyLoadningSelectedFilesLock()
+        {
+            lock (commonQueueLazyLoadingSelectedFilesLock)
+            {
+                commonQueueLazyLoadingSelectedFiles.Clear();
+            }
+        }
+        #endregion
+
+        #region LazyLoading - Add SelectedFiles
+        public void AddQueueLazyLoadningSelectedFilesLock(FileEntryBroker fileEntryBroker)
+        {
+            lock (commonQueueLazyLoadingSelectedFilesLock)
+            {
+                if (ImageListViewHandler.DoesExistInSelectedFiles(imageListView1, fileEntryBroker.FileFullPath))
+                {
+                    if (!commonQueueLazyLoadingSelectedFiles.Contains(fileEntryBroker)) commonQueueLazyLoadingSelectedFiles.Add(fileEntryBroker);
+                }
+            }
+        }
+        #endregion
+
+        #region LazyLoading - Remove SelectedFiles
+        public void RemoveQueueLazyLoadningSelectedFilesLock(FileEntryBroker fileEntryBroker)
+        {
+            lock (commonQueueLazyLoadingSelectedFilesLock)
+            {
+                if (commonQueueLazyLoadingSelectedFiles.Contains(fileEntryBroker)) commonQueueLazyLoadingSelectedFiles.Remove(fileEntryBroker);
+            }
+        }
+        #endregion
+
+        #region LazyLoading - Remove SelectedFiles
+        public int CountQueueLazyLoadningSelectedFilesLock()
+        {
+            lock (commonQueueLazyLoadingSelectedFilesLock)
+            {
+                return commonQueueLazyLoadingSelectedFiles.Count;
+            }
+        }
+        #endregion
+
+        #region LazyLoading - All Sources / No History / Metadata And Region Thumbnails - AddQueue - (Read order: Cache, Database, Source)
+        public void AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(FileEntryAttribute fileEntryAttribute)
         {
             List<FileEntryAttribute> fileEntryAttributes = new List<FileEntryAttribute>();
             fileEntryAttributes.Add(fileEntryAttribute);
-            AddQueueLazyLoadningAllSourcesMetadataAndRegionThumbnailsLock(fileEntryAttributes);
+            AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(fileEntryAttributes);
             TriggerAutoResetEventQueueEmpty();
         }
         #endregion
 
-        #region LazyLoading - All Sources / Metadata And Region Thumbnails - AddQueue - (Read order: Cache, Database, Source)
-        public void AddQueueLazyLoadningAllSourcesMetadataAndRegionThumbnailsLock(List<FileEntryAttribute> fileEntryAttributes)
+        #region LazyLoading - All Sources / No History / Metadata And Region Thumbnails - AddQueue - (Read order: Cache, Database, Source)
+        public void AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(HashSet<FileEntry> fileEntries, FileEntryVersion fileEntryVersion)
+        {
+            List<FileEntryAttribute> fileEntryAttributes = new List<FileEntryAttribute>();
+            foreach (FileEntry fileEntry in fileEntries)
+            {
+                fileEntryAttributes.Add(new FileEntryAttribute(fileEntry, fileEntryVersion));
+            }
+            AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(fileEntryAttributes);
+            TriggerAutoResetEventQueueEmpty();
+        }
+        #endregion
+
+        #region LazyLoading - All Sources / No History / Metadata And Region Thumbnails - AddQueue - (Read order: Cache, Database, Source)
+        public void AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(List<FileEntryAttribute> fileEntryAttributes)
         {
             if (fileEntryAttributes == null) return;
             lock (commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnailsLock)
             {
                 foreach (FileEntryAttribute fileEntryAttribute in fileEntryAttributes)
                 {
+                    AddQueueLazyLoadningSelectedFilesLock(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.Queue));
                     if (commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnails.Contains(fileEntryAttribute))
                         commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnails.Remove(fileEntryAttribute);
                     commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnails.Insert(0, fileEntryAttribute);
@@ -825,7 +858,12 @@ namespace PhotoTagsSynchronizer
                                         ImageListView_UpdateItemExiftoolMetadataInvoke(fileEntryAttribute);
 
                                     if (isMetadataExiftoolFound || isMetadataExiftoolErrorFound) // No need update others before Exiftool has data || isMetadataExiftoolErrorFound || isMetadataOtherSourceFound) 
-                                        DataGridView_Populate_FileEntryAttributeInvoke(fileEntryAttribute);
+                                        DataGridView_Populate_FileEntryAttributeInvoke(fileEntryAttribute, MetadataBrokerType.Queue);
+                                    
+                                }
+                                else
+                                {
+                                    RemoveQueueLazyLoadningSelectedFilesLock(new FileEntryBroker(fileEntryAttribute.FileEntry, MetadataBrokerType.Queue));
                                 }
 
                                 #region Remove from Queue
@@ -1152,6 +1190,8 @@ namespace PhotoTagsSynchronizer
         {
             lock (commonQueueReadMetadataFromSourceExiftoolLock)
             {
+                AddQueueLazyLoadningSelectedFilesLock(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
+
                 bool existInQueue = IsFolderInQueueReadAndSaveMetadataFromSourceExiftoolLock(fileEntry.FileFullPath); 
                 if (!existInQueue) commonQueueReadMetadataFromSourceExiftool.Add(fileEntry);
             }
@@ -1227,7 +1267,7 @@ namespace PhotoTagsSynchronizer
                                             fileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.FileInaccessibleOrError;
 
                                             FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(fileEntry, FileEntryVersion.ExtractedNowUsingExiftoolFileNotExist);
-                                            DataGridView_Populate_FileEntryAttributeInvoke(fileEntryAttribute);
+                                            DataGridView_Populate_FileEntryAttributeInvoke(fileEntryAttribute, MetadataBrokerType.ExifTool);
                                         }
                                         #endregion
                                         #region File exist and not in clud, proceed
@@ -1244,7 +1284,7 @@ namespace PhotoTagsSynchronizer
 
                                             //When in cloud, and can't read, also need to populate dataGridView but will become with empty rows in column
                                             FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(fileEntry, FileEntryVersion.NotAvailable);
-                                            DataGridView_Populate_FileEntryAttributeInvoke(fileEntryAttribute);
+                                            DataGridView_Populate_FileEntryAttributeInvoke(fileEntryAttribute, MetadataBrokerType.ExifTool);
                                         }
                                         #endregion
                                         
@@ -1265,7 +1305,7 @@ namespace PhotoTagsSynchronizer
                                             fileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.FileInaccessibleOrError;
 
                                             FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(fileEntry, FileEntryVersion.ExtractedNowUsingExiftoolFileNotExist);
-                                            DataGridView_Populate_FileEntryAttributeInvoke(fileEntryAttribute);
+                                            DataGridView_Populate_FileEntryAttributeInvoke(fileEntryAttribute, MetadataBrokerType.ExifTool);
                                         }
                                         #endregion
                                         #region File exist and not in clud, proceed
@@ -1285,7 +1325,7 @@ namespace PhotoTagsSynchronizer
                                                 fileStatus.FileErrorMessage = "Failed download";
 
                                                 FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(fileEntry, FileEntryVersion.ExtractedNowUsingExiftoolTimeout);
-                                                DataGridView_Populate_FileEntryAttributeInvoke(fileEntryAttribute);
+                                                DataGridView_Populate_FileEntryAttributeInvoke(fileEntryAttribute, MetadataBrokerType.ExifTool);
                                             }
                                             #endregion
                                             else
@@ -1447,7 +1487,7 @@ namespace PhotoTagsSynchronizer
                                                         (DateTime)metadataDummy.FileDateModified,
                                                         FileEntryVersion.Error);
 
-                                                    AddQueueLazyLoadningAllSourcesMetadataAndRegionThumbnailsLock(fileEntryAttributeError);
+                                                    AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(fileEntryAttributeError);
 
                                                     AddError(
                                                         Path.GetDirectoryName(fullFilePath), Path.GetFileName(fullFilePath), DateTime.Now,
@@ -1526,7 +1566,7 @@ namespace PhotoTagsSynchronizer
                                                         #region DatagridView - Add new Error Coloumn
                                                         FileEntryAttribute fileEntryAttributeError = new FileEntryAttribute(
                                                             metadataError.FileFullPath, (DateTime)metadataError.FileDateModified, FileEntryVersion.Error);
-                                                        AddQueueLazyLoadningAllSourcesMetadataAndRegionThumbnailsLock(fileEntryAttributeError);
+                                                        AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(fileEntryAttributeError);
                                                         #endregion
                                                     }
                                                     #endregion
@@ -1551,14 +1591,14 @@ namespace PhotoTagsSynchronizer
                                                     ImageListView_UpdateItemExiftoolMetadataInvoke(fileEntryAttributeExtractedNowUsingExiftool);
                                                     ImageListView_UpdateItemFileStatusInvoke(metadataRead.FileFullPath, fileStatus);
 
-                                                    if (!isMetadataHavingErrors) AddQueueLazyLoadningAllSourcesMetadataAndRegionThumbnailsLock(fileEntryAttributeExtractedNowUsingExiftool);
+                                                    if (!isMetadataHavingErrors) AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(fileEntryAttributeExtractedNowUsingExiftool);
                                                     #endregion
 
                                                     #region Populate - Current/Historical - DataGridView
                                                     FileEntryAttribute fileEntryAttributeHistorical = new FileEntryAttribute(metadataRead.FileFullPath,
                                                         (DateTime)metadataRead.FileDateModified,
                                                         FileEntryVersion.Historical);
-                                                    AddQueueLazyLoadningAllSourcesMetadataAndRegionThumbnailsLock(fileEntryAttributeHistorical);
+                                                    AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(fileEntryAttributeHistorical);
                                                     #endregion
                                                 }
                                             }
@@ -1737,7 +1777,7 @@ namespace PhotoTagsSynchronizer
                                             fileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.FileInaccessibleOrError;
 
                                             FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(fileEntryOriginal, FileEntryVersion.ExtractedNowUsingExiftoolFileNotExist);
-                                            DataGridView_Populate_FileEntryAttributeInvoke(fileEntryAttribute);
+                                            DataGridView_Populate_FileEntryAttributeInvoke(fileEntryAttribute, MetadataBrokerType.UserSavedData);
                                         }
                                         #endregion
                                         #region File exist and not in clud, proceed
@@ -1757,7 +1797,7 @@ namespace PhotoTagsSynchronizer
                                                 fileStatus.FileErrorMessage = "Failed download";
 
                                                 FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(fileEntryOriginal, FileEntryVersion.ExtractedNowUsingExiftoolTimeout);
-                                                DataGridView_Populate_FileEntryAttributeInvoke(fileEntryAttribute);
+                                                DataGridView_Populate_FileEntryAttributeInvoke(fileEntryAttribute, MetadataBrokerType.UserSavedData);
                                             }
                                             #endregion
                                             else
@@ -2083,12 +2123,12 @@ namespace PhotoTagsSynchronizer
 
                                                 FileEntryAttribute fileEntryAttribute = 
                                                     new FileEntryAttribute(currentMetadata.FileEntryBroker, FileEntryVersion.CurrentVersionInDatabase);
-                                                AddQueueLazyLoadningAllSourcesMetadataAndRegionThumbnailsLock(fileEntryAttribute);
+                                                AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(fileEntryAttribute);
                                                 ImageListView_UpdateItemThumbnailUpdateAllInvoke(currentMetadata.FileEntryBroker);
 
                                                 FileEntryAttribute fileEntryAttributeHistorical = 
                                                     new FileEntryAttribute(fileSuposeToBeUpdated, FileEntryVersion.Historical);
-                                                AddQueueLazyLoadningAllSourcesMetadataAndRegionThumbnailsLock(fileEntryAttributeHistorical);
+                                                AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(fileEntryAttributeHistorical);
                                             }
                                             else
                                             {
@@ -2180,6 +2220,7 @@ namespace PhotoTagsSynchronizer
             //Need to add to the end, due due read queue read potion [0] end delete after, not thread safe
             lock (commonQueueReadMetadataFromSourceMicrosoftPhotosLock)
             {
+                AddQueueLazyLoadningSelectedFilesLock(new FileEntryBroker(fileEntry, MetadataBrokerType.MicrosoftPhotos));
                 if (!commonQueueReadMetadataFromSourceMicrosoftPhotos.Contains(fileEntry)) commonQueueReadMetadataFromSourceMicrosoftPhotos.Add(fileEntry);
             }
         }
@@ -2232,12 +2273,13 @@ namespace PhotoTagsSynchronizer
 
                                                 FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(metadataMicrosoftPhotos.FileFullPath, (DateTime)metadataMicrosoftPhotos.FileDateModified, FileEntryVersion.ExtractedNowUsingMicrosoftPhotos);
                                                 //DataGridView_Populate_FileEntryAttributeInvoke(fileEntryAttribute); //Don't updated now, can block current process for updates
-                                                AddQueueLazyLoadningAllSourcesMetadataAndRegionThumbnailsLock(fileEntryAttribute);
+                                                AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(fileEntryAttribute);
                                             }
                                         }
                                     }
                                     else Logger.Warn("File don't exsist anymore: " + fileEntry.FileFullPath);
 
+                                    RemoveQueueLazyLoadningSelectedFilesLock(new FileEntryBroker(fileEntry, MetadataBrokerType.MicrosoftPhotos));
                                     lock (commonQueueReadMetadataFromSourceMicrosoftPhotosLock) if (commonQueueReadMetadataFromSourceMicrosoftPhotos.Count > 0) commonQueueReadMetadataFromSourceMicrosoftPhotos.RemoveAt(0); //Remove from queue after read. Otherwise wrong text in status bar
                                 }
                             }
@@ -2299,6 +2341,7 @@ namespace PhotoTagsSynchronizer
             //Need to add to the end, due due read queue read potion [0] end delete after, not thread safe
             lock (commonQueueReadMetadataFromSourceWindowsLivePhotoGalleryLock)
             {
+                AddQueueLazyLoadningSelectedFilesLock(new FileEntryBroker(fileEntry, MetadataBrokerType.WindowsLivePhotoGallery));
                 if (!commonQueueReadMetadataFromSourceWindowsLivePhotoGallery.Contains(fileEntry)) commonQueueReadMetadataFromSourceWindowsLivePhotoGallery.Add(fileEntry);
             }
         }
@@ -2351,12 +2394,13 @@ namespace PhotoTagsSynchronizer
 
                                                 FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(metadataWindowsLivePhotoGallery.FileFullPath, (DateTime)metadataWindowsLivePhotoGallery.FileDateModified, FileEntryVersion.ExtractedNowUsingWindowsLivePhotoGallery);
                                                 //DataGridView_Populate_FileEntryAttributeInvoke(fileEntryAttribute); //Don't updated now, can block current process for updates
-                                                AddQueueLazyLoadningAllSourcesMetadataAndRegionThumbnailsLock(fileEntryAttribute);
+                                                AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(fileEntryAttribute);
                                             }
                                         }
                                     }
                                     else Logger.Warn("File don't exsist anymore: " + fileEntry.FileFullPath);
 
+                                    RemoveQueueLazyLoadningSelectedFilesLock(new FileEntryBroker(fileEntry, MetadataBrokerType.WindowsLivePhotoGallery));
                                     lock (commonQueueReadMetadataFromSourceWindowsLivePhotoGalleryLock) if (commonQueueReadMetadataFromSourceWindowsLivePhotoGallery.Count > 0) commonQueueReadMetadataFromSourceWindowsLivePhotoGallery.RemoveAt(0); //Remove from queue after read. Otherwise wrong text in status bar
                                 }
                                 #endregion
@@ -2727,10 +2771,10 @@ namespace PhotoTagsSynchronizer
                                                         }
 
                                                         FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(current_FileEntryBrokerRegion, FileEntryVersion.ExtractedNowUsingReadMediaFile);
-                                                        DataGridView_Populate_FileEntryAttributeInvoke(fileEntryAttribute); //Updated Gridview
+                                                        DataGridView_Populate_FileEntryAttributeInvoke(fileEntryAttribute, MetadataBrokerType.Empty); //Updated Gridview
 
                                                         FileEntryAttribute fileEntryAttributeHistorical = new FileEntryAttribute(current_FileEntryBrokerRegion, FileEntryVersion.Historical);
-                                                        DataGridView_Populate_FileEntryAttributeInvoke(fileEntryAttributeHistorical);
+                                                        DataGridView_Populate_FileEntryAttributeInvoke(fileEntryAttributeHistorical, MetadataBrokerType.Empty);
                                                     }
                                                     #endregion
                                                 }
@@ -3337,7 +3381,7 @@ namespace PhotoTagsSynchronizer
 
                                                 if (metadataError != null) break; //Metadata found -> contine to rename
                                                 FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(fileEntry, FileEntryVersion.CurrentVersionInDatabase);
-                                                AddQueueLazyLoadningAllSourcesMetadataAndRegionThumbnailsLock(fileEntryAttribute);
+                                                AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(fileEntryAttribute);
                                                 fileInUse = true;
                                             }
                                             break; //File not in use found, start rename it
@@ -3397,7 +3441,7 @@ namespace PhotoTagsSynchronizer
                                             if (metadataError == null)
                                             {
                                                 FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(fileEntry, FileEntryVersion.CurrentVersionInDatabase);
-                                                AddQueueLazyLoadningAllSourcesMetadataAndRegionThumbnailsLock(fileEntryAttribute);
+                                                AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(fileEntryAttribute);
                                             }
                                             else 
                                             {

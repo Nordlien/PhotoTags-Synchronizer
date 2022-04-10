@@ -498,7 +498,8 @@ namespace PhotoTagsSynchronizer
                 DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMetadataDates, tagFileDateModified), TimeZoneLibrary.ToStringW3CDTF(metadataExiftool?.FileDateModified), true, false);
                 DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMetadataDates, tagFileLastAccessed), TimeZoneLibrary.ToStringW3CDTF(metadataExiftool?.FileDateAccessed), true, false);
 
-                PopulateExiftoolData(dataGridView, fileEntryAttribute);
+                //BeginInvoke(new Action<DataGridView, FileEntryAttribute>(PopulateExiftoolData), dataGridView, fileEntryAttribute);
+                //PopulateExiftoolData(dataGridView, fileEntryAttribute);
                 PopulateTimeZone(dataGridView, columnIndex, null);
 
                 DataGridViewHandler.SetColumnPopulatedFlag(dataGridView, columnIndex, true);
@@ -511,6 +512,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region PopulateExiftoolData
         public static void PopulateExiftoolData(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute)
         {
             
@@ -541,6 +543,7 @@ namespace PhotoTagsSynchronizer
                 }
             }
         }
+        #endregion 
 
         #region PopulateSelectedFiles
         public static void PopulateSelectedFiles(DataGridView dataGridView, HashSet<FileEntry> imageListViewSelectItems, DataGridViewSize dataGridViewSize, ShowWhatColumns showWhatColumns)

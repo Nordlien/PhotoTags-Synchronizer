@@ -15,7 +15,8 @@ namespace MetadataLibrary
         NominatimAPI            = 0b_0010_0000,  // 32
         FileSystem              = 0b_0100_0000,  // 64
         WebScraping             = 0b_1000_0000,  // 128
-        UserSavedData           = 0b_1111_1111   // 255
+        UserSavedData           = 0b_1111_1111,  // 255
+        Queue                   = 0b_1111_1110   // 254
     }
 }
 

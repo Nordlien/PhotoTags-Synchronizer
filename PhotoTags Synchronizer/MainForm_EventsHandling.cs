@@ -6097,7 +6097,7 @@ namespace PhotoTagsSynchronizer
 
                     GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
                     
-                    AddQueueLazyLoadningAllVersionsAllSourcesMetadataAndRegionThumbnailsLock_AfterPopulateSelectedFiles(ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true));
+                    AddQueueLazyLoadning_AllSources_AllVersions_MetadataAndRegionThumbnailsLock_AfterPopulateSelectedFiles(ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true));
 
                     ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false);
                 }
@@ -11031,7 +11031,7 @@ namespace PhotoTagsSynchronizer
             {
                 Properties.Settings.Default.ShowHistortyColumns = kryptonRibbonGroupButtonDataGridViewColumnsHistory.Checked;
                 showWhatColumns = ShowWhatColumnHandler.SetShowWhatColumns(kryptonRibbonGroupButtonDataGridViewColumnsHistory.Checked, kryptonRibbonGroupButtonDataGridViewColumnsErrors.Checked);
-                AddQueueLazyLoadningAllVersionsAllSourcesMetadataAndRegionThumbnailsLock_AfterPopulateSelectedFiles(ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true));
+                AddQueueLazyLoadning_AllSources_AllVersions_MetadataAndRegionThumbnailsLock_AfterPopulateSelectedFiles(ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true));
             }
             catch (Exception ex)
             {
@@ -11046,7 +11046,7 @@ namespace PhotoTagsSynchronizer
             {
                 Properties.Settings.Default.ShowErrorColumns = kryptonRibbonGroupButtonDataGridViewColumnsErrors.Checked;
                 showWhatColumns = ShowWhatColumnHandler.SetShowWhatColumns(kryptonRibbonGroupButtonDataGridViewColumnsHistory.Checked, kryptonRibbonGroupButtonDataGridViewColumnsErrors.Checked);
-                AddQueueLazyLoadningAllVersionsAllSourcesMetadataAndRegionThumbnailsLock_AfterPopulateSelectedFiles(ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true));
+                AddQueueLazyLoadning_AllSources_AllVersions_MetadataAndRegionThumbnailsLock_AfterPopulateSelectedFiles(ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true));
             }
             catch (Exception ex)
             {
