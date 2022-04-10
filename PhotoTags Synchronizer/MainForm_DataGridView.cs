@@ -801,16 +801,14 @@ namespace PhotoTagsSynchronizer
                 
             if (InvokeRequired)
             {
-                bool doBeginInvoke = false;
                 lock (dataGridView_Populate_FileEntryAttribute_InvokedLock)
                 {
                     if (!dataGridView_Populate_FileEntryAttribute_Invoked.Contains(fileEntryAttribute))
                     {
-                        doBeginInvoke = true; //Is not alread invoked
                         dataGridView_Populate_FileEntryAttribute_Invoked.Add(fileEntryAttribute);
-                    }
+                        this.BeginInvoke(new Action<FileEntryAttribute, MetadataBrokerType, bool>(DataGridView_Populate_FileEntryAttributeInvoke), fileEntryAttribute, metadataBrokerType, false);
+                    } else counterPopulate--;
                 }
-                if (doBeginInvoke) this.BeginInvoke(new Action<FileEntryAttribute, MetadataBrokerType, bool>(DataGridView_Populate_FileEntryAttributeInvoke), fileEntryAttribute, metadataBrokerType, false);
                 return;
             }
             if (GlobalData.IsApplicationClosing) return;
@@ -1034,8 +1032,6 @@ namespace PhotoTagsSynchronizer
             threadPopulateDataGridView.Start();
         }
         #endregion
-
-        
 
         #region DataGridView - CleanAll
         private void DataGridView_CleanAll()

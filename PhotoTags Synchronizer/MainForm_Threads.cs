@@ -530,35 +530,6 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-        #region LazyLoading - All Versions / All Sources / Metadata And Region Thumbnails - AddQueue - (Read order: Cache, Database, Source) - AfterPopulateSelectedFiles 
-        private void AddQueueLazyLoadning_AllSources_AllVersions_MetadataAndRegionThumbnailsLock_AfterPopulateSelectedFiles(HashSet<FileEntry> imageListViewSelectItems)
-        {
-            List<FileEntryAttribute> lazyLoadingAllExiftoolVersionOfMediaFile = new List<FileEntryAttribute>();
-
-            foreach (FileEntry fileEntry in imageListViewSelectItems)
-            {
-                List<FileEntryAttribute> fileEntryAttributeDateVersions =
-                    databaseAndCacheMetadataExiftool.ListFileEntryAttributesCache(MetadataBrokerType.ExifTool,
-                    fileEntry.FileFullPath, FileHandler.GetLastWriteTime(fileEntry.FileFullPath));
-
-                lazyLoadingAllExiftoolVersionOfMediaFile.AddRange(fileEntryAttributeDateVersions);
-
-                FileStatus fileStaus = FileHandler.GetFileStatus(fileEntry.FileFullPath,
-                    exiftoolProcessStatus: ExiftoolProcessStatus.InExiftoolReadQueue);
-
-                FileHandler.RemoveOfflineFileTouched(fileEntry.FileFullPath);
-                FileHandler.RemoveOfflineFileTouchedFailed(fileEntry.FileFullPath);
-
-                ImageListView_UpdateItemFileStatusInvoke(fileEntry.FileFullPath, fileStaus);
-            }
-
-            AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(lazyLoadingAllExiftoolVersionOfMediaFile);
-            AddQueueLazyLoadningMediaThumbnailLock(lazyLoadingAllExiftoolVersionOfMediaFile);
-            AddQueueLazyLoadingMapNomnatatimLock(lazyLoadingAllExiftoolVersionOfMediaFile, forceReloadUsingReverseGeocoder: false);
-            StartThreads();
-        }
-        #endregion
-
         #region LazyLoading - Clear SelectedFiles
         public void ClearQueueLazyLoadningSelectedFilesLock()
         {
@@ -602,7 +573,36 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region LazyLoading - All Sources / No History / Metadata And Region Thumbnails - AddQueue - (Read order: Cache, Database, Source)
+        #region LazyLoading - Add - All Versions / All Sources / Metadata And Region Thumbnails - AddQueue - (Read order: Cache, Database, Source) - AfterPopulateSelectedFiles 
+        private void AddQueueLazyLoadning_AllSources_AllVersions_MetadataAndRegionThumbnailsLock_AfterPopulateSelectedFiles(HashSet<FileEntry> imageListViewSelectItems)
+        {
+            List<FileEntryAttribute> lazyLoadingAllExiftoolVersionOfMediaFile = new List<FileEntryAttribute>();
+
+            foreach (FileEntry fileEntry in imageListViewSelectItems)
+            {
+                List<FileEntryAttribute> fileEntryAttributeDateVersions =
+                    databaseAndCacheMetadataExiftool.ListFileEntryAttributesCache(MetadataBrokerType.ExifTool,
+                    fileEntry.FileFullPath, FileHandler.GetLastWriteTime(fileEntry.FileFullPath));
+
+                lazyLoadingAllExiftoolVersionOfMediaFile.AddRange(fileEntryAttributeDateVersions);
+
+                FileStatus fileStaus = FileHandler.GetFileStatus(fileEntry.FileFullPath,
+                    exiftoolProcessStatus: ExiftoolProcessStatus.InExiftoolReadQueue);
+
+                FileHandler.RemoveOfflineFileTouched(fileEntry.FileFullPath);
+                FileHandler.RemoveOfflineFileTouchedFailed(fileEntry.FileFullPath);
+
+                ImageListView_UpdateItemFileStatusInvoke(fileEntry.FileFullPath, fileStaus);
+            }
+
+            AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(lazyLoadingAllExiftoolVersionOfMediaFile);
+            AddQueueLazyLoadningMediaThumbnailLock(lazyLoadingAllExiftoolVersionOfMediaFile);
+            AddQueueLazyLoadingMapNomnatatimLock(lazyLoadingAllExiftoolVersionOfMediaFile, forceReloadUsingReverseGeocoder: false);
+            StartThreads();
+        }
+        #endregion
+
+        #region LazyLoading - Add - All Sources / No History / Metadata And Region Thumbnails - AddQueue - (Read order: Cache, Database, Source)
         public void AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(FileEntryAttribute fileEntryAttribute)
         {
             List<FileEntryAttribute> fileEntryAttributes = new List<FileEntryAttribute>();
@@ -612,7 +612,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region LazyLoading - All Sources / No History / Metadata And Region Thumbnails - AddQueue - (Read order: Cache, Database, Source)
+        #region LazyLoading - Add - All Sources / No History / Metadata And Region Thumbnails - AddQueue - (Read order: Cache, Database, Source)
         public void AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(HashSet<FileEntry> fileEntries, FileEntryVersion fileEntryVersion)
         {
             List<FileEntryAttribute> fileEntryAttributes = new List<FileEntryAttribute>();
@@ -625,7 +625,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region LazyLoading - All Sources / No History / Metadata And Region Thumbnails - AddQueue - (Read order: Cache, Database, Source)
+        #region LazyLoading - Add - All Sources / No History / Metadata And Region Thumbnails - AddQueue - (Read order: Cache, Database, Source)
         public void AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(List<FileEntryAttribute> fileEntryAttributes)
         {
             if (fileEntryAttributes == null) return;
@@ -642,7 +642,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region LazyLoading - All Sources / Metadata And Region Thumbnails - Thread - **Populate** - (** Doesn't add Read from Source **)
+        #region LazyLoading - Thread - All Sources / Metadata And Region Thumbnails - Thread - **Populate** - (** Doesn't add Read from Source **)
         public void ThreadLazyLoadingAllSourcesMetadataAndRegionThumbnails()
         {
             try
@@ -1985,6 +1985,7 @@ namespace PhotoTagsSynchronizer
                                                     {
                                                         if (metadata?.FileDateCreated != null &&
                                                             metadata?.MediaDateTaken != null &&
+                                                            metadata?.MediaDateTaken >=  FileHandler.MinimumFileSystemDateTime &&
                                                             metadata?.MediaDateTaken < DateTime.Now &&
                                                             Math.Abs(((DateTime)dateTakenWithOffset.Value.ToUniversalTime() - (DateTime)metadata?.FileDateCreated.Value.ToUniversalTime()).TotalSeconds) > writeCreatedDateAndTimeAttributeTimeIntervalAccepted) //No need to change
                                                         {
@@ -3369,7 +3370,7 @@ namespace PhotoTagsSynchronizer
                                         if (!fileInUse)
                                         {
                                             DateTime currentLastWrittenDateTime = FileHandler.GetLastWriteTime(fullFilename);
-                                            if (currentLastWrittenDateTime > new DateTime(1700, 1, 1, 1, 1, 1))
+                                            if (currentLastWrittenDateTime > FileHandler.MinimumFileSystemDateTime)
                                             {
                                                 FileEntry fileEntry = new FileEntry(fullFilename, currentLastWrittenDateTime);
                                                 FileEntryBroker fileEntryBroker = new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool);

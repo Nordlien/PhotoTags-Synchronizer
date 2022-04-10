@@ -2,12 +2,9 @@
 using System.Windows.Forms;
 using MetadataLibrary;
 using DataGridViewGeneric;
-using static Manina.Windows.Forms.ImageListView;
-using Manina.Windows.Forms;
 using System.Collections.Generic;
 using System;
 using Thumbnails;
-using Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {

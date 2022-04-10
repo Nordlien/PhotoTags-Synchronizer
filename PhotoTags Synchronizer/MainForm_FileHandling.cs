@@ -87,7 +87,7 @@ namespace PhotoTagsSynchronizer
             try
             {
                 GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
-                ImageListViewHandler.SuspendLayout(imageListView1);
+                //ImageListViewHandler.SuspendLayout(imageListView1);
 
                 using (new WaitCursor())
                 {
@@ -164,7 +164,7 @@ namespace PhotoTagsSynchronizer
             }
             finally
             {
-                ImageListViewHandler.ResumeLayout(imageListView1);
+                //ImageListViewHandler.ResumeLayout(imageListView1);
                 GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
             }
             if (renameQueueCount == 0) 

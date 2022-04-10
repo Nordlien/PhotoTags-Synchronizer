@@ -1,5 +1,4 @@
-﻿using FileHandeling;
-using Manina.Windows.Forms;
+﻿using Manina.Windows.Forms;
 using MetadataLibrary;
 using System.Collections.Generic;
 using static Manina.Windows.Forms.ImageListView;

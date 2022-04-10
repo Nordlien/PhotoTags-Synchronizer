@@ -14,6 +14,7 @@ namespace FileHandeling
     public static class FileHandler
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+        public static DateTime MinimumFileSystemDateTime = new DateTime(1601, 1, 1, 1, 1, 1);
         public static int GetFileLockedStatusTimeout { get; set; } = 500;
         public static int WaitFileGetUnlockedTimeout { get; set; } = 1000;
 
