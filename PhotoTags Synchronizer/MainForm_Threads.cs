@@ -545,7 +545,7 @@ namespace PhotoTagsSynchronizer
         {
             lock (commonQueueLazyLoadingSelectedFilesLock)
             {
-                if (ImageListViewHandler.DoesExistInSelectedFiles(imageListView1, fileEntryBroker.FileFullPath))
+                if (ImageListViewHandler.DoesExistInSelectedFiles(imageListView1, fileEntryBroker.FileFullPath)) //JTN: Loop Starts an endless loop, due to checking DateModified
                 {
                     if (!commonQueueLazyLoadingSelectedFiles.Contains(fileEntryBroker)) commonQueueLazyLoadingSelectedFiles.Add(fileEntryBroker);
                 }
@@ -3407,7 +3407,7 @@ namespace PhotoTagsSynchronizer
                                     if (!fileInUse)
                                     {
                                         DateTime currentLastWrittenDateTime = FileHandler.GetLastWriteTime(fullFilename);
-                                        if (currentLastWrittenDateTime < new DateTime(1700, 1, 1, 1, 1, 1))
+                                        if (currentLastWrittenDateTime <= FileHandler.MinimumFileSystemDateTime)
                                         {
                                             //DEBUG
                                         }

@@ -101,8 +101,12 @@ namespace PhotoTagsSynchronizer
         #region ImageListView - Cache - DoesExistInSelectedFiles
         public static bool DoesExistInSelectedFiles(ImageListView imageListView, string fullFilename)
         {
-            if (imageListViewSelectedFileEntriesCache == null) GetFileEntriesSelectedItemsCache(imageListView, false);
-            return imageListViewSelectedFilesCache.Contains(fullFilename);
+            if (imageListViewSelectedFilesCache != null) return imageListViewSelectedFilesCache.Contains(fullFilename);
+            foreach (ImageListViewItem imageListViewItem in imageListView.SelectedItems)
+            {
+                if (string.Compare(imageListViewItem.FileFullPath, fullFilename, true) == 0) return true;
+            }
+            return false;
         }
         #endregion 
 

@@ -348,7 +348,7 @@ namespace PhotoTagsSynchronizer
 
                     #region Add to read queue, when data missing and not marked as Error record
                     if (metadataError == null && fileStatus.FileExists) 
-                        AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(fileEntryAttribute);
+                        AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(fileEntryAttribute); //JTN: Loop
                     #endregion
 
                 }
