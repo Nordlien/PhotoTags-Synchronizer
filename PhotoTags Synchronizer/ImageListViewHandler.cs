@@ -102,6 +102,7 @@ namespace PhotoTagsSynchronizer
         public static bool DoesExistInSelectedFiles(ImageListView imageListView, string fullFilename)
         {
             if (imageListViewSelectedFilesCache != null) return imageListViewSelectedFilesCache.Contains(fullFilename);
+            //Avoid using other attributes, because that can trigger refresh Item Details
             foreach (ImageListViewItem imageListViewItem in imageListView.SelectedItems)
             {
                 if (string.Compare(imageListViewItem.FileFullPath, fullFilename, true) == 0) return true;

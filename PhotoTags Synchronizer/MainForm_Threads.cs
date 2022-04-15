@@ -864,6 +864,7 @@ namespace PhotoTagsSynchronizer
                                 else
                                 {
                                     RemoveQueueLazyLoadningSelectedFilesLock(new FileEntryBroker(fileEntryAttribute.FileEntry, MetadataBrokerType.Queue));
+                                    //LazyLoadingDataGridViewProgressUpdateStatus(DataGridView_GetCircleProgressCount(true, 0));
                                 }
 
                                 #region Remove from Queue
@@ -1274,7 +1275,8 @@ namespace PhotoTagsSynchronizer
                                         else if (fileStatus.FileExists && !fileStatus.IsInCloudOrVirtualOrOffline)
                                         {
                                             fileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.ExiftoolProcessing;
-                                            lock (exiftool_MediaFilesNotInDatabaseLock) exiftool_MediaFilesNotInDatabase.Add(fileEntry); 
+                                            lock (exiftool_MediaFilesNotInDatabaseLock) exiftool_MediaFilesNotInDatabase.Add(fileEntry);
+//RemoveQueueLazyLoadningSelectedFilesLock(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
                                         }
                                         #endregion
                                         #region File exist and offline, DON'T TOUCH file, not allowed
@@ -1313,6 +1315,7 @@ namespace PhotoTagsSynchronizer
                                         {
                                             fileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.InExiftoolReadQueue;
                                             lock (exiftool_MediaFilesNotInDatabaseLock) exiftool_MediaFilesNotInDatabase.Add(fileEntry); //File in not in clode, process with file
+//RemoveQueueLazyLoadningSelectedFilesLock(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
                                         }
                                         #endregion
                                         #region File exist and offline, touch file and put back last in queue
@@ -1613,7 +1616,11 @@ namespace PhotoTagsSynchronizer
                                         #region mediaFilesNotInDatabase.RemoveRange(0, range)
                                         try
                                         {
-                                            lock (exiftool_MediaFilesNotInDatabaseLock) exiftool_MediaFilesNotInDatabase.RemoveRange(0, range); //Remove subset from queue before update status bar
+                                            lock (exiftool_MediaFilesNotInDatabaseLock)
+                                            {
+                                                foreach (FileEntry fileEntry in exiftool_MediaFilesNotInDatabase) RemoveQueueLazyLoadningSelectedFilesLock(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
+                                                exiftool_MediaFilesNotInDatabase.RemoveRange(0, range); //Remove subset from queue before update status bar
+                                            }
                                         }
                                         catch (Exception ex)
                                         {

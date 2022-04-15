@@ -702,6 +702,7 @@ namespace DataGridViewGeneric
         private static bool isSuspended = false;
         public static void SuspendLayoutSetDelay(DataGridView dataGridView, bool doesColumnFilenameExist)
         {
+            //return;
             suspendCount++;
             if (suspendCount > 1) return; //Already suspended
             if (!doesColumnFilenameExist) return; //No need to supspend when not updated 
@@ -734,6 +735,7 @@ namespace DataGridViewGeneric
 
         private static void ResumeLayoutInvoke(DataGridView dataGridView)
         {
+            //return;
             dataGridView.AutoSizeRowsMode = dataGridViewAutoSizeRowsMode;
             dataGridView.AutoSizeColumnsMode = dataGridViewAutoSizeColumnMode;
             dataGridView.RowHeadersWidthSizeMode = dataGridViewRowHeadersWidthSizeMode;

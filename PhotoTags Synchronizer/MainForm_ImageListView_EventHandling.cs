@@ -348,7 +348,7 @@ namespace PhotoTagsSynchronizer
 
                     #region Add to read queue, when data missing and not marked as Error record
                     if (metadataError == null && fileStatus.FileExists) 
-                        AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(fileEntryAttribute); //JTN: Loop
+                        AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(fileEntryAttribute); //JTN: If Check ImmageListViewItems attributes, will create Loop
                     #endregion
 
                 }
@@ -579,15 +579,7 @@ namespace PhotoTagsSynchronizer
 
             try
             {
-                ImageListViewHandler.ClearCacheFileEntriesSelectedItems(imageListView1);
-                FastGroupSelection_Clear();
-                SetDataGridViewForLocationAnalytics();
-                ClearQueueLazyLoadningSelectedFilesLock();
-
                 ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false);
-                
-
-                MaximizeOrRestoreWorkspaceMainCellAndChilds();
             }
             catch (Exception ex)
             {
@@ -614,6 +606,12 @@ namespace PhotoTagsSynchronizer
 
                 using (new WaitCursor())
                 {
+                    ImageListViewHandler.ClearCacheFileEntriesSelectedItems(imageListView1);
+                    FastGroupSelection_Clear();
+                    SetDataGridViewForLocationAnalytics();
+                    ClearQueueLazyLoadningSelectedFilesLock();
+                    //Was outside
+
                     GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
 
                     HashSet<FileEntry> fileEntries = ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, allowUseCache);
@@ -623,6 +621,9 @@ namespace PhotoTagsSynchronizer
                     DataGridView_Populate_SelectedItemsThread(fileEntries);
                     PopulateImageListViewOpenWithToolStripThread(fileEntries, ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true));
                     UpdateRibbonsWhenWorkspaceChanged();
+
+                    //Was outside
+                    MaximizeOrRestoreWorkspaceMainCellAndChilds();
                 }
             }
             catch (Exception ex)

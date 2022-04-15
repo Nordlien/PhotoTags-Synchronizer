@@ -807,7 +807,7 @@ namespace PhotoTagsSynchronizer
                 queueRemainding = 0;
             }
             progressBarLazyLoading.Value = progressBarLazyLoading.Maximum - queueRemainding;
-            //UpdateStatusAction("DataGridView: " + queueRemainding);
+            //UpdateStatusAction("DataGridView: " + queueRemainding + " " + progressBarLazyLoading.Maximum + " / " + progressBarLazyLoading.Value);
             SetButtonSpecNavigator(buttonSpecNavigatorDataGridViewProgressCircle, progressBarLazyLoading.Value, progressBarLazyLoading.Maximum);
         }
         #endregion

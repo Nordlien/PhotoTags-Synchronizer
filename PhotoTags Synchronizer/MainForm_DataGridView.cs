@@ -750,19 +750,19 @@ namespace PhotoTagsSynchronizer
                     case LinkTabAndDataGridViewNameDates:
                         break;
                     case LinkTabAndDataGridViewNameExiftool:
-                        DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, true);
+                        //DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, true);
                         DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, GetDataGridView_ColumnsEntriesInReadQueues_Count());
-                        DataGridViewHandler.ResumeLayoutDelayed(dataGridView);
+                        //DataGridViewHandler.ResumeLayoutDelayed(dataGridView);
                         break;
                     case LinkTabAndDataGridViewNameWarnings:
-                        DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, true);
+                        //DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, true);
                         DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, GetDataGridView_ColumnsEntriesInReadQueues_Count());
-                        DataGridViewHandler.ResumeLayoutDelayed(dataGridView); 
+                        //DataGridViewHandler.ResumeLayoutDelayed(dataGridView); 
                         break;
                     case LinkTabAndDataGridViewNameProperties:
-                        DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, true);
+                        //DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, true);
                         DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, GetDataGridView_ColumnsEntriesInReadQueues_Count());
-                        DataGridViewHandler.ResumeLayoutDelayed(dataGridView);
+                        //DataGridViewHandler.ResumeLayoutDelayed(dataGridView);
                         break;
                     case LinkTabAndDataGridViewNameRename:
                         break;
@@ -779,7 +779,7 @@ namespace PhotoTagsSynchronizer
         #region DataGridView - GetDataGridViewWatingToBePopulatedCount
         public int GetDataGridView_ColumnsEntriesInReadQueues_Count()
         {
-            return CountQueueLazyLoadningSelectedFilesLock() + counterPopulate;
+            return CountQueueLazyLoadningSelectedFilesLock() + countInvokeCalls;
         }
         #endregion
 
@@ -794,36 +794,61 @@ namespace PhotoTagsSynchronizer
         #region DataGridView - Populate File - FileEntryAttribute missing Tag - Invoke
         private HashSet<FileEntryAttribute> dataGridView_Populate_FileEntryAttribute_Invoked = new HashSet<FileEntryAttribute>();
         private readonly Object dataGridView_Populate_FileEntryAttribute_InvokedLock = new Object();
-        int counterPopulate = 0;
-        private void DataGridView_Populate_FileEntryAttributeInvoke(FileEntryAttribute fileEntryAttribute, MetadataBrokerType metadataBrokerType, bool external = true)
+        int countInvokeCalls = 0;
+        private void DataGridView_Populate_FileEntryAttributeInvoke(FileEntryAttribute fileEntryAttribute, MetadataBrokerType metadataBrokerType, bool isInvokedCall = false, bool wasAlreadyInInvokedQueue = false)
         {
-            if (external) counterPopulate++;
-                
+            if (GlobalData.IsApplicationClosing) return;
+
+            
             if (InvokeRequired)
             {
+                countInvokeCalls++;
+                bool isAlreadyInvoked = false;
+
                 lock (dataGridView_Populate_FileEntryAttribute_InvokedLock)
                 {
                     if (!dataGridView_Populate_FileEntryAttribute_Invoked.Contains(fileEntryAttribute))
                     {
                         dataGridView_Populate_FileEntryAttribute_Invoked.Add(fileEntryAttribute);
-                        this.BeginInvoke(new Action<FileEntryAttribute, MetadataBrokerType, bool>(DataGridView_Populate_FileEntryAttributeInvoke), fileEntryAttribute, metadataBrokerType, false);
-                    } else counterPopulate--;
+                    } else isAlreadyInvoked = true;
                 }
+
+                this.BeginInvoke(new Action<FileEntryAttribute, MetadataBrokerType, bool, bool>(DataGridView_Populate_FileEntryAttributeInvoke),
+                    fileEntryAttribute, metadataBrokerType, true, isAlreadyInvoked);
                 return;
             }
-            if (GlobalData.IsApplicationClosing) return;
+            
             try
             {
-                counterPopulate--;
-                string tag = GetActiveTabTag();
-                if (!string.IsNullOrWhiteSpace(tag) && IsActiveDataGridViewAgregated(tag))
+                if (isInvokedCall) countInvokeCalls--;
+
+                #region Call only once, if in queue, don't process all in queue
+                if (!wasAlreadyInInvokedQueue) 
                 {
-                    DataGridView dataGridView = GetDataGridViewForTag(tag);
-                    if (dataGridView != null) DataGridView_Populate_FileEntryAttribute(dataGridView, fileEntryAttribute, tag, metadataBrokerType);
+                    string tag = GetActiveTabTag();
+                    if (!string.IsNullOrWhiteSpace(tag) && IsActiveDataGridViewAgregated(tag))
+                    {
+                        DataGridView dataGridView = GetDataGridViewForTag(tag);
+                        if (dataGridView != null) DataGridView_Populate_FileEntryAttribute(dataGridView, fileEntryAttribute, tag, metadataBrokerType);
+                    }
                 }
+                #endregion
+
+                #region 
                 lock (dataGridView_Populate_FileEntryAttribute_InvokedLock)
                 {
                     if (dataGridView_Populate_FileEntryAttribute_Invoked.Contains(fileEntryAttribute)) dataGridView_Populate_FileEntryAttribute_Invoked.Remove(fileEntryAttribute);
+                }
+                #endregion
+
+                FileEntryBroker fileEntryBroker = new FileEntryBroker(fileEntryAttribute.FileEntry, metadataBrokerType);
+                RemoveQueueLazyLoadningSelectedFilesLock(fileEntryBroker);
+                LazyLoadingDataGridViewProgressUpdateStatus(DataGridView_GetCircleProgressCount(true, 0));
+
+                if (countInvokeCalls == 0)
+                {
+                    int queueCount = CountQueueLazyLoadningSelectedFilesLock();
+                    if (queueCount == 0 && countInvokeCalls == 0) DataGridView_Populate_ExtrasAsDropdownAndColumnSizesInvoke();
                 }
             }
             catch (Exception ex)
@@ -879,7 +904,7 @@ namespace PhotoTagsSynchronizer
                 bool isFilSelectedInImageListView = ImageListViewHandler.DoesExistInSelectedFiles(imageListView1, fileEntryAttribute.FileFullPath);
                 #endregion
 
-                FileEntryBroker fileEntryBroker = new FileEntryBroker(fileEntryAttribute.FileEntry, metadataBrokerType);
+                
                 if (isFilSelectedInImageListView)
                 {
                     DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, isFilSelectedInImageListView); //Will not suspend when Column Don't exist, but counter will increase
@@ -1004,18 +1029,17 @@ namespace PhotoTagsSynchronizer
                     if (dataGridViewGenericColumn?.Thumbnail == null) AddQueueLazyLoadningMediaThumbnailLock(fileEntryAttribute);
                     #endregion
 
-                    RemoveQueueLazyLoadningSelectedFilesLock(fileEntryBroker);
-                    int queueCount = CountQueueLazyLoadningSelectedFilesLock();
+                    //RemoveQueueLazyLoadningSelectedFilesLock(fileEntryBroker);
+                    //int queueCount = CountQueueLazyLoadningSelectedFilesLock();
 
-                    LazyLoadingDataGridViewProgressUpdateStatus(DataGridView_GetCircleProgressCount(true, 0));
+                    //LazyLoadingDataGridViewProgressUpdateStatus(DataGridView_GetCircleProgressCount(true, 0));
+                    //if (queueCount == 0 && counterPopulate == 0) DataGridView_Populate_ExtrasAsDropdownAndColumnSizesInvoke();
 
-                    if (queueCount == 0 && counterPopulate == 0)
-                        DataGridView_Populate_ExtrasAsDropdownAndColumnSizesInvoke();
 
                     DataGridViewHandler.ResumeLayoutDelayed(dataGridView); //Will resume when counter reach 0
                 } 
-                else 
-                RemoveQueueLazyLoadningSelectedFilesLock(fileEntryBroker);
+                //else 
+                //RemoveQueueLazyLoadningSelectedFilesLock(fileEntryBroker);
             }
         }
         #endregion
