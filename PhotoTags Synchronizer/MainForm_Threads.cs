@@ -732,6 +732,7 @@ namespace PhotoTagsSynchronizer
                                             Metadata metadataExiftoolError = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(fileEntryBrokerExiftoolError);
                                             if (metadataExiftoolError == null)
                                             {
+//RemoveQueueLazyLoadningSelectedFilesLock(fileEntryBrokerExiftool);
                                                 AddQueueReadFromSourceExiftoolLock(fileEntryAttribute); //Didn't exists in Database, need read from source
                                             }
                                             else
@@ -1315,7 +1316,6 @@ namespace PhotoTagsSynchronizer
                                         {
                                             fileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.InExiftoolReadQueue;
                                             lock (exiftool_MediaFilesNotInDatabaseLock) exiftool_MediaFilesNotInDatabase.Add(fileEntry); //File in not in clode, process with file
-//RemoveQueueLazyLoadningSelectedFilesLock(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
                                         }
                                         #endregion
                                         #region File exist and offline, touch file and put back last in queue
@@ -1326,6 +1326,8 @@ namespace PhotoTagsSynchronizer
                                             {
                                                 fileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.FileInaccessibleOrError; //TimeOut Error
                                                 fileStatus.FileErrorMessage = "Failed download";
+
+                                                RemoveQueueLazyLoadningSelectedFilesLock(new FileEntryBroker(fileEntry, MetadataBrokerType.Queue));
 
                                                 FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(fileEntry, FileEntryVersion.ExtractedNowUsingExiftoolTimeout);
                                                 DataGridView_Populate_FileEntryAttributeInvoke(fileEntryAttribute, MetadataBrokerType.ExifTool);

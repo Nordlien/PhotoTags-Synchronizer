@@ -786,8 +786,8 @@ namespace PhotoTagsSynchronizer
         #region DataGridView - GetCircleProgressCount
         private int DataGridView_GetCircleProgressCount(bool showProgressCircle, int populateProgress)
         {
-            if (!showProgressCircle) return 0; 
-            return GetDataGridView_ColumnsEntriesInReadQueues_Count() + populateProgress;
+            if (!showProgressCircle) return 0;
+            return GetDataGridView_ColumnsEntriesInReadQueues_Count()  + populateProgress;
         }
         #endregion
 
@@ -834,7 +834,7 @@ namespace PhotoTagsSynchronizer
                 }
                 #endregion
 
-                #region 
+                #region Remove from Invoked Queue
                 lock (dataGridView_Populate_FileEntryAttribute_InvokedLock)
                 {
                     if (dataGridView_Populate_FileEntryAttribute_Invoked.Contains(fileEntryAttribute)) dataGridView_Populate_FileEntryAttribute_Invoked.Remove(fileEntryAttribute);
