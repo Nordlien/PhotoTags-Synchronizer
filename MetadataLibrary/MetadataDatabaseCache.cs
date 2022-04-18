@@ -2882,6 +2882,37 @@ namespace MetadataLibrary
         }
         #endregion
 
+        #region PersonalRegionNameCount - Cache - RegionNamesUpdated
+        public void PersonalRegionNameCountCacheRemove(MetadataBrokerType metadataBrokerType, string name)
+        {
+            try
+            {
+                lock (metadataRegionNameCountCacheLock)
+                {
+                    if (metadataRegionNameCountCache == null)
+                        metadataRegionNameCountCache = new Dictionary<MetadataBrokerType, Dictionary<StringNullable, int>>(); //DEBUG It should already been created, why isn'y
+                    if (!metadataRegionNameCountCache.ContainsKey(metadataBrokerType))
+                        metadataRegionNameCountCache.Add(metadataBrokerType, new Dictionary<StringNullable, int>());
+
+                    StringNullable stringNullableName = new StringNullable(name);
+                    if (!metadataRegionNameCountCache[metadataBrokerType].ContainsKey(stringNullableName))
+                    {
+                        metadataRegionNameCountCache[metadataBrokerType].Add(stringNullableName, 0);
+                    }
+                    else
+                    {
+                        metadataRegionNameCountCache[metadataBrokerType][stringNullableName]--;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+            }
+
+        }
+        #endregion
+
         #region PersonalRegionNameCount - Cache - ListAllPersonalRegionNameCountCache
         private Dictionary<StringNullable, int> ListAllPersonalRegionNameCountCache(MetadataBrokerType metadataBrokerType)
         {
@@ -3077,6 +3108,37 @@ namespace MetadataLibrary
             }
         }
         #endregion
+
+        #region RegionNamesNearBy - Cache - RegionNamesNearByCacheClear
+        public void RegionNamesNearByCacheRemove(MetadataBrokerType metadataBrokerType, DateTime dateTime, string regionName)
+        {
+            lock (_metadataRegionNamesCacheLock)
+            {
+                metadataRegionNamesCache = new Dictionary<MetadataRegionNameKey, Dictionary<StringNullable, int>>();
+                if (metadataRegionNamesCache != null)
+                {
+                    foreach (KeyValuePair<MetadataRegionNameKey, Dictionary<StringNullable, int>> keyValuePair in metadataRegionNamesCache)
+                    {
+                        MetadataRegionNameKey metadataRegionNameKey = keyValuePair.Key;
+                        if (metadataRegionNameKey.MetadataBrokerType == metadataBrokerType &&
+                            metadataRegionNameKey.DateTimeFrom >= dateTime && metadataRegionNameKey.DateTimeTo <= dateTime)
+                        {
+                            StringNullable regionNameStringNullable = new StringNullable(regionName);
+                            if (keyValuePair.Value.TryGetValue(regionNameStringNullable, out int count))
+                            {
+                                count--;
+                                if (count < 0) 
+                                    count = 0; //DEBUG
+                                keyValuePair.Value[regionNameStringNullable] = count;
+                            }
+                        }
+                    }
+                }
+                
+            }
+        }
+        #endregion
+
 
         #region RegionNamesNearBy - Cache - ListAllRegionNamesNearByCache
         public List<string> ListAllRegionNamesNearByCache(MetadataBrokerType metadataBrokerType, DateTime? dateTimeFrom, DateTime? dateTimeTo, int topCount = int.MaxValue, List<string> namesdontIncludeList1 = null, List<string> namesdontIncludeList2 = null, bool includeEmpty = false)
@@ -3291,7 +3353,24 @@ namespace MetadataLibrary
                 if (fileEntryBroker.GetType() != typeof(FileEntryBroker)) fileEntryBroker = new FileEntryBroker(fileEntryBroker); //When NOT FileEntryBroker it Will give wrong hash value, and not fint the correct result
                 lock (metadataCacheLock)
                 {
-                    if (metadataCache.ContainsKey(fileEntryBroker)) metadataCache.Remove(fileEntryBroker);
+                    //INstead of 
+                    //public void MetadataCacheRemove(List<FileEntryBroker> fileEntryBrokers)
+                    //RegionNamesNearByCacheClear();
+                    //ListAllPersonalRegionNameCountCacheClear();
+                    
+                    if (metadataCache.TryGetValue(fileEntryBroker, out Metadata metadata))
+                    {
+                        if (metadata != null && metadata.PersonalRegionList != null)
+                        {
+                            foreach (RegionStructure regionStructure in metadata.PersonalRegionList)
+                            {
+                                string smartDates = ""; //Properties.Settings.Default.RenameDateFormats;
+                                RegionNamesNearByCacheRemove(metadata.Broker, (DateTime)metadata.FileSmartDate(smartDates), regionStructure.Name);
+                                PersonalRegionNameCountCacheRemove(fileEntryBroker.Broker, regionStructure.Name);
+                            }
+                        }
+                        metadataCache.Remove(fileEntryBroker);
+                    }
                 }
             }
             catch (Exception ex)
@@ -3331,11 +3410,12 @@ namespace MetadataLibrary
 
         public void MetadataCacheRemove(List<FileEntryBroker> fileEntryBrokers)
         {
-            RegionNamesNearByCacheClear();
-            ListAllPersonalRegionNameCountCacheClear();
+            //RegionNamesNearByCacheClear();
+            //ListAllPersonalRegionNameCountCacheClear();
 
             foreach (FileEntryBroker fileEntryBroker in fileEntryBrokers)
             {
+
                 MetadataCacheRemoveMetadataCacheRemove(fileEntryBroker);
                 MetadataCacheRemoveMetadataCacheRemove(new FileEntryBroker(fileEntryBroker, MetadataBrokerType.ExifTool | MetadataBrokerType.ExifToolWriteError));
                 ListFileEntryAttributesCacheRemove(new FileBroker(fileEntryBroker.Broker, fileEntryBroker.FileFullPath));
