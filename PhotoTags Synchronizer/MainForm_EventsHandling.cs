@@ -10540,7 +10540,7 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.IsApplicationClosing) return;
             if (IsPerforminAButtonAction("Select DataGridView Match Cells")) return;
             if (IsPopulatingAnything("Select DataGridView Match Cells")) return;
-            //if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
 
             try
             {
