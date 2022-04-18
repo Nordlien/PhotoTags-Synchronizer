@@ -118,7 +118,7 @@ namespace PhotoTagsSynchronizer
         {
             Dictionary<string, List<string>> fileTasks = new Dictionary<string, List<string>>();
             string messageBoxQueuesInfo = "List of all process queues...\r\n";
-
+            
             try
             {
                 messageBoxQueuesInfo += string.Format("Files: {0} Selected {1}\r\n", imageListView1.Items.Count, imageListView1.SelectedItems.Count);
@@ -129,6 +129,22 @@ namespace PhotoTagsSynchronizer
             }
             catch { }
 
+            try
+            {
+                if (countInvokeCalls > 0)
+                messageBoxQueuesInfo += string.Format("DataGridView: {0} invoke queue\r\n", countInvokeCalls);
+
+                foreach (FileEntry fileEntry in commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnails)
+                    AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, fileEntry.LastWriteDateTime, "Lazy loading: read/check from all sources");
+
+                foreach (FileEntry fileEntry in commonQueueLazyLoadingMediaThumbnail)
+                    AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, fileEntry.LastWriteDateTime, "Lazy loading: Media Thumbnail");
+
+                foreach (FileEntry fileEntry in commonLazyLoadingMapNomnatatim.Keys) 
+                    AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, fileEntry.LastWriteDateTime, "Lazy loading: in queue, MapNomnatatim");
+
+            }
+            catch { }
 
             if (readToCacheQueues.Count > 0)
             {

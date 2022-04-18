@@ -31,9 +31,6 @@ namespace PhotoTagsSynchronizer
         #region Thread variables
 
         #region LazyLoading
-        private static readonly Object _ThreadLazyLoadingMetadataFolderLock = new Object();
-        private static Thread _ThreadLazyLoadingMetadataFolder = null; //
-
         private static readonly Object _ThreadLazyLoadingAllSourcesMetadataAndRegionThumbnailsLock = new Object();
         private static Thread _ThreadLazyLoadingAllSourcesMetadataAndRegionThumbnails = null; //
 
