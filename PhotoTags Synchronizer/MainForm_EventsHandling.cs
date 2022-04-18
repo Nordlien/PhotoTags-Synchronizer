@@ -10279,7 +10279,7 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.IsApplicationClosing) return;
             if (IsPerforminAButtonAction("Select Media Files Match Cells")) return;
             if (IsPopulatingAnything("Select Media Files Match Cells")) return;
-            //if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
 
             try
             {
@@ -10347,7 +10347,7 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.IsApplicationClosing) return;
             if (IsPerforminAButtonAction("Select Media Files with errors")) return;
             if (IsPopulatingAnything("Select Media Files with errors")) return;
-            //if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
 
             try
             {
@@ -10429,7 +10429,7 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.IsApplicationClosing) return;
             if (IsPerforminAButtonAction("Select DataGridView Match Cells")) return;
             if (IsPopulatingAnything("Select DataGridView Match Cells")) return;
-            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+            //if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
 
             try
             {
