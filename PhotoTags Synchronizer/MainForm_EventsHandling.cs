@@ -8989,33 +8989,6 @@ namespace PhotoTagsSynchronizer
                     {
                         FileEntryBroker fileEntryBrokerExiftool = new FileEntryBroker(item.FileFullPath, item.DateModified, MetadataBrokerType.ExifTool);
                         AddQueueAutoCorrectLock(fileEntryBrokerExiftool, null); 
-
-                        //Metadata metadataInCache = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(fileEntryBrokerExiftool);
-                        //if (metadataInCache != null)
-                        //{
-                        //    Metadata metadataToSave = autoCorrect.RunAlgorithmReturnCopy(metadataInCache,
-                        //        databaseAndCacheMetadataExiftool,
-                        //        databaseAndCacheMetadataMicrosoftPhotos,
-                        //        databaseAndCacheMetadataWindowsLivePhotoGallery,
-                        //        databaseAndCahceCameraOwner,
-                        //        databaseLocationNameAndLookUp,
-                        //        databaseGoogleLocationHistory,
-                        //        locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
-                        //        autoKeywordConvertions,
-                        //        Properties.Settings.Default.RenameDateFormats);
-                            
-                        //    if (metadataToSave != null)
-                        //    {
-                        //        if (Properties.Settings.Default.WriteAutoKeywordsSynonyms) AutoKeywords(ref metadataToSave);
-                        //        if (Properties.Settings.Default.WriteUsingCompatibilityCheck) AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave, fixDateTaken: false);
-
-                        //        MicrosoftLocationHack(ref metadataToSave, metadataInCache, Properties.Settings.Default.MicosoftOneDriveLocationHackUse, Properties.Settings.Default.MicosoftOneDriveLocationHackPostfix);
-                        //        DataGridView_Populate_CompatibilityCheckedMetadataToSave(metadataToSave, fileEntryVersion);
-                        //        AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, new Metadata(metadataInCache));
-                        //        //Need use metadataToSave.FullFilePath, Because When Exiftool output filename can be diffrent to input filename
-                        //        AddQueueRenameMediaFilesLock(metadataToSave.FileFullPath, autoCorrect.RenameVariable);  
-                        //    }
-                        //}
                     }
                 }
                 StartThreads();
@@ -9053,33 +9026,6 @@ namespace PhotoTagsSynchronizer
                     {
                         FileEntryBroker fileEntryBrokerExiftool = new FileEntryBroker(file.Path, FileHandler.GetLastWriteTime(file.Path), MetadataBrokerType.ExifTool);
                         AddQueueAutoCorrectLock(fileEntryBrokerExiftool, null); 
-
-                        //Metadata metadataInCache = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(fileEntryBrokerExiftool);
-                        //if (metadataInCache != null)
-                        //{
-                        //    Metadata metadata = new Metadata(metadataInCache);
-
-                        //    Metadata metadataToSave = autoCorrect.RunAlgorithmReturnCopy(metadata,
-                        //    databaseAndCacheMetadataExiftool,
-                        //    databaseAndCacheMetadataMicrosoftPhotos,
-                        //    databaseAndCacheMetadataWindowsLivePhotoGallery,
-                        //    databaseAndCahceCameraOwner,
-                        //    databaseLocationNameAndLookUp,
-                        //    databaseGoogleLocationHistory, locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
-                        //    autoKeywordConvertions,
-                        //    Properties.Settings.Default.RenameDateFormats);
-                        //    if (metadataToSave != null)
-                        //    {
-                        //        if (Properties.Settings.Default.WriteAutoKeywordsSynonyms) AutoKeywords(ref metadataToSave);
-                        //        if (Properties.Settings.Default.WriteUsingCompatibilityCheck) AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave, fixDateTaken: false);
-
-                        //        MicrosoftLocationHack(ref metadataToSave, metadata, Properties.Settings.Default.MicosoftOneDriveLocationHackUse, Properties.Settings.Default.MicosoftOneDriveLocationHackPostfix);
-                        //        DataGridView_Populate_CompatibilityCheckedMetadataToSave(metadataToSave, fileEntryVersion);
-                        //        AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, new Metadata(metadataInCache));
-                        //        //Need use metadataToSave.FullFilePath, Because When Exiftool output filename can be diffrent to input filename
-                        //        AddQueueRenameMediaFilesLock(metadataToSave.FileFullPath, autoCorrect.RenameVariable); 
-                        //    }
-                        //}
                     }
                 }
                 StartThreads();
@@ -9305,37 +9251,6 @@ namespace PhotoTagsSynchronizer
                             FileEntryBroker fileEntryBrokerExiftool = new FileEntryBroker(item.FileFullPath, item.DateModified, MetadataBrokerType.ExifTool);
 
                             AddQueueAutoCorrectLock(fileEntryBrokerExiftool, autoCorrectFormVaraibles); 
-
-                            //Metadata metadataInCache = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(fileEntryBrokerExiftool);
-                            //if (metadataInCache != null)
-                            //{
-                            //    Metadata metadata = new Metadata(metadataInCache);
-                                
-                            //    AutoCorrectFormVaraibles.UseAutoCorrectFormData(ref metadata, autoCorrectFormVaraibles);
-
-                            //    Metadata metadataToSave = autoCorrect.RunAlgorithmReturnCopy(metadata,
-                            //        databaseAndCacheMetadataExiftool,
-                            //        databaseAndCacheMetadataMicrosoftPhotos,
-                            //        databaseAndCacheMetadataWindowsLivePhotoGallery,
-                            //        databaseAndCahceCameraOwner,
-                            //        databaseLocationNameAndLookUp,
-                            //        databaseGoogleLocationHistory,
-                            //        locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
-                            //        autoKeywordConvertions,
-                            //        Properties.Settings.Default.RenameDateFormats);
-
-                            //    if (metadataToSave != null)
-                            //    {
-                            //        if (Properties.Settings.Default.WriteAutoKeywordsSynonyms) AutoKeywords(ref metadataToSave);
-                            //        if (Properties.Settings.Default.WriteUsingCompatibilityCheck) AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave, fixDateTaken: false);
-
-                            //        MicrosoftLocationHack(ref metadataToSave, metadata, Properties.Settings.Default.MicosoftOneDriveLocationHackUse, Properties.Settings.Default.MicosoftOneDriveLocationHackPostfix);
-                            //        DataGridView_Populate_CompatibilityCheckedMetadataToSave(metadataToSave, fileEntryVersion);
-                            //        AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, new Metadata(metadataInCache));
-                            //        //Need use metadataToSave.FullFilePath, Because When Exiftool output filename can be diffrent to input filename
-                            //        AddQueueRenameMediaFilesLock(metadataToSave.FileFullPath, autoCorrect.RenameVariable);
-                            //    }
-                            //}
                         }
                     }
                     StartThreads();
@@ -9379,36 +9294,6 @@ namespace PhotoTagsSynchronizer
                         {
                             FileEntryBroker fileEntryBrokerExiftool = new FileEntryBroker(fileData.Path, FileHandler.GetLastWriteTime(fileData.Path), MetadataBrokerType.ExifTool);
                             AddQueueAutoCorrectLock(fileEntryBrokerExiftool, autoCorrectFormVaraibles); 
-
-                            //Metadata metadataInCache = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(fileEntryBrokerExiftool);
-                            //if (metadataInCache != null)
-                            //{
-                            //    Metadata metadata = new Metadata(metadataInCache);
-
-                            //    Metadata metadataToSave = autoCorrect.RunAlgorithmReturnCopy(metadata,
-                            //    databaseAndCacheMetadataExiftool,
-                            //    databaseAndCacheMetadataMicrosoftPhotos,
-                            //    databaseAndCacheMetadataWindowsLivePhotoGallery,
-                            //    databaseAndCahceCameraOwner,
-                            //    databaseLocationNameAndLookUp,
-                            //    databaseGoogleLocationHistory,
-                            //    locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
-                            //    autoKeywordConvertions,
-                            //    Properties.Settings.Default.RenameDateFormats);
-
-                            //    if (metadataToSave != null)
-                            //    {
-                            //        if (Properties.Settings.Default.WriteAutoKeywordsSynonyms) AutoKeywords(ref metadataToSave);
-                            //        AutoCorrectFormVaraibles.UseAutoCorrectFormData(ref metadataToSave, autoCorrectFormVaraibles);
-                            //        if (Properties.Settings.Default.WriteUsingCompatibilityCheck) AutoCorrect.CompatibilityCheckMetadata(ref metadataToSave, fixDateTaken: false);
-
-                            //        MicrosoftLocationHack(ref metadataToSave, metadata, Properties.Settings.Default.MicosoftOneDriveLocationHackUse, Properties.Settings.Default.MicosoftOneDriveLocationHackPostfix);
-                            //        DataGridView_Populate_CompatibilityCheckedMetadataToSave(metadataToSave, fileEntryVersion);
-                            //        AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, new Metadata(metadataInCache));
-                            //        //Need use metadataToSave.FullFilePath, Because When Exiftool output filename can be diffrent to input filename
-                            //        AddQueueRenameMediaFilesLock(metadata.FileFullPath, autoCorrect.RenameVariable);
-                            //    }
-                            //}
                         }
                     }
                     StartThreads();
@@ -10115,6 +10000,10 @@ namespace PhotoTagsSynchronizer
                         ImageListViewHandler.Enable(imageListView1, true);
                         TreeViewFolderBrowserHandler.Enabled(treeViewFolderBrowser1, true);
                         imageListView1.Focus();
+
+                        databaseAndCacheMetadataExiftool.AllowedDateFormats = Properties.Settings.Default.RenameDateFormats;
+                        databaseAndCacheMetadataWindowsLivePhotoGallery.AllowedDateFormats = Properties.Settings.Default.RenameDateFormats;
+                        databaseAndCacheMetadataMicrosoftPhotos.AllowedDateFormats = Properties.Settings.Default.RenameDateFormats;
                     }
                     //Palette
                     if (config.IsKryptonManagerChanged)

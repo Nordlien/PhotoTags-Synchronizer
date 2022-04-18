@@ -14,7 +14,6 @@ using System.Data.SQLite;
 using SqliteDatabase;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
@@ -95,6 +94,7 @@ namespace MetadataLibrary
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         public static bool StopCaching { get; set; } = false;
         public static bool StopApplication { get; set; } = false;
+        public string AllowedDateFormats { get; set; } = "";
 
         public delegate void ReadToCacheParameterRecordEvent(object sender, ReadToCacheParameterRecordEventArgs e);
         public event ReadToCacheParameterRecordEvent OnRecordReadToCacheParameter;
@@ -3364,8 +3364,7 @@ namespace MetadataLibrary
                         {
                             foreach (RegionStructure regionStructure in metadata.PersonalRegionList)
                             {
-                                string smartDates = ""; //Properties.Settings.Default.RenameDateFormats;
-                                RegionNamesNearByCacheRemove(metadata.Broker, (DateTime)metadata.FileSmartDate(smartDates), regionStructure.Name);
+                                RegionNamesNearByCacheRemove(metadata.Broker, (DateTime)metadata.FileSmartDate(AllowedDateFormats), regionStructure.Name);
                                 PersonalRegionNameCountCacheRemove(fileEntryBroker.Broker, regionStructure.Name);
                             }
                         }
