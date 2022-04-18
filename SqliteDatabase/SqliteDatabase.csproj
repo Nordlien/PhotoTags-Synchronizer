@@ -58,6 +58,6 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Mono.Data.Sqlite" Version="1.0.61" />
-    <PackageReference Include="NLog" Version="4.7.14" />
+    <PackageReference Include="NLog" Version="4.7.15" />
   </ItemGroup>
 </Project>

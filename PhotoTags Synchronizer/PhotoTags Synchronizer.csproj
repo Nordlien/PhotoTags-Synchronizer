@@ -165,21 +165,21 @@
     <ProjectReference Include="..\WindowsProperty\WindowsProperty.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="CefSharp.Common" Version="99.2.120" />
-    <PackageReference Include="CefSharp.WinForms" Version="99.2.120" />
+    <PackageReference Include="CefSharp.Common" Version="100.0.140" />
+    <PackageReference Include="CefSharp.WinForms" Version="100.0.140" />
     <PackageReference Include="CyotekImageBox">
       <Version>1.3.1</Version>
     </PackageReference>
     <PackageReference Include="FCTB" Version="2.16.24" />
-    <PackageReference Include="Krypton.Docking" Version="60.22.2.32" />
-    <PackageReference Include="Krypton.Navigator" Version="60.22.2.32" />
-    <PackageReference Include="Krypton.Ribbon" Version="60.22.2.32" />
-    <PackageReference Include="Krypton.Toolkit" Version="60.22.2.32" />
-    <PackageReference Include="Krypton.Workspace" Version="60.22.2.32" />
+    <PackageReference Include="Krypton.Docking" Version="65.22.4.94" />
+    <PackageReference Include="Krypton.Navigator" Version="65.22.4.94" />
+    <PackageReference Include="Krypton.Ribbon" Version="65.22.4.94" />
+    <PackageReference Include="Krypton.Toolkit" Version="65.22.4.94" />
+    <PackageReference Include="Krypton.Workspace" Version="65.22.4.94" />
     <PackageReference Include="LibVLCSharp.WinForms" Version="3.6.6" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="NLog">
-      <Version>4.7.14</Version>
+      <Version>4.7.15</Version>
     </PackageReference>
     <PackageReference Include="Nominatim.API" Version="1.6.1" />
     <PackageReference Include="NReco.VideoConverter">

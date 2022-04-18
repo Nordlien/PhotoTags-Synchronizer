@@ -100,11 +100,11 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Krypton.Navigator, Version=60.22.2.32, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Krypton.Navigator.60.22.2.32\lib\net48\Krypton.Navigator.dll</HintPath>
+    <Reference Include="Krypton.Navigator, Version=65.22.4.94, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Krypton.Navigator.65.22.4.94\lib\net48\Krypton.Navigator.dll</HintPath>
     </Reference>
-    <Reference Include="Krypton.Toolkit, Version=60.22.2.32, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Krypton.Toolkit.60.22.2.32\lib\net48\Krypton.Toolkit.dll</HintPath>
+    <Reference Include="Krypton.Toolkit, Version=65.22.4.94, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Krypton.Toolkit.65.22.4.94\lib\net48\Krypton.Toolkit.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <Name>System</Name>
