@@ -34,6 +34,7 @@ namespace PhotoTagsSynchronizer
 
                 Dictionary<CellLocation, DataGridViewGenericCell> updatedCells = DataGridViewHandler.ToggleCells(dataGridView, DataGridViewHandlerPeople.headerPeople, NewState.Toggle, e.ColumnIndex, e.RowIndex);
                 List<int> updatedColumns = new List<int>();
+
                 if (updatedCells != null && updatedCells.Count > 0)
                 {
                     ClipboardUtility.PushToUndoStack(dataGridView, updatedCells);
@@ -41,9 +42,18 @@ namespace PhotoTagsSynchronizer
                     {
                         if (!updatedColumns.Contains(cellLocation.ColumnIndex)) updatedColumns.Add(cellLocation.ColumnIndex);
                         DataGridViewHandler.InvalidateCell(dataGridView, cellLocation.ColumnIndex, cellLocation.RowIndex);
+
+                        if (cellLocation.ColumnIndex == -1) dataGridView.InvalidateCell(dataGridView.Columns[cellLocation.ColumnIndex].HeaderCell);
+                        if (cellLocation.RowIndex != -1) dataGridView.InvalidateCell(dataGridView.Rows[cellLocation.RowIndex].HeaderCell);
                     }
                     DataGridView_UpdatedDirtyFlags(dataGridView);
                 }
+
+                dataGridView.InvalidateCell(dataGridView.Rows[0].HeaderCell);
+                if (e.ColumnIndex != -1) dataGridView.InvalidateCell(dataGridView.Columns[e.ColumnIndex].HeaderCell);
+                if (e.ColumnIndex != -1) DataGridViewHandler.InvalidateCell(dataGridView, e.ColumnIndex, 0);
+                if (e.RowIndex != -1) dataGridView.InvalidateCell(dataGridView.Rows[e.RowIndex].HeaderCell);
+                if (e.ColumnIndex == -1 && e.RowIndex == 0) dataGridView.Invalidate();
             }
             catch (Exception ex)
             {
@@ -280,6 +290,7 @@ namespace PhotoTagsSynchronizer
                     }
 
                 }
+
                 peopleMouseDownColumn = int.MinValue;
             }
             catch (Exception ex)
