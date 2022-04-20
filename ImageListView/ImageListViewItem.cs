@@ -1135,7 +1135,7 @@ namespace Manina.Windows.Forms
         #region UpdateDetails - Current TickCount
         public void UpdateDetails(Utility.ShellImageFileInfo info)
         {
-            UpdateDetailsInternal(info, Utility.TickCount());
+            UpdateDetailsInternal(info, -1); //Always update Utility.TickCount() + 1000);
         }
         #endregion 
 
@@ -1148,10 +1148,14 @@ namespace Manina.Windows.Forms
         {
             if (info != null)
             {
-                if (requestedTicks > UpdateRequestedTickCount)
+                if (requestedTicks == -1 || requestedTicks > UpdateRequestedTickCount)
                 {
-                    //DEBUG
-                    UpdateRequestedTickCount = requestedTicks;
+                    if (requestedTicks != -1) 
+                        UpdateRequestedTickCount = requestedTicks;
+                    else
+                    {
+                        //DEBUG
+                    }
 
                     #region Provided by FileInfo  
                     if (info.FileStatusPropertyStatus == PropertyStatus.IsSet) mFileStatus = info.FileStatus;
