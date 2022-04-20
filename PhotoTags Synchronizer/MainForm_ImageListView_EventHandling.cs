@@ -35,11 +35,11 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region ImageListView - Update FileStatus - Invoke
-        private void ImageListView_UpdateItemFileStatusInvoke(string fullFileName, FileStatus fileStatus, DateTime? fileEntryDateTime = null)
+        private void ImageListView_UpdateItemFileStatusInvoke(string fullFileName, FileStatus fileStatus)
         {
             if (InvokeRequired)
             {
-                this.BeginInvoke(new Action<string, FileStatus, DateTime?>(ImageListView_UpdateItemFileStatusInvoke), fullFileName, fileStatus, fileEntryDateTime);
+                this.BeginInvoke(new Action<string, FileStatus>(ImageListView_UpdateItemFileStatusInvoke), fullFileName, fileStatus);
                 return;
             }
             if (GlobalData.IsApplicationClosing) return;
@@ -48,14 +48,8 @@ namespace PhotoTagsSynchronizer
                 ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView1.Items, fullFileName);
                 if (foundItem != null)
                 {
-                    if (fileEntryDateTime == null || (foundItem.DateModified <= fileEntryDateTime))
-                    {
-                        foundItem.FileStatus = fileStatus;
-                        foundItem.Invalidate();
-                    } else
-                    {
-                        //DEBUG
-                    }
+                    foundItem.FileStatus = fileStatus;
+                    foundItem.Invalidate();
                 }
             }
             catch (Exception ex)
@@ -66,11 +60,11 @@ namespace PhotoTagsSynchronizer
         #endregion      
 
         #region ImageListView - Update Exiftool Metadata - Invoke
-        private void ImageListView_UpdateItemExiftoolMetadataInvoke(FileEntryAttribute fileEntryAttribute)
+        private void ImageListView_UpdateItemExiftoolMetadataInvoke(FileEntryAttribute fileEntryAttribute, FileStatus fileStatus)
         {   
             if (InvokeRequired)
             {
-                this.BeginInvoke(new Action<FileEntryAttribute>(ImageListView_UpdateItemExiftoolMetadataInvoke), fileEntryAttribute);
+                this.BeginInvoke(new Action<FileEntryAttribute, FileStatus>(ImageListView_UpdateItemExiftoolMetadataInvoke), fileEntryAttribute, fileStatus);
                 return;
             }
             if (GlobalData.IsApplicationClosing) return;
@@ -89,9 +83,12 @@ namespace PhotoTagsSynchronizer
                         Utility.ShellImageFileInfo fileMetadata = new Utility.ShellImageFileInfo();
                         ConvertMetadataToShellImageFileInfo(ref fileMetadata, metadata);
 
-                        FileStatus fileStatus = FileHandler.GetFileStatus(fileEntryAttribute.FileFullPath,
+                        if (fileStatus == null)
+                        {
+                            fileStatus = FileHandler.GetFileStatus(fileEntryAttribute.FileFullPath,
                             exiftoolProcessStatus: ExiftoolProcessStatus.WaitAction, //Metadata is found
                             checkLockedStatus: true);
+                        }
 
                         if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.Error)
                             fileMetadata.FileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.FileInaccessibleOrError; //Error Metadata found
