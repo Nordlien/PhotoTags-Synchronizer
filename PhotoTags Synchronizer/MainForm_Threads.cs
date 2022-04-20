@@ -560,7 +560,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region LazyLoading - Remove SelectedFiles
+        #region LazyLoading - Count SelectedFiles
         public int CountQueueLazyLoadningSelectedFilesLock()
         {
             lock (commonQueueLazyLoadingSelectedFilesLock)
@@ -705,6 +705,8 @@ namespace PhotoTagsSynchronizer
 
                                 if (readColumn)
                                 {
+                                    FileStatus fileStatus = null;
+
                                     #region Exiftool with or without Error
                                     try
                                     {
@@ -734,10 +736,10 @@ namespace PhotoTagsSynchronizer
                                             }
                                             else
                                             {
-                                                FileStatus fileStaus = FileHandler.GetFileStatus(fileEntryBrokerExiftoolError.FileFullPath,
+                                                fileStatus = FileHandler.GetFileStatus(fileEntryBrokerExiftoolError.FileFullPath,
                                                     exiftoolProcessStatus: ExiftoolProcessStatus.FileInaccessibleOrError,
                                                     errorMessage: "File has error recorded, you can retry read again", checkLockedStatus: true);
-                                                ImageListView_UpdateItemFileStatusInvoke(fileEntryBrokerExiftoolError.FileFullPath, fileStaus);
+                                                ImageListView_UpdateItemFileStatusInvoke(fileEntryBrokerExiftoolError.FileFullPath, fileStatus);
                                                 isMetadataExiftoolErrorFound = true;
                                             }
                                         }
@@ -748,9 +750,9 @@ namespace PhotoTagsSynchronizer
                                             if (metadataExiftool.PersonalRegionIsThumbnailMissing())
                                                 AddQueueSaveToDatabaseRegionAndThumbnailLock(metadataExiftool);
 
-                                            FileStatus fileStaus = FileHandler.GetFileStatus(metadataExiftool.FileFullPath,
+                                            fileStatus = FileHandler.GetFileStatus(metadataExiftool.FileFullPath,
                                             exiftoolProcessStatus: ExiftoolProcessStatus.WaitAction);
-                                            ImageListView_UpdateItemFileStatusInvoke(metadataExiftool.FileFullPath, fileStaus);
+                                            ImageListView_UpdateItemFileStatusInvoke(metadataExiftool.FileFullPath, fileStatus);
 
                                         }
                                     }
@@ -853,7 +855,7 @@ namespace PhotoTagsSynchronizer
 
                                     bool isCurrent = FileEntryVersionHandler.IsCurrenOrUpdatedVersion(fileEntryAttribute.FileEntryVersion);
                                     if (isCurrent && isMetadataExiftoolFound) //Don't care about historical or error columns
-                                        ImageListView_UpdateItemExiftoolMetadataInvoke(fileEntryAttribute);
+                                        ImageListView_UpdateItemExiftoolMetadataInvoke(fileEntryAttribute, fileStatus);
 
                                     if (isMetadataExiftoolFound || isMetadataExiftoolErrorFound) // No need update others before Exiftool has data || isMetadataExiftoolErrorFound || isMetadataOtherSourceFound) 
                                         DataGridView_Populate_FileEntryAttributeInvoke(fileEntryAttribute, MetadataBrokerType.Queue);
@@ -1590,8 +1592,9 @@ namespace PhotoTagsSynchronizer
                                                         (DateTime)metadataRead.FileDateModified,
                                                         FileEntryVersion.ExtractedNowUsingExiftool);
 
-                                                    ImageListView_UpdateItemExiftoolMetadataInvoke(fileEntryAttributeExtractedNowUsingExiftool);
-                                                    ImageListView_UpdateItemFileStatusInvoke(metadataRead.FileFullPath, fileStatus);
+                                                    //ImageListView_UpdateItemFileStatusInvoke(metadataRead.FileFullPath, fileStatus);
+                                                    ImageListView_UpdateItemExiftoolMetadataInvoke(fileEntryAttributeExtractedNowUsingExiftool, fileStatus);
+                                                    
 
                                                     if (!isMetadataHavingErrors) AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(fileEntryAttributeExtractedNowUsingExiftool);
                                                     #endregion
