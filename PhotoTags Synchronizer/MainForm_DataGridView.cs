@@ -575,15 +575,6 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-        //ConvertAndMerge
-        //Date
-        //Exiftool
-        //ExiftoolWarning
-        //Map
-        //People
-        //Properties
-        //Rename
-        //TagsAndKeywords
         #region DataGridView - UpdateColumnThumbnail - OnFileEntryAttribute - OnSelectedGrivView
         private void DataGridView_UpdateColumnThumbnail_OnFileEntryAttribute(FileEntryAttribute fileEntryAttribute, Image image)
         {
@@ -751,17 +742,17 @@ namespace PhotoTagsSynchronizer
                         break;
                     case LinkTabAndDataGridViewNameExiftool:
                         //DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, true);
-                        DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, GetDataGridView_ColumnsEntriesInReadQueues_Count());
+                        DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, GetDataGridView_CountQueueLazyLoadningSelectedFilesLock());
                         //DataGridViewHandler.ResumeLayoutDelayed(dataGridView);
                         break;
                     case LinkTabAndDataGridViewNameWarnings:
                         //DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, true);
-                        DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, GetDataGridView_ColumnsEntriesInReadQueues_Count());
+                        DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, GetDataGridView_CountQueueLazyLoadningSelectedFilesLock());
                         //DataGridViewHandler.ResumeLayoutDelayed(dataGridView); 
                         break;
                     case LinkTabAndDataGridViewNameProperties:
                         //DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, true);
-                        DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, GetDataGridView_ColumnsEntriesInReadQueues_Count());
+                        DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, GetDataGridView_CountQueueLazyLoadningSelectedFilesLock());
                         //DataGridViewHandler.ResumeLayoutDelayed(dataGridView);
                         break;
                     case LinkTabAndDataGridViewNameRename:
@@ -776,8 +767,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region DataGridView - GetDataGridViewWatingToBePopulatedCount
-        public int GetDataGridView_ColumnsEntriesInReadQueues_Count()
+        #region DataGridView - CountQueueLazyLoadningSelectedFilesLock
+        public int GetDataGridView_CountQueueLazyLoadningSelectedFilesLock()
         {
             return CountQueueLazyLoadningSelectedFilesLock() + countInvokeCalls;
         }
@@ -787,7 +778,7 @@ namespace PhotoTagsSynchronizer
         private int DataGridView_GetCircleProgressCount(bool showProgressCircle, int populateProgress)
         {
             if (!showProgressCircle) return 0;
-            return GetDataGridView_ColumnsEntriesInReadQueues_Count()  + populateProgress;
+            return GetDataGridView_CountQueueLazyLoadningSelectedFilesLock()  + populateProgress;
         }
         #endregion
 
@@ -892,6 +883,7 @@ namespace PhotoTagsSynchronizer
 
             DataGridView_Populate_FileEntryAttribute(GetActiveTabDataGridView(),
                 new FileEntryAttribute(metadataToSave.FileFullPath, DateTime.Now, fileEntryVersion), GetActiveTabTag(), MetadataBrokerType.Empty, metadataToSave);
+            //LazyLoadingDataGridViewProgressUpdateStatus(DataGridView_GetCircleProgressCount(true, 0));
         }
         #endregion 
 
@@ -907,7 +899,7 @@ namespace PhotoTagsSynchronizer
                 
                 if (isFilSelectedInImageListView)
                 {
-                    DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, isFilSelectedInImageListView); //Will not suspend when Column Don't exist, but counter will increase
+//DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, isFilSelectedInImageListView); //Will not suspend when Column Don't exist, but counter will increase
 
                     DataGridViewHandlerRename.RenameVaribale = Properties.Settings.Default.RenameVariable;
                     DataGridViewHandlerRename.ShowFullPath = Properties.Settings.Default.RenameShowFullPath;
@@ -1032,11 +1024,11 @@ namespace PhotoTagsSynchronizer
                     //RemoveQueueLazyLoadningSelectedFilesLock(fileEntryBroker);
                     //int queueCount = CountQueueLazyLoadningSelectedFilesLock();
 
-                    //LazyLoadingDataGridViewProgressUpdateStatus(DataGridView_GetCircleProgressCount(true, 0));
+                    LazyLoadingDataGridViewProgressUpdateStatus(DataGridView_GetCircleProgressCount(true, 0));
                     //if (queueCount == 0 && counterPopulate == 0) DataGridView_Populate_ExtrasAsDropdownAndColumnSizesInvoke();
 
 
-                    DataGridViewHandler.ResumeLayoutDelayed(dataGridView); //Will resume when counter reach 0
+//DataGridViewHandler.ResumeLayoutDelayed(dataGridView); //Will resume when counter reach 0
                 } 
                 //else 
                 //RemoveQueueLazyLoadningSelectedFilesLock(fileEntryBroker);
@@ -1199,7 +1191,7 @@ namespace PhotoTagsSynchronizer
 
                     LazyLoadingDataGridViewProgressUpdateStatus(DataGridView_GetCircleProgressCount(true, 2));
                     List<FileEntryAttribute> lazyLoading;
-                    DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, true);
+//DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, true);
 
                     #region PopulateSelectedFiles
                     switch (GetActiveTabTag())
@@ -1356,7 +1348,7 @@ namespace PhotoTagsSynchronizer
                     }
                     #endregion
 
-                    DataGridViewHandler.ResumeLayoutDelayed(dataGridView);
+//DataGridViewHandler.ResumeLayoutDelayed(dataGridView);
                     
                     LazyLoadingDataGridViewProgressUpdateStatus(DataGridView_GetCircleProgressCount(showProgressCircle, 0));
                 } //Cursor
