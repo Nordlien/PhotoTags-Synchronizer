@@ -701,31 +701,30 @@ namespace DataGridViewGeneric
         private static bool isSuspended = false;
         public static void SuspendLayoutSetDelay(DataGridView dataGridView, bool doesColumnFilenameExist)
         {
-            //return;
-            suspendCount++;
-            if (suspendCount > 1) return; //Already suspended
-            if (!doesColumnFilenameExist) return; //No need to supspend when not updated 
+            //suspendCount++;
+            //if (suspendCount > 1) return; //Already suspended
+            //if (!doesColumnFilenameExist) return; //No need to supspend when not updated 
 
-            if (!isSuspended)
-            {
-                dataGridView.SuspendLayout();
+            //if (!isSuspended)
+            //{
+            //    dataGridView.SuspendLayout();
 
-                dataGridViewAutoSizeRowsMode = dataGridView.AutoSizeRowsMode;
-                dataGridViewAutoSizeColumnMode = dataGridView.AutoSizeColumnsMode;
-                dataGridViewRowHeadersWidthSizeMode = dataGridView.RowHeadersWidthSizeMode;
-                dataGridViewColumnHeadersHeightSizeMode = dataGridView.ColumnHeadersHeightSizeMode;
+            //    dataGridViewAutoSizeRowsMode = dataGridView.AutoSizeRowsMode;
+            //    dataGridViewAutoSizeColumnMode = dataGridView.AutoSizeColumnsMode;
+            //    dataGridViewRowHeadersWidthSizeMode = dataGridView.RowHeadersWidthSizeMode;
+            //    dataGridViewColumnHeadersHeightSizeMode = dataGridView.ColumnHeadersHeightSizeMode;
 
-                dataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
-                dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
-                dataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-                dataGridView.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            //    dataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+            //    dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+            //    dataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            //    dataGridView.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
 
-                dataGridView.RowHeadersVisible = false;
+            //    dataGridView.RowHeadersVisible = false;
 
-                SendMessage(dataGridView.Handle, WM_SETREDRAW, false, 0);
+            //    SendMessage(dataGridView.Handle, WM_SETREDRAW, false, 0);
 
-                isSuspended = true;
-            }
+            //    isSuspended = true;
+            //}
         }
         #endregion 
 
@@ -734,55 +733,54 @@ namespace DataGridViewGeneric
 
         private static void ResumeLayoutInvoke(DataGridView dataGridView)
         {
-            //return;
-            dataGridView.AutoSizeRowsMode = dataGridViewAutoSizeRowsMode;
-            dataGridView.AutoSizeColumnsMode = dataGridViewAutoSizeColumnMode;
-            dataGridView.RowHeadersWidthSizeMode = dataGridViewRowHeadersWidthSizeMode;
-            dataGridView.ColumnHeadersHeightSizeMode = dataGridViewColumnHeadersHeightSizeMode;
+            //dataGridView.AutoSizeRowsMode = dataGridViewAutoSizeRowsMode;
+            //dataGridView.AutoSizeColumnsMode = dataGridViewAutoSizeColumnMode;
+            //dataGridView.RowHeadersWidthSizeMode = dataGridViewRowHeadersWidthSizeMode;
+            //dataGridView.ColumnHeadersHeightSizeMode = dataGridViewColumnHeadersHeightSizeMode;
 
-            dataGridView.RowHeadersVisible = true;
-            dataGridView.ResumeLayout();
+            //dataGridView.RowHeadersVisible = true;
+            //dataGridView.ResumeLayout();
 
-            SendMessage(dataGridView.Handle, WM_SETREDRAW, true, 0);
-            dataGridView.Refresh();
+            //SendMessage(dataGridView.Handle, WM_SETREDRAW, true, 0);
+            //dataGridView.Refresh();
 
-            isSuspended = false;
+            //isSuspended = false;
         }
 
         public static bool ResumeLayoutDelayed(DataGridView dataGridView)
         {
             bool didResume = false;
-            suspendCount--;
-            if (suspendCount < 0) suspendCount = 0;
-            if (suspendCount == 0 && isSuspended)
-            {
-                dataGridView.BeginInvoke(new Action<DataGridView>(ResumeLayoutInvoke), dataGridView);
+            //suspendCount--;
+            //if (suspendCount < 0) suspendCount = 0;
+            //if (suspendCount == 0 && isSuspended)
+            //{
+            //    dataGridView.BeginInvoke(new Action<DataGridView>(ResumeLayoutInvoke), dataGridView);
 
-                //if (_ThreadResumeDataGrid == null)
-                //{
-                //    try
-                //    {
-                //        _ThreadResumeDataGrid = new Thread(() =>
-                //        {
-                //            Task.Delay(100).Wait();
-                //            if (suspendCount == 0) //In case if more ites in queue have arrived
-                //                dataGridView.BeginInvoke(new Action<DataGridView>(ResumeLayoutInvoke), dataGridView); //ResumeLayoutInvoke(dataGridView);
-                //            _ThreadResumeDataGrid = null;
-                //        });
+            //    //if (_ThreadResumeDataGrid == null)
+            //    //{
+            //    //    try
+            //    //    {
+            //    //        _ThreadResumeDataGrid = new Thread(() =>
+            //    //        {
+            //    //            Task.Delay(100).Wait();
+            //    //            if (suspendCount == 0) //In case if more ites in queue have arrived
+            //    //                dataGridView.BeginInvoke(new Action<DataGridView>(ResumeLayoutInvoke), dataGridView); //ResumeLayoutInvoke(dataGridView);
+            //    //            _ThreadResumeDataGrid = null;
+            //    //        });
 
-                //        if (_ThreadResumeDataGrid != null)
-                //        {
-                //            _ThreadResumeDataGrid.Priority = ThreadPriority.Highest;
-                //            _ThreadResumeDataGrid.Start();
-                //        }
-                //    }
-                //    catch
-                //    {
-                //        _ThreadResumeDataGrid = null;
-                //    }
-                //    didResume = true;
-                //} 
-            }
+            //    //        if (_ThreadResumeDataGrid != null)
+            //    //        {
+            //    //            _ThreadResumeDataGrid.Priority = ThreadPriority.Highest;
+            //    //            _ThreadResumeDataGrid.Start();
+            //    //        }
+            //    //    }
+            //    //    catch
+            //    //    {
+            //    //        _ThreadResumeDataGrid = null;
+            //    //    }
+            //    //    didResume = true;
+            //    //} 
+            //}
              
             return didResume;
         }

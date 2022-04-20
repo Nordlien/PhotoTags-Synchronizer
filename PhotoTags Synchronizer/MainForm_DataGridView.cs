@@ -899,7 +899,7 @@ namespace PhotoTagsSynchronizer
                 
                 if (isFilSelectedInImageListView)
                 {
-//DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, isFilSelectedInImageListView); //Will not suspend when Column Don't exist, but counter will increase
+                    DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, isFilSelectedInImageListView); //Will not suspend when Column Don't exist, but counter will increase
 
                     DataGridViewHandlerRename.RenameVaribale = Properties.Settings.Default.RenameVariable;
                     DataGridViewHandlerRename.ShowFullPath = Properties.Settings.Default.RenameShowFullPath;
@@ -1028,7 +1028,7 @@ namespace PhotoTagsSynchronizer
                     //if (queueCount == 0 && counterPopulate == 0) DataGridView_Populate_ExtrasAsDropdownAndColumnSizesInvoke();
 
 
-//DataGridViewHandler.ResumeLayoutDelayed(dataGridView); //Will resume when counter reach 0
+                    DataGridViewHandler.ResumeLayoutDelayed(dataGridView); //Will resume when counter reach 0
                 } 
                 //else 
                 //RemoveQueueLazyLoadningSelectedFilesLock(fileEntryBroker);
@@ -1191,7 +1191,7 @@ namespace PhotoTagsSynchronizer
 
                     LazyLoadingDataGridViewProgressUpdateStatus(DataGridView_GetCircleProgressCount(true, 2));
                     List<FileEntryAttribute> lazyLoading;
-//DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, true);
+                    DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, true);
 
                     #region PopulateSelectedFiles
                     switch (GetActiveTabTag())
@@ -1348,7 +1348,7 @@ namespace PhotoTagsSynchronizer
                     }
                     #endregion
 
-//DataGridViewHandler.ResumeLayoutDelayed(dataGridView);
+                    DataGridViewHandler.ResumeLayoutDelayed(dataGridView);
                     
                     LazyLoadingDataGridViewProgressUpdateStatus(DataGridView_GetCircleProgressCount(showProgressCircle, 0));
                 } //Cursor
