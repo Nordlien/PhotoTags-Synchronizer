@@ -17,13 +17,27 @@ namespace GoogleCast
 
         private Receiver CreateReceiver(IZeroconfHost host)
         {
-            var service = host.Services[PROTOCOL];
-            var properties = service.Properties.First();
+            //var service2 = host.Services.Keys[PROTOCOL];
+            //Dictionary<string, IService> service2 = host.Services.Values.First();
+            //string properties = service.Properties.First();
+            //var service2 = host.Services.Keys[PROTOCOL];
+            var serviceFound = host.Services.Values.First();
+
+            //IService serviceFound = null;
+            //foreach (IService service in host.Services.Values)
+            //{
+            //    if (service.Name == PROTOCOL) serviceFound = service;
+            //}
+            //if (serviceFound == null) return null;
+
+            var properties = serviceFound.Properties.First();
+
+
             return new Receiver()
             {
                 Id = properties["id"],
                 FriendlyName = properties["fn"],
-                IPEndPoint = new IPEndPoint(IPAddress.Parse(host.IPAddress), service.Port)
+                IPEndPoint = new IPEndPoint(IPAddress.Parse(host.IPAddress), serviceFound.Port)
             };
         }
 
