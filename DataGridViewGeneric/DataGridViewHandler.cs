@@ -8,7 +8,6 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using FileHandeling;
 using ColumnNamesAndWidth;
@@ -756,31 +755,33 @@ namespace DataGridViewGeneric
             suspendCount--;
             if (suspendCount < 0) suspendCount = 0;
             if (suspendCount == 0 && isSuspended)
-            {                
-                if (_ThreadResumeDataGrid == null)
-                {
-                    try
-                    {
-                        _ThreadResumeDataGrid = new Thread(() =>
-                        {
-                            Task.Delay(100).Wait();
-                            if (suspendCount == 0) //In case if more ites in queue have arrived
-                                dataGridView.BeginInvoke(new Action<DataGridView>(ResumeLayoutInvoke), dataGridView); //ResumeLayoutInvoke(dataGridView);
-                            _ThreadResumeDataGrid = null;
-                        });
+            {
+                dataGridView.BeginInvoke(new Action<DataGridView>(ResumeLayoutInvoke), dataGridView);
 
-                        if (_ThreadResumeDataGrid != null)
-                        {
-                            _ThreadResumeDataGrid.Priority = ThreadPriority.Highest;
-                            _ThreadResumeDataGrid.Start();
-                        }
-                    }
-                    catch
-                    {
-                        _ThreadResumeDataGrid = null;
-                    }
-                    didResume = true;
-                } 
+                //if (_ThreadResumeDataGrid == null)
+                //{
+                //    try
+                //    {
+                //        _ThreadResumeDataGrid = new Thread(() =>
+                //        {
+                //            Task.Delay(100).Wait();
+                //            if (suspendCount == 0) //In case if more ites in queue have arrived
+                //                dataGridView.BeginInvoke(new Action<DataGridView>(ResumeLayoutInvoke), dataGridView); //ResumeLayoutInvoke(dataGridView);
+                //            _ThreadResumeDataGrid = null;
+                //        });
+
+                //        if (_ThreadResumeDataGrid != null)
+                //        {
+                //            _ThreadResumeDataGrid.Priority = ThreadPriority.Highest;
+                //            _ThreadResumeDataGrid.Start();
+                //        }
+                //    }
+                //    catch
+                //    {
+                //        _ThreadResumeDataGrid = null;
+                //    }
+                //    didResume = true;
+                //} 
             }
              
             return didResume;
