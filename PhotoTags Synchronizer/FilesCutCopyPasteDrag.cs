@@ -165,7 +165,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region FilesCutCopyPasteDrag - DeleteSelectedFiles
-        public void DeleteSelectedFiles(MainForm mainForm, ImageListView imageListView, HashSet<FileEntry> fileEntries, bool deleteFromFileSystemAlso)
+        public void DeleteSelectedFiles(ImageListView imageListView, HashSet<FileEntry> fileEntries, bool deleteFromFileSystemAlso)
         {
             try
             {
@@ -178,7 +178,7 @@ namespace PhotoTagsSynchronizer
                     {
                         try
                         {
-                            mainForm.UpdateStatusAction("Deleting the file " + fileEntry.FileFullPath + " and records in database");
+                            if (OnFileSystemAction != null) OnFileSystemAction(this, new FileSystemActionEventArgs("Delete file", fileEntry.FileFullPath, ""));                            
                             if (deleteFromFileSystemAlso) FileHandler.Delete(fileEntry.FileFullPath, Properties.Settings.Default.MoveToRecycleBin);
                             this.DeleteFileAndHistory(fileEntry.FileFullPath);
                             imageListView.Items.Remove(ImageListViewHandler.FindItem(imageListView.Items, fileEntry.FileFullPath));
@@ -206,22 +206,22 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region FilesCutCopyPasteDrag - DeleteFilesInFolder
-        public int DeleteFilesInFolder(MainForm mainForm, TreeViewFolderBrowser folderTreeViewFolder, string folder)
+        public int DeleteFilesInFolder(TreeViewFolderBrowser folderTreeViewFolder, string folder)
         {
             string[] subFolders = Directory.GetDirectories(folder + (folder.EndsWith(@"\") ? "" : @"\"), "*", SearchOption.AllDirectories);
 
-            if (OnFileSystemAction != null) OnFileSystemAction(this, new FileSystemActionEventArgs("Delete", folder, ""));
+            if (OnFileSystemAction != null) OnFileSystemAction(this, new FileSystemActionEventArgs("Delete files and folder", folder, ""));
             FileHandler.DirectoryDelete(folder, true);
 
             int recordAffected = 0;
             
             foreach (string directory in subFolders)
             {
-                mainForm.UpdateStatusAction("Delete all data and files from folder: " + directory);
+                if (OnFileSystemAction != null) OnFileSystemAction(this, new FileSystemActionEventArgs("Delete files and folder", directory, ""));
                 recordAffected += this.DeleteDirectoryAndHistory(directory);
             }
 
-            mainForm.UpdateStatusAction("Delete all data and files from folder: " + folder);
+            if (OnFileSystemAction != null) OnFileSystemAction(this, new FileSystemActionEventArgs("Delete files and folder", folder, ""));
             recordAffected += this.DeleteDirectoryAndHistory(folder);
             
             TreeNode selectedNode = folderTreeViewFolder.SelectedNode;

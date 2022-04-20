@@ -2360,7 +2360,7 @@ namespace PhotoTagsSynchronizer
                         {
                             UpdateStatusAction("Deleing files and all record about files in database....");
                             HashSet<FileEntry> fileEntries = ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true);
-                            filesCutCopyPasteDrag.DeleteSelectedFiles(this, imageListView1, fileEntries, true);
+                            filesCutCopyPasteDrag.DeleteSelectedFiles(imageListView1, fileEntries, true);
                             ImageListViewHandler.ClearCacheFileEntries(imageListView1);
                             ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false);
                         }
@@ -2416,7 +2416,7 @@ namespace PhotoTagsSynchronizer
                         using (new WaitCursor())
                         {
                             UpdateStatusAction("Delete all record about files in database....");
-                            int recordAffected = filesCutCopyPasteDrag.DeleteFilesInFolder(this, treeViewFolderBrowser1, folder);
+                            int recordAffected = filesCutCopyPasteDrag.DeleteFilesInFolder(treeViewFolderBrowser1, folder);
                             UpdateStatusAction(recordAffected + " records was delete from database....");
                             ImageListView_FetchListOfMediaFiles_FromFolder_and_Aggregate(false, true);
                         }

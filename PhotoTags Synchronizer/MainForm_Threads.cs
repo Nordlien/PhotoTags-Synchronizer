@@ -81,7 +81,7 @@ namespace PhotoTagsSynchronizer
         private static readonly Object commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnailsLock = new Object();
 
         private static List<FileEntryAttribute> commonQueueLazyLoadingMediaThumbnail = new List<FileEntryAttribute>();
-        private static readonly Object commonQueueLazyLoadingThumbnailLock = new Object();
+        private static readonly Object          commonQueueLazyLoadingMediaThumbnailLock = new Object();
 
         private static Dictionary<FileEntryAttribute, bool> commonLazyLoadingMapNomnatatim = new Dictionary<FileEntryAttribute, bool>();
         private static readonly Object commonLazyLoadingMapNomnatatimLock = new Object();
@@ -181,12 +181,12 @@ namespace PhotoTagsSynchronizer
         /// <returns>Number of items in queue</returns>
         private int CommonQueueLazyLoadingThumbnailCountLock()
         {
-            lock   (commonQueueLazyLoadingThumbnailLock) return commonQueueLazyLoadingMediaThumbnail.Count;
+            lock   (commonQueueLazyLoadingMediaThumbnailLock) return commonQueueLazyLoadingMediaThumbnail.Count;
         }
 
         private int CommonQueueLazyLoadingThumbnailCountDirty()
         {
-            lock   (commonQueueLazyLoadingThumbnailLock) return commonQueueLazyLoadingMediaThumbnail.Count;
+            lock   (commonQueueLazyLoadingMediaThumbnailLock) return commonQueueLazyLoadingMediaThumbnail.Count;
         }
 
         /// <summary>
@@ -405,8 +405,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Preloadning
-
         #region ClearQueue - Exiftool
         public void ClearAllQueues()
         {
@@ -439,92 +437,6 @@ namespace PhotoTagsSynchronizer
             GlobalData.IsStopAndEmptyThumbnailQueueRequest = false;
 
         }
-        #endregion
-
-        //#region Preloading - Metadata - Thread - Faster Sqlite read for a list of files
-        ///// <summary>
-        ///// Faster read of metadata and put into the cache
-        ///// </summary>
-        ///// <param name="fileEntries">List of FileEntires to put in cache</param>
-        //public void PreloadCacheFileEntries(HashSet<FileEntry> fileEntries, string selectedFolder)
-        //{            
-        //    try
-        //    {
-        //        bool isThreadRunning;
-        //        int retry = 200;
-        //        do
-        //        {
-        //            lock (_ThreadLazyLoadingMetadataFolderLock) isThreadRunning = (_ThreadLazyLoadingMetadataFolder != null);
-        //            if (isThreadRunning)
-        //            {
-        //                MetadataDatabaseCache.StopCaching = true;
-        //                ThumbnailPosterDatabaseCache.StopCaching = true;
-        //                Task.Delay(10).Wait(); //Wait thread stopping
-        //                Logger.Debug("CacheFileEntries - sleep(100) - ThreadRunning is running");
-        //            }
-        //        } while (isThreadRunning && retry-- > 0);
-
-        //        lock (_ThreadLazyLoadingMetadataFolderLock) isThreadRunning = (_ThreadLazyLoadingMetadataFolder != null);
-
-        //        if (isThreadRunning) return; //Still running, give up
-
-        //        lock (_ThreadLazyLoadingMetadataFolderLock)
-        //        {
-        //            _ThreadLazyLoadingMetadataFolder = new Thread(() =>
-        //            {
-        //                #region
-        //                try
-        //                {
-        //                    if (selectedFolder != null)
-        //                    {
-        //                        if (cacheFolderThumbnails) databaseAndCacheThumbnailPoster.ReadToCacheFolder(selectedFolder);
-        //                        if (cacheFolderMetadatas) databaseAndCacheMetadataExiftool.ReadToCacheAllMetadatas(selectedFolder, MetadataBrokerType.ExifTool);
-        //                        if (cacheFolderMetadatas) databaseAndCacheMetadataExiftool.ReadToCacheAllMetadatas(selectedFolder, MetadataBrokerType.WindowsLivePhotoGallery);
-        //                        if (cacheFolderMetadatas) databaseAndCacheMetadataExiftool.ReadToCacheAllMetadatas(selectedFolder, MetadataBrokerType.MicrosoftPhotos);
-        //                        if (cacheFolderWebScraperDataSets) databaseAndCacheMetadataExiftool.ReadToCacheWebScraperDataSet(fileEntries); //Don't have folder
-        //                    }
-        //                    else
-        //                    {
-        //                        if (cacheFolderThumbnails) databaseAndCacheThumbnailPoster.ReadToCache(fileEntries); //Read missing, new media files added
-        //                        if (cacheFolderMetadatas) databaseAndCacheMetadataExiftool.ReadToCache(fileEntries, MetadataBrokerType.ExifTool); //Read missing, new media files added
-        //                        if (cacheFolderMetadatas) databaseAndCacheMetadataExiftool.ReadToCache(fileEntries, MetadataBrokerType.WindowsLivePhotoGallery); //Read missing, new media files added
-        //                        if (cacheFolderMetadatas) databaseAndCacheMetadataExiftool.ReadToCache(fileEntries, MetadataBrokerType.MicrosoftPhotos); //Read missing, new media files added
-        //                        if (cacheFolderWebScraperDataSets) databaseAndCacheMetadataExiftool.ReadToCacheWebScraperDataSet(fileEntries); //Read missing, new media files added
-        //                    }
-        //                }
-        //                catch (Exception ex)
-        //                {
-        //                    KryptonMessageBox.Show("CacheFileEntries crashed.", "CacheFileEntries failed", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-        //                    Logger.Error(ex, "CacheFileEntries crashed");
-        //                }
-        //                finally
-        //                {
-        //                    MetadataDatabaseCache.StopCaching = false;
-        //                    ThumbnailPosterDatabaseCache.StopCaching = false;
-        //                    lock (_ThreadLazyLoadingMetadataFolderLock) _ThreadLazyLoadingMetadataFolder = null;
-        //                }
-        //                #endregion
-        //            });
-        //        }
-
-        //        lock (_ThreadLazyLoadingMetadataFolderLock) if (_ThreadLazyLoadingMetadataFolder != null)
-        //        {
-        //            _ThreadLazyLoadingMetadataFolder.Priority = threadPriority;
-        //            _ThreadLazyLoadingMetadataFolder.Start();                    
-        //        }
-        //        else Logger.Error("_ThreadCacheSelectedFastRead was not able to start");
-                
-
-        //    }
-        //    catch
-        //    {
-        //        //Retry after crash, eg. thread creation failed
-        //        MetadataDatabaseCache.StopCaching = false;
-        //        ThumbnailPosterDatabaseCache.StopCaching = false;
-        //    }
-        //}
-        //#endregion 
-
         #endregion
 
         #region LazyLoading - Clear SelectedFiles
@@ -931,7 +843,7 @@ namespace PhotoTagsSynchronizer
         public void AddQueueLazyLoadningMediaThumbnailLock(List<FileEntryAttribute> fileEntryAttributes)
         {
             if (fileEntryAttributes == null) return;
-            lock (commonQueueLazyLoadingThumbnailLock)
+            lock (commonQueueLazyLoadingMediaThumbnailLock)
             {
                 foreach (FileEntryAttribute fileEntryAttribute in fileEntryAttributes)
                 {
@@ -945,7 +857,7 @@ namespace PhotoTagsSynchronizer
         public void AddQueueLazyLoadningMediaThumbnailLock(FileEntryAttribute fileEntryAttribute)
         {
             if (fileEntryAttribute == null) return;
-            lock (commonQueueLazyLoadingThumbnailLock)
+            lock (commonQueueLazyLoadingMediaThumbnailLock)
             {
                 if (!commonQueueLazyLoadingMediaThumbnail.Contains(fileEntryAttribute)) commonQueueLazyLoadingMediaThumbnail.Add(fileEntryAttribute);                
             }
@@ -977,7 +889,7 @@ namespace PhotoTagsSynchronizer
                                 if (!GlobalData.IsStopAndEmptyThumbnailQueueRequest && commonQueueLazyLoadingMediaThumbnail.Count > 0) //In case clear, due to user screen interaction
                                 {
                                     FileEntryAttribute fileEntryAttribute;
-                                    lock (commonQueueLazyLoadingThumbnailLock) fileEntryAttribute = commonQueueLazyLoadingMediaThumbnail[0];
+                                    lock (commonQueueLazyLoadingMediaThumbnailLock) fileEntryAttribute = commonQueueLazyLoadingMediaThumbnail[0];
 
                                     if (!databaseAndCacheThumbnailPoster.DoesThumbnailExistInCache(fileEntryAttribute))
                                     {
@@ -986,10 +898,10 @@ namespace PhotoTagsSynchronizer
                                         Image thumbnail = GetThumbnailFromDatabaseUpdatedDatabaseIfNotExist(fileEntryAttribute, dontReadFileFromCloud, fileStatus);                                       
                                     }
                                 }
-                                lock (commonQueueLazyLoadingThumbnailLock) commonQueueLazyLoadingMediaThumbnail.RemoveAt(0);
+                                lock (commonQueueLazyLoadingMediaThumbnailLock) commonQueueLazyLoadingMediaThumbnail.RemoveAt(0);
 
                                 if (GlobalData.IsApplicationClosing || GlobalData.IsStopAndEmptyThumbnailQueueRequest)
-                                    lock (commonQueueLazyLoadingThumbnailLock) commonQueueLazyLoadingMediaThumbnail.Clear();
+                                    lock (commonQueueLazyLoadingMediaThumbnailLock) commonQueueLazyLoadingMediaThumbnail.Clear();
                             }
                             if (WaitThumbnailReadCacheThread != null) WaitThumbnailReadCacheThread.Set();
 
@@ -1000,7 +912,7 @@ namespace PhotoTagsSynchronizer
                             KryptonMessageBox.Show("LazyLoadningThumbnail crashed." + 
                                 "\r\nException message:" + ex.Message + "\r\n",
                                 "LazyLoadningThumbnail failed", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-                            lock (commonQueueLazyLoadingThumbnailLock) commonQueueLazyLoadingMediaThumbnail.Clear(); //Avoid loop, due to unknown error
+                            lock (commonQueueLazyLoadingMediaThumbnailLock) commonQueueLazyLoadingMediaThumbnail.Clear(); //Avoid loop, due to unknown error
                             Logger.Error(ex, "ThreadLazyLoadningThumbnail thread failed. ");
                         }
                         finally
@@ -3742,12 +3654,12 @@ namespace PhotoTagsSynchronizer
                                 while (!GlobalData.IsApplicationClosing && CommonQueueLazyLoadingMapNomnatatimLock() > 0) //In case some more added to the queue
                                 {
                                     bool isPopulated = false;
-                                    KeyValuePair<FileEntryAttribute,bool> fileEntryAttributeAndAllowUseMetadataLocationInfo;
+                                    KeyValuePair<FileEntryAttribute, bool> fileEntryAttributeAndAllowUseMetadataLocationInfo;
 
-                                    lock (commonLazyLoadingMapNomnatatimLock) fileEntryAttributeAndAllowUseMetadataLocationInfo = 
+                                    lock (commonLazyLoadingMapNomnatatimLock) fileEntryAttributeAndAllowUseMetadataLocationInfo =
                                         commonLazyLoadingMapNomnatatim.First();
 
-                                    int columnIndex = DataGridViewHandler.GetColumnIndexWhenAddColumn(dataGridViewMap, 
+                                    int columnIndex = DataGridViewHandler.GetColumnIndexWhenAddColumn(dataGridViewMap,
                                         fileEntryAttributeAndAllowUseMetadataLocationInfo.Key, out FileEntryVersionCompare fileEntryVersionCompare);
 
                                     if (columnIndex != -1)
@@ -3757,16 +3669,27 @@ namespace PhotoTagsSynchronizer
                                             fileEntryAttributeAndAllowUseMetadataLocationInfo.Key,
                                             fileEntryAttributeAndAllowUseMetadataLocationInfo.Value);
                                     }
-                                    
-                                    lock (commonLazyLoadingMapNomnatatimLock) 
-                                        if (commonLazyLoadingMapNomnatatim.Count > 0) 
+
+                                    lock (commonLazyLoadingMapNomnatatimLock)
+                                        if (commonLazyLoadingMapNomnatatim.Count > 0)
                                             commonLazyLoadingMapNomnatatim.Remove(fileEntryAttributeAndAllowUseMetadataLocationInfo.Key); //Remove from queue after read. Otherwise wrong text in status bar
 
-                                    if (!isPopulated && fileEntryVersionCompare != FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch) 
-                                        AddQueueLazyLoadingMapNomnatatimLock(
-                                            fileEntryAttributeAndAllowUseMetadataLocationInfo.Key,
-                                            fileEntryAttributeAndAllowUseMetadataLocationInfo.Value);
+                                    FileStatus fileStatus = FileHandler.GetFileStatus(fileEntryAttributeAndAllowUseMetadataLocationInfo.Key.FileFullPath);
+                                    if (fileStatus.FileExists)
+                                    {
+                                        if (!isPopulated && fileEntryVersionCompare != FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch)
+                                        {
+                                            AddQueueLazyLoadingMapNomnatatimLock(
+                                                fileEntryAttributeAndAllowUseMetadataLocationInfo.Key,
+                                                fileEntryAttributeAndAllowUseMetadataLocationInfo.Value);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        //DEBUG
+                                    }
                                 }
+                                Thread.Sleep(10);
                                 #endregion
                             }
 
@@ -3776,8 +3699,8 @@ namespace PhotoTagsSynchronizer
                         }
                         catch (Exception ex)
                         {
-                            KryptonMessageBox.Show("ThreadQueueLazyLoadingMapNomnatatim crashed." + 
-                                "\r\nException message:" + ex.Message + "\r\n", 
+                            KryptonMessageBox.Show("ThreadQueueLazyLoadingMapNomnatatim crashed." +
+                                "\r\nException message:" + ex.Message + "\r\n",
                                 "ThreadQueueLazyLoadingMapNomnatatim failed", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
                             Logger.Error(ex, "ThreadQueueLazyLoadingMapNomnatatim failed");
                         }
