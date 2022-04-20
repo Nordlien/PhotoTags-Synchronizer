@@ -898,5 +898,12 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion
+
+        #region FilesCutCopyPasteDrag_OnFileSystemAction
+        private void FilesCutCopyPasteDrag_OnFileSystemAction(object sender, FileSystemActionEventArgs e)
+        {
+            UpdateStatusAction(e.Action + " Source:" + e.Source + (string.IsNullOrWhiteSpace(e.Destination) ? "" : " Destination:" + e.Destination));
+        }
+        #endregion 
     }
 }

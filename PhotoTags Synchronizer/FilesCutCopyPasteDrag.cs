@@ -12,6 +12,18 @@ using FileHandeling;
 
 namespace PhotoTagsSynchronizer
 {
+    public class FileSystemActionEventArgs : EventArgs
+    {
+        public FileSystemActionEventArgs(string action, string source, string destination)
+        {
+            Action = Action;
+            Source = source;
+            Destination = destination;
+        }
+        public string Action { get; set; } = "";
+        public string Source { get; set; } = "";
+        public string Destination { get; set; } = "";
+    }
 
     public class FilesCutCopyPasteDrag
     {
@@ -23,6 +35,9 @@ namespace PhotoTagsSynchronizer
         private ThumbnailPosterDatabaseCache databaseAndCacheThumbnail;
         private ExiftoolDataDatabase databaseExiftoolData;
         private ExiftoolWarningDatabase databaseExiftoolWarning;
+
+        public delegate void FileSystemActionEventHandler(object sender, FileSystemActionEventArgs e);
+        public event FileSystemActionEventHandler OnFileSystemAction;
 
         #region IsFilenameEqual
         public static bool IsFilenameEqual(string fullFileName1, string fullFileName2)
@@ -195,6 +210,7 @@ namespace PhotoTagsSynchronizer
         {
             string[] subFolders = Directory.GetDirectories(folder + (folder.EndsWith(@"\") ? "" : @"\"), "*", SearchOption.AllDirectories);
 
+            if (OnFileSystemAction != null) OnFileSystemAction(this, new FileSystemActionEventArgs("Delete", folder, ""));
             FileHandler.DirectoryDelete(folder, true);
 
             int recordAffected = 0;
@@ -246,6 +262,7 @@ namespace PhotoTagsSynchronizer
                 }
                 if (!IsFilenameEqual(sourceFullFilename, targetFullFilename))
                 {
+                    if (OnFileSystemAction != null) OnFileSystemAction(this, new FileSystemActionEventArgs("Move", sourceFullFilename, targetFullFilename));
                     File.Move(sourceFullFilename, targetFullFilename);
                     
                     databaseAndCacheThumbnail.Move(oldDirectory, oldFilename, newDirectory, newFilename);
@@ -297,6 +314,7 @@ namespace PhotoTagsSynchronizer
                     directoryCreated = true;
                 }
 
+                if (OnFileSystemAction != null) OnFileSystemAction(this, new FileSystemActionEventArgs("Copy", sourceFullFilename, targetFullFilename));
                 File.Copy(sourceFullFilename, targetFullFilename);                
                 File.SetCreationTime(targetFullFilename, File.GetCreationTime(sourceFullFilename));
                 databaseAndCacheMetadataExiftool.Copy(oldDirectory, oldFilename, newDirectory, newFilename);

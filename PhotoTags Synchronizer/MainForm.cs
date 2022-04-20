@@ -397,6 +397,7 @@ namespace PhotoTagsSynchronizer
 
             filesCutCopyPasteDrag = new FilesCutCopyPasteDrag(databaseAndCacheMetadataExiftool, databaseAndCacheMetadataWindowsLivePhotoGallery,
                 databaseAndCacheMetadataMicrosoftPhotos, databaseAndCacheThumbnailPoster, databaseExiftoolData, databaseExiftoolWarning);
+            filesCutCopyPasteDrag.OnFileSystemAction += FilesCutCopyPasteDrag_OnFileSystemAction;
 
             #region Connect to Microsoft Photos
             FormSplash.UpdateStatus("Initialize database: Connect to Microsoft Photos...");
@@ -539,6 +540,7 @@ namespace PhotoTagsSynchronizer
             #endregion
             #endregion
 
+            
             autoKeywordConvertions = AutoKeywordHandler.PopulateList(AutoKeywordHandler.ReadDataSetFromXML());
 
             #region Initialize layout setup
@@ -679,8 +681,6 @@ namespace PhotoTagsSynchronizer
 
             MaximizeOrRestoreWorkspaceMainCellAndChilds();
         }
-
-
         #endregion
 
         #region Resize and restore windows size when reopen application
