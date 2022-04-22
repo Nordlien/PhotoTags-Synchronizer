@@ -34,6 +34,24 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region ImageListView - Update Thumbnail - UpdateAll - Invoke (ImageListViewItem.Update)
+        private void ImageListView_UpdateItemThumbnailUpdateAllIfFileStatusChangedInvoke(FileEntry fileEntry, FileStatus fileStatus)
+        {
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new Action<FileEntry>(ImageListView_UpdateItemThumbnailUpdateAllInvoke), fileEntry);
+                return;
+            }
+
+            ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView1.Items, fileEntry.FileFullPath);
+            if (foundItem != null)
+            {
+                if (foundItem.FileStatus.IsInCloud != fileStatus.IsInCloud ||
+                    foundItem.FileStatus.LastWrittenDateTime != fileStatus.LastWrittenDateTime) foundItem.Update();
+            }
+        }
+        #endregion
+
         #region ImageListView - Update FileStatus - Invoke
         private void ImageListView_UpdateItemFileStatusInvoke(string fullFileName, FileStatus fileStatus)
         {
@@ -240,8 +258,6 @@ namespace PhotoTagsSynchronizer
             if (DoNotTrigger_ImageListView_ItemUpdate()) return;
             if (imageListView1.IsDisposed) return;
 
-            
-            
             //PS. Note: Make sure that the RetrieveItemMetadataDetails don't go in endless loop. Read data, flags as still dirty, read again, etc..
             try
             {

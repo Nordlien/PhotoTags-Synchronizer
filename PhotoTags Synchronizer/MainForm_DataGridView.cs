@@ -9,6 +9,7 @@ using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
 using WindowsProperty;
+using static Manina.Windows.Forms.ImageListView;
 
 namespace PhotoTagsSynchronizer
 {
@@ -742,17 +743,17 @@ namespace PhotoTagsSynchronizer
                         break;
                     case LinkTabAndDataGridViewNameExiftool:
                         //DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, true);
-                        DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, GetDataGridView_CountQueueLazyLoadningSelectedFilesLock());
+                        DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, DataGridView_GetCountQueueLazyLoadningSelectedFilesLock());
                         //DataGridViewHandler.ResumeLayoutDelayed(dataGridView);
                         break;
                     case LinkTabAndDataGridViewNameWarnings:
                         //DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, true);
-                        DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, GetDataGridView_CountQueueLazyLoadningSelectedFilesLock());
+                        DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, DataGridView_GetCountQueueLazyLoadningSelectedFilesLock());
                         //DataGridViewHandler.ResumeLayoutDelayed(dataGridView); 
                         break;
                     case LinkTabAndDataGridViewNameProperties:
                         //DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, true);
-                        DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, GetDataGridView_CountQueueLazyLoadningSelectedFilesLock());
+                        DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, DataGridView_GetCountQueueLazyLoadningSelectedFilesLock());
                         //DataGridViewHandler.ResumeLayoutDelayed(dataGridView);
                         break;
                     case LinkTabAndDataGridViewNameRename:
@@ -768,17 +769,9 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region DataGridView - CountQueueLazyLoadningSelectedFilesLock
-        public int GetDataGridView_CountQueueLazyLoadningSelectedFilesLock()
+        public int DataGridView_GetCountQueueLazyLoadningSelectedFilesLock()
         {
             return CountQueueLazyLoadningSelectedFilesLock() + countInvokeCalls;
-        }
-        #endregion
-
-        #region DataGridView - GetCircleProgressCount
-        private int DataGridView_GetCircleProgressCount(bool showProgressCircle, int populateProgress)
-        {
-            if (!showProgressCircle) return 0;
-            return GetDataGridView_CountQueueLazyLoadningSelectedFilesLock()  + populateProgress;
         }
         #endregion
 
@@ -813,7 +806,7 @@ namespace PhotoTagsSynchronizer
             {
                 if (isInvokedCall) countInvokeCalls--;
 
-                #region Call only once, if in queue, don't process all in queue
+                #region Call - DataGridView_Populate_FileEntryAttribute - only once, if in queue, don't process all in queue
                 if (!wasAlreadyInInvokedQueue) 
                 {
                     string tag = GetActiveTabTag();
@@ -834,12 +827,14 @@ namespace PhotoTagsSynchronizer
 
                 FileEntryBroker fileEntryBroker = new FileEntryBroker(fileEntryAttribute.FileEntry, metadataBrokerType);
                 RemoveQueueLazyLoadningSelectedFilesLock(fileEntryBroker);
-                LazyLoadingDataGridViewProgressUpdateStatus(DataGridView_GetCircleProgressCount(true, 0));
+
+                LazyLoadingDataGridViewProgressUpdateStatus(DataGridView_GetCountQueueLazyLoadningSelectedFilesLock());
 
                 if (countInvokeCalls == 0)
                 {
                     int queueCount = CountQueueLazyLoadningSelectedFilesLock();
-                    if (queueCount == 0 && countInvokeCalls == 0) DataGridView_Populate_ExtrasAsDropdownAndColumnSizesInvoke();
+                    if (queueCount == 0 && countInvokeCalls == 0) 
+                        DataGridView_Populate_ExtrasAsDropdownAndColumnSizesInvoke();
                 }
             }
             catch (Exception ex)
@@ -883,7 +878,6 @@ namespace PhotoTagsSynchronizer
 
             DataGridView_Populate_FileEntryAttribute(GetActiveTabDataGridView(),
                 new FileEntryAttribute(metadataToSave.FileFullPath, DateTime.Now, fileEntryVersion), GetActiveTabTag(), MetadataBrokerType.Empty, metadataToSave);
-            //LazyLoadingDataGridViewProgressUpdateStatus(DataGridView_GetCircleProgressCount(true, 0));
         }
         #endregion 
 
@@ -892,11 +886,24 @@ namespace PhotoTagsSynchronizer
         {            
             lock (GlobalData.populateSelectedLock)
             {
-                #region isFileInDataGridView
-                bool isFilSelectedInImageListView = ImageListViewHandler.DoesExistInSelectedFiles(imageListView1, fileEntryAttribute.FileFullPath);
+                #region isFilSelectedInImageListView 
+                Manina.Windows.Forms.ImageListViewItem imageListViewItem = ImageListViewHandler.FindItem(imageListView1.Items, fileEntryAttribute.FileFullPath);
+                bool isFilSelectedInImageListView = (imageListViewItem != null);
                 #endregion
 
-                
+                #region Hack until find reason for ImageListView wasn't updated. With new LastWrittenDateTime
+                if (imageListViewItem != null &&
+                    FileEntryVersionHandler.IsCurrenFileVersion(fileEntryAttribute.FileEntryVersion) &&
+                    imageListViewItem.FileDateModifiedPropertyStatus == Manina.Windows.Forms.PropertyStatus.IsSet)
+                {
+                    DateTime dateTimeFile = FileHandeling.FileHandler.GetLastWriteTime(fileEntryAttribute.FileFullPath);
+                    if (imageListViewItem.DateModified != fileEntryAttribute.LastWriteDateTime)
+                        ImageListView_UpdateItemExiftoolMetadataInvoke(fileEntryAttribute, null);
+                        //ImageListView_UpdateItemThumbnailUpdateAllInvoke(fileEntryAttribute);
+                }
+                #endregion
+
+
                 if (isFilSelectedInImageListView)
                 {
                     DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, isFilSelectedInImageListView); //Will not suspend when Column Don't exist, but counter will increase
@@ -1021,17 +1028,9 @@ namespace PhotoTagsSynchronizer
                     if (dataGridViewGenericColumn?.Thumbnail == null) AddQueueLazyLoadningMediaThumbnailLock(fileEntryAttribute);
                     #endregion
 
-                    //RemoveQueueLazyLoadningSelectedFilesLock(fileEntryBroker);
-                    //int queueCount = CountQueueLazyLoadningSelectedFilesLock();
-
-                    LazyLoadingDataGridViewProgressUpdateStatus(DataGridView_GetCircleProgressCount(true, 0));
-                    //if (queueCount == 0 && counterPopulate == 0) DataGridView_Populate_ExtrasAsDropdownAndColumnSizesInvoke();
-
-
+                    LazyLoadingDataGridViewProgressUpdateStatus(DataGridView_GetCountQueueLazyLoadningSelectedFilesLock());
                     DataGridViewHandler.ResumeLayoutDelayed(dataGridView); //Will resume when counter reach 0
-                } 
-                //else 
-                //RemoveQueueLazyLoadningSelectedFilesLock(fileEntryBroker);
+                }
             }
         }
         #endregion
@@ -1039,8 +1038,6 @@ namespace PhotoTagsSynchronizer
         #region DataGridView - Populate Selected Files - OnActiveDataGridView - Thread
         private void DataGridView_Populate_SelectedItemsThread(HashSet<FileEntry> imageListViewSelectItems)
         {
-            LazyLoadingDataGridViewProgressUpdateStatus(DataGridView_GetCircleProgressCount(true, 5));
-
             Thread threadPopulateDataGridView = new Thread(() => {
                 DataGridView_Populate_SelectedItemsInvoke(imageListViewSelectItems);
             });
@@ -1109,12 +1106,10 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.IsApplicationClosing) return;
             if (this.InvokeRequired)
             {
-                LazyLoadingDataGridViewProgressUpdateStatus(DataGridView_GetCircleProgressCount(true, 4));
                 BeginInvoke(new Action<HashSet<FileEntry>>(DataGridView_Populate_SelectedItemsInvoke), imageListViewSelectItems);
                 return;
             }
-            LazyLoadingDataGridViewProgressUpdateStatus(DataGridView_GetCircleProgressCount(true, 3));
-
+            
             lock (GlobalData.populateSelectedLock)
             {
                 using (new WaitCursor())
@@ -1127,7 +1122,6 @@ namespace PhotoTagsSynchronizer
 
                     DataGridViewSize dataGridViewSize;
                     ShowWhatColumns showWhatColumnsForTab;
-                    bool showProgressCircle = true;
                     bool isSizeEnabled = ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true).Count > 0;
                     bool isColumnsEnabled = isSizeEnabled;
 
@@ -1166,14 +1160,12 @@ namespace PhotoTagsSynchronizer
                         case LinkTabAndDataGridViewNameRename:
                             dataGridViewSize = ((DataGridViewSize)Properties.Settings.Default.CellSizeRename | DataGridViewSize.RenameConvertAndMergeSize);
                             showWhatColumnsForTab = ShowWhatColumns.HistoryColumns | ShowWhatColumns.ErrorColumns;
-                            showProgressCircle = false;
                             //isSizeEnabled = false;
                             isColumnsEnabled = false;
                             break;
                         case LinkTabAndDataGridViewNameConvertAndMerge:
                             dataGridViewSize = ((DataGridViewSize)Properties.Settings.Default.CellSizeConvertAndMerge | DataGridViewSize.RenameConvertAndMergeSize);
                             showWhatColumnsForTab = ShowWhatColumns.HistoryColumns | ShowWhatColumns.ErrorColumns;
-                            showProgressCircle = false;
                             //isSizeEnabled = false;
                             isColumnsEnabled = false;
                             break;
@@ -1185,11 +1177,10 @@ namespace PhotoTagsSynchronizer
 
                     if (dataGridView == null || DataGridViewHandler.GetIsAgregated(dataGridView))
                     {
-                        LazyLoadingDataGridViewProgressUpdateStatus(DataGridView_GetCircleProgressCount(true, 0));
+                        LazyLoadingDataGridViewProgressUpdateStatus(-1);
                         return;
                     }
 
-                    LazyLoadingDataGridViewProgressUpdateStatus(DataGridView_GetCircleProgressCount(true, 2));
                     List<FileEntryAttribute> lazyLoading;
                     DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, true);
 
@@ -1350,10 +1341,8 @@ namespace PhotoTagsSynchronizer
 
                     DataGridViewHandler.ResumeLayoutDelayed(dataGridView);
                     
-                    LazyLoadingDataGridViewProgressUpdateStatus(DataGridView_GetCircleProgressCount(showProgressCircle, 0));
                 } //Cursor
-                
-                if (imageListViewSelectItems.Count == 0) LazyLoadingDataGridViewProgressUpdateStatus(-1);
+
             }
             StartThreads();
         }

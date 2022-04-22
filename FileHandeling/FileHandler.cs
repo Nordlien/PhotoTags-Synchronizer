@@ -95,6 +95,9 @@ namespace FileHandeling
                 fileStatus.IsOffline = fileStatus.FileExists && (fileInfo == null ? false : (fileInfo.Attributes & FileAttributes.Offline) == FileAttributes.Offline);
                 #endregion
 
+                if (fileStatus.FileExists) fileStatus.LastWrittenDateTime = GetLastWriteTime(fullFileName);
+                else fileStatus.LastWrittenDateTime = DateTime.MinValue;
+
                 #region File - Locks and Access rights
                 fileStatus.IsReadOnly =
                     fileStatus.FileExists && (fileInfo == null ? false : (fileInfo.Attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly);

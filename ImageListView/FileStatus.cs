@@ -15,6 +15,8 @@
 //
 // Ozgur Ozcitak (ozcitak@yahoo.com)
 
+using System;
+
 namespace Manina.Windows.Forms
 {
     public enum ExiftoolProcessStatus
@@ -36,6 +38,8 @@ namespace Manina.Windows.Forms
         public string FileErrorMessage { get; set; } = null;
         public bool IsDirty { get; set; } = true;
         #endregion
+
+        public DateTime LastWrittenDateTime { get; set; } = DateTime.MinValue;
 
         #region Access        
         public bool IsFileLockedReadAndWrite { get; set; } = false;

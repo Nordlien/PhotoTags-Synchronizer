@@ -48,6 +48,15 @@ namespace MetadataLibrary
         }
         #endregion
 
+        #region IsCurrenFileVersion
+        public static bool IsCurrenFileVersion(FileEntryVersion fileEntryVersion)
+        {
+            return
+                fileEntryVersion == FileEntryVersion.CurrentVersionInDatabase ||
+                fileEntryVersion == FileEntryVersion.ExtractedNowUsingExiftool;
+        }
+        #endregion
+
         #region IsErrorOrHistoricalVersion
         public static bool IsErrorOrHistoricalVersion(FileEntryVersion fileEntryVersion)
         {
