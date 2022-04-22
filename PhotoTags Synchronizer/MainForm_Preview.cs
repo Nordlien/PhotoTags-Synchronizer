@@ -1268,7 +1268,7 @@ namespace PhotoTagsSynchronizer
                             //kryptonRibbonGroupTrackBarPreviewTimer.SuspendLayout();
 
 
-                            kryptonRibbonGroupTrackBarPreviewTimer.Value = (int)(vlcPosition * 100);
+                            kryptonRibbonGroupTrackBarPreviewTimer.Value = Math.Min((int)(vlcPosition * 100), 100);
                             //kryptonRibbonGroupTrackBarPreviewTimer.ResumeLayout();
                             toolStripTraceBarItemMediaPreviewTimerUpdating = false;
                         }
