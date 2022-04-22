@@ -25,7 +25,7 @@ namespace PhotoTagsSynchronizer
             {
                 DataGridViewHandlerRename.RenameVaribale = Properties.Settings.Default.RenameVariable;
                 DataGridViewHandlerRename.ShowFullPath = Properties.Settings.Default.RenameShowFullPath;
-                DataGridViewHandlerRename.UpdateFilenames(dataGridViewRename, Properties.Settings.Default.RenameVariable, checkBoxRenameShowFullPath.Checked);
+                DataGridViewHandlerRename.UpdateFilenames(dataGridViewRename, checkBoxRenameShowFullPath.Checked);
             }
             catch (Exception ex)
             {
@@ -41,7 +41,7 @@ namespace PhotoTagsSynchronizer
             try
             {
                 Properties.Settings.Default.RenameShowFullPath = checkBoxRenameShowFullPath.Checked;
-                DataGridViewHandlerRename.UpdateFilenames(dataGridViewRename, Properties.Settings.Default.RenameVariable, checkBoxRenameShowFullPath.Checked);
+                DataGridViewHandlerRename.UpdateFilenames(dataGridViewRename, checkBoxRenameShowFullPath.Checked);
             }
             catch (Exception ex)
             {

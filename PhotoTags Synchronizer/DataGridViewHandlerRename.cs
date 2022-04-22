@@ -270,7 +270,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region UpdateFilenames(DataGridView dataGridView, string newFilenameVariable)
-        public static void UpdateFilenames(DataGridView dataGridView, string newFilenameVariable, bool showFullPath)
+        public static void UpdateFilenames(DataGridView dataGridView, bool showFullPath)
         {
             int columnIndex = DataGridViewHandler.GetColumnIndexFirstFullFilePath(dataGridView, headerNewFilename, false);
             if (columnIndex == -1) return;
@@ -309,6 +309,7 @@ namespace PhotoTagsSynchronizer
             int columnIndex = DataGridViewHandler.GetColumnIndexFirstFullFilePath(dataGridView, headerNewFilename, false);
             if (columnIndex != -1)
             {
+                //DateTime? dateTime = FileHandler.GetFileStatus(fileEntryAttribute)
                 Metadata metadata;
                 if (metadataAutoCorrected != null) metadata = metadataAutoCorrected;
                 else metadata = DatabaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryAttribute.GetFileEntryBroker(MetadataBrokerType.ExifTool));
