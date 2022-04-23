@@ -281,15 +281,14 @@ namespace PhotoTagsSynchronizer
 
                 if (!dataGridViewGenericRow.IsHeader)
                 {
-                    
-                    PopulateFile(dataGridView, dataGridViewGenericRow.FileEntryAttribute, showFullPath, null, true);
+                    PopulateFile(dataGridView, dataGridViewGenericRow.FileEntryAttribute, showFullPath, null);
                 }
             }
         }
         #endregion
 
         #region PopulateFile
-        public static void PopulateFile(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, bool showFullPath, Metadata metadataAutoCorrected, bool onlyRefresh)
+        public static void PopulateFile(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, bool showFullPath, Metadata metadataAutoCorrected)
         {
             //-----------------------------------------------------------------
             //Chech if need to stop
@@ -360,7 +359,7 @@ namespace PhotoTagsSynchronizer
             foreach (FileEntry imageListViewItem in imageListViewSelectItems)
             {
                 PopulateFile(dataGridView, 
-                    new FileEntryAttribute(imageListViewItem.FileFullPath, imageListViewItem.LastWriteDateTime, FileEntryVersion.CurrentVersionInDatabase), showFullPath, null, false);
+                    new FileEntryAttribute(imageListViewItem.FileFullPath, imageListViewItem.LastWriteDateTime, FileEntryVersion.CurrentVersionInDatabase), showFullPath, null);
             }
 
 
