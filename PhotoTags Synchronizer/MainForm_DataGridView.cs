@@ -775,7 +775,62 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region DataGridView - Populate File - FileEntryAttribute missing Tag - Invoke
+        #region DataGridView - SetColumnVisibleStatus - FileEntryAttributeInvoke - Invoke
+        private void DataGridView_SetColumnVisibleStatus_FileEntryAttributeInvoke(FileEntryAttribute fileEntryAttribute, bool visible)
+        {
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new Action<FileEntryAttribute, bool>(DataGridView_SetColumnVisibleStatus_FileEntryAttributeInvoke), fileEntryAttribute, visible);
+                return;
+            }
+            if (GlobalData.IsApplicationClosing) return;
+            try
+            {
+                DataGridViewHandler.SetColumnVisibleStatus(dataGridViewTagsAndKeywords, fileEntryAttribute, visible);
+                DataGridViewHandler.SetColumnVisibleStatus(dataGridViewPeople, fileEntryAttribute, visible);
+                DataGridViewHandler.SetColumnVisibleStatus(dataGridViewMap, fileEntryAttribute, visible);
+                DataGridViewHandler.SetColumnVisibleStatus(dataGridViewDate, fileEntryAttribute, visible);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+            }
+        }
+        #endregion
+
+        #region DataGridView - CleanAll
+        private void DataGridView_CleanAll()
+        {
+            DataGridViewHandler.SetIsAgregated(dataGridViewTagsAndKeywords, false);
+            DataGridViewHandler.SetIsAgregated(dataGridViewPeople, false);
+            DataGridViewHandler.SetIsAgregated(dataGridViewMap, false);
+            DataGridViewHandler.SetIsAgregated(dataGridViewDate, false);
+
+            DataGridViewHandler.SetIsAgregated(dataGridViewExiftool, false);
+            DataGridViewHandler.SetIsAgregated(dataGridViewExiftoolWarning, false);
+            DataGridViewHandler.SetIsAgregated(dataGridViewProperties, false);
+            DataGridViewHandler.SetIsAgregated(dataGridViewRename, false);
+            DataGridViewHandler.SetIsAgregated(dataGridViewConvertAndMerge, false);
+
+        }
+        #endregion
+
+
+        #region DataGridView - Populate File - FileEntryVersion - CompatibilityCheckedMetadataToSave
+        private void DataGridView_Populate_CompatibilityCheckedMetadataToSave(Metadata metadataToSave, FileEntryVersion fileEntryVersion)
+        {
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new Action<Metadata, FileEntryVersion>(DataGridView_Populate_CompatibilityCheckedMetadataToSave), metadataToSave, fileEntryVersion);
+                return;
+            }
+
+            DataGridView_Populate_FileEntryAttribute(GetActiveTabDataGridView(),
+                new FileEntryAttribute(metadataToSave.FileFullPath, DateTime.Now, fileEntryVersion), GetActiveTabTag(), MetadataBrokerType.Empty, metadataToSave);
+        }
+        #endregion
+
+        #region DataGridView - Populate File - FileEntryAttribute  + Invoke + Control the Queue 
         private HashSet<FileEntryAttribute> dataGridView_Populate_FileEntryAttribute_Invoked = new HashSet<FileEntryAttribute>();
         private readonly Object dataGridView_Populate_FileEntryAttribute_InvokedLock = new Object();
         int countInvokeCalls = 0;
@@ -783,7 +838,7 @@ namespace PhotoTagsSynchronizer
         {
             if (GlobalData.IsApplicationClosing) return;
 
-            
+
             if (InvokeRequired)
             {
                 countInvokeCalls++;
@@ -794,20 +849,21 @@ namespace PhotoTagsSynchronizer
                     if (!dataGridView_Populate_FileEntryAttribute_Invoked.Contains(fileEntryAttribute))
                     {
                         dataGridView_Populate_FileEntryAttribute_Invoked.Add(fileEntryAttribute);
-                    } else isAlreadyInvoked = true;
+                    }
+                    else isAlreadyInvoked = true;
                 }
 
                 this.BeginInvoke(new Action<FileEntryAttribute, MetadataBrokerType, bool, bool>(DataGridView_Populate_FileEntryAttributeInvoke),
                     fileEntryAttribute, metadataBrokerType, true, isAlreadyInvoked);
                 return;
             }
-            
+
             try
             {
                 if (isInvokedCall) countInvokeCalls--;
 
                 #region Call - DataGridView_Populate_FileEntryAttribute - only once, if in queue, don't process all in queue
-                if (!wasAlreadyInInvokedQueue) 
+                if (!wasAlreadyInInvokedQueue)
                 {
                     string tag = GetActiveTabTag();
                     if (!string.IsNullOrWhiteSpace(tag) && IsActiveDataGridViewAgregated(tag))
@@ -833,7 +889,7 @@ namespace PhotoTagsSynchronizer
                 if (countInvokeCalls == 0)
                 {
                     int queueCount = CountQueueLazyLoadningSelectedFilesLock();
-                    if (queueCount == 0 && countInvokeCalls == 0) 
+                    if (queueCount == 0 && countInvokeCalls == 0)
                         DataGridView_Populate_ExtrasAsDropdownAndColumnSizesInvoke();
                 }
             }
@@ -844,44 +900,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region DataGridView - Populate File - FileEntryAttribute missing Tag - Invoke
-        private void DataGridView_SetColumnVisibleStatus_FileEntryAttributeInvoke(FileEntryAttribute fileEntryAttribute, bool visible)
-        {
-            if (InvokeRequired)
-            {
-                this.BeginInvoke(new Action<FileEntryAttribute, bool>(DataGridView_SetColumnVisibleStatus_FileEntryAttributeInvoke), fileEntryAttribute, visible);
-                return;
-            }
-            if (GlobalData.IsApplicationClosing) return;
-            try
-            {
-                DataGridViewHandler.SetColumnVisibleStatus(dataGridViewTagsAndKeywords, fileEntryAttribute, visible);
-                DataGridViewHandler.SetColumnVisibleStatus(dataGridViewPeople, fileEntryAttribute, visible);
-                DataGridViewHandler.SetColumnVisibleStatus(dataGridViewMap, fileEntryAttribute, visible);
-                DataGridViewHandler.SetColumnVisibleStatus(dataGridViewDate, fileEntryAttribute, visible);
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-            }
-        }
-        #endregion
-
-        #region DataGridView - Populate File - FileEntryVersion - CompatibilityCheckedMetadataToSave
-        private void DataGridView_Populate_CompatibilityCheckedMetadataToSave(Metadata metadataToSave, FileEntryVersion fileEntryVersion)
-        {
-            if (InvokeRequired)
-            {
-                this.BeginInvoke(new Action<Metadata, FileEntryVersion>(DataGridView_Populate_CompatibilityCheckedMetadataToSave), metadataToSave, fileEntryVersion);
-                return;
-            }
-
-            DataGridView_Populate_FileEntryAttribute(GetActiveTabDataGridView(),
-                new FileEntryAttribute(metadataToSave.FileFullPath, DateTime.Now, fileEntryVersion), GetActiveTabTag(), MetadataBrokerType.Empty, metadataToSave);
-        }
-        #endregion 
-
-        #region DataGridView - Populate File - FileEntryAttribute -> DataGridView_Populate_FileEntryAttribute();
+        #region DataGridView - Populate File - FileEntryAttribute
         private void DataGridView_Populate_FileEntryAttribute(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, string tabTag, MetadataBrokerType metadataBrokerType, Metadata metadataAutoCorrect = null)
         {            
             lock (GlobalData.populateSelectedLock)
@@ -931,7 +950,7 @@ namespace PhotoTagsSynchronizer
 
                             if (DataGridViewHandlerExiftool.HasBeenInitialized) DataGridViewHandlerExiftool.PopulateFile(dataGridViewExiftool, fileEntryAttribute, showWhatColumns);
                             if (DataGridViewHandlerExiftoolWarnings.HasBeenInitialized) DataGridViewHandlerExiftoolWarnings.PopulateFile(dataGridViewExiftoolWarning, fileEntryAttribute, showWhatColumns);
-                            if (DataGridViewHandlerRename.HasBeenInitialized) DataGridViewHandlerRename.PopulateFile(dataGridViewRename, fileEntryAttribute, DataGridViewHandlerRename.ShowFullPath, metadataAutoCorrect, true);
+                            if (DataGridViewHandlerRename.HasBeenInitialized) DataGridViewHandlerRename.PopulateFile(dataGridViewRename, fileEntryAttribute, DataGridViewHandlerRename.ShowFullPath, metadataAutoCorrect);
                             if (DataGridViewHandlerConvertAndMerge.HasBeenInitialized) DataGridViewHandlerConvertAndMerge.PopulateFile(dataGridViewConvertAndMerge, fileEntryAttribute);
                             break;
                         case LinkTabAndDataGridViewNameExiftool:
@@ -947,7 +966,7 @@ namespace PhotoTagsSynchronizer
                             }
                             //if (DataGridViewHandlerExiftool.HasBeenInitialized) DataGridViewHandlerExiftool.PopulateFile(dataGridViewExiftool, fileEntryAttribute, showWhatColumns);
                             if (DataGridViewHandlerExiftoolWarnings.HasBeenInitialized) DataGridViewHandlerExiftoolWarnings.PopulateFile(dataGridViewExiftoolWarning, fileEntryAttribute, showWhatColumns);
-                            if (DataGridViewHandlerRename.HasBeenInitialized) DataGridViewHandlerRename.PopulateFile(dataGridViewRename, fileEntryAttribute, DataGridViewHandlerRename.ShowFullPath, metadataAutoCorrect, true);
+                            if (DataGridViewHandlerRename.HasBeenInitialized) DataGridViewHandlerRename.PopulateFile(dataGridViewRename, fileEntryAttribute, DataGridViewHandlerRename.ShowFullPath, metadataAutoCorrect);
                             if (DataGridViewHandlerConvertAndMerge.HasBeenInitialized) DataGridViewHandlerConvertAndMerge.PopulateFile(dataGridViewConvertAndMerge, fileEntryAttribute);
                             break;
                         case LinkTabAndDataGridViewNameWarnings:
@@ -964,7 +983,7 @@ namespace PhotoTagsSynchronizer
 
                             if (DataGridViewHandlerExiftool.HasBeenInitialized) DataGridViewHandlerExiftool.PopulateFile(dataGridViewExiftool, fileEntryAttribute, showWhatColumns);
                             //if (DataGridViewHandlerExiftoolWarnings.HasBeenInitialized) DataGridViewHandlerExiftoolWarnings.PopulateFile(dataGridViewExiftoolWarning, fileEntryAttribute, showWhatColumns);
-                            if (DataGridViewHandlerRename.HasBeenInitialized) DataGridViewHandlerRename.PopulateFile(dataGridViewRename, fileEntryAttribute, DataGridViewHandlerRename.ShowFullPath, metadataAutoCorrect, true);
+                            if (DataGridViewHandlerRename.HasBeenInitialized) DataGridViewHandlerRename.PopulateFile(dataGridViewRename, fileEntryAttribute, DataGridViewHandlerRename.ShowFullPath, metadataAutoCorrect);
                             if (DataGridViewHandlerConvertAndMerge.HasBeenInitialized) DataGridViewHandlerConvertAndMerge.PopulateFile(dataGridViewConvertAndMerge, fileEntryAttribute);
                             break;
                         case LinkTabAndDataGridViewNameProperties:
@@ -981,11 +1000,11 @@ namespace PhotoTagsSynchronizer
 
                             if (DataGridViewHandlerExiftool.HasBeenInitialized) DataGridViewHandlerExiftool.PopulateFile(dataGridViewExiftool, fileEntryAttribute, showWhatColumns);
                             if (DataGridViewHandlerExiftoolWarnings.HasBeenInitialized) DataGridViewHandlerExiftoolWarnings.PopulateFile(dataGridViewExiftoolWarning, fileEntryAttribute, showWhatColumns);
-                            if (DataGridViewHandlerRename.HasBeenInitialized) DataGridViewHandlerRename.PopulateFile(dataGridViewRename, fileEntryAttribute, DataGridViewHandlerRename.ShowFullPath, metadataAutoCorrect, true);
+                            if (DataGridViewHandlerRename.HasBeenInitialized) DataGridViewHandlerRename.PopulateFile(dataGridViewRename, fileEntryAttribute, DataGridViewHandlerRename.ShowFullPath, metadataAutoCorrect);
                             if (DataGridViewHandlerConvertAndMerge.HasBeenInitialized) DataGridViewHandlerConvertAndMerge.PopulateFile(dataGridViewConvertAndMerge, fileEntryAttribute);
                             break;
                         case LinkTabAndDataGridViewNameRename:
-                            DataGridViewHandlerRename.PopulateFile(dataGridViewRename, fileEntryAttribute, DataGridViewHandlerRename.ShowFullPath, metadataAutoCorrect, true);
+                            DataGridViewHandlerRename.PopulateFile(dataGridViewRename, fileEntryAttribute, DataGridViewHandlerRename.ShowFullPath, metadataAutoCorrect);
 
                             if (DataGridViewHandlerTagsAndKeywords.HasBeenInitialized) DataGridViewHandlerTagsAndKeywords.PopulateFile(dataGridViewTagsAndKeywords, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
                             if (DataGridViewHandlerPeople.HasBeenInitialized) DataGridViewHandlerPeople.PopulateFile(dataGridViewPeople, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
@@ -1014,7 +1033,7 @@ namespace PhotoTagsSynchronizer
 
                             if (DataGridViewHandlerExiftool.HasBeenInitialized) DataGridViewHandlerExiftool.PopulateFile(dataGridViewExiftool, fileEntryAttribute, showWhatColumns);
                             if (DataGridViewHandlerExiftoolWarnings.HasBeenInitialized) DataGridViewHandlerExiftoolWarnings.PopulateFile(dataGridViewExiftoolWarning, fileEntryAttribute, showWhatColumns);
-                            if (DataGridViewHandlerRename.HasBeenInitialized) DataGridViewHandlerRename.PopulateFile(dataGridViewRename, fileEntryAttribute, DataGridViewHandlerRename.ShowFullPath, metadataAutoCorrect, true);
+                            if (DataGridViewHandlerRename.HasBeenInitialized) DataGridViewHandlerRename.PopulateFile(dataGridViewRename, fileEntryAttribute, DataGridViewHandlerRename.ShowFullPath, metadataAutoCorrect);
                             //if (DataGridViewHandlerConvertAndMerge.HasBeenInitialized) DataGridViewHandlerConvertAndMerge.PopulateFile(dataGridViewConvertAndMerge, fileEntryAttribute);
                             break;
                         default:
@@ -1038,60 +1057,14 @@ namespace PhotoTagsSynchronizer
         #region DataGridView - Populate Selected Files - OnActiveDataGridView - Thread
         private void DataGridView_Populate_SelectedItemsThread(HashSet<FileEntry> imageListViewSelectItems)
         {
-            Thread threadPopulateDataGridView = new Thread(() => {
-                DataGridView_Populate_SelectedItemsInvoke(imageListViewSelectItems);
-            });
+            DataGridView_Populate_SelectedItemsInvoke(imageListViewSelectItems);
 
-            threadPopulateDataGridView.Start();
-        }
-        #endregion
+            //Thread threadPopulateDataGridView = new Thread(() =>
+            //{
+            //    DataGridView_Populate_SelectedItemsInvoke(imageListViewSelectItems);
+            //});
 
-        #region DataGridView - CleanAll
-        private void DataGridView_CleanAll()
-        {
-            DataGridViewHandler.SetIsAgregated(dataGridViewTagsAndKeywords, false);
-            DataGridViewHandler.SetIsAgregated(dataGridViewPeople, false);
-            DataGridViewHandler.SetIsAgregated(dataGridViewMap, false);
-            DataGridViewHandler.SetIsAgregated(dataGridViewDate, false);
-
-            DataGridViewHandler.SetIsAgregated(dataGridViewExiftool, false);
-            DataGridViewHandler.SetIsAgregated(dataGridViewExiftoolWarning, false);
-            DataGridViewHandler.SetIsAgregated(dataGridViewProperties, false);
-            DataGridViewHandler.SetIsAgregated(dataGridViewRename, false);
-            DataGridViewHandler.SetIsAgregated(dataGridViewConvertAndMerge, false);
-
-        }
-        #endregion
-
-        #region DataGridView - Populate - MapLocation
-        private void DataGridView_Populate_MapLocation(FileEntryAttribute fileEntryAttribute, bool forceReloadUsingReverseGeocoder)
-        {
-            if (GlobalData.IsApplicationClosing) return;
-            if (this.InvokeRequired)
-            {
-                BeginInvoke(new Action<FileEntryAttribute, bool>(DataGridView_Populate_MapLocation), fileEntryAttribute, forceReloadUsingReverseGeocoder);
-                return;
-            }
-            DataGridView dataGridView = dataGridViewMap;
-
-            if (!DataGridViewHandler.GetIsAgregated(dataGridView)) 
-                return;
-            if (DataGridViewHandler.GetIsPopulating(dataGridView)) 
-                return;
-
-            int columnIndex = DataGridViewHandler.GetColumnIndexWhenAddColumn(dataGridView, fileEntryAttribute, out FileEntryVersionCompare fileEntryVersionCompare);
-            if (columnIndex != -1)
-            {
-                LocationNames.LocationCoordinate locationCoordinate = DataGridViewHandlerMap.GetUserInputLocationCoordinate(dataGridView, columnIndex, fileEntryAttribute);
-                bool createNewAccurateLocationUsingSearchLocation = DataGridViewHandlerMap.GetUserInputIsCreateNewAccurateLocationUsingSearchLocation(dataGridView, columnIndex, fileEntryAttribute);
-                
-                if (locationCoordinate != null)
-                {
-                    DataGridViewHandlerMap.PopulateGrivViewMapNomnatatim(dataGridView, columnIndex, locationCoordinate,
-                        onlyFromCache: false, canReverseGeocoder: true, forceReloadUsingReverseGeocoder: forceReloadUsingReverseGeocoder, 
-                        createNewAccurateLocationUsingSearchLocation: createNewAccurateLocationUsingSearchLocation);
-                }
-            }
+            //threadPopulateDataGridView.Start();
         }
         #endregion
 
@@ -1116,7 +1089,7 @@ namespace PhotoTagsSynchronizer
                 {
                     DataGridView dataGridView = GetActiveTabDataGridView();
 
-                    #region Layout - Ribbon / Favorite / Equal / Size
+                    #region Updated Layout - Ribbon / Favorite / Equal / Size
                     kryptonRibbonGroupButtonDataGridViewRowsFavorite.Checked = DataGridViewHandler.ShowFavouriteColumns(dataGridView);
                     kryptonRibbonGroupButtonDataGridViewRowsHideEqual.Checked = DataGridViewHandler.HideEqualColumns(dataGridView);
 
@@ -1175,11 +1148,13 @@ namespace PhotoTagsSynchronizer
                     SetRibbonDataGridViewShowWhatColumns(showWhatColumns, isColumnsEnabled);
                     #endregion
 
+                    #region Check if agregated, if not stop
                     if (dataGridView == null || DataGridViewHandler.GetIsAgregated(dataGridView))
                     {
                         LazyLoadingDataGridViewProgressUpdateStatus(-1);
                         return;
                     }
+                    #endregion
 
                     List<FileEntryAttribute> lazyLoading;
                     DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, true);
@@ -1318,11 +1293,10 @@ namespace PhotoTagsSynchronizer
                             checkBoxRenameShowFullPath.Checked = DataGridViewHandlerRename.ShowFullPath;
                             DataGridViewHandlerRename.HasBeenInitialized = true;
                             DataGridViewHandlerRename.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, dataGridViewSize, showWhatColumnsForTab, DataGridViewHandlerRename.ShowFullPath);
-                            AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(imageListViewSelectItems, FileEntryVersion.CurrentVersionInDatabase);
+                            AddQueueLazyLoadning_AllSources_CurrentWrittenDate_UseCurrentFileDate_MetadataAndRegionThumbnailsLock(imageListViewSelectItems, FileEntryVersion.CurrentVersionInDatabase);
                             //AddQueueLazyLoadning_AllSources_AllVersions_MetadataAndRegionThumbnailsLock_AfterPopulateSelectedFiles(imageListViewSelectItems);
                             #endregion
                             break;
-
                         case LinkTabAndDataGridViewNameConvertAndMerge:
                             #region dataGridViewConvertAndMerge
                             dataGridView = dataGridViewConvertAndMerge;
@@ -1348,40 +1322,38 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region DoNotRefreshImageListView - ImageListView
-        private bool DoNotTrigger_ImageListView_ItemUpdate()
+        #region DataGridView - Populate - MapLocation
+        private void DataGridView_Populate_MapLocation(FileEntryAttribute fileEntryAttribute, bool forceReloadUsingReverseGeocoder)
         {
-            return GlobalData.DoNotTrigger_ImageListView_ItemUpdate;
+            if (GlobalData.IsApplicationClosing) return;
+            if (this.InvokeRequired)
+            {
+                BeginInvoke(new Action<FileEntryAttribute, bool>(DataGridView_Populate_MapLocation), fileEntryAttribute, forceReloadUsingReverseGeocoder);
+                return;
+            }
+            DataGridView dataGridView = dataGridViewMap;
+
+            if (!DataGridViewHandler.GetIsAgregated(dataGridView))
+                return;
+            if (DataGridViewHandler.GetIsPopulating(dataGridView))
+                return;
+
+            int columnIndex = DataGridViewHandler.GetColumnIndexWhenAddColumn(dataGridView, fileEntryAttribute, out FileEntryVersionCompare fileEntryVersionCompare);
+            if (columnIndex != -1)
+            {
+                LocationNames.LocationCoordinate locationCoordinate = DataGridViewHandlerMap.GetUserInputLocationCoordinate(dataGridView, columnIndex, fileEntryAttribute);
+                bool createNewAccurateLocationUsingSearchLocation = DataGridViewHandlerMap.GetUserInputIsCreateNewAccurateLocationUsingSearchLocation(dataGridView, columnIndex, fileEntryAttribute);
+
+                if (locationCoordinate != null)
+                {
+                    DataGridViewHandlerMap.PopulateGrivViewMapNomnatatim(dataGridView, columnIndex, locationCoordinate,
+                        onlyFromCache: false, canReverseGeocoder: true, forceReloadUsingReverseGeocoder: forceReloadUsingReverseGeocoder,
+                        createNewAccurateLocationUsingSearchLocation: createNewAccurateLocationUsingSearchLocation);
+                }
+            }
         }
         #endregion
 
-        #region DoNotTriggerFolderTreeBeforeAndAfterSelect - Folder
-        private bool DoNotTrigger_TreeViewFolder_BeforeAndAfterSelect()
-        {
-            return GlobalData.DoNotTrigger_TreeViewFolder_BeforeAndAfterSelect;
-        }
-        #endregion
-
-        #region DoNotTriggerTreeViewFilterBeforeAndAfterCheck - Filter
-        private bool DoNotTrigger_TreeViewFilter_BeforeAndAfterCheck()
-        {
-            return GlobalData.DoNotTrigger_TreeViewFilter_BeforeAndAfterCheck;
-        }
-        #endregion
-
-        #region DoNotTrigger_ImageListView_SelectionChanged
-        private bool DoNotTrigger_ImageListView_SelectionChanged()
-        {
-            return GlobalData.DoNotTrigger_ImageListView_SelectionChanged;
-        }
-        #endregion
-
-        #region HasDataGridViewAggregatedAny
-        private bool HasDataGridViewAggregatedAny(string nameOfAction = "")
-        {
-            return GlobalData.HasDataGridViewAggregatedAny();
-        }
-        #endregion
 
         #region IsDragAndDropActive
         private bool IsDragAndDropActive()
@@ -1590,6 +1562,9 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+
+        #region DataGridView - Updated Filenames
+
         #region DataGridView - UpdatedFilename - RenameRows
         private void DataGridViewUpdatedFilenameRenameRows(DataGridView dataGridView, string oldFullFileName, string newFullFileName)
         {
@@ -1703,6 +1678,8 @@ namespace PhotoTagsSynchronizer
             }
         }
         #endregion
+        
+        #endregion
 
         #region DataGridView - CollectMetadataFromAllDataGridViewData - FileEntry
         private void CollectedMetadataFromAllDataGridView(FileEntryAttribute fileEntryAttribute, ref Metadata metadataFromDataGridView)
@@ -1713,7 +1690,6 @@ namespace PhotoTagsSynchronizer
                 if (GlobalData.IsAgregatedMap) DataGridViewHandlerMap.GetUserInputChanges(dataGridViewMap, ref metadataFromDataGridView, fileEntryAttribute);
                 if (GlobalData.IsAgregatedPeople) DataGridViewHandlerPeople.GetUserInputChanges(dataGridViewPeople, ref metadataFromDataGridView, fileEntryAttribute);
                 if (GlobalData.IsAgregatedDate) DataGridViewHandlerDate.GetUserInputChanges(dataGridViewDate, ref metadataFromDataGridView, fileEntryAttribute);
-                
             }
             catch (Exception ex)
             {
@@ -1766,6 +1742,8 @@ namespace PhotoTagsSynchronizer
                 FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(metadataFixedAndCorrected.FileEntry, FileEntryVersion.MetadataToSave);
 
                 int debugColumn = -1;
+
+                #region TagsAndKeywords
                 int columnIndexTagsAndKeywords = DataGridViewHandler.GetColumnIndexWhenAddColumn(dataGridViewTagsAndKeywords, fileEntryAttribute, out FileEntryVersionCompare fileEntryVersionCompareTagsAndKeywords);
                 if (DataGridViewHandler.IsColumnPopulated(dataGridViewTagsAndKeywords, columnIndexTagsAndKeywords))
                     DataGridViewHandler.SetColumnHeaderMetadata(dataGridViewTagsAndKeywords, metadataFixedAndCorrected, columnIndexTagsAndKeywords);
@@ -1776,7 +1754,9 @@ namespace PhotoTagsSynchronizer
                     //DEBUG
                     Logger.Warn("Column updated between user action and thread");
                 }
+                #endregion
 
+                #region People
                 int columnIndexPeople = DataGridViewHandler.GetColumnIndexWhenAddColumn(dataGridViewPeople, fileEntryAttribute, out FileEntryVersionCompare fileEntryVersionComparePeople);
                 if (DataGridViewHandler.IsColumnPopulated(dataGridViewPeople, columnIndexPeople))
                     DataGridViewHandler.SetColumnHeaderMetadata(dataGridViewPeople, metadataFixedAndCorrected, columnIndexPeople);
@@ -1786,7 +1766,9 @@ namespace PhotoTagsSynchronizer
                     //DEBUG
                     Logger.Warn("Column updated between user action and thread");
                 }
+                #endregion
 
+                #region Map
                 int columnIndexMap = DataGridViewHandler.GetColumnIndexWhenAddColumn(dataGridViewMap, fileEntryAttribute, out FileEntryVersionCompare fileEntryVersionCompareMap);
                 if (DataGridViewHandler.IsColumnPopulated(dataGridViewMap, columnIndexMap))
                     DataGridViewHandler.SetColumnHeaderMetadata(dataGridViewMap, metadataFixedAndCorrected, columnIndexMap);
@@ -1796,7 +1778,9 @@ namespace PhotoTagsSynchronizer
                     //DEBUG
                     Logger.Warn("Column updated between user action and thread");
                 }
+                #endregion
 
+                #region Date
                 int columnIndexDate = DataGridViewHandler.GetColumnIndexWhenAddColumn(dataGridViewDate, fileEntryAttribute, out FileEntryVersionCompare fileEntryVersionCompareDate);
                 if (DataGridViewHandler.IsColumnPopulated(dataGridViewDate, columnIndexDate))
                     DataGridViewHandler.SetColumnHeaderMetadata(dataGridViewDate, metadataFixedAndCorrected, columnIndexDate);
@@ -1806,6 +1790,15 @@ namespace PhotoTagsSynchronizer
                     //DEBUG 
                     Logger.Warn("Column updated between user action and thread");
                 }
+                #endregion
+
+                #region Rename
+
+                #endregion
+
+                #region ConvertAndMerge
+
+                #endregion
 
             }
             catch (Exception ex)
