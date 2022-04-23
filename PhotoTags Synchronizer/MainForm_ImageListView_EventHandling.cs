@@ -34,12 +34,12 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ImageListView - Update Thumbnail - UpdateAll - Invoke (ImageListViewItem.Update)
-        private void ImageListView_UpdateItemThumbnailUpdateAllIfFileStatusChangedInvoke(FileEntry fileEntry, FileStatus fileStatus)
+        #region ImageListView - Update Thumbnail - UpdateAll - Only when need - Invoke (ImageListViewItem.Update)
+        private void ImageListView_UpdateItemThumbnailUpdateAll_OnlyIfFileStatusHasChangedInvoke(FileEntry fileEntry, FileStatus fileStatus)
         {
             if (InvokeRequired)
             {
-                this.BeginInvoke(new Action<FileEntry>(ImageListView_UpdateItemThumbnailUpdateAllInvoke), fileEntry);
+                this.BeginInvoke(new Action<FileEntry, FileStatus>(ImageListView_UpdateItemThumbnailUpdateAll_OnlyIfFileStatusHasChangedInvoke), fileEntry, fileStatus);
                 return;
             }
 
@@ -47,8 +47,9 @@ namespace PhotoTagsSynchronizer
             if (foundItem != null)
             {
                 if (foundItem.FileStatus.IsInCloud != fileStatus.IsInCloud ||
-                    foundItem.FileStatus.LastWrittenDateTime != fileStatus.LastWrittenDateTime) foundItem.Update();
-            }
+                    foundItem.FileStatus.LastWrittenDateTime != fileStatus.LastWrittenDateTime) 
+                    foundItem.Update();
+            } 
         }
         #endregion
 
@@ -113,9 +114,6 @@ namespace PhotoTagsSynchronizer
 
                         foundItem.UpdateDetails(fileMetadata);
                         KeepTrackOfMetadataLoadedRemoveFromList(fileEntryAttribute.FileFullPath);
-                    } else
-                    {
-                        //DEBUG, Due to Change Folder on ImageListView
                     }
                 }
                 else
@@ -255,41 +253,33 @@ namespace PhotoTagsSynchronizer
         private void imageListView1_RetrieveItemMetadataDetails(object sender, RetrieveItemMetadataDetailsEventArgs e)
         {
             if (GlobalData.IsApplicationClosing) return;
-            if (DoNotTrigger_ImageListView_ItemUpdate()) return;
+            if (GlobalData.DoNotTrigger_ImageListView_ItemUpdate) return;
             if (imageListView1.IsDisposed) return;
 
             //PS. Note: Make sure that the RetrieveItemMetadataDetails don't go in endless loop. Read data, flags as still dirty, read again, etc..
             try
             {
-                Metadata metadata;
-                FileEntryBroker fileEntryBroker;
-
-                #region Update FileStatus
                 FileStatus fileStatus = FileHandler.GetFileStatus(e.FileName, exiftoolProcessStatus: ExiftoolProcessStatus.WaitAction);
+                FileEntryBroker fileEntryBroker = new FileEntryBroker(e.FileName, fileStatus.LastWrittenDateTime, MetadataBrokerType.ExifTool);
+                
+                #region Assign Metadata - If file exist
+                Metadata metadata = null;
+                if (fileStatus.FileExists) metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBroker);
                 #endregion
-
-                if (fileStatus.FileExists)
-                {
-                    fileEntryBroker = new FileEntryBroker(e.FileName, FileHandler.GetLastWriteTime(e.FileName), MetadataBrokerType.ExifTool);
-                    metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBroker);
-                }
-                else
-                {
-                    fileEntryBroker = new FileEntryBroker(e.FileName, DateTime.MinValue, MetadataBrokerType.ExifTool);
-                    metadata = null;
-                }
 
                 if (metadata == null || metadata.FileName == null)
                 {
-                    FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(fileEntryBroker, FileEntryVersion.CurrentVersionInDatabase);
-
+                    #region Init data
                     e.FileMetadata = new Utility.ShellImageFileInfo(); //Tell that data is create, all is good for internal void UpdateDetailsInternal(Utility.ShellImageFileInfo info)
                     e.FileMetadata.SetPropertyStatusOnAll(PropertyStatus.Requested); //All data will be read, it's in Lazy loading queue
+                    #endregion
 
+                    #region Error message
                     string inCloudOrNotExistError = FileHandler.ConvertFileStatusToText(fileStatus);
                     if (string.IsNullOrWhiteSpace(inCloudOrNotExistError)) inCloudOrNotExistError = "Info Requested";
+                    #endregion
 
-                    #region Assign metadata
+                    #region Assign metadata (what exist, mostly emty)
 
                     #region Provided by FileInfo
                     e.FileMetadata.FileDateCreated = DateTime.MinValue;
@@ -312,15 +302,20 @@ namespace PhotoTagsSynchronizer
 
                     e.FileMetadata.FileMimeType = Path.GetExtension(e.FileName);
                     e.FileMetadata.FileDirectory = Path.GetDirectoryName(e.FileName);
+                    
+                    e.FileMetadata.DisplayName = Path.GetFileName(e.FileName);
+                    //e.FileMetadata.Name= e.FileName;
+                    e.FileMetadata.Extension = Path.GetExtension(e.FileName);
+                    e.FileMetadata.FileAttributes = FileAttributes.Normal;
                     #endregion
 
-                    #region Provided by ShellImageFileInfo, MagickImage                                
+                    #region Empty - Normally Provided by ShellImageFileInfo, MagickImage                             
                     e.FileMetadata.CameraMake = inCloudOrNotExistError;
                     e.FileMetadata.CameraModel = inCloudOrNotExistError;
                     e.FileMetadata.MediaDimensions = new Size(0, 0);
                     #endregion
 
-                    #region Provided by MagickImage, Exiftool
+                    #region Empty - Normally Provided by MagickImage, Exiftool
                     e.FileMetadata.MediaDateTaken = DateTime.MinValue;
                     e.FileMetadata.MediaTitle = inCloudOrNotExistError;
                     e.FileMetadata.MediaDescription = inCloudOrNotExistError;
@@ -329,7 +324,7 @@ namespace PhotoTagsSynchronizer
                     e.FileMetadata.MediaRating = 0;
                     #endregion
 
-                    #region Provided by Exiftool
+                    #region Empty - Normally Provided by Exiftool
                     e.FileMetadata.MediaAlbum = inCloudOrNotExistError;
                     e.FileMetadata.LocationDateTime = DateTime.MinValue;
                     e.FileMetadata.LocationTimeZone = inCloudOrNotExistError;
@@ -340,16 +335,11 @@ namespace PhotoTagsSynchronizer
                     #endregion
 
                     #endregion
-                
-                    #region Provided by FileInfo
-                    e.FileMetadata.DisplayName = Path.GetFileName(e.FileName);
-                    //e.FileMetadata.Name= e.FileName;
-                    e.FileMetadata.Extension = Path.GetExtension(e.FileName);
-                    e.FileMetadata.FileAttributes = FileAttributes.Normal;
-                    #endregion
 
-                    #region Check if has Record with Error - flag it with FileInaccessibleOrError
+                    FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(fileEntryBroker, FileEntryVersion.CurrentVersionInDatabase);
                     FileEntryBroker fileEntryBrokerError = new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.ExifTool | MetadataBrokerType.ExifToolWriteError);
+
+                    #region ReadMetadata (BrokerError) Check if has Record with Error - flag it with FileInaccessibleOrError
                     Metadata metadataError = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBrokerError);
                     if (metadataError != null)
                     {
@@ -360,25 +350,29 @@ namespace PhotoTagsSynchronizer
                     #endregion
 
                     #region Add to read queue, when data missing and not marked as Error record
-                    if (metadataError == null && fileStatus.FileExists) 
+                    if (metadataError == null && fileStatus.FileExists)
+                    {
                         AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(fileEntryAttribute); //JTN: If Check ImmageListViewItems attributes, will create Loop
+                    }
                     #endregion
-
                 }
                 else
                 {
+                    #region Return Metadata found
                     PopulateTreeViewFolderFilterAdd(metadata);
                     KeepTrackOfMetadataLoadedRemoveFromList(metadata.FileFullPath);
                     Utility.ShellImageFileInfo fileMetadata = new Utility.ShellImageFileInfo();
                     ConvertMetadataToShellImageFileInfo(ref fileMetadata, metadata);
                     e.FileMetadata = fileMetadata;
                     fileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.WaitAction;
+                    #endregion
                 }
                 e.FileMetadata.FileStatus = fileStatus;
 
             }
             catch (Exception ex)
             {
+                #region Exception Handling
                 Logger.Error(ex, "imageListView1_RetrieveItemMetadataDetails");
                 if (e.FileMetadata == null) e.FileMetadata = new Utility.ShellImageFileInfo();
                 e.FileMetadata.DisplayName = Path.GetFileName(e.FileName);
@@ -392,8 +386,8 @@ namespace PhotoTagsSynchronizer
                         exiftoolProcessStatus: ExiftoolProcessStatus.FileInaccessibleOrError);
                     e.FileMetadata.FileStatus = fileStatus;
                     e.FileMetadata.SetPropertyStatusOnAll(PropertyStatus.IsSet);
-                    //No need - ImageListView_UpdateItemFileStatusInvoke(e.FileName, fileStatus);
                 }
+                #endregion
             }
         }
         #endregion
@@ -407,7 +401,7 @@ namespace PhotoTagsSynchronizer
         private void imageListView1_RetrieveItemThumbnail(object sender, RetrieveItemThumbnailEventArgs e)
         {
             if (GlobalData.IsApplicationClosing) return;
-            if (DoNotTrigger_ImageListView_ItemUpdate()) return;
+            if (GlobalData.DoNotTrigger_ImageListView_ItemUpdate) return;
             if (imageListView1.IsDisposed) return;
 
             try
@@ -623,19 +617,18 @@ namespace PhotoTagsSynchronizer
                     FastGroupSelection_Clear();
                     SetDataGridViewForLocationAnalytics();
                     ClearQueueLazyLoadningSelectedFilesLock();
-                    //Was outside
 
                     GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
 
                     HashSet<FileEntry> fileEntries = ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, allowUseCache);
-                    ImageListView_SelectionChanged_Action_RemoveNoneExistFilesFromSelectedFiles(ref fileEntries);
+                    ImageListView_SelectionChanged_Action_CheckFileStatusRemoveNoneExistFilesFromSelectedFiles(ref fileEntries);
                     DataGridView_CleanAll();
                     
                     DataGridView_Populate_SelectedItemsThread(fileEntries);
+
                     PopulateImageListViewOpenWithToolStripThread(fileEntries, ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true));
                     UpdateRibbonsWhenWorkspaceChanged();
 
-                    //Was outside
                     MaximizeOrRestoreWorkspaceMainCellAndChilds();
                 }
             }
@@ -653,18 +646,28 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ImageListView - SelectionChanged Action - RemoveNoneExistFilesFromSelectedFiles
-        private void ImageListView_SelectionChanged_Action_RemoveNoneExistFilesFromSelectedFiles(ref HashSet<FileEntry> fileEntries)
+        #region ImageListView - SelectionChanged Action - CheckFileStatusRemoveNoneExistFilesFromSelectedFiles
+        private void ImageListView_SelectionChanged_Action_CheckFileStatusRemoveNoneExistFilesFromSelectedFiles(ref HashSet<FileEntry> fileEntries)
         {
             try
             {
                 HashSet<FileEntry> filesDoesNotExist = new HashSet<FileEntry>();
                 foreach (FileEntry fileEntry in fileEntries)
                 {
-                    if (!File.Exists(fileEntry.FileFullPath) && !filesDoesNotExist.Contains(fileEntry)) filesDoesNotExist.Add(fileEntry);
+                    DateTime dateTime = FileHandler.GetLastWriteTime(fileEntry.FileFullPath);
+                    #region Mark file not exist anymore
+                    if (dateTime <= FileHandler.MinimumFileSystemDateTime && !filesDoesNotExist.Contains(fileEntry)) filesDoesNotExist.Add(fileEntry);
+                    #endregion
+
+                    #region Force refesh if file has changed
+                    if (dateTime > FileHandler.MinimumFileSystemDateTime && dateTime != fileEntry.LastWriteDateTime) 
+                        ImageListView_UpdateItemThumbnailUpdateAllInvoke(fileEntry);
+                    #endregion
                 }
+
                 if (filesDoesNotExist.Count > 0)
                 {
+                    #region Create "shorten" list of none existing files 
                     string listOfFiles = "";
                     int count = 0;
                     foreach (FileEntry fileEntry in filesDoesNotExist)
@@ -676,7 +679,9 @@ namespace PhotoTagsSynchronizer
                             break;
                         }
                     }
+                    #endregion 
 
+                    #region Show MessageBox of none existing files, ask to remove from ImageListView
                     if (KryptonMessageBox.Show(
                         (filesDoesNotExist.Count == 1 ? "File" : filesDoesNotExist.Count.ToString() + " files") + " doesn't exsist anymore\r\n" +
                         "The files will be removed from the list of media files and from the database.\r\n\r\n" +
@@ -692,6 +697,7 @@ namespace PhotoTagsSynchronizer
                             ImageListViewHandler.ClearCacheFileEntries(imageListView1);
                         }
                     }
+                    #endregion
                 }
             }
             catch (Exception ex)

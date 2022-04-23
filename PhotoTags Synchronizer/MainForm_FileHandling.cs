@@ -188,7 +188,7 @@ namespace PhotoTagsSynchronizer
 
             if (GlobalData.IsApplicationClosing) return;
 
-            if (DoNotTrigger_ImageListView_SelectionChanged()) return;
+            if (GlobalData.DoNotTrigger_ImageListView_SelectionChanged) return;
 
             try
             {
