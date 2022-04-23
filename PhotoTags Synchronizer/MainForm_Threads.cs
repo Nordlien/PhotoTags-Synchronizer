@@ -527,13 +527,24 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region LazyLoading - Add - All Sources / No History / Metadata And Region Thumbnails - AddQueue - (Read order: Cache, Database, Source)
-        public void AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(HashSet<FileEntry> fileEntries, FileEntryVersion fileEntryVersion)
+        #region LazyLoading - Add - All Sources / Current File Written Date / Metadata And Region Thumbnails - AddQueue - (Read order: Cache, Database, Source)
+        public void AddQueueLazyLoadning_AllSources_CurrentWrittenDate_UseCurrentFileDate_MetadataAndRegionThumbnailsLock(HashSet<FileEntry> fileEntries, FileEntryVersion fileEntryVersion)
         {
             List<FileEntryAttribute> fileEntryAttributes = new List<FileEntryAttribute>();
             foreach (FileEntry fileEntry in fileEntries)
             {
-                fileEntryAttributes.Add(new FileEntryAttribute(fileEntry, fileEntryVersion));
+                #region Add to list, if file exist and use current written date 
+                DateTime dateTime = FileHandler.GetLastWriteTime(fileEntry.FileFullPath);
+                if (dateTime > FileHandler.MinimumFileSystemDateTime) //If file not exist, written date becomes MinimumFileSystemDateTime
+                {
+                    FileEntry fileEntryCurrent = new FileEntry(fileEntry.FileFullPath, dateTime);
+                    if (fileEntry.LastWriteDateTime != dateTime) ImageListView_UpdateItemThumbnailUpdateAllInvoke(fileEntryCurrent);
+                    fileEntryAttributes.Add(new FileEntryAttribute(fileEntryCurrent, fileEntryVersion));
+                } else
+                {
+                    //DEBUG - FIle not exist anymore
+                }
+                #endregion 
             }
             AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(fileEntryAttributes);
             TriggerAutoResetEventQueueEmpty();
@@ -1038,7 +1049,7 @@ namespace PhotoTagsSynchronizer
                                             } else
                                             {
                                                 FileStatus fileStatus = FileHandler.GetFileStatus(fileEntryImage.FileFullPath);
-                                                ImageListView_UpdateItemThumbnailUpdateAllIfFileStatusChangedInvoke(fileEntryImage, fileStatus);
+                                                ImageListView_UpdateItemThumbnailUpdateAll_OnlyIfFileStatusHasChangedInvoke(fileEntryImage, fileStatus);
                                             }
                                         }
                                     }
@@ -1477,7 +1488,7 @@ namespace PhotoTagsSynchronizer
                                                     {
                                                         isMetadataHavingErrors = true;
 
-                                                        #region Add Veridy Error (Not read error)
+                                                        #region Add Verified Error (Not read error)
                                                         AddError(
                                                             metadataUpdatedByUserCopy.FileEntryBroker.Directory, metadataUpdatedByUserCopy.FileEntryBroker.FileName, metadataUpdatedByUserCopy.FileEntryBroker.LastWriteDateTime,
                                                             AddErrorExiftooRegion, AddErrorExiftooCommandVerify,
@@ -1500,7 +1511,7 @@ namespace PhotoTagsSynchronizer
                                                         DataGridViewSetMetadataOnAllDataGridView(metadataRead);
                                                         DataGridViewSetDirtyFlagAfterSave(metadataRead, true);
 
-                                                        #region
+                                                        #region Populate - Current ImageListView Item - With erros info
                                                         FileStatus fileStatusVerify = FileHandler.GetFileStatus(
                                                             metadataError.FileFullPath, checkLockedStatus: true, checkLockStatusTimeout: FileHandler.GetFileLockedStatusTimeout,
                                                             hasErrorOccured: true, errorMessage: "Verify data failed",
@@ -1508,7 +1519,7 @@ namespace PhotoTagsSynchronizer
                                                         ImageListView_UpdateItemFileStatusInvoke(metadataError.FileFullPath, fileStatusVerify);
                                                         #endregion
 
-                                                        #region DatagridView - Add new Error Coloumn
+                                                        #region Populate - Current DataGridView Column - Add new Error Coloumn
                                                         FileEntryAttribute fileEntryAttributeError = new FileEntryAttribute(
                                                             metadataError.FileFullPath, (DateTime)metadataError.FileDateModified, FileEntryVersion.Error);
                                                         AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(fileEntryAttributeError);
@@ -1519,28 +1530,33 @@ namespace PhotoTagsSynchronizer
                                                     //Data was read, (even with errors), need to updated datagrid
                                                     AddQueueSaveToDatabaseRegionAndThumbnailLock(metadataRead);
 
-                                                    FileStatus fileStatus = FileHandler.GetFileStatus(metadataRead.FileFullPath);
-                                                    if (isMetadataHavingErrors)
+                                                    if (!isMetadataHavingErrors) //If have error, already populated, with error info
                                                     {
-                                                        fileStatus.HasErrorOccured = true;
-                                                        fileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.FileInaccessibleOrError;
+                                                        #region Populate - Current ImageListView Item - If no erros
+                                                        FileStatus fileStatus = FileHandler.GetFileStatus(metadataRead.FileFullPath);
+                                                        if (isMetadataHavingErrors)
+                                                        {
+                                                            fileStatus.HasErrorOccured = true;
+                                                            fileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.FileInaccessibleOrError;
+                                                        }
+                                                        else
+                                                        {
+                                                            fileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.WaitAction;
+                                                        }
+
+                                                        FileEntryAttribute fileEntryAttributeExtractedNowUsingExiftool = new FileEntryAttribute(metadataRead.FileFullPath,
+                                                            (DateTime)metadataRead.FileDateModified,
+                                                            FileEntryVersion.ExtractedNowUsingExiftool);
+                                                        //ImageListView_UpdateItemFileStatusInvoke(metadataRead.FileFullPath, fileStatus);
+                                                        ImageListView_UpdateItemExiftoolMetadataInvoke(fileEntryAttributeExtractedNowUsingExiftool, fileStatus);
+                                                        #endregion
+
+                                                        #region Populate - Current DataGridView Column - If no errors
+                                                        AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(fileEntryAttributeExtractedNowUsingExiftool);
+                                                        #endregion
                                                     }
-                                                    else
-                                                        fileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.WaitAction;
 
-                                                    #region Populate - Current ImageListView Item - Current DataGridView Column
-                                                    FileEntryAttribute fileEntryAttributeExtractedNowUsingExiftool = new FileEntryAttribute(metadataRead.FileFullPath,
-                                                        (DateTime)metadataRead.FileDateModified,
-                                                        FileEntryVersion.ExtractedNowUsingExiftool);
-
-                                                    //ImageListView_UpdateItemFileStatusInvoke(metadataRead.FileFullPath, fileStatus);
-                                                    ImageListView_UpdateItemExiftoolMetadataInvoke(fileEntryAttributeExtractedNowUsingExiftool, fileStatus);
-                                                    
-
-                                                    if (!isMetadataHavingErrors) AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(fileEntryAttributeExtractedNowUsingExiftool);
-                                                    #endregion
-
-                                                    #region Populate - Current/Historical - DataGridView
+                                                    #region Populate - Historical DataGridView Column 
                                                     FileEntryAttribute fileEntryAttributeHistorical = new FileEntryAttribute(metadataRead.FileFullPath,
                                                         (DateTime)metadataRead.FileDateModified,
                                                         FileEntryVersion.Historical);
