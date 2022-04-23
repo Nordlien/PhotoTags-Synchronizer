@@ -21,9 +21,9 @@ namespace PhotoTagsSynchronizer
         private void treeViewFolderBrowser1_BeforeSelect(object sender, TreeViewCancelEventArgs e)
         {
             if (GlobalData.IsApplicationClosing) e.Cancel = true;
-            if (!DoNotTrigger_TreeViewFolder_BeforeAndAfterSelect())
+            if (!GlobalData.DoNotTrigger_TreeViewFolder_BeforeAndAfterSelect)
             {
-                if (DoNotTrigger_TreeViewFilter_BeforeAndAfterCheck()) e.Cancel = true;
+                if (GlobalData.DoNotTrigger_TreeViewFilter_BeforeAndAfterCheck) e.Cancel = true;
                 if (GlobalData.IsPopulatingImageListViewFromFolderOrDatabaseList) e.Cancel = true;
                 else if (IsPopulatingAnything("Select Items")) e.Cancel = true;
                 else if (SaveBeforeContinue(true) == DialogResult.Cancel) e.Cancel = true;
@@ -34,7 +34,7 @@ namespace PhotoTagsSynchronizer
         #region TreeViewFolderBrowser - AfterSelect - Click
         private void treeViewFolderBrowser1_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            if (DoNotTrigger_TreeViewFolder_BeforeAndAfterSelect()) return;
+            if (GlobalData.DoNotTrigger_TreeViewFolder_BeforeAndAfterSelect) return;
             if (IsDragAndDropActive()) return;
             
             try
