@@ -5974,7 +5974,7 @@ namespace PhotoTagsSynchronizer
         private void SaveDataGridViewMetadata(bool useAutoCorrect)
         {
             if (GlobalData.IsApplicationClosing) return;
-            if (!HasDataGridViewAggregatedAny()) return;
+            if (!GlobalData.HasDataGridViewAggregatedAny()) return;
 
             try
             {
@@ -9311,7 +9311,7 @@ namespace PhotoTagsSynchronizer
         private void AutoCorrectFormDataGridView(FileEntryVersion fileEntryVersion)
         {
             if (GlobalData.IsApplicationClosing) return;
-            if (!HasDataGridViewAggregatedAny()) return;
+            if (!GlobalData.HasDataGridViewAggregatedAny()) return;
 
             DataGridView dataGridView = GetActiveTabDataGridView();
 
@@ -9402,7 +9402,6 @@ namespace PhotoTagsSynchronizer
                     }
 
                     ImageListView_UpdateItemThumbnailUpdateAllInvoke(fileEntry);
-                    //ImageListView_UpdateItemFileStatusInvoke(fileEntry.FileFullPath, fileStatus);
                 }
             }
             #endregion
