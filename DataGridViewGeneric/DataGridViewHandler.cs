@@ -1602,9 +1602,17 @@ namespace DataGridViewGeneric
         #region Column handling - GetColumnDataGridViewGenericColumn
         public static DataGridViewGenericColumn GetColumnDataGridViewGenericColumn(DataGridView dataGridView, int columnIndex)
         {
-            if (columnIndex < 0) return null; 
-            if (columnIndex >= dataGridView.ColumnCount) return null; //This can happen when using cache and switch between tabs
-            return dataGridView.Columns[columnIndex].Tag as DataGridViewGenericColumn;
+            DataGridViewGenericColumn dataGridViewGenericColumn = null;
+            try
+            {
+                if (columnIndex < 0) return null;
+                if (columnIndex >= dataGridView.ColumnCount) return null; //This can happen when using cache and switch between tabs
+                dataGridViewGenericColumn = dataGridView.Columns[columnIndex].Tag as DataGridViewGenericColumn;
+            } catch
+            {
+                //DEBUG
+            }
+            return dataGridViewGenericColumn;
         }
         #endregion
 
