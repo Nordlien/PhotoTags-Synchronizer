@@ -36,10 +36,14 @@ namespace FileHandeling
         public static DateTime GetLastWriteTime(string fullFileName, bool waitAndRetry = true)
         {
             DateTime currentLastWrittenDateTime = File.GetLastWriteTime(fullFileName);
-            if (waitAndRetry && currentLastWrittenDateTime < new DateTime(1700, 1, 1, 1, 1, 1))
+            if (waitAndRetry && currentLastWrittenDateTime <= FileHandler.MinimumFileSystemDateTime)
             {
-                Thread.Sleep(1000);
-                currentLastWrittenDateTime = File.GetLastWriteTime(fullFileName);
+                int retryCount = 40;
+                do
+                {
+                    Thread.Sleep(25);
+                    currentLastWrittenDateTime = File.GetLastWriteTime(fullFileName);
+                } while (retryCount-- > 0 && currentLastWrittenDateTime <= FileHandler.MinimumFileSystemDateTime);
                 //DEBUG
             }
             return currentLastWrittenDateTime;
@@ -95,7 +99,7 @@ namespace FileHandeling
                 fileStatus.IsOffline = fileStatus.FileExists && (fileInfo == null ? false : (fileInfo.Attributes & FileAttributes.Offline) == FileAttributes.Offline);
                 #endregion
 
-                if (fileStatus.FileExists) fileStatus.LastWrittenDateTime = GetLastWriteTime(fullFileName);
+                if (fileStatus.FileExists) fileStatus.LastWrittenDateTime = GetLastWriteTime(fullFileName, waitAndRetry: false);
                 else fileStatus.LastWrittenDateTime = DateTime.MinValue;
 
                 #region File - Locks and Access rights
@@ -160,7 +164,7 @@ namespace FileHandeling
                 catch { }
                 try
                 {
-                    status = status + "\r\nLast Write Time: " + FileHandler.GetLastWriteTime(fullFileName).ToString();
+                    status = status + "\r\nLast Write Time: " + fileStatus.LastWrittenDateTime.ToString();
                 }
                 catch { }
             }
@@ -586,288 +590,6 @@ namespace FileHandeling
         public static string CombineApplicationPathWithFilename(string filename)
         {
             return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, filename);
-        }
-        #endregion
-
-        #region FixOneDriveIssues 
-        public static List<string> FixOneDriveIssues(HashSet<FileEntry> fileEntries, out List<string> notFixed, List<string> listOfNetworkNames,
-            bool fixError = false, bool moveToRecycleBin = true,
-            MetadataDatabaseCache metadataDatabaseCache = null)
-        {
-            List<string> foundOrRemovedFiles = new List<string>();
-            notFixed = new List<string>();
-
-            foreach (string networkName in listOfNetworkNames)
-            {
-                string machineName = "-" + networkName;
-                int machineNameLength = machineName.Length;
-
-                foreach (FileEntry fileEntryMaybeHasMachineName in fileEntries)
-                {
-                    bool machineNameFound = false;
-
-                    string filenameWithoutExtension = Path.GetFileNameWithoutExtension(fileEntryMaybeHasMachineName.FileName);
-                    int indexOfMachineName = filenameWithoutExtension.IndexOf(machineName, StringComparison.OrdinalIgnoreCase);
-                    if (indexOfMachineName >= 0)
-                    {
-                        #region Get Filename without <-MachineName-xx>
-                        int charsBehindMachineName = filenameWithoutExtension.Length - indexOfMachineName - machineNameLength;
-
-                        if (charsBehindMachineName == 0) machineNameFound = true;
-                        else if (charsBehindMachineName == 1) machineNameFound = false;
-                        else if (charsBehindMachineName == 2)
-                        {
-                            if (filenameWithoutExtension[indexOfMachineName + machineNameLength] == '-' &&
-                                char.IsDigit(filenameWithoutExtension[indexOfMachineName + machineNameLength + 1])) machineNameFound = true; //numberExtraCharBehind = 2;
-
-                        }
-                        else if (charsBehindMachineName == 3)
-                        {
-                            if (fileEntryMaybeHasMachineName.FileFullPath[indexOfMachineName + machineNameLength] == '-' &&
-                                char.IsDigit(filenameWithoutExtension[indexOfMachineName + machineNameLength + 1]) &&
-                                char.IsDigit(filenameWithoutExtension[indexOfMachineName + machineNameLength + 2])) machineNameFound = true; //numberExtraCharBehind = 3;
-                        }
-                        else
-                        {
-                            if (filenameWithoutExtension.IndexOf(machineName, indexOfMachineName, StringComparison.OrdinalIgnoreCase) != -1)
-                                machineNameFound = true;
-                            else
-                                machineNameFound = false;
-                        }
-                        #endregion
-
-                        #region pathWithoutMachineName
-                        string pathWithoutMachineName = filenameWithoutExtension.Substring(0, indexOfMachineName);
-                        FileEntry fileEntryWithoutMachineName = new FileEntry(
-                            Path.Combine(
-                                Path.GetDirectoryName(fileEntryMaybeHasMachineName.FileFullPath),
-                            pathWithoutMachineName + Path.GetExtension(fileEntryMaybeHasMachineName.FileFullPath)),
-                            fileEntryMaybeHasMachineName.LastWriteDateTime);
-                        #endregion
-
-                        if (machineNameFound && !fixError)
-                        {
-                            #region Add to Found files list
-                            if (FileEntry.FullFileNameExist(fileEntries, fileEntryWithoutMachineName.FileFullPath))
-                            {
-                                if (!foundOrRemovedFiles.Contains(fileEntryWithoutMachineName.FileFullPath)) foundOrRemovedFiles.Add(fileEntryWithoutMachineName.FileFullPath);
-                                foundOrRemovedFiles.Add(fileEntryMaybeHasMachineName.FileFullPath);
-                            }
-                            #endregion
-                        }
-                        else
-                        if (fixError)
-                        {
-                            FileEntry fileEntryFoundfileWithoutMachineName = FileEntry.FindFileEntryByFullFileName(fileEntries, fileEntryWithoutMachineName.FileFullPath);
-                            if (fileEntryFoundfileWithoutMachineName != null)
-                            {
-                                #region Create FileEntry Broker
-                                FileEntryBroker fileEntryBrokerExiftoolWithoutMachineName = new FileEntryBroker(
-                                    fileEntryFoundfileWithoutMachineName.FileFullPath, FileHandler.GetLastWriteTime(fileEntryFoundfileWithoutMachineName.FileFullPath), MetadataBrokerType.ExifTool);
-                                FileEntryBroker fileEntryBrokerSavedWithoutMachineName = new FileEntryBroker(
-                                    fileEntryFoundfileWithoutMachineName.FileFullPath, DateTime.MinValue, MetadataBrokerType.UserSavedData);
-
-                                FileEntryBroker fileEntryBrokerExiftoolHasMachineName = new FileEntryBroker(
-                                    fileEntryMaybeHasMachineName.FileFullPath, FileHandler.GetLastWriteTime(fileEntryMaybeHasMachineName.FileFullPath), MetadataBrokerType.ExifTool);
-                                FileEntryBroker fileEntryBrokerSavedHasMachineName = new FileEntryBroker(
-                                    fileEntryMaybeHasMachineName.FileFullPath, DateTime.MinValue, MetadataBrokerType.UserSavedData);
-                                #endregion
-
-                                #region Read Metadata
-                                Metadata metadataExiftoolWithoutMachineName = metadataDatabaseCache.ReadMetadataFromCacheOrDatabase(fileEntryBrokerExiftoolWithoutMachineName);
-                                Metadata metadataSavedWithoutMachineName = metadataDatabaseCache.ReadMetadataFromCacheOrDatabase(fileEntryBrokerSavedWithoutMachineName);
-
-                                Metadata metadataExiftoolHasMachineName = metadataDatabaseCache.ReadMetadataFromCacheOrDatabase(fileEntryBrokerExiftoolHasMachineName);
-                                Metadata metadataSavedHasMachineName = metadataDatabaseCache.ReadMetadataFromCacheOrDatabase(fileEntryBrokerSavedHasMachineName);
-                                #endregion
-
-                                if (metadataExiftoolWithoutMachineName != null && metadataExiftoolHasMachineName != null)
-                                {
-                                    #region Adjust Metadata
-                                    Metadata metadataExiftoolWithoutMachineNameCopy = new Metadata(metadataExiftoolWithoutMachineName);
-                                    metadataExiftoolWithoutMachineNameCopy.FileName = "";
-                                    metadataExiftoolWithoutMachineNameCopy.FileDirectory = "";
-                                    metadataExiftoolWithoutMachineNameCopy.Broker = MetadataBrokerType.Empty;
-                                    metadataExiftoolWithoutMachineNameCopy.FileDateModified = DateTime.MinValue;
-                                    metadataExiftoolWithoutMachineNameCopy.FileDateAccessed = DateTime.MinValue;
-                                    metadataExiftoolWithoutMachineNameCopy.FileSize = 0;
-
-                                    Metadata metadataExiftoolHasMachineNameCopy = new Metadata(metadataExiftoolHasMachineName);
-                                    metadataExiftoolHasMachineNameCopy.FileName = "";
-                                    metadataExiftoolHasMachineNameCopy.FileDirectory = "";
-                                    metadataExiftoolHasMachineNameCopy.Broker = MetadataBrokerType.Empty;
-                                    metadataExiftoolHasMachineNameCopy.FileDateModified = DateTime.MinValue;
-                                    metadataExiftoolHasMachineNameCopy.FileDateAccessed = DateTime.MinValue;
-                                    metadataExiftoolHasMachineNameCopy.FileSize = 0;
-
-                                    Metadata metadataSavedWithoutMachineNameCopy = null;
-                                    if (metadataSavedWithoutMachineName != null)
-                                    {
-                                        metadataSavedWithoutMachineNameCopy = new Metadata(metadataSavedWithoutMachineName);
-                                        metadataSavedWithoutMachineNameCopy.FileName = "";
-                                        metadataSavedWithoutMachineNameCopy.FileDirectory = "";
-                                        metadataSavedWithoutMachineNameCopy.Broker = MetadataBrokerType.Empty;
-                                        metadataSavedWithoutMachineNameCopy.FileDateModified = DateTime.MinValue;
-                                        metadataSavedWithoutMachineNameCopy.FileDateAccessed = DateTime.MinValue;
-                                        metadataSavedWithoutMachineNameCopy.FileSize = 0;
-                                    }
-
-                                    Metadata metadataSavedHasMachineNameCopy = null;
-                                    if (metadataSavedHasMachineName != null)
-                                    {
-                                        metadataSavedHasMachineNameCopy = new Metadata(metadataSavedHasMachineName);
-                                        metadataSavedHasMachineNameCopy.FileName = "";
-                                        metadataSavedHasMachineNameCopy.FileDirectory = "";
-                                        metadataSavedHasMachineNameCopy.Broker = MetadataBrokerType.Empty;
-                                        metadataSavedHasMachineNameCopy.FileDateModified = DateTime.MinValue;
-                                        metadataSavedHasMachineNameCopy.FileDateAccessed = DateTime.MinValue;
-                                        metadataSavedHasMachineNameCopy.FileSize = 0;
-                                    }
-                                    #endregion
-
-                                    bool winnerHasMachineName = false;
-                                    bool winnerWithoutMachineName = false;
-
-                                    #region Find a winner
-                                    //Without Machine Name - Exifdata == Saved data???
-                                    if (metadataExiftoolWithoutMachineNameCopy == metadataSavedWithoutMachineNameCopy) winnerWithoutMachineName = true;
-                                    if (metadataExiftoolWithoutMachineNameCopy == metadataSavedHasMachineNameCopy) winnerWithoutMachineName = true;
-
-                                    //--Has-- Machine Name - Exifdata == Saved data???
-                                    if (metadataExiftoolHasMachineNameCopy == metadataSavedHasMachineNameCopy) winnerHasMachineName = true;
-                                    if (metadataExiftoolHasMachineNameCopy == metadataSavedWithoutMachineNameCopy) winnerHasMachineName = true;
-
-
-
-                                    //Both version is Equal
-                                    if (metadataExiftoolHasMachineNameCopy == metadataExiftoolWithoutMachineNameCopy)
-                                    {
-                                        winnerHasMachineName = true;
-                                        winnerWithoutMachineName = true;
-                                    }
-                                    else
-                                    {
-                                        if (winnerHasMachineName && winnerWithoutMachineName)
-                                        {
-                                            winnerHasMachineName = false;
-                                            winnerWithoutMachineName = false;
-                                        }
-                                    }
-
-                                    //If no winner, Find a winner, even when has error
-                                    if (!winnerHasMachineName && !winnerWithoutMachineName)
-                                    {
-                                        if (metadataExiftoolWithoutMachineNameCopy != null && metadataSavedWithoutMachineNameCopy == null &&
-                                            metadataExiftoolHasMachineNameCopy != null && metadataSavedHasMachineNameCopy != null) winnerHasMachineName = true;
-
-                                        if (metadataExiftoolWithoutMachineNameCopy != null && metadataSavedWithoutMachineNameCopy != null &&
-                                            metadataExiftoolHasMachineNameCopy != null && metadataSavedHasMachineNameCopy == null) winnerWithoutMachineName = true;
-                                    }
-
-                                    #endregion
-
-                                    #region Delete loser
-
-                                    if (winnerHasMachineName && winnerWithoutMachineName)
-                                    {
-                                        #region Both are Winner, Keep newest
-                                        try
-                                        {
-                                            DateTime dateTimeWithoutMachineName = fileEntryWithoutMachineName.LastWriteDateTime;
-                                            DateTime dateTimeHasMachineName = fileEntryMaybeHasMachineName.LastWriteDateTime;
-
-                                            if (dateTimeHasMachineName > dateTimeWithoutMachineName)
-                                            {
-                                                try
-                                                {
-                                                    foundOrRemovedFiles.Add(fileEntryWithoutMachineName.FileFullPath);
-
-                                                    FileHandler.Delete(fileEntryWithoutMachineName.FileFullPath, moveToRecycleBin);
-                                                    FileHandler.Move(fileEntryMaybeHasMachineName.FileFullPath, fileEntryWithoutMachineName.FileFullPath);
-                                                }
-                                                catch (Exception ex)
-                                                {
-                                                    Logger.Error(ex);
-                                                    KryptonMessageBox.Show(ex.Message + "\r\nWas trying to replace\r\n" + fileEntryWithoutMachineName.FileFullPath + "\r\n with\r\n" + fileEntryMaybeHasMachineName.FileFullPath,
-                                                        "Was not able to remove duplicated file.", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-                                                }
-                                            }
-                                            else
-                                            {
-                                                try
-                                                {
-                                                    foundOrRemovedFiles.Add(fileEntryMaybeHasMachineName.FileFullPath);
-                                                    FileHandler.Delete(fileEntryMaybeHasMachineName.FileFullPath, moveToRecycleBin);
-                                                }
-                                                catch (Exception ex)
-                                                {
-                                                    Logger.Error(ex);
-                                                    KryptonMessageBox.Show(ex.Message + "\r\n" + fileEntryMaybeHasMachineName.FileFullPath,
-                                                        "Was not able to remove dubpliacted file.", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-                                                }
-                                            }
-                                        }
-                                        catch (Exception ex)
-                                        {
-                                            Logger.Error(ex);
-                                            KryptonMessageBox.Show(ex.Message + "\r\n" + fileEntryWithoutMachineName.FileFullPath + "\r\n" + fileEntryMaybeHasMachineName.FileFullPath,
-                                                "Was not able to remove the oldest of dubpliacted file.", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-                                        }
-                                        #endregion
-                                    }
-                                    else if (winnerHasMachineName && !winnerWithoutMachineName)
-                                    {
-                                        #region HasMachineName wins, remove "original", replace with Other file
-                                        try
-                                        {
-                                            foundOrRemovedFiles.Add(fileEntryWithoutMachineName.FileFullPath);
-                                            FileHandler.Delete(fileEntryWithoutMachineName.FileFullPath, moveToRecycleBin);
-                                            FileHandler.Move(fileEntryMaybeHasMachineName.FileFullPath, fileEntryWithoutMachineName.FileFullPath);
-                                        }
-                                        catch (Exception ex)
-                                        {
-                                            Logger.Error(ex);
-                                            KryptonMessageBox.Show(ex.Message + "\r\nWas trying to replace\r\n" + fileEntryWithoutMachineName.FileFullPath + "\r\n with\r\n" + fileEntryMaybeHasMachineName.FileFullPath,
-                                                "Was not able to remove duplicated file.", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-                                        }
-                                        #endregion
-                                    }
-                                    else if (!winnerHasMachineName && winnerWithoutMachineName)
-                                    {
-                                        #region "Original" wins, delete "With Machine Name"
-                                        try
-                                        {
-                                            foundOrRemovedFiles.Add(fileEntryMaybeHasMachineName.FileFullPath);
-                                            FileHandler.Delete(fileEntryMaybeHasMachineName.FileFullPath, moveToRecycleBin);
-                                        }
-                                        catch (Exception ex)
-                                        {
-                                            Logger.Error(ex);
-                                            KryptonMessageBox.Show(ex.Message + "\r\n" + fileEntryMaybeHasMachineName.FileFullPath,
-                                                "Was not able to remove dubpliacted file.", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-                                        }
-                                        #endregion
-                                    }
-                                    else
-                                    {
-                                        #region Report Not fixed
-                                        notFixed.Add(fileEntryBrokerExiftoolWithoutMachineName.FileFullPath);
-                                        notFixed.Add(fileEntryMaybeHasMachineName.FileFullPath);
-                                        #endregion 
-                                    }
-                                    #endregion
-                                }
-                                else
-                                {
-                                    //DEBUG - Didn't find original
-                                }
-                            }
-                        }
-                    }
-
-                }
-            }
-            return foundOrRemovedFiles;
         }
         #endregion
 
