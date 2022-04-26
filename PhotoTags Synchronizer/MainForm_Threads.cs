@@ -144,6 +144,8 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region Get Count of items in Queue with Lock
+
+        #region CommonQueueLazyLoadingMapNomnatatimLock()
         private int CommonQueueLazyLoadingMapNomnatatimLock()
         {
             lock (commonLazyLoadingMapNomnatatimLock) return commonLazyLoadingMapNomnatatim.Count;
@@ -159,8 +161,9 @@ namespace PhotoTagsSynchronizer
                 return 0;
             }
         }
+        #endregion
 
-
+        #region CommonQueueLazyLoadingAllSourcesAllMetadataAndThumbnailCountLock
         /// <summary>
         /// Get Count of items in Queue 
         /// </summary>
@@ -174,7 +177,9 @@ namespace PhotoTagsSynchronizer
         {
             lock   (commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnailsLock) return commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnails.Count;
         }
+        #endregion
 
+        #region CommonQueueLazyLoadingThumbnailCountLock
         /// <summary>
         /// Get Count of items in Queue 
         /// </summary>
@@ -188,7 +193,9 @@ namespace PhotoTagsSynchronizer
         {
             lock   (commonQueueLazyLoadingMediaThumbnailLock) return commonQueueLazyLoadingMediaThumbnail.Count;
         }
+        #endregion
 
+        #region CommonQueueSaveToDatabaseRegionAndThumbnailCountLock
         /// <summary>
         /// Get Count of items in Queue 
         /// </summary>
@@ -202,7 +209,9 @@ namespace PhotoTagsSynchronizer
         {
             return  commonQueueSaveToDatabaseRegionAndThumbnail.Count;
         }
+        #endregion
 
+        #region CommonQueueSaveToDatabaseMediaThumbnailCountLock
         /// <summary>
         /// Get Count of items in Queue 
         /// </summary>
@@ -216,7 +225,9 @@ namespace PhotoTagsSynchronizer
         {
             return  commonQueueSaveToDatabaseMediaThumbnail.Count;
         }
+        #endregion
 
+        #region CommonQueueReadMetadataFromMicrosoftPhotosCountLock
         /// <summary>
         /// Get Count of items in Queue 
         /// </summary>
@@ -230,7 +241,9 @@ namespace PhotoTagsSynchronizer
         {
             return  commonQueueReadMetadataFromSourceMicrosoftPhotos.Count;
         }
+        #endregion
 
+        #region CommonQueueReadMetadataFromSourceWindowsLivePhotoGalleryCountLock
         private int CommonQueueReadMetadataFromSourceWindowsLivePhotoGalleryCountLock()
         {
             lock   (commonQueueReadMetadataFromSourceWindowsLivePhotoGalleryLock) return commonQueueReadMetadataFromSourceWindowsLivePhotoGallery.Count;
@@ -240,7 +253,9 @@ namespace PhotoTagsSynchronizer
         {
             return  commonQueueReadMetadataFromSourceWindowsLivePhotoGallery.Count;
         }
+        #endregion
 
+        #region CommonQueueReadMetadataFromSourceExiftoolCountLock
         /// <summary>
         /// Get Count of items in Queue 
         /// </summary>
@@ -254,7 +269,9 @@ namespace PhotoTagsSynchronizer
         {
             return  commonQueueReadMetadataFromSourceExiftool.Count;
         }
+        #endregion
 
+        #region CommonQueueSaveUsingExiftoolMetadataUpdatedByUserCountLock
         /// <summary>
         /// Get Count of items in Queue 
         /// </summary>
@@ -268,7 +285,9 @@ namespace PhotoTagsSynchronizer
         {
             return exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUser.Count;
         }
+        #endregion
 
+        #region ExiftoolSave_MediaFilesNotInDatabaseCountLock
         /// <summary>
         /// Get Count of items in Queue 
         /// </summary>
@@ -282,17 +301,20 @@ namespace PhotoTagsSynchronizer
         {
             return exiftool_MediaFilesNotInDatabase.Count;
         }
+        #endregion
 
+        #region CommonQueueMetadataWrittenByExiftoolReadyToVerifyCountDirty
         /// <summary>
         /// Get Count of items in Queue 
         /// </summary>
         /// <returns>Number of items in queue</returns>
-        
         private int CommonQueueMetadataWrittenByExiftoolReadyToVerifyCountDirty()
         {
             return exiftoolSave_QueueMetadataWrittenByExiftoolReadyToVerify.Count;
         }
+        #endregion
 
+        #region CommonQueueRenameCountLock
         /// <summary>
         /// Get Count of items in Queue 
         /// </summary>
@@ -306,7 +328,9 @@ namespace PhotoTagsSynchronizer
         {
             return commonQueueRenameMediaFiles.Count;
         }
+        #endregion
 
+        #region CommonQueueAutoCorrectLock
         private int CommonQueueAutoCorrectLock()
         {
             lock (commonQueueAutoCorrectLock) return commonQueueAutoCorrect.Count;
@@ -318,7 +342,11 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #endregion
+
         #region Start Thread, IsAnyThreadRunning, Tell when all queues are empty
+
+        #region timerStartThread_Tick
         /// <summary>
         /// Start all background thread every x ms
         /// </summary>
@@ -332,7 +360,9 @@ namespace PhotoTagsSynchronizer
                 TriggerAutoResetEventQueueEmpty();
             }
         }
+        #endregion
 
+        #region StartThreads()
         /// <summary>
         /// Start all the threas when items in queue
         /// </summary>
@@ -353,7 +383,9 @@ namespace PhotoTagsSynchronizer
             ThreadLazyLoadingMediaThumbnail();
             ThreadQueueLazyLoadingMapNomnatatim();            
         }
+        #endregion
 
+        #region IsAnyThreadRunning()
         /// <summary>
         /// Check if any thread is running
         /// </summary>
@@ -369,7 +401,9 @@ namespace PhotoTagsSynchronizer
                 (_ThreadSaveUsingExiftoolToMedia != null && _ThreadSaveUsingExiftoolToMedia.IsAlive)
                 );
         }
+        #endregion
 
+        #region IsThreadRunningExcept_ThreadSaveToDatabaseRegionAndThumbnail()
         /// <summary>
         /// Check if any thread is running Except ThreadThumbnailRegion
         /// This is used by ThreadThumbnailRegion wait until free resources to use
@@ -385,7 +419,9 @@ namespace PhotoTagsSynchronizer
                 //queueThumbnailRegion.Count > 0 ||
                 CommonQueueSaveUsingExiftoolMetadataUpdatedByUserCountDirty() > 0;
         }
+        #endregion
 
+        #region TriggerAutoResetEventQueueEmpty()
         /// <summary>
         /// On 32bit version, out of meomory occures oftem, was needed to wait until qeue was ended to free up reasources
         /// </summary>
@@ -403,6 +439,8 @@ namespace PhotoTagsSynchronizer
                 if (ReadImageOutOfMemoryWillWaitCacheEmpty != null) ReadImageOutOfMemoryWillWaitCacheEmpty.Set();
             }
         }
+        #endregion
+
         #endregion
 
         #region ClearQueue - Exiftool
@@ -497,7 +535,7 @@ namespace PhotoTagsSynchronizer
             {
                 List<FileEntryAttribute> fileEntryAttributeDateVersions =
                     databaseAndCacheMetadataExiftool.ListFileEntryAttributesCache(MetadataBrokerType.ExifTool,
-                    fileEntry.FileFullPath, FileHandler.GetLastWriteTime(fileEntry.FileFullPath));
+                    fileEntry.FileFullPath, FileHandler.GetLastWriteTime(fileEntry.FileFullPath, waitAndRetry: true));
 
                 lazyLoadingAllExiftoolVersionOfMediaFile.AddRange(fileEntryAttributeDateVersions);
 
@@ -534,7 +572,7 @@ namespace PhotoTagsSynchronizer
             foreach (FileEntry fileEntry in fileEntries)
             {
                 #region Add to list, if file exist and use current written date 
-                DateTime dateTime = FileHandler.GetLastWriteTime(fileEntry.FileFullPath);
+                DateTime dateTime = FileHandler.GetLastWriteTime(fileEntry.FileFullPath, waitAndRetry: true);
                 if (dateTime > FileHandler.MinimumFileSystemDateTime) //If file not exist, written date becomes MinimumFileSystemDateTime
                 {
                     FileEntry fileEntryCurrent = new FileEntry(fileEntry.FileFullPath, dateTime);
@@ -1142,8 +1180,11 @@ namespace PhotoTagsSynchronizer
             {
                 if (WaitExittoolReadCacheThread != null && CommonQueueReadMetadataFromSourceExiftoolCountDirty() <= 0) WaitExittoolReadCacheThread.Set();
                 if (GlobalData.IsStopAndEmptyExiftoolReadQueueRequest || _ThreadReadMetadataFromSourceExiftool != null || CommonQueueReadMetadataFromSourceExiftoolCountDirty() <= 0) return;
-                if (ExiftoolSave_MediaFilesNotInDatabaseCountLock() > 0) return; //Don't start double read of exiftool
-
+                if (ExiftoolSave_MediaFilesNotInDatabaseCountLock() > 0)
+                {
+                    //DEBUG
+                    //return; //Don't start double read of exiftool
+                }
                 lock (_ThreadReadMetadataFromSourceExiftoolLock)
                 {
                     _ThreadReadMetadataFromSourceExiftool = new Thread(() =>
@@ -1155,6 +1196,8 @@ namespace PhotoTagsSynchronizer
 
                             bool showCliWindow = Properties.Settings.Default.ApplicationDebugExiftoolReadShowCliWindow;
                             ProcessPriorityClass processPriorityClass = (ProcessPriorityClass)Properties.Settings.Default.ApplicationDebugExiftoolReadThreadPrioity;
+
+                            lock (exiftool_MediaFilesNotInDatabaseLock) exiftool_MediaFilesNotInDatabase.Clear(); //Start empty, in case of crash
 
                             int count = CommonQueueReadMetadataFromSourceExiftoolCountLock();
                             while (count > 0 && !GlobalData.IsStopAndEmptyExiftoolReadQueueRequest && CommonQueueReadMetadataFromSourceExiftoolCountLock() > 0 && !GlobalData.IsApplicationClosing) //In case some more added to the queue
@@ -1393,7 +1436,7 @@ namespace PhotoTagsSynchronizer
                                                             fileEntryMetadataNotRead = new FileEntry(exiftool_MediaFilesNotInDatabase[indexFileEntry]);
                                                         else
                                                         {
-                                                            fileEntryMetadataNotRead = new FileEntry(fullFilePath, FileHandler.GetLastWriteTime(fullFilePath));
+                                                            fileEntryMetadataNotRead = new FileEntry(fullFilePath, FileHandler.GetLastWriteTime(fullFilePath, waitAndRetry: true));
                                                         }
                                                     }
                                                     #endregion
@@ -1455,7 +1498,7 @@ namespace PhotoTagsSynchronizer
                                                 #endregion
 
                                                 #region Check if still missing data in Database, if yes, read again
-                                                FileEntry fileEntry = new FileEntry(fullFilePath, FileHandler.GetLastWriteTime(fullFilePath));
+                                                FileEntry fileEntry = new FileEntry(fullFilePath, FileHandler.GetLastWriteTime(fullFilePath, waitAndRetry: true));
                                                 Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
                                                 if (metadata == null)
                                                 {
@@ -2029,7 +2072,7 @@ namespace PhotoTagsSynchronizer
                                             }
                                             #endregion
 
-                                            DateTime currentLastWrittenDateTime = FileHandler.GetLastWriteTime(fileSuposeToBeUpdated.FileFullPath, waitAndRetry: false);
+                                            DateTime currentLastWrittenDateTime = FileHandler.GetLastWriteTime(fileSuposeToBeUpdated.FileFullPath, waitAndRetry: true);
                                             DateTime previousLastWrittenDateTime = (DateTime)fileSuposeToBeUpdated.LastWriteDateTime;
 
                                             //Find last known writtenDate for file
@@ -2534,7 +2577,7 @@ namespace PhotoTagsSynchronizer
                                                             fileExists = true;
 
                                                             if (current_FileEntryBrokerRegion.Broker == MetadataBrokerType.WebScraping || //If source WebScraper, date and time will not match                                                        
-                                                                FileHandler.GetLastWriteTime(current_FileEntryBrokerRegion.FileFullPath) == current_FileEntryBrokerRegion.LastWriteDateTime) //Check if the current Metadata are same as newest file 
+                                                                FileHandler.GetLastWriteTime(current_FileEntryBrokerRegion.FileFullPath, waitAndRetry: true) == current_FileEntryBrokerRegion.LastWriteDateTime) //Check if the current Metadata are same as newest file 
                                                                 fileHasCorrectDate = true;
                                                             else 
                                                                 fileHasCorrectDate = false;
@@ -2680,7 +2723,7 @@ namespace PhotoTagsSynchronizer
                                                                     fileStatus.FileErrorMessage +=
                                                                         "File date has changed. Need create thumbnail for different date. Requested: " +
                                                                         current_FileEntryBrokerRegion.LastWriteDateTime.ToString() + " vs. File date: " +
-                                                                        FileHandler.GetLastWriteTime(current_FileEntryBrokerRegion.FileFullPath);
+                                                                        FileHandler.GetLastWriteTime(current_FileEntryBrokerRegion.FileFullPath, waitAndRetry: true);
 
                                                                     string errorDesciption =
                                                                         "Issue: Issue while create thumbnails for regions.\r\n" +
@@ -3338,7 +3381,7 @@ namespace PhotoTagsSynchronizer
                                         fileInUse = IsFileInAnyQueueLock(fullFilename);
                                         if (!fileInUse)
                                         {
-                                            DateTime currentLastWrittenDateTime = FileHandler.GetLastWriteTime(fullFilename);
+                                            DateTime currentLastWrittenDateTime = FileHandler.GetLastWriteTime(fullFilename, waitAndRetry: true);
                                             if (currentLastWrittenDateTime > FileHandler.MinimumFileSystemDateTime)
                                             {
                                                 FileEntry fileEntry = new FileEntry(fullFilename, currentLastWrittenDateTime);
@@ -3375,7 +3418,7 @@ namespace PhotoTagsSynchronizer
                                 {
                                     if (!fileInUse)
                                     {
-                                        DateTime currentLastWrittenDateTime = FileHandler.GetLastWriteTime(fullFilename);
+                                        DateTime currentLastWrittenDateTime = FileHandler.GetLastWriteTime(fullFilename, waitAndRetry: true);
                                         if (currentLastWrittenDateTime <= FileHandler.MinimumFileSystemDateTime)
                                         {
                                             //DEBUG
@@ -3433,7 +3476,7 @@ namespace PhotoTagsSynchronizer
                                                 Logger.Error(error);
 
                                                 AddError(
-                                                    Path.GetDirectoryName(fullFilename), Path.GetFileName(fullFilename), FileHandler.GetLastWriteTime(fullFilename),
+                                                    Path.GetDirectoryName(fullFilename), Path.GetFileName(fullFilename), fileStatus.LastWrittenDateTime,
                                                     AddErrorFileSystemRegion, AddErrorFileSystemMove, fullFilename, "New name is unknown (missing metadata)",
                                                     error);
                                             }
@@ -3688,7 +3731,7 @@ namespace PhotoTagsSynchronizer
                 {
                     _ThreadLazyLoadingMapNomnatatim = new Thread(() =>
                     {
-                        #region
+                        #region Do the work
                         try
                         {
                             Logger.Trace("ThreadQueueLazyLoadingMapNomnatatim - started");

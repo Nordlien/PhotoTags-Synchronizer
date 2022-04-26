@@ -77,7 +77,7 @@ namespace PhotoTagsSynchronizer
             try
             {
                 int indexFound = -1;
-                FileEntry fileEntry = new FileEntry(fullFileName, FileHandler.GetLastWriteTime(fullFileName, waitAndRetry: false));
+                FileEntry fileEntry = new FileEntry(fullFileName, FileHandler.GetLastWriteTime(fullFileName, waitAndRetry: true));
 
                 lock (posterCacheLock)
                 {
@@ -115,7 +115,7 @@ namespace PhotoTagsSynchronizer
             {                
                 lock (posterCacheLock)
                 {
-                    FileEntryImage fileEntryImage = new FileEntryImage(fullFilePath, FileHandler.GetLastWriteTime(fullFilePath), new Bitmap(image));
+                    FileEntryImage fileEntryImage = new FileEntryImage(fullFilePath, FileHandler.GetLastWriteTime(fullFilePath, waitAndRetry: true), new Bitmap(image));
                     //new new Bitmap to make it thraadsafe https://stackoverflow.com/questions/49679693/c-sharp-crashes-with-parameter-is-not-valid-when-setting-picturebox-image-to
                     posterCache.Add(fileEntryImage); //Add last
                     if (posterCache.Count > 10) posterCache.RemoveAt(0); //Only remember last x images

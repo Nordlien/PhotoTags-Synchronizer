@@ -118,7 +118,7 @@ namespace PhotoTagsSynchronizer
                 }
                 else
                 {
-                    //DEBUG
+                    //DEBUG - FIle is become deleted
                 }
             }
             catch (Exception ex)
@@ -170,10 +170,17 @@ namespace PhotoTagsSynchronizer
                     }
                     catch { }
 
-                    threadFilter = new Thread(() => 
+                    threadFilter = new Thread(() =>
                     {
-                        PopulateTreeViewFolderFilterUpdatedTreeViewFilterInvoke();
-                        threadFilter = null;
+                        try
+                        {
+                            PopulateTreeViewFolderFilterUpdatedTreeViewFilterInvoke();
+                        }
+                        catch { }
+                        finally
+                        {
+                            threadFilter = null;
+                        }
                     }
                     );
                     threadFilter.Start();
@@ -290,7 +297,7 @@ namespace PhotoTagsSynchronizer
                     if (fileStatus.FileExists)
                     {
                         try { e.FileMetadata.FileDateCreated = FileHandler.GetCreationTime(e.FileName); } catch { }
-                        try { e.FileMetadata.FileDateModified = FileHandler.GetLastWriteTime(e.FileName); } catch { }
+                        try { e.FileMetadata.FileDateModified = fileStatus.LastWrittenDateTime; } catch { }
                         try
                         {
                             DateTime? fileSmartDate = fileDateTimeReader.SmartDateTime(e.FileName, e.FileMetadata.FileDateCreated, e.FileMetadata.FileDateModified);
@@ -409,7 +416,7 @@ namespace PhotoTagsSynchronizer
                 FileStatus fileStatus = FileHandler.GetFileStatus(e.FileName);
                 if (fileStatus.FileExists)
                 {
-                    FileEntry fileEntry = new FileEntry(e.FileName, FileHandler.GetLastWriteTime(e.FileName)); //Get last Write Time of Media file
+                    FileEntry fileEntry = new FileEntry(e.FileName, fileStatus.LastWrittenDateTime); //Get last Write Time of Media file
 
                     bool dontReadFileFromCloud = Properties.Settings.Default.AvoidOfflineMediaFiles;
                     try
@@ -654,7 +661,7 @@ namespace PhotoTagsSynchronizer
                 HashSet<FileEntry> filesDoesNotExist = new HashSet<FileEntry>();
                 foreach (FileEntry fileEntry in fileEntries)
                 {
-                    DateTime dateTime = FileHandler.GetLastWriteTime(fileEntry.FileFullPath);
+                    DateTime dateTime = FileHandler.GetLastWriteTime(fileEntry.FileFullPath, waitAndRetry: false);
                     #region Mark file not exist anymore
                     if (dateTime <= FileHandler.MinimumFileSystemDateTime && !filesDoesNotExist.Contains(fileEntry)) filesDoesNotExist.Add(fileEntry);
                     #endregion
@@ -682,13 +689,13 @@ namespace PhotoTagsSynchronizer
                     #endregion 
 
                     #region Show MessageBox of none existing files, ask to remove from ImageListView
-                    if (KryptonMessageBox.Show(
-                        (filesDoesNotExist.Count == 1 ? "File" : filesDoesNotExist.Count.ToString() + " files") + " doesn't exsist anymore\r\n" +
-                        "The files will be removed from the list of media files and from the database.\r\n\r\n" +
-                        "Example:\r\n" +
-                        listOfFiles, "File(s) does'n exist...",
-                        MessageBoxButtons.OKCancel, MessageBoxIcon.Warning, showCtrlCopy: true) == DialogResult.OK)
-                    {
+                    //if (KryptonMessageBox.Show(
+                    //    (filesDoesNotExist.Count == 1 ? "File" : filesDoesNotExist.Count.ToString() + " files") + " doesn't exsist anymore\r\n" +
+                    //    "The files will be removed from the list of media files and from the database.\r\n\r\n" +
+                    //    "Example:\r\n" +
+                    //    listOfFiles, "File(s) does'n exist...",
+                    //    MessageBoxButtons.OKCancel, MessageBoxIcon.Warning, showCtrlCopy: true) == DialogResult.OK)
+                    //{
                         using (new WaitCursor())
                         {
                             foreach (FileEntry fileEntry in filesDoesNotExist) fileEntries.Remove(fileEntry);
@@ -696,7 +703,7 @@ namespace PhotoTagsSynchronizer
                             filesCutCopyPasteDrag.DeleteSelectedFiles(imageListView1, filesDoesNotExist, false);
                             ImageListViewHandler.ClearCacheFileEntries(imageListView1);
                         }
-                    }
+                    //}
                     #endregion
                 }
             }
@@ -1044,7 +1051,7 @@ namespace PhotoTagsSynchronizer
 
             UpdateStatusImageListView("Check for OneDrive duplicate files in folder: " + selectedFolder);
             #region Check for OneDrive duplicate files in folder
-            List<string> dublicatedFound = FileHandler.FixOneDriveIssues(fileEntries, out List<string> notFixed, oneDriveNetworkNames, fixError: false,
+            List<string> dublicatedFound = FixOneDriveIssues(fileEntries, out List<string> notFixed, oneDriveNetworkNames, fixError: false,
                 moveToRecycleBin: Properties.Settings.Default.MoveToRecycleBin, databaseAndCacheMetadataExiftool);
             if (dublicatedFound.Count > 0)
             {
@@ -1063,7 +1070,7 @@ namespace PhotoTagsSynchronizer
                 }
             }
             #endregion
-            
+
             #endregion
         }
         #endregion
@@ -1089,6 +1096,7 @@ namespace PhotoTagsSynchronizer
                 ImageListView_FetchListOfMediaFiles_FromFolder_and_Aggregate(GlobalData.lastReadFolderWasRecursive, false); //False = No need populate filter, we are using filter
             else
                 ImageListView_Aggregate_FromDatabaseSearchResult_and_Aggregate(GlobalData.SerachFilterResult, false); //False = No need populate filter, we are using filter
+            imageListView1.Focus();
         }
         #endregion
 
@@ -1232,7 +1240,8 @@ namespace PhotoTagsSynchronizer
                     LoadingItemsImageListView(6, 6);
                     UpdateStatusImageListView("Done populate " + fileEntriesFound.Count + " media files...");
 
-                    treeViewFolderBrowser1.Focus();
+                    //treeViewFolderBrowser1.Focus();
+                    //imageListView1.Focus();
                     LoadingItemsImageListView(0, 0);
                 }
             }
@@ -1287,13 +1296,6 @@ namespace PhotoTagsSynchronizer
                     #region AddErrors to Error Queue - Also Select all previous selected Items 
                     foreach (string filename in renameFailed.Keys)
                     {
-                        DateTime dateTimeLastWriteTime = DateTime.Now;
-                        try
-                        {
-                            dateTimeLastWriteTime = FileHandler.GetLastWriteTime(filename);
-                        }
-                        catch { }
-
                         FileStatus fileStatus = FileHandler.GetFileStatus(
                             filename, checkLockedStatus: true,
                             hasErrorOccured: true, errorMessage: renameFailed[filename].ErrorMessage);
@@ -1303,7 +1305,7 @@ namespace PhotoTagsSynchronizer
                             renameFailed[filename].NewFilename, checkLockedStatus: true);
 
                         AddError(
-                                Path.GetDirectoryName(filename), Path.GetFileName(filename), dateTimeLastWriteTime,
+                                Path.GetDirectoryName(filename), Path.GetFileName(filename), fileStatus.LastWrittenDateTime,
                                 AddErrorFileSystemRegion, AddErrorFileSystemMove, filename, renameFailed[filename].NewFilename,
                                 "Issue: Failed to rename file.\r\n" +
                                 "From File Name:  " + filename + "\r\n" +

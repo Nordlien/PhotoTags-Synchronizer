@@ -411,10 +411,17 @@ namespace PhotoTagsSynchronizer
         #region PopulateTreeViewWithValues
         private static void PopulateTreeViewLeafNodeWithValues(KryptonTreeView treeView, string keyRoot, string key, HashSet<string> nodes)
         {
-            foreach (string node in nodes)
+            
+            try
             {
-                if (StopPopulate) break;
-                treeView.Nodes[keyRoot].Nodes[key].Nodes.Add(node, FilterVerifyer.GetTreeNodeText(GlobalData.SearchFolder, node, false));
+                foreach (string node in nodes)
+                {
+                    if (StopPopulate) break;
+                    treeView.Nodes[keyRoot].Nodes[key].Nodes.Add(node, FilterVerifyer.GetTreeNodeText(GlobalData.SearchFolder, node, false));
+                }
+            }
+            catch { 
+
             }
         }
         #endregion
@@ -426,19 +433,25 @@ namespace PhotoTagsSynchronizer
 
             string node = FilterVerifyer.Root;
 
-            FilterVerifyer.PopulateTreeViewLeafNodeWithValues(treeViewFilter, node, FilterVerifyer.Albums, albums);
-            FilterVerifyer.PopulateTreeViewLeafNodeWithValues(treeViewFilter, node, FilterVerifyer.Titles, titles);
-            FilterVerifyer.PopulateTreeViewLeafNodeWithValues(treeViewFilter, node, FilterVerifyer.Comments, comments);
-            FilterVerifyer.PopulateTreeViewLeafNodeWithValues(treeViewFilter, node, FilterVerifyer.Descriptions, descriptions);
-            FilterVerifyer.PopulateTreeViewLeafNodeWithValues(treeViewFilter, node, FilterVerifyer.Authors, authors);
-            FilterVerifyer.PopulateTreeViewLeafNodeWithValues(treeViewFilter, node, FilterVerifyer.Ratings, ratings);
-            FilterVerifyer.PopulateTreeViewLeafNodeWithValues(treeViewFilter, node, FilterVerifyer.Dates, dates);
-            FilterVerifyer.PopulateTreeViewLeafNodeWithValues(treeViewFilter, node, FilterVerifyer.Locations, locations);
-            FilterVerifyer.PopulateTreeViewLeafNodeWithValues(treeViewFilter, node, FilterVerifyer.Cities, cities);
-            FilterVerifyer.PopulateTreeViewLeafNodeWithValues(treeViewFilter, node, FilterVerifyer.States, states);
-            FilterVerifyer.PopulateTreeViewLeafNodeWithValues(treeViewFilter, node, FilterVerifyer.Countries, countries);
-            FilterVerifyer.PopulateTreeViewLeafNodeWithValues(treeViewFilter, node, FilterVerifyer.Peoples, peoples);
-            FilterVerifyer.PopulateTreeViewLeafNodeWithValues(treeViewFilter, node, FilterVerifyer.Keywords, keywords);
+            try
+            {
+                FilterVerifyer.PopulateTreeViewLeafNodeWithValues(treeViewFilter, node, FilterVerifyer.Albums, albums);
+                FilterVerifyer.PopulateTreeViewLeafNodeWithValues(treeViewFilter, node, FilterVerifyer.Titles, titles);
+                FilterVerifyer.PopulateTreeViewLeafNodeWithValues(treeViewFilter, node, FilterVerifyer.Comments, comments);
+                FilterVerifyer.PopulateTreeViewLeafNodeWithValues(treeViewFilter, node, FilterVerifyer.Descriptions, descriptions);
+                FilterVerifyer.PopulateTreeViewLeafNodeWithValues(treeViewFilter, node, FilterVerifyer.Authors, authors);
+                FilterVerifyer.PopulateTreeViewLeafNodeWithValues(treeViewFilter, node, FilterVerifyer.Ratings, ratings);
+                FilterVerifyer.PopulateTreeViewLeafNodeWithValues(treeViewFilter, node, FilterVerifyer.Dates, dates);
+                FilterVerifyer.PopulateTreeViewLeafNodeWithValues(treeViewFilter, node, FilterVerifyer.Locations, locations);
+                FilterVerifyer.PopulateTreeViewLeafNodeWithValues(treeViewFilter, node, FilterVerifyer.Cities, cities);
+                FilterVerifyer.PopulateTreeViewLeafNodeWithValues(treeViewFilter, node, FilterVerifyer.States, states);
+                FilterVerifyer.PopulateTreeViewLeafNodeWithValues(treeViewFilter, node, FilterVerifyer.Countries, countries);
+                FilterVerifyer.PopulateTreeViewLeafNodeWithValues(treeViewFilter, node, FilterVerifyer.Peoples, peoples);
+                FilterVerifyer.PopulateTreeViewLeafNodeWithValues(treeViewFilter, node, FilterVerifyer.Keywords, keywords);
+            }catch
+            {
+
+            }
         }
         #endregion
 

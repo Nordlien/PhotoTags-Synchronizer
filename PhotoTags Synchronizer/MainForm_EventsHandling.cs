@@ -2436,8 +2436,9 @@ namespace PhotoTagsSynchronizer
                 finally
                 {
                     GlobalData.DoNotTrigger_ImageListView_ItemUpdate = false;
+                    treeViewFolderBrowser1.Focus();
                 }
-                treeViewFolderBrowser1.Focus();
+                
             }
             catch (Exception ex)
             {
@@ -7782,7 +7783,7 @@ namespace PhotoTagsSynchronizer
             try
             {
                 ImageListView_FetchListOfMediaFiles_FromFolder_and_Aggregate(false, true);
-                treeViewFolderBrowser1.Focus();
+                imageListView1.Focus();
             }
             catch (Exception ex)
             {
@@ -9024,7 +9025,7 @@ namespace PhotoTagsSynchronizer
                     IEnumerable<FileData> fileDatas = ImageAndMovieFileExtentionsUtility.GetFilesByEnumerableFast(selectedFolder, false);
                     foreach (FileData file in fileDatas)
                     {
-                        FileEntryBroker fileEntryBrokerExiftool = new FileEntryBroker(file.Path, FileHandler.GetLastWriteTime(file.Path), MetadataBrokerType.ExifTool);
+                        FileEntryBroker fileEntryBrokerExiftool = new FileEntryBroker(file.Path, FileHandler.GetLastWriteTime(file.Path, waitAndRetry: false), MetadataBrokerType.ExifTool);
                         AddQueueAutoCorrectLock(fileEntryBrokerExiftool, null); 
                     }
                 }
@@ -9292,7 +9293,7 @@ namespace PhotoTagsSynchronizer
                         IEnumerable<FileData> fileDatas = ImageAndMovieFileExtentionsUtility.GetFilesByEnumerableFast(selectedFolder, false);
                         foreach (FileData fileData in fileDatas)
                         {
-                            FileEntryBroker fileEntryBrokerExiftool = new FileEntryBroker(fileData.Path, FileHandler.GetLastWriteTime(fileData.Path), MetadataBrokerType.ExifTool);
+                            FileEntryBroker fileEntryBrokerExiftool = new FileEntryBroker(fileData.Path, FileHandler.GetLastWriteTime(fileData.Path, waitAndRetry: false), MetadataBrokerType.ExifTool);
                             AddQueueAutoCorrectLock(fileEntryBrokerExiftool, autoCorrectFormVaraibles); 
                         }
                     }
@@ -9581,7 +9582,7 @@ namespace PhotoTagsSynchronizer
                 thread.Start();
 
                 ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false);
-                treeViewFolderBrowser1.Focus();
+                imageListView1.Focus();
             }
             catch (Exception ex)
             {
@@ -9818,6 +9819,7 @@ namespace PhotoTagsSynchronizer
                         });
                         thread.Start();
                         ImageListView_FetchListOfMediaFiles_FromFolder_and_Aggregate(false, true);
+                        imageListView1.Focus();
                     }
                 }
 
@@ -10165,7 +10167,7 @@ namespace PhotoTagsSynchronizer
         private void Action_CheckAndFixOneDriveIssues_ReturnWasFoundAndRemoved()
         {
             HashSet<FileEntry> fileEntries = ImageListViewHandler.GetFileEntriesItems(imageListView1);
-            List<string> deletedFiles = FileHandeling.FileHandler.FixOneDriveIssues(fileEntries, out List<string> notFixed, oneDriveNetworkNames, fixError: true,
+            List<string> deletedFiles = FixOneDriveIssues(fileEntries, out List<string> notFixed, oneDriveNetworkNames, fixError: true,
                 moveToRecycleBin: Properties.Settings.Default.MoveToRecycleBin, databaseAndCacheMetadataExiftool);
 
             #region Remove delete files form ImageListView
@@ -10191,14 +10193,14 @@ namespace PhotoTagsSynchronizer
                 }
 
                 if (
-                    KryptonMessageBox.Show("Result after run OneDrive duplicated tool.\r\n\r\n" +
+                    KryptonMessageBox.Show("Result after running OneDrive duplicated tool.\r\n" +
+                    "For best result, run the tool after Exiftool has read all metadatas from media files.\r\n" +
+                    "Also: After OneDrive done with sync. Then Refresh the files in folder, to fetch last files downloaded by OneDrive.\r\n" +
+                    "\r\n" +
 
-                    "Delete files: " + deletedFiles.Count + "\r\n" +
-                    (deletedFiles.Count == 0 ? "\r\n" :
-                    "Example files:\r\n" +
-                    filesDeleted + "\r\n\r\n") +
-
-                    "Files not fixed: " + notFixed.Count + "\r\n" +
+                    "Delete files: " + deletedFiles.Count + "\r\n\r\n" +
+                    (deletedFiles.Count == 0 ? "\r\n" : "Deleted files:\r\n" + filesDeleted + (deletedFiles.Count > 5 ? "\r\n..." : "") + "\r\n\r\n") +
+                    (notFixed.Count == 0 ? "\r\n" : "Files not fixed: " + notFixed.Count + "\r\n") +
                     (
                         notFixed.Count == 0 ? "\r\n" :
                         "Example files:\r\n" + filesNotFixed + "\r\n\r\n" +
@@ -10206,7 +10208,7 @@ namespace PhotoTagsSynchronizer
                         "Yes - Media files will be select in ImageListView\r\n" +
                         "No - No changes in selections"
                     ),
-                    "Result running OneDrive duplicated tool.",
+                    "Result after running OneDrive duplicated tool.",
                     (notFixed.Count == 0 ? MessageBoxButtons.OK : MessageBoxButtons.YesNo),
                     MessageBoxIcon.Question, showCtrlCopy: true) == DialogResult.Yes)
                 {
@@ -10215,7 +10217,10 @@ namespace PhotoTagsSynchronizer
             }
             else
             {
-                KryptonMessageBox.Show("Result after run OneDrive duplicated tool.\r\n\r\n" +
+                KryptonMessageBox.Show("Result after running OneDrive duplicated tool.\r\n" + 
+                    "For best result, run the tool after Exiftool has read all metadatas from media files.\r\n" +
+                    "Also: After OneDrive done with sync. Then Refresh the files in folder, to fetch last files downloaded by OneDrive.\r\n" +
+                    "\r\n" +
 
                 "Delete files: 0 \r\n" +
                 "Files not fixed: 0\r\n\r\n" +

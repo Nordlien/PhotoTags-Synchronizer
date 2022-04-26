@@ -1,16 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.IO;
-using System.Collections.Generic;
-using MetadataLibrary;
-using ImageAndMovieFileExtentions;
-using Manina.Windows.Forms;
-using System.Threading;
-using Thumbnails;
-using System.Diagnostics;
 using Krypton.Toolkit;
 using Raccoom.Windows.Forms;
-using FileHandeling;
 
 namespace PhotoTagsSynchronizer
 {
@@ -41,6 +33,8 @@ namespace PhotoTagsSynchronizer
             {
                 GlobalData.SearchFolder = true;
                 ImageListView_FetchListOfMediaFiles_FromFolder_and_Aggregate(false, true);
+
+                imageListView1.Focus();
             }
             catch (Exception ex)
             {

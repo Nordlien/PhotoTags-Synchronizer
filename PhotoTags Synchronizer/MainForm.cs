@@ -951,6 +951,7 @@ namespace PhotoTagsSynchronizer
             #endregion
 
             ImageListView_FetchListOfMediaFiles_FromFolder_and_Aggregate(false, true);
+            treeViewFolderBrowser1.Focus();
             ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false);
 
             MaximizeOrRestoreWorkspaceMainCellAndChilds();

@@ -156,8 +156,7 @@ namespace PhotoTagsSynchronizer
                         "Target folder: " + targetFolder + "\r\n" +
                         fileMessage +
                         folderMessage, "Warning...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
-                }
-                
+                }              
                 treeViewFolderBrowser1.Focus();
 
             }
@@ -227,6 +226,7 @@ namespace PhotoTagsSynchronizer
                         KryptonMessageBox.Show("Can't edit folder name. No valid folder selected.", "Invalid folder...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
                     }
                     treeViewFolderBrowser1.ResumeLayout();
+                    treeViewFolderBrowser1.Focus();
                 }
             }
             catch (Exception ex)
