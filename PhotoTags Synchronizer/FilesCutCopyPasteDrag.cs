@@ -16,7 +16,7 @@ namespace PhotoTagsSynchronizer
     {
         public FileSystemActionEventArgs(string action, string source, string destination)
         {
-            Action = Action;
+            Action = action;
             Source = source;
             Destination = destination;
         }
@@ -178,9 +178,7 @@ namespace PhotoTagsSynchronizer
                     {
                         try
                         {
-                            if (OnFileSystemAction != null) OnFileSystemAction(this, new FileSystemActionEventArgs("Delete file", fileEntry.FileFullPath, ""));                            
-                            if (deleteFromFileSystemAlso) FileHandler.Delete(fileEntry.FileFullPath, Properties.Settings.Default.MoveToRecycleBin);
-                            this.DeleteFileAndHistory(fileEntry.FileFullPath);
+                            DeleteFile(fileEntry.FileFullPath, deleteFromFileSystemAlso);
                             imageListView.Items.Remove(ImageListViewHandler.FindItem(imageListView.Items, fileEntry.FileFullPath));
                         }
                         catch (Exception ex)
@@ -239,6 +237,16 @@ namespace PhotoTagsSynchronizer
             #endregion
 
             return recordAffected;
+        }
+        #endregion
+
+        #region FilesCutCopyPasteDrag - DeleteFile
+        public void DeleteFile(string sourceFullFilename, bool deleteFromFileSystemAlso = true)
+        {
+            if (OnFileSystemAction != null) OnFileSystemAction(this, new FileSystemActionEventArgs(
+                (Properties.Settings.Default.MoveToRecycleBin ? "Move To Recycle Bin" : "Delete file"), sourceFullFilename, ""));
+            if (deleteFromFileSystemAlso) FileHandler.Delete(sourceFullFilename, Properties.Settings.Default.MoveToRecycleBin);
+            this.DeleteFileAndHistory(sourceFullFilename);
         }
         #endregion
 
