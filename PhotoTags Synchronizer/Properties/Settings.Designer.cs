@@ -2768,5 +2768,17 @@ explorer ms-photos?filename=""{FileFullPath}""")]
                 this["MoveToRecycleBin"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string OneDriveDuplicatesNetworkNames {
+            get {
+                return ((string)(this["OneDriveDuplicatesNetworkNames"]));
+            }
+            set {
+                this["OneDriveDuplicatesNetworkNames"] = value;
+            }
+        }
     }
 }

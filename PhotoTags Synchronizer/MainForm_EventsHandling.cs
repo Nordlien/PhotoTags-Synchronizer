@@ -10005,6 +10005,12 @@ namespace PhotoTagsSynchronizer
                         databaseAndCacheMetadataExiftool.AllowedDateFormats = Properties.Settings.Default.RenameDateFormats;
                         databaseAndCacheMetadataWindowsLivePhotoGallery.AllowedDateFormats = Properties.Settings.Default.RenameDateFormats;
                         databaseAndCacheMetadataMicrosoftPhotos.AllowedDateFormats = Properties.Settings.Default.RenameDateFormats;
+
+                        //Network names
+                        string[] networkNamesFromConfig =
+                            FormConfig.ConvertStringWithSepeartorToArray(Properties.Settings.Default.OneDriveDuplicatesNetworkNames);
+                        oneDriveNetworkNames.Clear();
+                        foreach (string networkName in networkNamesFromConfig) if (!oneDriveNetworkNames.Contains(networkName)) oneDriveNetworkNames.Add(networkName);
                     }
                     //Palette
                     if (config.IsKryptonManagerChanged)

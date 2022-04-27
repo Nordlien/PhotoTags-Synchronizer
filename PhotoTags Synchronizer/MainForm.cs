@@ -614,6 +614,13 @@ namespace PhotoTagsSynchronizer
 
 
             #region OneDriveNetworkNames - for automatic remove
+
+            #region Get stored NetworkNames - Incase of thread fails
+            string[] networkNamesFromConfig =
+                    FormConfig.ConvertStringWithSepeartorToArray(Properties.Settings.Default.OneDriveDuplicatesNetworkNames);
+            foreach (string networkName in networkNamesFromConfig) if (!oneDriveNetworkNames.Contains(networkName)) oneDriveNetworkNames.Add(networkName);
+            #endregion
+
             if (!oneDriveNetworkNames.Contains(Environment.MachineName)) oneDriveNetworkNames.Add(Environment.MachineName);
             try
             {
@@ -624,7 +631,12 @@ namespace PhotoTagsSynchronizer
                         Trinet.Networking.NetworkCompuersAndSharesHandler networkCompuersAndSharesHandler = new Trinet.Networking.NetworkCompuersAndSharesHandler();
 
                         List<string> listOfNetworkNames = new List<string>();
+                        
                         if (!listOfNetworkNames.Contains(Environment.MachineName)) listOfNetworkNames.Add(Environment.MachineName);
+
+                        string[] networkNamesFromConfigThread =
+                            FormConfig.ConvertStringWithSepeartorToArray(Properties.Settings.Default.OneDriveDuplicatesNetworkNames);
+                            foreach (string networkName in networkNamesFromConfigThread) if (!listOfNetworkNames.Contains(networkName)) listOfNetworkNames.Add(networkName);
 
                         networkCompuersAndSharesHandler.ScanForComputers();
                         foreach (string computerName in networkCompuersAndSharesHandler.ComputerNames)
@@ -632,6 +644,8 @@ namespace PhotoTagsSynchronizer
                             if (!listOfNetworkNames.Contains(computerName)) listOfNetworkNames.Add(computerName);
                         }
                         oneDriveNetworkNames = listOfNetworkNames; //Swap to new list;
+
+                        Properties.Settings.Default.OneDriveDuplicatesNetworkNames = FormConfig.ConvertArrayToStringWithSepeartor(oneDriveNetworkNames.ToArray(), "\r\n");
                     }
                     catch { }
                 });
@@ -639,7 +653,7 @@ namespace PhotoTagsSynchronizer
                 scanForComputers.Start();
             }
             catch { }
-            #endregion 
+            #endregion
 
             #region Initialize nHTTP server
             FormSplash.UpdateStatus("Initialize nHTTP server...");

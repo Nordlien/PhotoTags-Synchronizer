@@ -386,6 +386,10 @@ namespace PhotoTagsSynchronizer
                 Properties.Settings.Default.ImageViewLoadThumbnailOnDemandMode = checkBoxApplicationImageListViewCacheModeOnDemand.Checked;
                 Properties.Settings.Default.MoveToRecycleBin = kryptonCheckBoxFileMoveToRecycleBin.Checked;
 
+                Properties.Settings.Default.OneDriveDuplicatesNetworkNames =
+                    ConvertArrayToStringWithSepeartor(
+                    ConvertStringWithSepeartorToArray(kryptonTextBoxApplicatonOneDriveDuplicatesNetworkNames.Text), "\r\n");
+
                 Properties.Settings.Default.CacheNumberOfPosters = (int)numericUpDownCacheNumberOfPosters.Value;
                 Properties.Settings.Default.CacheAllMetadatas = checkBoxCacheAllMetadatas.Checked;
                 Properties.Settings.Default.CacheAllThumbnails = checkBoxCacheAllThumbnails.Checked;
@@ -561,8 +565,21 @@ namespace PhotoTagsSynchronizer
             }
             return 16384; // BelowNormal = 16384
         }
-        #endregion 
+        #endregion
 
+        #region ConvertArrayToStringWithSepeartor
+        public static string ConvertArrayToStringWithSepeartor(String[] arrayOfStrings, string sepeartor)
+        {
+            return string.Join(sepeartor, arrayOfStrings);
+        }
+        #endregion
+
+        #region ConvertStringWithSepeartorToArray
+        public static string[] ConvertStringWithSepeartorToArray(string stringToConvert)
+        {
+            return stringToConvert.Split(new string[] { System.Globalization.CultureInfo.CurrentCulture.TextInfo.ListSeparator, "\r\n", ";", ",", "\n", "\r", "\t" }, StringSplitOptions.RemoveEmptyEntries);
+        }
+        #endregion
 
         #region PopulateApplication()
         public void PopulateApplication()
@@ -594,6 +611,12 @@ namespace PhotoTagsSynchronizer
             checkBoxApplicationAvoidReadExifFromCloud.Checked = Properties.Settings.Default.AvoidReadExifFromCloud;
             checkBoxApplicationImageListViewCacheModeOnDemand.Checked = Properties.Settings.Default.ImageViewLoadThumbnailOnDemandMode;
             kryptonCheckBoxFileMoveToRecycleBin.Checked = Properties.Settings.Default.MoveToRecycleBin;
+
+            kryptonTextBoxApplicatonOneDriveDuplicatesNetworkNames.Text = 
+                    ConvertArrayToStringWithSepeartor(
+                    ConvertStringWithSepeartorToArray(Properties.Settings.Default.OneDriveDuplicatesNetworkNames), "\r\n");
+
+
             //Cache
             numericUpDownCacheNumberOfPosters.Value = (int)Properties.Settings.Default.CacheNumberOfPosters;
             checkBoxCacheAllMetadatas.Checked = Properties.Settings.Default.CacheAllMetadatas;
