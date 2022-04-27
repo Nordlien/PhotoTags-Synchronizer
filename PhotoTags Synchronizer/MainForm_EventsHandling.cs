@@ -10169,7 +10169,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Action_CheckAndFixOneDriveIssues_ReturnWasFoundAndRemoved
+        #region OneDriveDuplicates - Action_CheckAndFixOneDriveIssues_ReturnWasFoundAndRemoved 
         private void Action_CheckAndFixOneDriveIssues_ReturnWasFoundAndRemoved()
         {
             HashSet<FileEntry> fileEntries = ImageListViewHandler.GetFileEntriesItems(imageListView1);

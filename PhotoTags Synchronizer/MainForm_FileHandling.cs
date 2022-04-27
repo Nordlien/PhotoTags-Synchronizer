@@ -679,7 +679,7 @@ namespace PhotoTagsSynchronizer
                                     }
                                     else if (winnerHasMachineName && !winnerWithoutMachineName)
                                     {
-                                        #region HasMachineName wins, remove "original", replace with Other file
+                                        #region HasMachineName wins, remove "original" fileEntryWithoutMachineName, replace with Other file
                                         try
                                         {
                                             foundOrRemovedFiles.Add(fileEntryWithoutMachineName.FileFullPath);                                            
@@ -696,7 +696,7 @@ namespace PhotoTagsSynchronizer
                                     }
                                     else if (!winnerHasMachineName && winnerWithoutMachineName)
                                     {
-                                        #region "Original" wins, delete "With Machine Name"
+                                        #region "Original" wins, delete "fileEntryMaybeHasMachineName"
                                         try
                                         {
                                             foundOrRemovedFiles.Add(fileEntryMaybeHasMachineName.FileFullPath);
