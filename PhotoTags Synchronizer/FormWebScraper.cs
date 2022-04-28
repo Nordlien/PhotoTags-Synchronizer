@@ -1568,9 +1568,20 @@ namespace PhotoTagsSynchronizer
 
 
 
+
         #endregion
 
-        
+        private void kryptonButtonWebScrapingAddUserTags_Click(object sender, EventArgs e)
+        {
+            string result = KryptonInputBox.Show("Enter new tags you like to do web scraping for. You can add multimple tags that are sepearted", "User tags", "example1; example2; example3");
+
+            string[] newTags = result.Split(new string[] { System.Globalization.CultureInfo.CurrentCulture.TextInfo.ListSeparator, "\r\n", ";", ",", "\n", "\r", "\t" }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (string newTag in newTags)
+            {
+                //CategoryLinksAddUpdate(linkCatergories, scrapingResult.LinksTags, "Tag");
+            }
+
+        }
     }
 
 
