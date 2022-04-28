@@ -23,9 +23,6 @@ namespace PhotoTagsSynchronizer
 
     public partial class MainForm : KryptonForm
     {
-        private AutoResetEvent WaitExittoolReadCacheThread = null;
-        private AutoResetEvent WaitThumbnailReadCacheThread = null;
-
         private static ThreadPriority threadPriority = ThreadPriority.Lowest;
 
         #region Thread variables
@@ -457,16 +454,7 @@ namespace PhotoTagsSynchronizer
             lock (commonQueueReadMetadataFromSourceWindowsLivePhotoGalleryLock) commonQueueReadMetadataFromSourceWindowsLivePhotoGallery.Clear();
             lock (exiftoolSave_QueueMetadataWrittenByExiftoolReadyToVerifyLock) exiftoolSave_QueueMetadataWrittenByExiftoolReadyToVerify.Clear();
 
-            WaitExittoolReadCacheThread = new AutoResetEvent(false);
-            WaitThumbnailReadCacheThread = new AutoResetEvent(false);
-
             StartThreads();
-
-            WaitExittoolReadCacheThread.WaitOne(10000);
-            WaitExittoolReadCacheThread = null;
-
-            WaitThumbnailReadCacheThread.WaitOne(10000);
-            WaitThumbnailReadCacheThread = null;
 
             MetadataDatabaseCache.StopCaching = false;
             ThumbnailPosterDatabaseCache.StopCaching = false;
@@ -927,8 +915,6 @@ namespace PhotoTagsSynchronizer
         {
             try
             {
-                if (WaitThumbnailReadCacheThread != null && CommonQueueLazyLoadingThumbnailCountDirty() == 0) WaitThumbnailReadCacheThread.Set();
-
                 lock (_ThreadLazyLoadingMediaThumbnailLock)
                     if (GlobalData.IsStopAndEmptyThumbnailQueueRequest || _ThreadLazyLoadingMediaThumbnail != null || CommonQueueLazyLoadingThumbnailCountDirty() <= 0) return;
 
@@ -961,8 +947,7 @@ namespace PhotoTagsSynchronizer
                                 if (GlobalData.IsApplicationClosing || GlobalData.IsStopAndEmptyThumbnailQueueRequest)
                                     lock (commonQueueLazyLoadingMediaThumbnailLock) commonQueueLazyLoadingMediaThumbnail.Clear();
                             }
-                            if (WaitThumbnailReadCacheThread != null) WaitThumbnailReadCacheThread.Set();
-
+                            
                             TriggerAutoResetEventQueueEmpty();
                         }
                         catch (Exception ex)
@@ -1178,7 +1163,6 @@ namespace PhotoTagsSynchronizer
         {
             try
             {
-                if (WaitExittoolReadCacheThread != null && CommonQueueReadMetadataFromSourceExiftoolCountDirty() <= 0) WaitExittoolReadCacheThread.Set();
                 if (GlobalData.IsStopAndEmptyExiftoolReadQueueRequest || _ThreadReadMetadataFromSourceExiftool != null || CommonQueueReadMetadataFromSourceExiftoolCountDirty() <= 0) return;
                 if (ExiftoolSave_MediaFilesNotInDatabaseCountLock() > 0)
                 {
@@ -1637,9 +1621,6 @@ namespace PhotoTagsSynchronizer
 
                             if (GlobalData.IsApplicationClosing || GlobalData.IsStopAndEmptyExiftoolReadQueueRequest)
                                 lock (commonQueueReadMetadataFromSourceExiftoolLock) commonQueueReadMetadataFromSourceExiftool.Clear();
-
-
-                            if (WaitExittoolReadCacheThread != null) WaitExittoolReadCacheThread.Set();
 
                             TriggerAutoResetEventQueueEmpty();
                         }
