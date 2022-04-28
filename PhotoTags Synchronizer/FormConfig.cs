@@ -223,16 +223,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Combobox - Get Combobox Int Value
-        private int GetComboboxIntValue(KryptonComboBox comboBox)
-        {
-            if (int.TryParse(comboBox.Text.Split(' ')[0], out int result))
-                return result;
-            else
-                return -1;
-        }
-        #endregion
-
         #region Combobox - Set Res From Combox
         private void SetResFromCombox(string value, ref int width, ref int height)
         {
@@ -305,6 +295,7 @@ namespace PhotoTagsSynchronizer
             numericUpDownWebScrapingPageDownCount.Value = Properties.Settings.Default.WebScrapingPageDownCount;
             numericUpDownWebScrapingRetry.Value = Properties.Settings.Default.WebScrapingRetry;
             numericUpDownJavaScriptExecuteTimeout.Value = Properties.Settings.Default.JavaScriptExecuteTimeout;
+            kryptonTextBoxWebScraperSearchTagUrlPrefix.Text = Properties.Settings.Default.WebScraperSearchTagUrlPrefix;
 
             //Camera Owner 
             PopulateMetadataCameraOwner(dataGridViewCameraOwner);
@@ -425,6 +416,7 @@ namespace PhotoTagsSynchronizer
                 Properties.Settings.Default.WebScrapingPageDownCount = (int)numericUpDownWebScrapingPageDownCount.Value;
                 Properties.Settings.Default.WebScrapingRetry = (int)numericUpDownWebScrapingRetry.Value;
                 Properties.Settings.Default.JavaScriptExecuteTimeout = (int)numericUpDownJavaScriptExecuteTimeout.Value;
+                Properties.Settings.Default.WebScraperSearchTagUrlPrefix = kryptonTextBoxWebScraperSearchTagUrlPrefix.Text;
 
                 //Metadata Write
                 Properties.Settings.Default.WriteUsingCompatibilityCheck = kryptonCheckBoxWriteMetadataCompatibilityCheckAndFix.Checked;

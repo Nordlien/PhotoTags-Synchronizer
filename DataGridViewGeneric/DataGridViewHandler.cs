@@ -1622,11 +1622,6 @@ namespace DataGridViewGeneric
             if (columnIndex < 0) return null;
             if (columnIndex >= dataGridView.ColumnCount) return null; //This can happen when using cache and switch between tabs
             DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-            if (dataGridViewGenericColumn.FileEntryAttribute.FileFullPath != dataGridView.Columns[columnIndex].HeaderText)
-            {
-                //DEBUG
-            }
-            //return dataGridViewGenericColumn.FileEntryAttribute.FileFullPath;
             return dataGridView.Columns[columnIndex].HeaderText;
         }
         #endregion

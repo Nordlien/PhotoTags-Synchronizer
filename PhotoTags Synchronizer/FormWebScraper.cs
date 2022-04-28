@@ -353,6 +353,7 @@ namespace PhotoTagsSynchronizer
             buttonWebScrapingSearchStart.Enabled = enabled;
             buttonWebScrapingSave.Enabled = enabled;
             buttonWebScrapingClearDataSet.Enabled = enabled;
+            kryptonButtonWebScrapingAddUserTags.Enabled = enabled;
 
             buttonWebScrapingLoadPackage.Enabled = enabled && (listViewDataSetDates.Items.Count > 0);
             listViewDataSetDates.Enabled = enabled && (listViewDataSetDates.Items.Count > 0);            
@@ -1186,6 +1187,11 @@ namespace PhotoTagsSynchronizer
                                 case "Location":
                                     metadataDateSetScraped = await ScrapingMediaFiles(script, linkCategory.Link, null, null, null, linkCategory.Name, webScrapingRetry, _urlLoadingFailed);
                                     break;
+                                case "Search":
+                                    metadataDateSetScraped = await ScrapingMediaFiles(script, linkCategory.Link, linkCategory.Name, null, null, null, webScrapingRetry, _urlLoadingFailed);
+                                    break; 
+                                default:
+                                    throw new NotSupportedException();
                             }
 
                             if (stopRequested) break;
@@ -1571,17 +1577,29 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
+        #region GUI - WebScrapingAddUserTags_Click
         private void kryptonButtonWebScrapingAddUserTags_Click(object sender, EventArgs e)
         {
-            string result = KryptonInputBox.Show("Enter new tags you like to do web scraping for. You can add multimple tags that are sepearted", "User tags", "example1; example2; example3");
+            string result = KryptonInputBox.Show("Enter new tags you like to do web scraping for. You can add multimple tags that are sepearted", "User tags", "examples; portrait photography; football");
 
             string[] newTags = result.Split(new string[] { System.Globalization.CultureInfo.CurrentCulture.TextInfo.ListSeparator, "\r\n", ";", ",", "\n", "\r", "\t" }, StringSplitOptions.RemoveEmptyEntries);
+
+            string prefixUrl = Properties.Settings.Default.WebScraperSearchTagUrlPrefix;
+            if (!prefixUrl.EndsWith("/") && !prefixUrl.EndsWith("\\")) prefixUrl = prefixUrl + "/";
+
+            ScrapingResult scrapingResult = new ScrapingResult();
             foreach (string newTag in newTags)
             {
-                //CategoryLinksAddUpdate(linkCatergories, scrapingResult.LinksTags, "Tag");
+                string newTagTrim = newTag.Trim();
+                string newLink = prefixUrl + HttpUtility.UrlPathEncode(newTagTrim);
+                if (!scrapingResult.LinksTags.ContainsKey(newLink)) scrapingResult.LinksTags.Add(newLink, newTagTrim);
             }
 
+            CategoryLinksAddUpdate(_linkCatergories, scrapingResult.LinksTags, "Search");
+            UpdatedWebScrapingDataSetList(_webScrapingDataSet);
+            CategryLinksShowInListView(_linkCatergories);
         }
+        #endregion
     }
 
 

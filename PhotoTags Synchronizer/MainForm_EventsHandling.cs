@@ -10200,8 +10200,10 @@ namespace PhotoTagsSynchronizer
 
                 if (
                     KryptonMessageBox.Show("Result after running OneDrive duplicated tool.\r\n" +
-                    "For best result, run the tool after Exiftool has read all metadatas from media files.\r\n" +
-                    "Also: After OneDrive done with sync. Then Refresh the files in folder, to fetch last files downloaded by OneDrive.\r\n" +
+                    "Also: After OneDrive is finished with sync. Then Refresh the files in the folder, to fetch the last files downloaded by OneDrive.\r\n\r\n" +
+                    "When OneDrive duplicated tool is not able to figure out what's new and old. Compare the media files manually in the DataGridView.\r\n" +
+                    "To delete your files of choice. Select the minimum of one cell in the DataGridView for files you like to delete. \r\n" +
+                    "Use the select tool and select all media files match cells, then you are able to delete selected files.\r\n" +
                     "\r\n" +
 
                     "Delete files: " + deletedFiles.Count + "\r\n\r\n" +
@@ -10225,7 +10227,10 @@ namespace PhotoTagsSynchronizer
             {
                 KryptonMessageBox.Show("Result after running OneDrive duplicated tool.\r\n" + 
                     "For best result, run the tool after Exiftool has read all metadatas from media files.\r\n" +
-                    "Also: After OneDrive done with sync. Then Refresh the files in folder, to fetch last files downloaded by OneDrive.\r\n" +
+                    "Also: After OneDrive is finished with sync. Then Refresh the files in the folder, to fetch the last files downloaded by OneDrive.\r\n\r\n" +
+                    "When OneDrive duplicated tool is not able to figure out what's new and old. Compare the media files manually in the DataGridView.\r\n" +
+                    "To delete your files of choice. Select the minimum of one cell in the DataGridView for files you like to delete. \r\n" + 
+                    "Use the select tool and select all media files match cells, then you are able to delete selected files.\r\n" +
                     "\r\n" +
 
                 "Delete files: 0 \r\n" +

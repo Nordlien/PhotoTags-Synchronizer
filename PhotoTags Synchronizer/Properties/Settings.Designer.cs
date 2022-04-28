@@ -2780,5 +2780,17 @@ explorer ms-photos?filename=""{FileFullPath}""")]
                 this["OneDriveDuplicatesNetworkNames"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://photos.google.com/search/")]
+        public string WebScraperSearchTagUrlPrefix {
+            get {
+                return ((string)(this["WebScraperSearchTagUrlPrefix"]));
+            }
+            set {
+                this["WebScraperSearchTagUrlPrefix"] = value;
+            }
+        }
     }
 }

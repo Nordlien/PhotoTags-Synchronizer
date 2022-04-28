@@ -99,6 +99,7 @@ namespace PhotoTagsSynchronizer
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.buttonWebScrapingSearchStart = new Krypton.Toolkit.KryptonButton();
             this.kryptonTextBoxWebScrapingSearch = new Krypton.Toolkit.KryptonTextBox();
+            this.kryptonButtonWebScrapingAddUserTags = new Krypton.Toolkit.KryptonButton();
             this.kryptonWorkspaceCellCategories = new Krypton.Workspace.KryptonWorkspaceCell();
             this.buttonSpecNavigatorCategoriesSelectEmpty = new Krypton.Navigator.ButtonSpecNavigator();
             this.buttonSpecNavigatorCategoriesSelectAll = new Krypton.Navigator.ButtonSpecNavigator();
@@ -120,6 +121,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonPage18 = new Krypton.Navigator.KryptonPage();
             this.kryptonPage5 = new Krypton.Navigator.KryptonPage();
             this.kryptonPage10 = new Krypton.Navigator.KryptonPage();
+            this.kryptonLabelForAdvanceUSers = new Krypton.Toolkit.KryptonLabel();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxJavaScript)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxJavaScriptResult)).BeginInit();
             this.statusStrip1.SuspendLayout();
@@ -388,11 +390,11 @@ namespace PhotoTagsSynchronizer
             // 
             this.buttonWebScrapingCategoriesStart.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonWebScrapingCategoriesStart.Location = new System.Drawing.Point(212, 3);
+            this.buttonWebScrapingCategoriesStart.Location = new System.Drawing.Point(212, 34);
             this.buttonWebScrapingCategoriesStart.Name = "buttonWebScrapingCategoriesStart";
             this.buttonWebScrapingCategoriesStart.Size = new System.Drawing.Size(203, 25);
             this.buttonWebScrapingCategoriesStart.TabIndex = 0;
-            this.buttonWebScrapingCategoriesStart.Values.Text = "Start Scraping categories";
+            this.buttonWebScrapingCategoriesStart.Values.Text = "Start Scraping selected categories";
             this.buttonWebScrapingCategoriesStart.Click += new System.EventHandler(this.buttonWebScrapingCategoriesStart_Click);
             // 
             // buttonWebScrapingSave
@@ -479,11 +481,11 @@ namespace PhotoTagsSynchronizer
             // 
             this.buttonWebScrapingCategories.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonWebScrapingCategories.Location = new System.Drawing.Point(3, 3);
+            this.buttonWebScrapingCategories.Location = new System.Drawing.Point(3, 34);
             this.buttonWebScrapingCategories.Name = "buttonWebScrapingCategories";
             this.buttonWebScrapingCategories.Size = new System.Drawing.Size(203, 25);
             this.buttonWebScrapingCategories.TabIndex = 1;
-            this.buttonWebScrapingCategories.Values.Text = "Fetch categories";
+            this.buttonWebScrapingCategories.Values.Text = "Scraping new categories";
             this.buttonWebScrapingCategories.Click += new System.EventHandler(this.WebScrapingCategoryLinks_Click);
             // 
             // buttonRunJavaScript
@@ -501,7 +503,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.buttonBrowserShowDevTool.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonBrowserShowDevTool.Location = new System.Drawing.Point(3, 3);
+            this.buttonBrowserShowDevTool.Location = new System.Drawing.Point(212, 3);
             this.buttonBrowserShowDevTool.Name = "buttonBrowserShowDevTool";
             this.buttonBrowserShowDevTool.Size = new System.Drawing.Size(203, 25);
             this.buttonBrowserShowDevTool.TabIndex = 0;
@@ -576,6 +578,10 @@ namespace PhotoTagsSynchronizer
             // 
             this.kryptonWorkspaceMain.ActivePage = this.kryptonPageBrowserUrl;
             this.kryptonWorkspaceMain.AllowPageDrag = false;
+            this.kryptonWorkspaceMain.CompactFlags = ((Krypton.Workspace.CompactFlags)((((Krypton.Workspace.CompactFlags.RemoveEmptyCells | Krypton.Workspace.CompactFlags.RemoveEmptySequences) 
+            | Krypton.Workspace.CompactFlags.PromoteLeafs) 
+            | Krypton.Workspace.CompactFlags.AtLeastOneVisibleCell)));
+            this.kryptonWorkspaceMain.ContainerBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelClient;
             this.kryptonWorkspaceMain.ContextMenus.ShowContextMenu = false;
             this.kryptonWorkspaceMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonWorkspaceMain.Location = new System.Drawing.Point(0, 0);
@@ -590,6 +596,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonWorkspaceMain.Root.WorkspaceControl = this.kryptonWorkspaceMain;
             this.kryptonWorkspaceMain.SeparatorStyle = Krypton.Toolkit.SeparatorStyle.HighProfile;
             this.kryptonWorkspaceMain.Size = new System.Drawing.Size(1115, 743);
+            this.kryptonWorkspaceMain.SplitterWidth = 5;
             this.kryptonWorkspaceMain.TabIndex = 2;
             this.kryptonWorkspaceMain.TabStop = true;
             // 
@@ -786,7 +793,8 @@ namespace PhotoTagsSynchronizer
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.Controls.Add(this.buttonSaveJavaScript, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.buttonRunJavaScript, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.buttonBrowserShowDevTool, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.buttonBrowserShowDevTool, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.kryptonLabelForAdvanceUSers, 0, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -946,11 +954,12 @@ namespace PhotoTagsSynchronizer
             this.tableLayoutPanel3.ColumnCount = 2;
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.Controls.Add(this.buttonWebScrapingSearchStart, 1, 1);
-            this.tableLayoutPanel3.Controls.Add(this.buttonWebScrapingCategories, 0, 0);
-            this.tableLayoutPanel3.Controls.Add(this.buttonWebScrapingCategoriesStart, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.buttonWebScrapingStop, 1, 2);
-            this.tableLayoutPanel3.Controls.Add(this.kryptonTextBoxWebScrapingSearch, 0, 1);
+            this.tableLayoutPanel3.Controls.Add(this.kryptonButtonWebScrapingAddUserTags, 0, 2);
+            this.tableLayoutPanel3.Controls.Add(this.kryptonTextBoxWebScrapingSearch, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.buttonWebScrapingCategories, 0, 1);
+            this.tableLayoutPanel3.Controls.Add(this.buttonWebScrapingSearchStart, 1, 0);
+            this.tableLayoutPanel3.Controls.Add(this.buttonWebScrapingCategoriesStart, 1, 1);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel3.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
@@ -965,7 +974,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.buttonWebScrapingSearchStart.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonWebScrapingSearchStart.Location = new System.Drawing.Point(212, 34);
+            this.buttonWebScrapingSearchStart.Location = new System.Drawing.Point(212, 3);
             this.buttonWebScrapingSearchStart.Name = "buttonWebScrapingSearchStart";
             this.buttonWebScrapingSearchStart.Size = new System.Drawing.Size(203, 25);
             this.buttonWebScrapingSearchStart.TabIndex = 4;
@@ -976,11 +985,22 @@ namespace PhotoTagsSynchronizer
             // 
             this.kryptonTextBoxWebScrapingSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.kryptonTextBoxWebScrapingSearch.Location = new System.Drawing.Point(3, 34);
+            this.kryptonTextBoxWebScrapingSearch.Location = new System.Drawing.Point(3, 3);
             this.kryptonTextBoxWebScrapingSearch.Name = "kryptonTextBoxWebScrapingSearch";
             this.kryptonTextBoxWebScrapingSearch.Size = new System.Drawing.Size(203, 23);
             this.kryptonTextBoxWebScrapingSearch.TabIndex = 3;
             this.kryptonTextBoxWebScrapingSearch.Text = "Photos after 2021-09";
+            // 
+            // kryptonButtonWebScrapingAddUserTags
+            // 
+            this.kryptonButtonWebScrapingAddUserTags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.kryptonButtonWebScrapingAddUserTags.Location = new System.Drawing.Point(3, 65);
+            this.kryptonButtonWebScrapingAddUserTags.Name = "kryptonButtonWebScrapingAddUserTags";
+            this.kryptonButtonWebScrapingAddUserTags.Size = new System.Drawing.Size(203, 24);
+            this.kryptonButtonWebScrapingAddUserTags.TabIndex = 5;
+            this.kryptonButtonWebScrapingAddUserTags.Values.Text = "Add search tags in categories";
+            this.kryptonButtonWebScrapingAddUserTags.Click += new System.EventHandler(this.kryptonButtonWebScrapingAddUserTags_Click);
             // 
             // kryptonWorkspaceCellCategories
             // 
@@ -1216,6 +1236,14 @@ namespace PhotoTagsSynchronizer
             this.kryptonPage10.ToolTipTitle = "Page ToolTip";
             this.kryptonPage10.UniqueName = "3d0928b650a04ca58fb37c9da3c97546";
             // 
+            // kryptonLabelForAdvanceUSers
+            // 
+            this.kryptonLabelForAdvanceUSers.Location = new System.Drawing.Point(3, 3);
+            this.kryptonLabelForAdvanceUSers.Name = "kryptonLabelForAdvanceUSers";
+            this.kryptonLabelForAdvanceUSers.Size = new System.Drawing.Size(108, 20);
+            this.kryptonLabelForAdvanceUSers.TabIndex = 3;
+            this.kryptonLabelForAdvanceUSers.Values.Text = "For advance users";
+            // 
             // FormWebScraper
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1261,6 +1289,7 @@ namespace PhotoTagsSynchronizer
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageDevTools)).EndInit();
             this.kryptonPageDevTools.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellDataSetActions)).EndInit();
             this.kryptonWorkspaceCellDataSetActions.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageDataSetActions)).EndInit();
@@ -1392,5 +1421,7 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private Krypton.Toolkit.KryptonButton buttonWebScrapingSearchStart;
         private Krypton.Toolkit.KryptonTextBox kryptonTextBoxWebScrapingSearch;
+        private Krypton.Toolkit.KryptonButton kryptonButtonWebScrapingAddUserTags;
+        private Krypton.Toolkit.KryptonLabel kryptonLabelForAdvanceUSers;
     }
 }

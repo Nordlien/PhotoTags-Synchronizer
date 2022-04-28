@@ -1320,5 +1320,8 @@ Unknown 5
     <Setting Name="OneDriveDuplicatesNetworkNames" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="WebScraperSearchTagUrlPrefix" Type="System.String" Scope="User">
+      <Value Profile="(Default)">https://photos.google.com/search/</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
