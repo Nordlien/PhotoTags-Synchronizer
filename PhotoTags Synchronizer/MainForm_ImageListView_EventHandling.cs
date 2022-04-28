@@ -1122,17 +1122,14 @@ namespace PhotoTagsSynchronizer
                     if (runPopulateFilter) FilterVerifyer.ClearTreeViewNodes(treeViewFilter);
                     //GlobalData.DoNotTrigger_ImageListView_ItemUpdate = false;
 
-                    UpdateStatusImageListView("Clear old data... Keep track");
+                    UpdateStatusImageListView("Clear old data...");
                     KeepTrackOfMetadataLoadedClearList();
-                    UpdateStatusImageListView("Clear old data... Remove Errors");
                     RemoveErrors();
-                    UpdateStatusImageListView("Clear old data... Clear queues");
                     ClearAllQueues();
                     ImageListViewHandler.ClearAllAndCaches(imageListView1);
                     #endregion
 
                     #region Suspend / Resume
-                    UpdateStatusImageListView("Clear old data... Suspend");
                     TreeViewFolderBrowserHandler.Enabled(treeViewFolderBrowser1, false);
                     ImageListViewHandler.Enable(imageListView1, false);
                     ImageListViewSuspendLayoutInvoke(imageListView1);
