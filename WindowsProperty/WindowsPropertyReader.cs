@@ -20,6 +20,7 @@ namespace WindowsProperty
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
+        #region Write
         public void Write(DataGridView dataGridView, int columnIndex)
         {
             List<PropertyKey> notSet = new List<PropertyKey>();
@@ -117,8 +118,9 @@ namespace WindowsProperty
             }
 
         }
+        #endregion
 
-
+        #region Read
         public List<DataGridViewGenericRowAndValue> Read(string fullFileName)
         {
             List<DataGridViewGenericRowAndValue> dataGridViewGenericRowsAndValueList = new List<DataGridViewGenericRowAndValue>();
@@ -256,7 +258,9 @@ namespace WindowsProperty
 
             return dataGridViewGenericRowsAndValueList;
         }
+        #endregion
 
+        #region GetThumbnail
         public Image GetThumbnail(string fullFileName)
         {
             Bitmap image = null;
@@ -308,7 +312,7 @@ namespace WindowsProperty
 
             return image;
         }
-
+        #endregion
     }
 
 }
