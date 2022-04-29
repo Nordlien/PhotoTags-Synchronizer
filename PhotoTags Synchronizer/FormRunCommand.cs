@@ -6,13 +6,11 @@ using MetadataPriorityLibrary;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 using System.Windows.Forms;
 using FileHandeling;
-using PhotoTagsCommonComponets;
 using Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
@@ -31,6 +29,8 @@ namespace PhotoTagsSynchronizer
         public List<Metadata> MetadatasEmpty { get; set; } = new List<Metadata>();
 
         public List<string> AllowedFileNameDateTimeFormats { get; set; } = new List<string>();
+        public List<string> ComputerNames { get; set; } = new List<string>();
+        public string GPStag { get; set; } = "";
 
         private FastColoredTextBoxHandler fastColoredTextBoxHandlerRunArgumentFile = null;
         private FastColoredTextBoxHandler fastColoredTextBoxHandlerRunArgumentFileAutoCorrect = null;
@@ -61,8 +61,8 @@ namespace PhotoTagsSynchronizer
 
             isPopulation = true;
             #region Tab - Run batch - Command
-            comboBoxBatchRunImageVariables.Items.AddRange(Metadata.ListOfPropertiesCombined(false));
-            comboBoxBatchRunVideoVariables.Items.AddRange(Metadata.ListOfPropertiesCombined(false));
+            comboBoxBatchRunImageVariables.Items.AddRange(Metadata.ListOfPropertiesOriginal(false, false).ToArray());
+            comboBoxBatchRunVideoVariables.Items.AddRange(Metadata.ListOfPropertiesOriginal(false, false).ToArray());
             ComboBoxHandler.ComboBoxPopulateClear(comboBoxBatchRunImageCommand, Properties.Settings.Default.RunBatchImageCommandList, Properties.Settings.Default.RunBatchImageCommand);
             ComboBoxHandler.ComboBoxPopulateClear(comboBoxBatchRunVideoCommand, Properties.Settings.Default.RunBatchVideoCommandList, Properties.Settings.Default.RunBatchVideoCommand);
             checkBoxBatchRunImageWaitForCommandExit.Checked = Properties.Settings.Default.RunBatchImageWaitForCommand;
@@ -507,7 +507,7 @@ namespace PhotoTagsSynchronizer
 
             if (kryptonWorkspaceCellRunBatchImage.SelectedPage.Tag.ToString() == "Command")
                 foreach (Metadata metadata in MetadatasGridView) textBoxRunBatchImageExample.Text += (textBoxRunBatchImageExample.Text == "" ? "" : "\r\n") +
-                        metadata.ReplaceVariablesWrittenByUser(comboBoxBatchRunImageCommand.Text, AllowedFileNameDateTimeFormats);
+                        metadata.ReplaceVariablesOriginal(comboBoxBatchRunImageCommand.Text, AllowedFileNameDateTimeFormats, computerNames: ComputerNames, GPStag: GPStag);
             else
                 foreach (Metadata metadata in MetadatasGridView) textBoxRunBatchImageExample.Text += (textBoxRunBatchImageExample.Text == "" ? "" : "\r\n") +
                         comboBoxBatchRunImageVerb.Text + " " + comboBoxBatchRunImageAppId.Text + " " + metadata.FileFullPath;
@@ -515,7 +515,7 @@ namespace PhotoTagsSynchronizer
             textBoxRunBatchVideoExample.Text = "";
             if (kryptonWorkspaceCellRunBatchVideo.SelectedPage.Tag.ToString() == "Command")
                 foreach (Metadata metadata in MetadatasGridView) textBoxRunBatchVideoExample.Text += (textBoxRunBatchVideoExample.Text == "" ? "" : "\r\n") +
-                        metadata.ReplaceVariablesWrittenByUser(comboBoxBatchRunVideoCommand.Text, AllowedFileNameDateTimeFormats);
+                        metadata.ReplaceVariablesOriginal(comboBoxBatchRunVideoCommand.Text, AllowedFileNameDateTimeFormats, computerNames: ComputerNames, GPStag: GPStag);
             else
                 foreach (Metadata metadata in MetadatasGridView) textBoxRunBatchVideoExample.Text += (textBoxRunBatchVideoExample.Text == "" ? "" : "\r\n") +
                         comboBoxBatchRunVideoVerb.Text + " " + comboBoxBatchRunVideoAppId.Text + " " + metadata.FileFullPath;
@@ -588,8 +588,8 @@ namespace PhotoTagsSynchronizer
 
                 try
                 {
-                    string imageCommandWithArguments = metadata.ReplaceVariablesWrittenByUser(comboBoxBatchRunImageCommand.Text, AllowedFileNameDateTimeFormats);
-                    string videoCommandWithArguments = metadata.ReplaceVariablesWrittenByUser(comboBoxBatchRunVideoCommand.Text, AllowedFileNameDateTimeFormats);
+                    string imageCommandWithArguments = metadata.ReplaceVariablesOriginal(comboBoxBatchRunImageCommand.Text, AllowedFileNameDateTimeFormats, computerNames: ComputerNames, GPStag: GPStag);
+                    string videoCommandWithArguments = metadata.ReplaceVariablesOriginal(comboBoxBatchRunVideoCommand.Text, AllowedFileNameDateTimeFormats, computerNames: ComputerNames, GPStag: GPStag);
 
                     if (ImageAndMovieFileExtentions.ImageAndMovieFileExtentionsUtility.IsImageFormat(metadata.FileFullPath))
                     {
@@ -1055,7 +1055,7 @@ namespace PhotoTagsSynchronizer
         {
             ExiftoolWriter.CreateExiftoolArguFileText(
                     MetadatasOriginal, MetadatasEmpty,
-                    AllowedFileNameDateTimeFormats,
+                    AllowedFileNameDateTimeFormats, ComputerNames, GPStag,
                     fastColoredTextBoxMetadataWriteTags.Text, fastColoredTextBoxMetadataWriteKeywordAdd.Text,
                     true, out string exiftoolFileTextGridView);
 
@@ -1072,7 +1072,7 @@ namespace PhotoTagsSynchronizer
         {
             ExiftoolWriter.CreateExiftoolArguFileText(
                     MetadatasGridView, MetadatasEmpty,
-                    AllowedFileNameDateTimeFormats,
+                    AllowedFileNameDateTimeFormats, ComputerNames, GPStag,
                     fastColoredTextBoxMetadataWriteTags.Text, fastColoredTextBoxMetadataWriteKeywordAdd.Text,
                     true, out string exiftoolFileTextOriginal);
 

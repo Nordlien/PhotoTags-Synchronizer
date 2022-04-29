@@ -8803,7 +8803,8 @@ namespace PhotoTagsSynchronizer
                     CollectMetadataFromAllDataGridViewData(out List <Metadata> metadataListOriginalExiftool, out List<Metadata> metadataListFromDataGridView, false);
 
                     ExiftoolWriter.CreateExiftoolArguFileText(
-                        metadataListFromDataGridView, metadataListOriginalExiftool, allowedFileNameDateTimeFormats, 
+                        metadataListFromDataGridView, metadataListOriginalExiftool, allowedFileNameDateTimeFormats, new List<string>(oneDriveNetworkNames), //Clone it, to avoid thread issues
+                        Properties.Settings.Default.MicosoftOneDriveLocationHackPostfix,
                         writeMetadataTagsConfiguration, writeMetadataKeywordAddConfiguration,
                         true, out string exiftoolAgruFileText);
                     #endregion
@@ -8851,7 +8852,8 @@ namespace PhotoTagsSynchronizer
 
 
                     ExiftoolWriter.CreateExiftoolArguFileText(
-                        metadataListFromDataGridViewAutoCorrect, metadataListEmpty, allowedFileNameDateTimeFormats,
+                        metadataListFromDataGridViewAutoCorrect, metadataListEmpty, allowedFileNameDateTimeFormats, new List<string>(oneDriveNetworkNames), //Clone it, to avoid thread issues
+                        Properties.Settings.Default.MicosoftOneDriveLocationHackPostfix,
                         writeMetadataTagsConfiguration, writeMetadataKeywordAddConfiguration,
                         true, out string exiftoolAutoCorrectFileText);
                     #endregion
@@ -8864,6 +8866,8 @@ namespace PhotoTagsSynchronizer
                         runCommand.MetadatasOriginal = metadataListOriginalExiftool;
                         runCommand.MetadatasEmpty = metadataListEmpty;
                         runCommand.AllowedFileNameDateTimeFormats = allowedFileNameDateTimeFormats;
+                        runCommand.ComputerNames = new List<string>(oneDriveNetworkNames); //Clone it, to avoid thread issues
+                        runCommand.GPStag = Properties.Settings.Default.MicosoftOneDriveLocationHackPostfix;
                         runCommand.MetadataPrioity = exiftoolReader.MetadataReadPrioity;
 
                         FormSplash.UpdateStatus("Populate applications and icons...");

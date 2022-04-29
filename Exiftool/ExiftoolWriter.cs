@@ -38,7 +38,7 @@ namespace Exiftool
 
         #region WriteXtraAtom
         public static List<FileEntry> WriteXtraAtom(
-            List<Metadata> metadataListToWrite, List<Metadata> metadataListOriginal, List<string> allowedFileNameDateTimeFormats,
+            List<Metadata> metadataListToWrite, List<Metadata> metadataListOriginal, List<string> allowedFileNameDateTimeFormats, List<string> computerNames, string GPStag,
             string writeXtraAtomAlbumVariable, bool writeXtraAtomAlbumVideo,
             string writeXtraAtomCategoriesVariable, bool writeXtraAtomCategoriesVideo,
             string writeXtraAtomCommentVariable, bool writeXtraAtomCommentPicture, bool writeXtraAtomCommentVideo,
@@ -83,13 +83,13 @@ namespace Exiftool
                 #endregion 
 
                 #region Replace Variable 
-                string writeXtraAtomAlbumReult = metadataToWrite.ReplaceVariablesWrittenByUser(writeXtraAtomAlbumVariable, allowedFileNameDateTimeFormats);
-                string writeXtraAtomCategoriesResult = metadataToWrite.ReplaceVariablesWrittenByUser(writeXtraAtomCategoriesVariable, allowedFileNameDateTimeFormats);
-                string writeXtraAtomCommentResult = metadataToWrite.ReplaceVariablesWrittenByUser(writeXtraAtomCommentVariable, allowedFileNameDateTimeFormats);
-                string writeXtraAtomKeywordsResult = metadataToWrite.ReplaceVariablesWrittenByUser(writeXtraAtomKeywordsVariable, allowedFileNameDateTimeFormats);
-                string writeXtraAtomSubjectResult = metadataToWrite.ReplaceVariablesWrittenByUser(writeXtraAtomSubjectVariable, allowedFileNameDateTimeFormats);
-                string writeXtraAtomSubtitleResult = metadataToWrite.ReplaceVariablesWrittenByUser(writeXtraAtomSubtitleVariable, allowedFileNameDateTimeFormats);
-                string writeXtraAtomArtistResult = metadataToWrite.ReplaceVariablesWrittenByUser(writeXtraAtomArtistVariable, allowedFileNameDateTimeFormats);
+                string writeXtraAtomAlbumReult = metadataToWrite.ReplaceVariablesWrittenByUser(writeXtraAtomAlbumVariable, allowedFileNameDateTimeFormats, computerNames, GPStag);
+                string writeXtraAtomCategoriesResult = metadataToWrite.ReplaceVariablesWrittenByUser(writeXtraAtomCategoriesVariable, allowedFileNameDateTimeFormats, computerNames, GPStag);
+                string writeXtraAtomCommentResult = metadataToWrite.ReplaceVariablesWrittenByUser(writeXtraAtomCommentVariable, allowedFileNameDateTimeFormats, computerNames, GPStag);
+                string writeXtraAtomKeywordsResult = metadataToWrite.ReplaceVariablesWrittenByUser(writeXtraAtomKeywordsVariable, allowedFileNameDateTimeFormats, computerNames, GPStag);
+                string writeXtraAtomSubjectResult = metadataToWrite.ReplaceVariablesWrittenByUser(writeXtraAtomSubjectVariable, allowedFileNameDateTimeFormats, computerNames, GPStag);
+                string writeXtraAtomSubtitleResult = metadataToWrite.ReplaceVariablesWrittenByUser(writeXtraAtomSubtitleVariable, allowedFileNameDateTimeFormats, computerNames, GPStag);
+                string writeXtraAtomArtistResult = metadataToWrite.ReplaceVariablesWrittenByUser(writeXtraAtomArtistVariable, allowedFileNameDateTimeFormats, computerNames, GPStag);
                 #endregion
 
                 #region Write Xtra Atrom using Property Writer
@@ -150,7 +150,8 @@ namespace Exiftool
         #endregion
 
         #region CreateExiftoolArguFileText
-        public static List<FileEntry> CreateExiftoolArguFileText(List<Metadata> metadataListToWrite, List<Metadata> metadataListOriginal, List<string> allowedFileNameDateTimeFormats,
+        public static List<FileEntry> CreateExiftoolArguFileText(List<Metadata> metadataListToWrite, List<Metadata> metadataListOriginal, 
+            List<string> allowedFileNameDateTimeFormats, List<string> computerNames, string GPStag,
             string writeMetadataTagsConfiguration, string writeMetadataKeywordAddConfiguration, bool alwaysWrite, 
             out string exiftoolArguFileText)
         {
@@ -173,14 +174,14 @@ namespace Exiftool
 
                 string tagsToWrite = metadataToWrite.ExiftoolWriterBuilderRemoveLinesNotChanged(writeMetadataTagsConfiguration, metadataOriginal, alwaysWrite);
 
-                string personalKeywordAddContent = metadataToWrite.ReplaceVariablesWrittenByUser(writeMetadataKeywordAddConfiguration, allowedFileNameDateTimeFormats);
-                string personalKeywordAddItems = metadataToWrite.VariablePersonalKeywordsWrittenByUser(personalKeywordAddContent, allowedFileNameDateTimeFormats);
+                string personalKeywordAddContent = metadataToWrite.ReplaceVariablesWrittenByUser(writeMetadataKeywordAddConfiguration, allowedFileNameDateTimeFormats, computerNames, GPStag);
+                string personalKeywordAddItems = metadataToWrite.VariablePersonalKeywordsWrittenByUser(personalKeywordAddContent, allowedFileNameDateTimeFormats, computerNames, GPStag);
 
-                string personalKeywordAddContentOriginal = metadataOriginal.ReplaceVariablesOriginal(writeMetadataKeywordAddConfiguration, allowedFileNameDateTimeFormats);
-                string personalKeywordAddItemsOriginal = metadataOriginal.VariablePersonalKeywordsOriginal(personalKeywordAddContentOriginal, allowedFileNameDateTimeFormats);
+                string personalKeywordAddContentOriginal = metadataOriginal.ReplaceVariablesOriginal(writeMetadataKeywordAddConfiguration, allowedFileNameDateTimeFormats, computerNames, GPStag);
+                string personalKeywordAddItemsOriginal = metadataOriginal.VariablePersonalKeywordsOriginal(personalKeywordAddContentOriginal, allowedFileNameDateTimeFormats, computerNames, GPStag);
 
-                tagsToWrite = metadataOriginal.ReplaceVariablesOriginal(tagsToWrite, allowedFileNameDateTimeFormats, personalKeywordAddItemsOriginal);
-                tagsToWrite = metadataToWrite.ReplaceVariablesWrittenByUser(tagsToWrite, allowedFileNameDateTimeFormats, personalKeywordAddItems);
+                tagsToWrite = metadataOriginal.ReplaceVariablesOriginal(tagsToWrite, allowedFileNameDateTimeFormats, computerNames, GPStag, personalKeywordAddItemsOriginal);
+                tagsToWrite = metadataToWrite.ReplaceVariablesWrittenByUser(tagsToWrite, allowedFileNameDateTimeFormats, computerNames, GPStag, personalKeywordAddItems);
 
                 
                 if (!string.IsNullOrWhiteSpace(tagsToWrite)) exiftoolArguFileText += (string.IsNullOrWhiteSpace(exiftoolArguFileText) ? "" : "\r\n") + tagsToWrite;
@@ -190,12 +191,14 @@ namespace Exiftool
         #endregion  
 
         #region WriteMetadata
-        public static void WriteMetadata(List<Metadata> metadataListToWrite, List<Metadata> metadataListOriginal, List<string> allowedFileNameDateTimeFormats,
+        public static void WriteMetadata(List<Metadata> metadataListToWrite, List<Metadata> metadataListOriginal, 
+            List<string> allowedFileNameDateTimeFormats, List<string> computerNames, string GPStag,
             string writeMetadataTagsConfiguration, string writeMetadataKeywordAddConfiguration, 
             out List<FileEntry> mediaFilesWithChangesWillBeUpdated, bool showCliWindow, ProcessPriorityClass processPriorityClass)
         {
             mediaFilesWithChangesWillBeUpdated = CreateExiftoolArguFileText(
-                metadataListToWrite, metadataListOriginal, allowedFileNameDateTimeFormats, writeMetadataTagsConfiguration, writeMetadataKeywordAddConfiguration, 
+                metadataListToWrite, metadataListOriginal, allowedFileNameDateTimeFormats, computerNames, GPStag,
+                writeMetadataTagsConfiguration, writeMetadataKeywordAddConfiguration, 
                 false, out string resultReplaceVariables);
 
             if (mediaFilesWithChangesWillBeUpdated.Count > 0) //Save if has anything to save

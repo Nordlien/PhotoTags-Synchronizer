@@ -1196,7 +1196,6 @@ namespace MetadataLibrary
         }
         #endregion
 
-
         #region Variables - List if Variable 
         public static string[] ListOfPropertiesCombined(bool addKeywordItems)
         {
@@ -1227,7 +1226,23 @@ namespace MetadataLibrary
             listOfProperties.Add("{IfFilePathChanged}");
             listOfProperties.Add("{FileFullPath}");
             listOfProperties.Add("{FileFullPath.8.3}");
+
+            listOfProperties.Add("{FileNameWithoutExtension}");
+            listOfProperties.Add("{FileNameWithoutExtensionDateTime}");
+            listOfProperties.Add("{FileNameWithoutExtensionDateTimeComputerName}");
+            listOfProperties.Add("{FileNameWithoutExtensionDateTimeGPStag}");
+            listOfProperties.Add("{FileNameWithoutExtensionDateTimeComputerNameGPStag}");
+            listOfProperties.Add("{FileNameWithoutExtensionComputerName}");
+            listOfProperties.Add("{FileNameWithoutExtensionComputerNameGPStag}");
+            listOfProperties.Add("{FileNameWithoutExtensionGPStag}");
             listOfProperties.Add("{FileNameWithoutDateTime}");
+            listOfProperties.Add("{FileNameWithoutDateTimeComputerName}");
+            listOfProperties.Add("{FileNameWithoutDateTimeGPStag}");
+            listOfProperties.Add("{FileNameWithoutDateTimeComputerNameGPStag}");
+            listOfProperties.Add("{FileNameWithoutComputerName}");
+            listOfProperties.Add("{FileNameWithoutComputerNameGPStag}");
+            listOfProperties.Add("{FileNameWithoutGPStag}");
+
             listOfProperties.Add("{FileExtension}");
             listOfProperties.Add("{IfFileDirectoryChanged}");
             listOfProperties.Add("{FileDirectory}");
@@ -1255,11 +1270,11 @@ namespace MetadataLibrary
             listOfProperties.Add("{FileDateCreatedDateStamp}");
             listOfProperties.Add("{FileDateCreatedTimeStamp}");
             listOfProperties.Add("{FileDateCreated_yyyy}");
-            listOfProperties.Add("{OriginalFileDateCreated_MM}");
-            listOfProperties.Add("{OriginalFileDateCreated_dd}");
-            listOfProperties.Add("{OriginalFileDateCreated_HH}");
-            listOfProperties.Add("{OriginalFileDateCreated_mm}");
-            listOfProperties.Add("{OriginalFileDateCreated_ss}");
+            listOfProperties.Add("{FileDateCreated_MM}");
+            listOfProperties.Add("{FileDateCreated_dd}");
+            listOfProperties.Add("{FileDateCreated_HH}");
+            listOfProperties.Add("{FileDateCreated_mm}");
+            listOfProperties.Add("{FileDateCreated_ss}");
             #endregion
 
             #region FileDateModified
@@ -1359,21 +1374,37 @@ namespace MetadataLibrary
             return listOfProperties; 
         }
 
-        public static List<string> ListOfPropertiesOriginal(bool addKeywordItems)
+        public static List<string> ListOfPropertiesOriginal(bool addKeywordItems, bool addIf = true)
         {
             List<string> listOfProperties = new List<string>();
 
             #region FileName/Folder/Path
-            listOfProperties.Add("{IfFileNameChanged}");
+            if (addIf) listOfProperties.Add("{IfFileNameChanged}");
             listOfProperties.Add("{OriginalFileName}");
 
-            listOfProperties.Add("{IfFilePathChanged}");
+            if (addIf) listOfProperties.Add("{IfFilePathChanged}");
             listOfProperties.Add("{OriginalFileFullPath}");
             listOfProperties.Add("{OriginalFileFullPath.8.3}");
+
             listOfProperties.Add("{OriginalFileNameWithoutExtension}");
+            listOfProperties.Add("{OriginalFileNameWithoutExtensionDateTime}");
+            listOfProperties.Add("{OriginalFileNameWithoutExtensionDateTimeComputerName}");
+            listOfProperties.Add("{OriginalFileNameWithoutExtensionDateTimeGPStag}");
+            listOfProperties.Add("{OriginalFileNameWithoutExtensionDateTimeComputerNameGPStag}");
+            listOfProperties.Add("{OriginalFileNameWithoutExtensionComputerName}");
+            listOfProperties.Add("{OriginalFileNameWithoutExtensionComputerNameGPStag}");
+            listOfProperties.Add("{OriginalFileNameWithoutExtensionGPStag}");
+            listOfProperties.Add("{OriginalFileNameWithoutDateTime}");
+            listOfProperties.Add("{OriginalFileNameWithoutDateTimeComputerName}");
+            listOfProperties.Add("{OriginalFileNameWithoutDateTimeGPStag}");
+            listOfProperties.Add("{OriginalFileNameWithoutDateTimeComputerNameGPStag}");
+            listOfProperties.Add("{OriginalFileNameWithoutComputerName}");
+            listOfProperties.Add("{OriginalFileNameWithoutComputerNameGPStag}");
+            listOfProperties.Add("{OriginalFileNameWithoutGPStag}");
+
             listOfProperties.Add("{OriginalFileExtension}");
 
-            listOfProperties.Add("{IfFileDirectoryChanged}");
+            if (addIf) listOfProperties.Add("{IfFileDirectoryChanged}");
             listOfProperties.Add("{OriginalFileDirectory}");
             #endregion
 
@@ -1406,7 +1437,7 @@ namespace MetadataLibrary
             #endregion
 
             #region FileDateModified
-            listOfProperties.Add("{IfFileDateModifiedChanged}");
+            if (addIf) listOfProperties.Add("{IfFileDateModifiedChanged}");
             listOfProperties.Add("{OriginalFileDateModified}");
             listOfProperties.Add("{OriginalFileDateModifiedDateStamp}");
             listOfProperties.Add("{OriginalFileDateModifiedTimeStamp}");
@@ -1419,7 +1450,7 @@ namespace MetadataLibrary
             #endregion 
 
             #region Media MediaDateTaken
-            listOfProperties.Add("{IfMediaDateTakenChanged}");
+            if (addIf) listOfProperties.Add("{IfMediaDateTakenChanged}");
             listOfProperties.Add("{OriginalMediaDateTaken}");
             listOfProperties.Add("{OriginalMediaDateTakenDateStamp}");
             listOfProperties.Add("{OriginalMediaDateTakenTimeStamp}");
@@ -1436,35 +1467,35 @@ namespace MetadataLibrary
             #endregion
 
             #region Personal
-            listOfProperties.Add("{IfPersonalTitleChanged}");
+            if (addIf) listOfProperties.Add("{IfPersonalTitleChanged}");
             listOfProperties.Add("{OriginalPersonalTitle}");
 
-            listOfProperties.Add("{IfPersonalDescriptionChanged}");
+            if (addIf) listOfProperties.Add("{IfPersonalDescriptionChanged}");
             listOfProperties.Add("{OriginalPersonalDescription}");
 
-            listOfProperties.Add("{IfPersonalCommentsChanged}");
+            if (addIf) listOfProperties.Add("{IfPersonalCommentsChanged}");
             listOfProperties.Add("{OriginalPersonalComments}");
 
-            listOfProperties.Add("{IfPersonalRatingChanged}");
+            if (addIf) listOfProperties.Add("{IfPersonalRatingChanged}");
             listOfProperties.Add("{OriginalPersonalRating}"); ;
             listOfProperties.Add("{OriginalPersonalRatingPercent}");
 
-            listOfProperties.Add("{IfPersonalAuthorChanged}");
+            if (addIf) listOfProperties.Add("{IfPersonalAuthorChanged}");
             listOfProperties.Add("{OriginalPersonalAuthor}");
 
-            listOfProperties.Add("{IfPersonalAlbumChanged}");
+            if (addIf) listOfProperties.Add("{IfPersonalAlbumChanged}");
             listOfProperties.Add("{OriginalPersonalAlbum}");
             #endregion
 
             #region Region
-            listOfProperties.Add("{IfPersonalRegionChanged}");
+            if (addIf) listOfProperties.Add("{IfPersonalRegionChanged}");
             listOfProperties.Add("{OriginalPersonalRegionInfoMP}");
             listOfProperties.Add("{OriginalPersonalRegionInfo}");
             #endregion
 
             #region Keyword
             if (addKeywordItems) listOfProperties.Add("{OriginalKeywordItem}");
-            listOfProperties.Add("{IfPersonalKeywordsChanged}");
+            if (addIf) listOfProperties.Add("{IfPersonalKeywordsChanged}");
             listOfProperties.Add("{OriginalPersonalKeywordsList}");
             listOfProperties.Add("{OriginalPersonalKeywordsXML}");
             listOfProperties.Add("{OriginalPersonalKeywordItemsDelete}");
@@ -1477,21 +1508,21 @@ namespace MetadataLibrary
             #endregion
 
             #region Location
-            listOfProperties.Add("{IfLocationChanged}");
+            if (addIf) listOfProperties.Add("{IfLocationChanged}");
 
-            listOfProperties.Add("{IfLocationAltitudeChanged}");
+            if (addIf) listOfProperties.Add("{IfLocationAltitudeChanged}");
             listOfProperties.Add("{OriginalLocationAltitude}");
 
-            listOfProperties.Add("{IfLocationLatitudeChanged}");
+            if (addIf) listOfProperties.Add("{IfLocationLatitudeChanged}");
             listOfProperties.Add("{OriginalLocationLatitude}");
 
-            listOfProperties.Add("{IfLocationLongitudeChanged}");
+            if (addIf) listOfProperties.Add("{IfLocationLongitudeChanged}");
             listOfProperties.Add("{OriginalLocationLongitude}");
 
-            listOfProperties.Add("{IfLocationDateTimeChanged}");
+            if (addIf) listOfProperties.Add("{IfLocationDateTimeChanged}");
             listOfProperties.Add("{OriginalLocationDateTime}");
 
-            listOfProperties.Add("{OriginalLocationDateTimeUTC}");
+            if (addIf) listOfProperties.Add("{OriginalLocationDateTimeUTC}");
             listOfProperties.Add("{OriginalLocationDateTimeDateStamp}");
             listOfProperties.Add("{OriginalLocationDateTimeTimeStamp}");
             listOfProperties.Add("{OriginalLocationDateTime_yyyy}");
@@ -1501,16 +1532,16 @@ namespace MetadataLibrary
             listOfProperties.Add("{OriginalLocationDateTime_mm}");
             listOfProperties.Add("{OriginalLocationDateTime_ss}");
 
-            listOfProperties.Add("{IfLocationNameChanged}");
+            if (addIf) listOfProperties.Add("{IfLocationNameChanged}");
             listOfProperties.Add("{OriginalLocationName}");
 
-            listOfProperties.Add("{IfLocationCityChanged}");
+            if (addIf) listOfProperties.Add("{IfLocationCityChanged}");
             listOfProperties.Add("{OriginalLocationCity}");
 
-            listOfProperties.Add("{IfLocationStateChanged}");
+            if (addIf) listOfProperties.Add("{IfLocationStateChanged}");
             listOfProperties.Add("{OriginalLocationState}");
 
-            listOfProperties.Add("{IfLocationCountryChanged}");
+            if (addIf) listOfProperties.Add("{IfLocationCountryChanged}");
             listOfProperties.Add("{OriginalLocationCountry}");
             #endregion
 
@@ -1520,7 +1551,7 @@ namespace MetadataLibrary
 
         #region Variables - GetPropertyValueWrittenByUser
         public string GetPropertyValueWrittenByUser(string variableName, bool useExifFormat, bool convertNullToBlank,
-            List<string> allowedFileNameDateTimeFormats,
+            List<string> allowedFileNameDateTimeFormats, List<string> computerNames, string GPStag,
             string personalRegionInfoMP, string personalRegionInfo, string personalKeywordList, string personalKeywordsXML, string personalKeywordItemsAdd)
         {
             string result = variableName;
@@ -1571,12 +1602,88 @@ namespace MetadataLibrary
                 case "{FileFullPath.8.3}":
                     result = NativeMethods.ShortFileName(FileFullPath);
                     break;
+
+                #region WithoutExtension
                 case "{FileNameWithoutExtension}":
                     result = Path.GetFileNameWithoutExtension(FileName);
                     break;
-                case "{FileNameWithoutDateTime}":
-                    result = fileDateTimeFormats.RemoveAllDateTimes(Path.GetFileNameWithoutExtension(FileName));
+                case "{FileNameWithoutExtensionDateTime}":
+                    result = Path.GetFileNameWithoutExtension(FileName);
+                    result = fileDateTimeFormats.RemoveAllDateTimes(Path.GetFileNameWithoutExtension(result));
                     break;
+                case "{FileNameWithoutExtensionDateTimeComputerName}":
+                    result = Path.GetFileNameWithoutExtension(FileName);
+                    result = fileDateTimeFormats.RemoveAllDateTimes(Path.GetFileNameWithoutExtension(result));
+                    foreach (string computerName in computerNames) result = result.Replace(computerName, "");
+                    break;
+                case "{FileNameWithoutExtensionDateTimeGPStag}":
+                    result = Path.GetFileNameWithoutExtension(FileName);
+                    result = fileDateTimeFormats.RemoveAllDateTimes(Path.GetFileNameWithoutExtension(result));
+                    result = result.Replace(GPStag, "");
+                    break;
+                case "{FileNameWithoutExtensionDateTimeComputerNameGPStag}":
+                    result = Path.GetFileNameWithoutExtension(FileName);
+                    result = fileDateTimeFormats.RemoveAllDateTimes(Path.GetFileNameWithoutExtension(result));
+                    result = result.Replace(GPStag, "");
+                    foreach (string computerName in computerNames) result = result.Replace(computerName, "");
+                    break;
+                case "{FileNameWithoutExtensionComputerName}":
+                    result = Path.GetFileNameWithoutExtension(FileName);
+                    foreach (string computerName in computerNames) result = result.Replace(computerName, "");
+                    break;
+                case "{FileNameWithoutExtensionComputerNameGPStag}":
+                    result = Path.GetFileNameWithoutExtension(FileName);
+                    result = result.Replace(GPStag, "");
+                    foreach (string computerName in computerNames) result = result.Replace(computerName, "");
+                    break;
+                case "{FileNameWithoutExtensionGPStag}":
+                    result = Path.GetFileNameWithoutExtension(FileName);
+                    result = result.Replace(GPStag, "");
+                    break;
+                #endregion
+
+                #region WithoutDateTime
+                case "{FileNameWithoutDateTime}":
+                    result = FileName;
+                    result = fileDateTimeFormats.RemoveAllDateTimes(Path.GetFileNameWithoutExtension(result));
+                    break;
+                case "{FileNameWithoutDateTimeComputerName}":
+                    result = FileName;
+                    result = fileDateTimeFormats.RemoveAllDateTimes(Path.GetFileNameWithoutExtension(result));
+                    foreach (string computerName in computerNames) result = result.Replace(computerName, "");
+                    break;
+                case "{FileNameWithoutDateTimeGPStag}":
+                    result = FileName;
+                    result = fileDateTimeFormats.RemoveAllDateTimes(Path.GetFileNameWithoutExtension(result));
+                    result = result.Replace(GPStag, "");
+                    break;
+                case "{FileNameWithoutDateTimeComputerNameGPStag}":
+                    result = FileName;
+                    result = fileDateTimeFormats.RemoveAllDateTimes(Path.GetFileNameWithoutExtension(result));
+                    result = result.Replace(GPStag, "");
+                    foreach (string computerName in computerNames) result = result.Replace(computerName, "");
+                    break;
+                #endregion
+
+                #region WithoutComputerName
+                case "{FileNameWithoutComputerName}":
+                    result = FileName;
+                    foreach (string computerName in computerNames) result = result.Replace(computerName, "");
+                    break;
+                case "{FileNameWithoutComputerNameGPStag}":
+                    result = FileName;
+                    result = result.Replace(GPStag, "");
+                    foreach (string computerName in computerNames) result = result.Replace(computerName, "");
+                    break;
+                #endregion
+
+                #region WithoutGPStag
+                case "{FileNameWithoutGPStag}":
+                    result = FileName;
+                    result = result.Replace(GPStag, "");
+                    break;
+                #endregion
+
                 case "{FileExtension}":
                     result = Path.GetExtension(FileName);
                     break;
@@ -1853,7 +1960,7 @@ namespace MetadataLibrary
 
         #region Variables - GetPropertyValueOriginal
         public string GetPropertyValueOriginal(string variableName, bool useExifFormat, bool convertNullToBlank,
-            List<string> allowedFileNameDateTimeFormats,
+            List<string> allowedFileNameDateTimeFormats, List<string> computerNames, string GPStag,
             string personalRegionInfoMP, string personalRegionInfo, string personalKeywordList, string personalKeywordsXML, string personalKeywordItemsAdd)
         {
             string result = variableName;
@@ -1904,12 +2011,89 @@ namespace MetadataLibrary
                 case "{OriginalFileFullPath.8.3}":
                     result = NativeMethods.ShortFileName(FileFullPath);
                     break;
+
+                #region WithoutExtension
                 case "{OriginalFileNameWithoutExtension}":
                     result = Path.GetFileNameWithoutExtension(FileName);
                     break;
-                case "{OriginalFileNameWithoutDateTime}":
-                    result = fileDateTimeFormats.RemoveAllDateTimes(Path.GetFileNameWithoutExtension(FileName));
+                case "{OriginalFileNameWithoutExtensionDateTime}":
+                    result = Path.GetFileNameWithoutExtension(FileName);
+                    result = fileDateTimeFormats.RemoveAllDateTimes(Path.GetFileNameWithoutExtension(result));
                     break;
+                case "{OriginalFileNameWithoutExtensionDateTimeComputerName}":
+                    result = Path.GetFileNameWithoutExtension(FileName);
+                    result = fileDateTimeFormats.RemoveAllDateTimes(Path.GetFileNameWithoutExtension(result));
+                    foreach (string computerName in computerNames) result = result.Replace(computerName, "");
+                    break;
+                case "{OriginalFileNameWithoutExtensionDateTimeGPStag}":
+                    result = Path.GetFileNameWithoutExtension(FileName);
+                    result = fileDateTimeFormats.RemoveAllDateTimes(Path.GetFileNameWithoutExtension(result));
+                    result = result.Replace(GPStag, "");
+                    break;
+                case "{OriginalFileNameWithoutExtensionDateTimeComputerNameGPStag}":
+                    result = Path.GetFileNameWithoutExtension(FileName);
+                    result = fileDateTimeFormats.RemoveAllDateTimes(Path.GetFileNameWithoutExtension(result));
+                    result = result.Replace(GPStag, "");
+                    foreach (string computerName in computerNames) result = result.Replace(computerName, "");
+                    break;
+                case "{OriginalFileNameWithoutExtensionComputerName}":
+                    result = Path.GetFileNameWithoutExtension(FileName);
+                    foreach (string computerName in computerNames) result = result.Replace(computerName, "");
+                    break;
+                case "{OriginalFileNameWithoutExtensionComputerNameGPStag}":
+                    result = Path.GetFileNameWithoutExtension(FileName);
+                    result = result.Replace(GPStag, "");
+                    foreach (string computerName in computerNames) result = result.Replace(computerName, "");
+                    break;
+                case "{OriginalFileNameWithoutExtensionGPStag}":
+                    result = Path.GetFileNameWithoutExtension(FileName);
+                    result = result.Replace(GPStag, "");
+                    break;
+                #endregion
+
+                #region WithoutDateTime
+                case "{OriginalFileNameWithoutDateTime}":
+                    result = FileName;
+                    result = fileDateTimeFormats.RemoveAllDateTimes(Path.GetFileNameWithoutExtension(result));
+                    break;
+                case "{OriginalFileNameWithoutDateTimeComputerName}":
+                    result = FileName;
+                    result = fileDateTimeFormats.RemoveAllDateTimes(Path.GetFileNameWithoutExtension(result));
+                    foreach (string computerName in computerNames) result = result.Replace(computerName, "");
+                    break;
+                case "{OriginalFileNameWithoutDateTimeGPStag}":
+                    result = FileName;
+                    result = fileDateTimeFormats.RemoveAllDateTimes(Path.GetFileNameWithoutExtension(result));
+                    result = result.Replace(GPStag, "");
+                    break;
+                case "{OriginalFileNameWithoutDateTimeComputerNameGPStag}":
+                    result = FileName;
+                    result = fileDateTimeFormats.RemoveAllDateTimes(Path.GetFileNameWithoutExtension(result));
+                    result = result.Replace(GPStag, "");
+                    foreach (string computerName in computerNames) result = result.Replace(computerName, "");
+                    break;
+                #endregion
+
+                #region WithoutComputerName
+                case "{OriginalFileNameWithoutComputerName}":
+                    result = FileName;
+                    foreach (string computerName in computerNames) result = result.Replace(computerName, "");
+                    break;
+                case "{OriginalFileNameWithoutComputerNameGPStag}":
+                    result = FileName;
+                    result = result.Replace(GPStag, "");
+                    foreach (string computerName in computerNames) result = result.Replace(computerName, "");
+                    break;
+                #endregion
+
+                #region WithoutGPStag
+                case "{OriginalFileNameWithoutGPStag}":
+                    result = FileName;
+                    result = result.Replace(GPStag, "");
+                    break;
+                #endregion
+
+ 
                 case "{OriginalFileExtension}":
                     result = Path.GetExtension(FileName);
                     break;
@@ -2285,7 +2469,8 @@ namespace MetadataLibrary
         #endregion 
 
         #region Variables - ReplaceVariablesWrittenByUser
-        public string ReplaceVariablesWrittenByUser(string stringWithVariables, bool useExifFormat, bool convertNullToBlank, List<string> allowedFileNameDateTimeFormats,
+        public string ReplaceVariablesWrittenByUser(string stringWithVariables, bool useExifFormat, bool convertNullToBlank, 
+            List<string> allowedFileNameDateTimeFormats, List<string> computerNames, string GPStag,
             string personalRegionInfoMP, string personalRegionInfo, string personalKeywordList, string personalKeywordsXML, string personalKeywordItemsAdd)
         {
             string result = stringWithVariables;
@@ -2294,7 +2479,8 @@ namespace MetadataLibrary
             {
                 while (result.Contains(variable))
                     result = result.Replace(variable, GetPropertyValueWrittenByUser(variable, useExifFormat, convertNullToBlank,
-                    allowedFileNameDateTimeFormats, personalRegionInfoMP, personalRegionInfo, personalKeywordList, personalKeywordsXML, personalKeywordItemsAdd));
+                    allowedFileNameDateTimeFormats, computerNames, GPStag,
+                    personalRegionInfoMP, personalRegionInfo, personalKeywordList, personalKeywordsXML, personalKeywordItemsAdd));
             }
             result = result.Replace("\r\n\r\n", "\r\n");
             return result;
@@ -2302,7 +2488,8 @@ namespace MetadataLibrary
         #endregion
 
         #region Variables - ReplaceVariablesOriginal
-        public string ReplaceVariablesOriginal(string stringWithVariables, bool useExifFormat, bool convertNullToBlank, List<string> allowedFileNameDateTimeFormats,
+        public string ReplaceVariablesOriginal(string stringWithVariables, bool useExifFormat, bool convertNullToBlank, 
+            List<string> allowedFileNameDateTimeFormats, List<string> computerNames, string GPStag, 
             string personalRegionInfoMP, string personalRegionInfo, string personalKeywordList, string personalKeywordsXML, string personalKeywordItemsAdd)
         {
             string result = stringWithVariables;
@@ -2311,7 +2498,8 @@ namespace MetadataLibrary
             {
                 while (result.Contains(variable))
                     result = result.Replace(variable, GetPropertyValueOriginal(variable, useExifFormat, convertNullToBlank,
-                    allowedFileNameDateTimeFormats, personalRegionInfoMP, personalRegionInfo, personalKeywordList, personalKeywordsXML, personalKeywordItemsAdd));
+                    allowedFileNameDateTimeFormats, computerNames, GPStag, 
+                    personalRegionInfoMP, personalRegionInfo, personalKeywordList, personalKeywordsXML, personalKeywordItemsAdd));
             }
             result = result.Replace("\r\n\r\n", "\r\n");
             return result;
@@ -2337,36 +2525,37 @@ namespace MetadataLibrary
         #endregion
 
         #region Variables - ReplaceVariablesWrittenByUser
-        public string ReplaceVariablesWrittenByUser(string stringWithVariables, List<string> allowedFileNameDateTimeFormats)
+        public string ReplaceVariablesWrittenByUser(string stringWithVariables, List<string> allowedFileNameDateTimeFormats, List<string> computerNames, string GPStag)
         {
-            return ReplaceVariablesWrittenByUser(stringWithVariables, true, true, allowedFileNameDateTimeFormats, 
+            return ReplaceVariablesWrittenByUser(stringWithVariables, true, true, allowedFileNameDateTimeFormats, computerNames, GPStag,
                 VariablePersonalRegionInfoMP(), VariablePersonalRegionInfo(), VariablePersonalKeywordsList(), VariableKeywordCategories(), 
                 "");
         }
         #endregion
 
         #region Variables - ReplaceVariablesOriginal
-        public string ReplaceVariablesOriginal(string stringWithVariables, List<string> allowedFileNameDateTimeFormats)
+        public string ReplaceVariablesOriginal(string stringWithVariables, List<string> allowedFileNameDateTimeFormats, List<string> computerNames, string GPStag)
         {
-            return ReplaceVariablesOriginal(stringWithVariables, true, true, allowedFileNameDateTimeFormats,
+            return ReplaceVariablesOriginal(stringWithVariables, true, true, allowedFileNameDateTimeFormats, computerNames, GPStag,
                 VariablePersonalRegionInfoMP(), VariablePersonalRegionInfo(), VariablePersonalKeywordsList(), VariableKeywordCategories(), 
                 "");
         }
         #endregion
 
         #region Variables - ReplaceVariablesWrittenByUser
-        public string ReplaceVariablesWrittenByUser(string stringWithVariables, List<string> allowedFileNameDateTimeFormats, string personalKeywordItemsAdd)
+        public string ReplaceVariablesWrittenByUser(string stringWithVariables, List<string> allowedFileNameDateTimeFormats, List<string> computerNames, string GPStag, string personalKeywordItemsAdd)
         {
-            return ReplaceVariablesWrittenByUser(stringWithVariables, true, true, allowedFileNameDateTimeFormats,
+            return ReplaceVariablesWrittenByUser(stringWithVariables, true, true, allowedFileNameDateTimeFormats, computerNames, GPStag,
                 VariablePersonalRegionInfoMP(), VariablePersonalRegionInfo(), VariablePersonalKeywordsList(), VariableKeywordCategories(), 
                 personalKeywordItemsAdd);
         }
         #endregion 
 
         #region Variables - ReplaceVariablesOriginal
-        public string ReplaceVariablesOriginal(string stringWithVariables, List<string> allowedFileNameDateTimeFormats, string personalKeywordItemsAdd)
+        public string ReplaceVariablesOriginal(string stringWithVariables, List<string> allowedFileNameDateTimeFormats, List<string> computerNames, string GPStag, string personalKeywordItemsAdd)
         {
-            return ReplaceVariablesOriginal(stringWithVariables, true, true, allowedFileNameDateTimeFormats,
+            return ReplaceVariablesOriginal(stringWithVariables, true, true, 
+                allowedFileNameDateTimeFormats, computerNames, GPStag,
                 VariablePersonalRegionInfoMP(), VariablePersonalRegionInfo(), VariablePersonalKeywordsList(), VariableKeywordCategories(), 
                 personalKeywordItemsAdd);
         }
@@ -2490,7 +2679,7 @@ namespace MetadataLibrary
         #endregion
 
         #region Variables - Create Variable - Keyword items - ***Loop of keyword items***
-        public string VariablePersonalKeywordsWrittenByUser(string stringWithVariables, List<string> allowedFileNameDateTimeFormats)
+        public string VariablePersonalKeywordsWrittenByUser(string stringWithVariables, List<string> allowedFileNameDateTimeFormats, List<string> computerNames, string GPStag)
         {
             string personalRegionInfoMP = VariablePersonalRegionInfoMP();
             string personalRegionInfo = VariablePersonalRegionInfo();
@@ -2500,7 +2689,7 @@ namespace MetadataLibrary
             string personalKeywordAdd = "";
             foreach (KeywordTag keywordTag in this.PersonalKeywordTags)
             {
-                string keywordItemToWrite = this.ReplaceVariablesWrittenByUser(stringWithVariables, true, true, allowedFileNameDateTimeFormats,
+                string keywordItemToWrite = this.ReplaceVariablesWrittenByUser(stringWithVariables, true, true, allowedFileNameDateTimeFormats, computerNames, GPStag,
                     personalRegionInfoMP, personalRegionInfo, personalKeywordsList, keywordCategories, "");
                 keywordItemToWrite = this.ReplaceKeywordItemVariablesWrittenByUser(keywordItemToWrite, keywordTag.Keyword);
                 if (!string.IsNullOrWhiteSpace(keywordItemToWrite))
@@ -2516,7 +2705,7 @@ namespace MetadataLibrary
         #endregion
 
         #region Variables - Create Variable - Keyword items - ***Loop of keyword items***
-        public string VariablePersonalKeywordsOriginal(string stringWithVariables, List<string> allowedFileNameDateTimeFormats)
+        public string VariablePersonalKeywordsOriginal(string stringWithVariables, List<string> allowedFileNameDateTimeFormats, List<string> computerNames, string GPStag)
         {
             string personalRegionInfoMP = VariablePersonalRegionInfoMP();
             string personalRegionInfo = VariablePersonalRegionInfo();
@@ -2526,7 +2715,7 @@ namespace MetadataLibrary
             string personalKeywordAdd = "";
             foreach (KeywordTag keywordTag in this.PersonalKeywordTags)
             {
-                string keywordItemToWrite = this.ReplaceVariablesOriginal(stringWithVariables, true, true, allowedFileNameDateTimeFormats,
+                string keywordItemToWrite = this.ReplaceVariablesOriginal(stringWithVariables, true, true, allowedFileNameDateTimeFormats, computerNames, GPStag,
                     personalRegionInfoMP, personalRegionInfo, personalKeywordsList, keywordCategories, "");
                 keywordItemToWrite = this.ReplaceKeywordItemVariablesOriginal(keywordItemToWrite, keywordTag.Keyword);
                 if (!string.IsNullOrWhiteSpace(keywordItemToWrite))

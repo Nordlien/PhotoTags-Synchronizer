@@ -66,26 +66,62 @@ Created from [Config](../config) and [edited fields](../gridview) | Created from
 ### Example of variables that can be used as parameter
 
 ```
-System
-{SystemDateTime}
-{SystemDateTimeDateStamp}
-{SystemDateTimeTimeStamp}
-{SystemDateTime_yyyy}
-{SystemDateTime_MM}
-{SystemDateTime_dd}
-{SystemDateTime_HH}
-{SystemDateTime_mm}
-{SystemDateTime_ss}
 
-Filesystem
+FileName/Folder/Path - Values Original i the media file
+{IfFileNameChanged}
 {FileName}
+{IfFilePathChanged}
 {FileFullPath}
 {FileFullPath.8.3}
 {FileNameWithoutExtension}
+{FileNameWithoutExtensionDateTime}
+{FileNameWithoutExtensionDateTimeComputerName}
+{FileNameWithoutExtensionDateTimeGPStag}
+{FileNameWithoutExtensionDateTimeComputerNameGPStag}
+{FileNameWithoutExtensionComputerName}
+{FileNameWithoutExtensionComputerNameGPStag}
+{FileNameWithoutExtensionGPStag}
 {FileNameWithoutDateTime}
+{FileNameWithoutDateTimeComputerName}
+{FileNameWithoutDateTimeGPStag}
+{FileNameWithoutDateTimeComputerNameGPStag}
+{FileNameWithoutComputerName}
+{FileNameWithoutComputerNameGPStag}
+{FileNameWithoutGPStag}
 {FileExtension}
+{IfFileDirectoryChanged}
 {FileDirectory}
+
+FileAttributes - Values Original i the media file
 {FileSize}
+{FileMimeType}
+
+FileName/Folder/Path - Values Original i the media file
+{IfFileNameChanged}
+{OriginalFileName}
+{IfFilePathChanged}
+{OriginalFileFullPath}
+{OriginalFileFullPath.8.3}
+{OriginalFileNameWithoutExtension}
+{OriginalFileNameWithoutExtensionDateTime}
+{OriginalFileNameWithoutExtensionDateTimeComputerName}
+{OriginalFileNameWithoutExtensionDateTimeGPStag}
+{OriginalFileNameWithoutExtensionDateTimeComputerNameGPStag}
+{OriginalFileNameWithoutExtensionComputerName}
+{OriginalFileNameWithoutExtensionComputerNameGPStag}
+{OriginalFileNameWithoutExtensionGPStag}
+{OriginalFileNameWithoutDateTime}
+{OriginalFileNameWithoutDateTimeComputerName}
+{OriginalFileNameWithoutDateTimeGPStag}
+{OriginalFileNameWithoutDateTimeComputerNameGPStag}
+{OriginalFileNameWithoutComputerName}
+{OriginalFileNameWithoutComputerNameGPStag}
+{OriginalFileNameWithoutGPStag}
+{OriginalFileExtension}
+{IfFileDirectoryChanged}
+{OriginalFileDirectory}
+
+FileDate - New values to be stored in media file
 {FileDate}
 {FileDateDateStamp}
 {FileDateTimeStamp}
@@ -95,6 +131,19 @@ Filesystem
 {FileDate_HH}
 {FileDate_mm}
 {FileDate_ss}
+
+FileDate - Values Original i the media file
+{OriginalFileDate}
+{OriginalFileDateDateStamp}
+{OriginalFileDateTimeStamp}
+{OriginalFileDate_yyyy}
+{OriginalFileDate_MM}
+{OriginalFileDate_dd}
+{OriginalFileDate_HH}
+{OriginalFileDate_mm}
+{OriginalFileDate_ss}
+
+FileDateCreated - New values to be stored in media file
 {FileDateCreated}
 {FileDateCreatedDateStamp}
 {FileDateCreatedTimeStamp}
@@ -104,6 +153,20 @@ Filesystem
 {FileDateCreated_HH}
 {FileDateCreated_mm}
 {FileDateCreated_ss}
+
+FileDateCreated - Values Original i the media file
+{OriginalFileDateCreated}
+{OriginalFileDateCreatedDateStamp}
+{OriginalFileDateCreatedTimeStamp}
+{OriginalFileDateCreated_yyyy}
+{OriginalFileDateCreated_MM}
+{OriginalFileDateCreated_dd}
+{OriginalFileDateCreated_HH}
+{OriginalFileDateCreated_mm}
+{OriginalFileDateCreated_ss}
+
+FileDateModified - New values to be stored in media file
+{IfFileDateModifiedChanged}
 {FileDateModified}
 {FileDateModifiedDateStamp}
 {FileDateModifiedTimeStamp}
@@ -113,42 +176,84 @@ Filesystem
 {FileDateModified_HH}
 {FileDateModified_mm}
 {FileDateModified_ss}
-{FileLastAccessed}
-{FileLastAccessedDateStamp}
-{FileLastAccessedTimeStamp}
-{FileLastAccessed_yyyy}
-{FileLastAccessed_MM}
-{FileLastAccessed_dd}
-{FileLastAccessed_HH}
-{FileLastAccessed_mm}
-{FileLastAccessed_ss}
-{FileMimeType}
 
-Personal
+FileDateModified - Values Original i the media file
+{IfFileDateModifiedChanged}
+{OriginalFileDateModified}
+{OriginalFileDateModifiedDateStamp}
+{OriginalFileDateModifiedTimeStamp}
+{OriginalFileDateModified_yyyy}
+{OriginalFileDateModified_MM}
+{OriginalFileDateModified_dd}
+{OriginalFileDateModified_HH}
+{OriginalFileDateModified_mm}
+{OriginalFileDateModified_ss}
+
+Personal - New values to be stored in media file
 {PersonalTitle}
+{IfPersonalDescriptionChanged}
 {PersonalDescription}
+{IfPersonalCommentsChanged}
 {PersonalComments}
-{PersonalRating}
+{IfPersonalRatingChanged}
+{PersonalRating}   
 {PersonalRatingPercent}
 {PersonalAuthor}
+{IfPersonalAuthorChanged}
+{IfPersonalAlbumChanged}
 {PersonalAlbum}
 
-Region
+Personal - Values Original i the media file
+{IfPersonalTitleChanged}
+{OriginalPersonalTitle}
+{IfPersonalDescriptionChanged}
+{OriginalPersonalDescription}
+{IfPersonalCommentsChanged}
+{OriginalPersonalComments}
+{IfPersonalRatingChanged}
+{OriginalPersonalRating}
+{OriginalPersonalRatingPercent}
+{IfPersonalAuthorChanged}
+{OriginalPersonalAuthor}
+{IfPersonalAlbumChanged}
+{OriginalPersonalAlbum}
+
+Region - New values to be stored in media file
+{IfPersonalRegionChanged}");
 {PersonalRegionInfoMP}
 {PersonalRegionInfo}
 
-Keyword
+Region - Values Original i the media file
+{IfPersonalRegionChanged}
+{OriginalPersonalRegionInfoMP}
+{OriginalPersonalRegionInfo}
+
+Keyword - New values to be stored in media file
 {KeywordItem}
+{IfPersonalKeywordsChanged}
 {PersonalKeywordsList}
 {PersonalKeywordsXML}
 {PersonalKeywordItemsDelete}
 {PersonalKeywordItemsAdd}
 
-Camera
+Keyword - Values Original i the media file
+{OriginalKeywordItem}
+{IfPersonalKeywordsChanged}
+{OriginalPersonalKeywordsList}
+{OriginalPersonalKeywordsXML}");
+{OriginalPersonalKeywordItemsDelete}
+{OriginalPersonalKeywordItemsAdd}
+
+Camera - New values to be stored in media file
 {CameraMake}
 {CameraModel}
 
-Media
+Camera - Values Original i the media file
+{OriginalCameraMake}
+{OriginalCameraModel}
+
+Media - New values to be stored in media file
+{IfMediaDateTakenChanged}
 {MediaDateTaken}
 {MediaDateTakenDateStamp}
 {MediaDateTakenTimeStamp}
@@ -158,15 +263,35 @@ Media
 {MediaDateTaken_HH}
 {MediaDateTaken_mm}
 {MediaDateTaken_ss}
-{MediaWidth}
 {MediaHeight}
 {MediaOrientation}
 {MediaVideoLength}
 
-Location
-{LocationAltitude}
+Media - Values Original i the media file
+{IfMediaDateTakenChanged}
+{OriginalMediaDateTaken}
+{OriginalMediaDateTakenDateStamp}
+{OriginalMediaDateTakenTimeStamp}
+{OriginalMediaDateTaken_yyyy}
+{OriginalMediaDateTaken_MM}
+{OriginalMediaDateTaken_dd}
+{OriginalMediaDateTaken_HH}
+{OriginalMediaDateTaken_mm}
+{OriginalMediaDateTaken_ss}
+{OriginalMediaWidth}
+{OriginalMediaHeight}
+{OriginalMediaOrientation}
+{OriginalMediaVideoLength}
+
+Location - New values to be stored in media file
+{IfLocationChanged}"
+{IfLocationAltitudeChanged}
+{LocationAltitude}"
+{IfLocationLatitudeChanged}
 {LocationLatitude}
+{IfLocationLongitudeChanged}
 {LocationLongitude}
+{IfLocationDateTimeChanged}
 {LocationDateTime}
 {LocationDateTimeUTC}
 {LocationDateTimeDateStamp}
@@ -177,10 +302,44 @@ Location
 {LocationDateTime_HH}
 {LocationDateTime_mm}
 {LocationDateTime_ss}
+{IfLocationNameChanged}
 {LocationName}
+{IfLocationCityChanged}
 {LocationCity}
+{IfLocationStateChanged}
 {LocationState}
+{IfLocationCountryChanged}
 {LocationCountry}
+
+Location - Values Original i the media file
+{IfLocationChanged}
+{IfLocationAltitudeChanged}
+{OriginalLocationAltitude}
+{IfLocationLatitudeChanged}
+{OriginalLocationLatitude}
+{IfLocationLongitudeChanged}
+{OriginalLocationLongitude}
+{IfLocationDateTimeChanged}
+{OriginalLocationDateTime}
+{OriginalLocationDateTimeUTC}
+{OriginalLocationDateTimeDateStamp}
+{OriginalLocationDateTimeTimeStamp}
+{OriginalLocationDateTime_yyyy}
+{OriginalLocationDateTime_MM}
+{OriginalLocationDateTime_dd}
+{OriginalLocationDateTime_HH}
+{OriginalLocationDateTime_mm}
+{OriginalLocationDateTime_ss}
+{IfLocationNameChanged}
+{OriginalLocationName}
+{IfLocationCityChanged}
+{OriginalLocationCity}
+{IfLocationStateChanged}
+{OriginalLocationState}
+{IfLocationCountryChanged}
+{OriginalLocationCountry}
+
+
 ```
 
 
