@@ -1168,6 +1168,39 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
+        #region Select Match Wildcards Pattern
+        private void kryptonRibbonGroupButtonSelectWildcardsSelect_Click(object sender, EventArgs e)
+        {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Wildcards Select")) return;
+            if (IsPopulatingAnything("Wildcards Select")) return;
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            try
+            {
+                GlobalData.IsPerformingAButtonAction = true;
+
+                //Action
+                string wildcardsSelect = KryptonInputBox.Show("Wildcards select media files. ", "Select media files", Properties.Settings.Default.ToolsLastImageListViewWildcardsSelectMatch);
+                if (wildcardsSelect.Trim() != "")
+                {
+                    Properties.Settings.Default.ToolsLastImageListViewWildcardsSelectMatch = wildcardsSelect.Trim();
+                    ImageListViewWildcardsSelectMatch(imageListView1, wildcardsSelect);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
+                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+            finally
+            {
+                GlobalData.IsPerformingAButtonAction = false;
+            }
+        }
+        #endregion
+
         #region Cut
 
         #region Cut - Click Events Sources       
@@ -5924,8 +5957,14 @@ namespace PhotoTagsSynchronizer
                         string oldFilename = metadataToSave.FileName;
                         string oldFullFilename = metadataToSave.FileFullPath;
                         string newDirectory = metadataToSave.FileDirectory;
-                        string newFilename = Path.GetFileNameWithoutExtension(oldFullFilename) + filenamePostfix + Path.GetExtension(oldFullFilename);
-                        string newFullFilename = Path.Combine(newDirectory, newFilename);
+                        string newFilename = oldFilename;
+                        string newFullFilename = oldFullFilename; 
+                        do
+                        {
+                            newFilename = Path.GetFileNameWithoutExtension(newFilename) + filenamePostfix + Path.GetExtension(newFilename);
+                            newFullFilename = Path.Combine(newDirectory, newFilename);
+                        } while (File.Exists(newFullFilename));
+
                         metadataToSave.FileName = newFilename;
 
                         ImageListViewItem imageListViewItem = ImageListViewHandler.FindItem(imageListView1.Items, oldFullFilename);

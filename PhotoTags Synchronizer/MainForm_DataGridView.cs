@@ -9,7 +9,6 @@ using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
 using WindowsProperty;
-using static Manina.Windows.Forms.ImageListView;
 
 namespace PhotoTagsSynchronizer
 {

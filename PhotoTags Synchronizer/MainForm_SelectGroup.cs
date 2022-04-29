@@ -355,8 +355,50 @@ namespace PhotoTagsSynchronizer
                 KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
-        #endregion 
-        
+        #endregion
+
+        #region ImageListViewWildcardsSelectMatch
+        private void ImageListViewWildcardsSelectMatch(ImageListView imageListView, string wildcards)
+        {
+            try
+            {
+                ImageListViewHandler.SuspendLayout(imageListView1);
+                ImageListViewHandler.Enable(imageListView, false);
+                TreeViewFolderBrowserHandler.Enabled(treeViewFolderBrowser1, false);
+                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
+
+                imageListView.ClearSelection();
+
+                string[] wildcardsArray = wildcards.Split(new string[] { System.Globalization.CultureInfo.CurrentCulture.TextInfo.ListSeparator, "\r\n", ";", ",", "\n", "\r", "\t" }, StringSplitOptions.RemoveEmptyEntries);
+
+                foreach (string pattern in wildcardsArray)
+                {
+                    foreach (ImageListViewItem imageListViewItem in imageListView.Items)
+                    {
+                        imageListViewItem.Selected = FileHandeling.FileHandler.FilenameMatchesPattern(imageListViewItem.Text, pattern);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
+                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+            finally
+            {
+                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
+                TreeViewFolderBrowserHandler.Enabled(treeViewFolderBrowser1, true);
+                ImageListViewHandler.Enable(imageListView, true);
+                ImageListViewHandler.ResumeLayout(imageListView1);
+
+                imageListView.Focus();
+
+                ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false);
+            }
+        }
+        #endregion
+
         #region Select Group - Getvalues
         private void SelectGroupGetProperties()
         {

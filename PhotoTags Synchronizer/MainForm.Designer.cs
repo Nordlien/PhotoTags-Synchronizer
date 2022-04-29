@@ -31,7 +31,7 @@ namespace PhotoTagsSynchronizer
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Filter");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Filter");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.panelMain = new Krypton.Toolkit.KryptonPanel();
             this.kryptonWorkspaceMain = new Krypton.Workspace.KryptonWorkspace();
@@ -410,6 +410,12 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonDataGridViewFavouriteDelete = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonTabSelect = new Krypton.Ribbon.KryptonRibbonTab();
             this.kryptonRibbonGroupImageListViewSelect = new Krypton.Ribbon.KryptonRibbonGroup();
+            this.kryptonRibbonGroupTriple4 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
+            this.kryptonRibbonGroupButtonToolsReselectDataGridVIewMatchDataGridView = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupButtonToolsReselectFilesMatchDataGridView = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupButtonToolsReselectFilesHasErrors = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupTriple7 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
+            this.kryptonRibbonGroupButtonSelectWildcardsSelect = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupTripleSelectForwardBackwards = new Krypton.Ribbon.KryptonRibbonGroupTriple();
             this.kryptonRibbonGroupButtonSelectBackwards = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupButtonSelectForwards = new Krypton.Ribbon.KryptonRibbonGroupButton();
@@ -419,10 +425,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonSelectAll = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupButtonSelectNone = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupButtonSelectToggle = new Krypton.Ribbon.KryptonRibbonGroupButton();
-            this.kryptonRibbonGroupTriple4 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
-            this.kryptonRibbonGroupButtonToolsReselectDataGridVIewMatchDataGridView = new Krypton.Ribbon.KryptonRibbonGroupButton();
-            this.kryptonRibbonGroupButtonToolsReselectFilesMatchDataGridView = new Krypton.Ribbon.KryptonRibbonGroupButton();
-            this.kryptonRibbonGroupButtonToolsReselectFilesHasErrors = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroup2 = new Krypton.Ribbon.KryptonRibbonGroup();
             this.kryptonRibbonGroupLinesLocatonDatePriorities = new Krypton.Ribbon.KryptonRibbonGroupLines();
             this.kryptonRibbonGroupCheckBoxSelectFileCreated = new Krypton.Ribbon.KryptonRibbonGroupCheckBox();
@@ -1841,11 +1843,11 @@ namespace PhotoTagsSynchronizer
             this.treeViewFilter.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeViewFilter.Location = new System.Drawing.Point(0, 0);
             this.treeViewFilter.Name = "treeViewFilter";
-            treeNode1.Name = "NodeFolder";
-            treeNode1.Tag = "Filter";
-            treeNode1.Text = "Filter";
+            treeNode2.Name = "NodeFolder";
+            treeNode2.Tag = "Filter";
+            treeNode2.Text = "Filter";
             this.treeViewFilter.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1});
+            treeNode2});
             this.treeViewFilter.Size = new System.Drawing.Size(399, 638);
             this.treeViewFilter.TabIndex = 0;
             this.treeViewFilter.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeViewFilter_AfterCheck);
@@ -1886,7 +1888,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageMediaFiles.LastVisibleSet = true;
             this.kryptonPageMediaFiles.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPageMediaFiles.Name = "kryptonPageMediaFiles";
-            this.kryptonPageMediaFiles.Size = new System.Drawing.Size(399, 713);
+            this.kryptonPageMediaFiles.Size = new System.Drawing.Size(399, 711);
             this.kryptonPageMediaFiles.Text = "Media files";
             this.kryptonPageMediaFiles.TextDescription = "List of media files from search result or selected folder";
             this.kryptonPageMediaFiles.TextTitle = "Media files";
@@ -1910,7 +1912,7 @@ namespace PhotoTagsSynchronizer
             this.imageListView1.Location = new System.Drawing.Point(0, 0);
             this.imageListView1.Name = "imageListView1";
             this.imageListView1.RetryOnError = false;
-            this.imageListView1.Size = new System.Drawing.Size(399, 713);
+            this.imageListView1.Size = new System.Drawing.Size(399, 711);
             this.imageListView1.SortColumn = Manina.Windows.Forms.ColumnType.FileName;
             this.imageListView1.StatusIconFileError = global::PhotoTagsSynchronizer.Properties.Resources.ImageListViewStatusError;
             this.imageListView1.StatusIconFileLocked = global::PhotoTagsSynchronizer.Properties.Resources.ImageListViewItemStatusFileLocked;
@@ -1980,7 +1982,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageToolboxTags.LastVisibleSet = true;
             this.kryptonPageToolboxTags.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPageToolboxTags.Name = "kryptonPageToolboxTags";
-            this.kryptonPageToolboxTags.Size = new System.Drawing.Size(400, 730);
+            this.kryptonPageToolboxTags.Size = new System.Drawing.Size(400, 729);
             this.kryptonPageToolboxTags.Tag = "Tags";
             this.kryptonPageToolboxTags.Text = "Tags";
             this.kryptonPageToolboxTags.TextDescription = "Edit tags and keywords";
@@ -2010,7 +2012,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonWorkspaceToolboxTags.Root.UniqueName = "5a3ba2c5cc184db6ac82fbd639c9f04f";
             this.kryptonWorkspaceToolboxTags.Root.WorkspaceControl = this.kryptonWorkspaceToolboxTags;
             this.kryptonWorkspaceToolboxTags.SeparatorStyle = Krypton.Toolkit.SeparatorStyle.HighProfile;
-            this.kryptonWorkspaceToolboxTags.Size = new System.Drawing.Size(400, 730);
+            this.kryptonWorkspaceToolboxTags.Size = new System.Drawing.Size(400, 729);
             this.kryptonWorkspaceToolboxTags.SplitterWidth = 5;
             this.kryptonWorkspaceToolboxTags.TabIndex = 0;
             this.kryptonWorkspaceToolboxTags.TabStop = true;
@@ -2471,7 +2473,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageToolboxTagsKeywords.LastVisibleSet = true;
             this.kryptonPageToolboxTagsKeywords.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPageToolboxTagsKeywords.Name = "kryptonPageToolboxTagsKeywords";
-            this.kryptonPageToolboxTagsKeywords.Size = new System.Drawing.Size(398, 319);
+            this.kryptonPageToolboxTagsKeywords.Size = new System.Drawing.Size(398, 318);
             this.kryptonPageToolboxTagsKeywords.Text = "Keywords";
             this.kryptonPageToolboxTagsKeywords.TextDescription = "Edit media keywords";
             this.kryptonPageToolboxTagsKeywords.TextTitle = "Keywords";
@@ -2489,7 +2491,7 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewTagsAndKeywords.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridViewTagsAndKeywords.ShowCellErrors = false;
             this.dataGridViewTagsAndKeywords.ShowRowErrors = false;
-            this.dataGridViewTagsAndKeywords.Size = new System.Drawing.Size(398, 319);
+            this.dataGridViewTagsAndKeywords.Size = new System.Drawing.Size(398, 318);
             this.dataGridViewTagsAndKeywords.TabIndex = 9;
             this.dataGridViewTagsAndKeywords.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewTagsAndKeywords_CellBeginEdit);
             this.dataGridViewTagsAndKeywords.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewTagsAndKeywords_CellEndEdit);
@@ -5115,11 +5117,69 @@ namespace PhotoTagsSynchronizer
             // kryptonRibbonGroupImageListViewSelect
             // 
             this.kryptonRibbonGroupImageListViewSelect.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupContainer[] {
+            this.kryptonRibbonGroupTriple4,
+            this.kryptonRibbonGroupTriple7,
             this.kryptonRibbonGroupTripleSelectForwardBackwards,
             this.kryptonRibbonGroupSeparator2,
-            this.kryptonRibbonGroupTripleSelectAllNoneToggle,
-            this.kryptonRibbonGroupTriple4});
+            this.kryptonRibbonGroupTripleSelectAllNoneToggle});
             this.kryptonRibbonGroupImageListViewSelect.TextLine1 = "Select group";
+            // 
+            // kryptonRibbonGroupTriple4
+            // 
+            this.kryptonRibbonGroupTriple4.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
+            this.kryptonRibbonGroupButtonToolsReselectDataGridVIewMatchDataGridView,
+            this.kryptonRibbonGroupButtonToolsReselectFilesMatchDataGridView,
+            this.kryptonRibbonGroupButtonToolsReselectFilesHasErrors});
+            // 
+            // kryptonRibbonGroupButtonToolsReselectDataGridVIewMatchDataGridView
+            // 
+            this.kryptonRibbonGroupButtonToolsReselectDataGridVIewMatchDataGridView.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.DataGridViewMatchDataGridView;
+            this.kryptonRibbonGroupButtonToolsReselectDataGridVIewMatchDataGridView.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.DataGridViewMatchDataGridView;
+            this.kryptonRibbonGroupButtonToolsReselectDataGridVIewMatchDataGridView.KeyTip = "RD";
+            this.kryptonRibbonGroupButtonToolsReselectDataGridVIewMatchDataGridView.TextLine1 = "Match selection";
+            this.kryptonRibbonGroupButtonToolsReselectDataGridVIewMatchDataGridView.TextLine2 = "all DataGridViews";
+            this.kryptonRibbonGroupButtonToolsReselectDataGridVIewMatchDataGridView.ToolTipValues.Description = "Select all columns in all tabs that has selected cells on current tab";
+            this.kryptonRibbonGroupButtonToolsReselectDataGridVIewMatchDataGridView.ToolTipValues.EnableToolTips = true;
+            this.kryptonRibbonGroupButtonToolsReselectDataGridVIewMatchDataGridView.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.DataGridViewMatchDataGridView;
+            this.kryptonRibbonGroupButtonToolsReselectDataGridVIewMatchDataGridView.Click += new System.EventHandler(this.kryptonRibbonGroupButtonToolsReselectDataGridVIewMatchDataGridView_Click);
+            // 
+            // kryptonRibbonGroupButtonToolsReselectFilesMatchDataGridView
+            // 
+            this.kryptonRibbonGroupButtonToolsReselectFilesMatchDataGridView.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.DataGridViewMatchMediaFilesCells;
+            this.kryptonRibbonGroupButtonToolsReselectFilesMatchDataGridView.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.DataGridViewMatchMediaFilesCells;
+            this.kryptonRibbonGroupButtonToolsReselectFilesMatchDataGridView.KeyTip = "RC";
+            this.kryptonRibbonGroupButtonToolsReselectFilesMatchDataGridView.TextLine1 = "Reselect files";
+            this.kryptonRibbonGroupButtonToolsReselectFilesMatchDataGridView.TextLine2 = "match cells";
+            this.kryptonRibbonGroupButtonToolsReselectFilesMatchDataGridView.ToolTipValues.Description = "Select media files that match the files for all selected cells";
+            this.kryptonRibbonGroupButtonToolsReselectFilesMatchDataGridView.ToolTipValues.EnableToolTips = true;
+            this.kryptonRibbonGroupButtonToolsReselectFilesMatchDataGridView.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.DataGridViewMatchMediaFilesCells;
+            this.kryptonRibbonGroupButtonToolsReselectFilesMatchDataGridView.Click += new System.EventHandler(this.kryptonRibbonGroupButtonToolsReselectFilesMatchDataGridView_Click_1);
+            // 
+            // kryptonRibbonGroupButtonToolsReselectFilesHasErrors
+            // 
+            this.kryptonRibbonGroupButtonToolsReselectFilesHasErrors.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.ImageListViewSelectMediaFilesWithErrors;
+            this.kryptonRibbonGroupButtonToolsReselectFilesHasErrors.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.ImageListViewSelectMediaFilesWithErrors;
+            this.kryptonRibbonGroupButtonToolsReselectFilesHasErrors.KeyTip = "RE";
+            this.kryptonRibbonGroupButtonToolsReselectFilesHasErrors.TextLine1 = "Reselect files";
+            this.kryptonRibbonGroupButtonToolsReselectFilesHasErrors.TextLine2 = "has errors!!";
+            this.kryptonRibbonGroupButtonToolsReselectFilesHasErrors.ToolTipValues.Description = "Reselect media files that got errors after last operation";
+            this.kryptonRibbonGroupButtonToolsReselectFilesHasErrors.ToolTipValues.EnableToolTips = true;
+            this.kryptonRibbonGroupButtonToolsReselectFilesHasErrors.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.ImageListViewSelectMediaFilesWithErrors;
+            this.kryptonRibbonGroupButtonToolsReselectFilesHasErrors.Click += new System.EventHandler(this.kryptonRibbonGroupButtonToolsReselectFilesHasErrors_Click);
+            // 
+            // kryptonRibbonGroupTriple7
+            // 
+            this.kryptonRibbonGroupTriple7.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
+            this.kryptonRibbonGroupButtonSelectWildcardsSelect});
+            // 
+            // kryptonRibbonGroupButtonSelectWildcardsSelect
+            // 
+            this.kryptonRibbonGroupButtonSelectWildcardsSelect.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.ImageListViewSelectMatchPattern;
+            this.kryptonRibbonGroupButtonSelectWildcardsSelect.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.ImageListViewSelectMatchPattern;
+            this.kryptonRibbonGroupButtonSelectWildcardsSelect.KeyTip = "WS";
+            this.kryptonRibbonGroupButtonSelectWildcardsSelect.TextLine1 = "Wildcards";
+            this.kryptonRibbonGroupButtonSelectWildcardsSelect.TextLine2 = "Select files";
+            this.kryptonRibbonGroupButtonSelectWildcardsSelect.Click += new System.EventHandler(this.kryptonRibbonGroupButtonSelectWildcardsSelect_Click);
             // 
             // kryptonRibbonGroupTripleSelectForwardBackwards
             // 
@@ -5222,49 +5282,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonSelectToggle.ToolTipValues.Heading = "Invert selection (Ctrl+I)";
             this.kryptonRibbonGroupButtonSelectToggle.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.SelectToggle;
             this.kryptonRibbonGroupButtonSelectToggle.Click += new System.EventHandler(this.kryptonRibbonGroupButtonSelectToggle_Click);
-            // 
-            // kryptonRibbonGroupTriple4
-            // 
-            this.kryptonRibbonGroupTriple4.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
-            this.kryptonRibbonGroupButtonToolsReselectDataGridVIewMatchDataGridView,
-            this.kryptonRibbonGroupButtonToolsReselectFilesMatchDataGridView,
-            this.kryptonRibbonGroupButtonToolsReselectFilesHasErrors});
-            // 
-            // kryptonRibbonGroupButtonToolsReselectDataGridVIewMatchDataGridView
-            // 
-            this.kryptonRibbonGroupButtonToolsReselectDataGridVIewMatchDataGridView.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.DataGridViewMatchDataGridView;
-            this.kryptonRibbonGroupButtonToolsReselectDataGridVIewMatchDataGridView.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.DataGridViewMatchDataGridView;
-            this.kryptonRibbonGroupButtonToolsReselectDataGridVIewMatchDataGridView.KeyTip = "RD";
-            this.kryptonRibbonGroupButtonToolsReselectDataGridVIewMatchDataGridView.TextLine1 = "Match selection";
-            this.kryptonRibbonGroupButtonToolsReselectDataGridVIewMatchDataGridView.TextLine2 = "all DataGridViews";
-            this.kryptonRibbonGroupButtonToolsReselectDataGridVIewMatchDataGridView.ToolTipValues.Description = "Select all columns in all tabs that has selected cells on current tab";
-            this.kryptonRibbonGroupButtonToolsReselectDataGridVIewMatchDataGridView.ToolTipValues.EnableToolTips = true;
-            this.kryptonRibbonGroupButtonToolsReselectDataGridVIewMatchDataGridView.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.DataGridViewMatchDataGridView;
-            this.kryptonRibbonGroupButtonToolsReselectDataGridVIewMatchDataGridView.Click += new System.EventHandler(this.kryptonRibbonGroupButtonToolsReselectDataGridVIewMatchDataGridView_Click);
-            // 
-            // kryptonRibbonGroupButtonToolsReselectFilesMatchDataGridView
-            // 
-            this.kryptonRibbonGroupButtonToolsReselectFilesMatchDataGridView.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.DataGridViewMatchMediaFilesCells;
-            this.kryptonRibbonGroupButtonToolsReselectFilesMatchDataGridView.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.DataGridViewMatchMediaFilesCells;
-            this.kryptonRibbonGroupButtonToolsReselectFilesMatchDataGridView.KeyTip = "RC";
-            this.kryptonRibbonGroupButtonToolsReselectFilesMatchDataGridView.TextLine1 = "Reselect files";
-            this.kryptonRibbonGroupButtonToolsReselectFilesMatchDataGridView.TextLine2 = "match cells";
-            this.kryptonRibbonGroupButtonToolsReselectFilesMatchDataGridView.ToolTipValues.Description = "Select media files that match the files for all selected cells";
-            this.kryptonRibbonGroupButtonToolsReselectFilesMatchDataGridView.ToolTipValues.EnableToolTips = true;
-            this.kryptonRibbonGroupButtonToolsReselectFilesMatchDataGridView.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.DataGridViewMatchMediaFilesCells;
-            this.kryptonRibbonGroupButtonToolsReselectFilesMatchDataGridView.Click += new System.EventHandler(this.kryptonRibbonGroupButtonToolsReselectFilesMatchDataGridView_Click_1);
-            // 
-            // kryptonRibbonGroupButtonToolsReselectFilesHasErrors
-            // 
-            this.kryptonRibbonGroupButtonToolsReselectFilesHasErrors.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.ImageListViewSelectMediaFilesWithErrors;
-            this.kryptonRibbonGroupButtonToolsReselectFilesHasErrors.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.ImageListViewSelectMediaFilesWithErrors;
-            this.kryptonRibbonGroupButtonToolsReselectFilesHasErrors.KeyTip = "RE";
-            this.kryptonRibbonGroupButtonToolsReselectFilesHasErrors.TextLine1 = "Reselect files";
-            this.kryptonRibbonGroupButtonToolsReselectFilesHasErrors.TextLine2 = "has errors!!";
-            this.kryptonRibbonGroupButtonToolsReselectFilesHasErrors.ToolTipValues.Description = "Reselect media files that got errors after last operation";
-            this.kryptonRibbonGroupButtonToolsReselectFilesHasErrors.ToolTipValues.EnableToolTips = true;
-            this.kryptonRibbonGroupButtonToolsReselectFilesHasErrors.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.ImageListViewSelectMediaFilesWithErrors;
-            this.kryptonRibbonGroupButtonToolsReselectFilesHasErrors.Click += new System.EventHandler(this.kryptonRibbonGroupButtonToolsReselectFilesHasErrors_Click);
             // 
             // kryptonRibbonGroup2
             // 
@@ -7075,6 +7092,8 @@ namespace PhotoTagsSynchronizer
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonHomeDateAndTimePlus30m;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonHomeDateAndTimePlus60m;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonToolsReselectFilesHasErrors;
+        private Krypton.Ribbon.KryptonRibbonGroupTriple kryptonRibbonGroupTriple7;
+        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonSelectWildcardsSelect;
     }
 }
 
