@@ -305,6 +305,22 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonQATButtonMediaPlayerFastBackwards = new Krypton.Ribbon.KryptonRibbonQATButton();
             this.kryptonRibbonQATButtonMediaPlayerFastForward = new Krypton.Ribbon.KryptonRibbonQATButton();
             this.kryptonRibbonQATButtonMediaPlayerSlideshowPlay = new Krypton.Ribbon.KryptonRibbonQATButton();
+            this.kryptonContextMenuItemFileSave = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItemFileSaveAndAutoCorrect = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuSeparator6 = new Krypton.Toolkit.KryptonContextMenuSeparator();
+            this.kryptonContextMenuItemFileCut = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItemFileCopy = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItemFilePaste = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuSeparator4 = new Krypton.Toolkit.KryptonContextMenuSeparator();
+            this.kryptonContextMenuItemFileOpen = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItemFileEdit = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItemFileDelete = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuSeparator3 = new Krypton.Toolkit.KryptonContextMenuSeparator();
+            this.kryptonContextMenuItemFileSelectFiles = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItemFileSelectMatchCells = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuSeparator5 = new Krypton.Toolkit.KryptonContextMenuSeparator();
+            this.kryptonContextMenuItemFileReloadLast = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItemFileReloadAll = new Krypton.Toolkit.KryptonContextMenuItem();
             this.kryptonRibbonTabHome = new Krypton.Ribbon.KryptonRibbonTab();
             this.kryptonRibbonGroupHomeClipboard = new Krypton.Ribbon.KryptonRibbonGroup();
             this.kryptonRibbonGroupTripleHomeCopyCutPaste = new Krypton.Ribbon.KryptonRibbonGroupTriple();
@@ -3986,12 +4002,32 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonQATButtonMediaPlayerSlideshowPlay});
             this.kryptonRibbonMain.QATUserChange = false;
             this.kryptonRibbonMain.RibbonAppButton.AppButtonImage = global::PhotoTagsSynchronizer.Properties.Resources.AppIcon;
+            this.kryptonRibbonMain.RibbonAppButton.AppButtonMenuItems.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
+            this.kryptonContextMenuItemFileSave,
+            this.kryptonContextMenuItemFileSaveAndAutoCorrect,
+            this.kryptonContextMenuSeparator6,
+            this.kryptonContextMenuItemFileCut,
+            this.kryptonContextMenuItemFileCopy,
+            this.kryptonContextMenuItemFilePaste,
+            this.kryptonContextMenuSeparator4,
+            this.kryptonContextMenuItemFileOpen,
+            this.kryptonContextMenuItemFileEdit,
+            this.kryptonContextMenuItemFileDelete,
+            this.kryptonContextMenuSeparator3,
+            this.kryptonContextMenuItemFileSelectFiles,
+            this.kryptonContextMenuItemFileSelectMatchCells,
+            this.kryptonContextMenuSeparator5,
+            this.kryptonContextMenuItemFileReloadLast,
+            this.kryptonContextMenuItemFileReloadAll});
+            this.kryptonRibbonMain.RibbonAppButton.AppButtonShowRecentDocs = false;
+            this.kryptonRibbonMain.RibbonAppButton.IgnoreDoubleClickClose = true;
             this.kryptonRibbonMain.RibbonTabs.AddRange(new Krypton.Ribbon.KryptonRibbonTab[] {
             this.kryptonRibbonTabHome,
             this.kryptonRibbonTabView,
             this.kryptonRibbonTabSelect,
             this.kryptonRibbonTabTools,
             this.kryptonRibbonTabPreview});
+            this.kryptonRibbonMain.SelectedContext = null;
             this.kryptonRibbonMain.SelectedTab = this.kryptonRibbonTabHome;
             this.kryptonRibbonMain.Size = new System.Drawing.Size(1214, 115);
             this.kryptonRibbonMain.TabIndex = 12;
@@ -4130,6 +4166,80 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonQATButtonMediaPlayerSlideshowPlay.Image = global::PhotoTagsSynchronizer.Properties.Resources.MediaPreviewSlideshowPlay16x16;
             this.kryptonRibbonQATButtonMediaPlayerSlideshowPlay.Visible = false;
             this.kryptonRibbonQATButtonMediaPlayerSlideshowPlay.Click += new System.EventHandler(this.kryptonRibbonQATButtonMediaPlayerSlideshowPlay_Click);
+            // 
+            // kryptonContextMenuItemFileSave
+            // 
+            this.kryptonContextMenuItemFileSave.Image = global::PhotoTagsSynchronizer.Properties.Resources.MetadataSave32x32;
+            this.kryptonContextMenuItemFileSave.Text = "Save";
+            this.kryptonContextMenuItemFileSave.Click += new System.EventHandler(this.kryptonContextMenuItemFileSave_Click);
+            // 
+            // kryptonContextMenuItemFileSaveAndAutoCorrect
+            // 
+            this.kryptonContextMenuItemFileSaveAndAutoCorrect.Image = global::PhotoTagsSynchronizer.Properties.Resources.MetadataSaveAndAutoCorrect;
+            this.kryptonContextMenuItemFileSaveAndAutoCorrect.Text = "Save with AutoCorrect";
+            this.kryptonContextMenuItemFileSaveAndAutoCorrect.Click += new System.EventHandler(this.kryptonContextMenuItemFileSaveAndAutoCorrect_Click);
+            // 
+            // kryptonContextMenuItemFileCut
+            // 
+            this.kryptonContextMenuItemFileCut.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditCut32x32;
+            this.kryptonContextMenuItemFileCut.Text = "Cut";
+            this.kryptonContextMenuItemFileCut.Click += new System.EventHandler(this.kryptonContextMenuItemFileCut_Click);
+            // 
+            // kryptonContextMenuItemFileCopy
+            // 
+            this.kryptonContextMenuItemFileCopy.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditCopy32x32;
+            this.kryptonContextMenuItemFileCopy.Text = "Copy";
+            this.kryptonContextMenuItemFileCopy.Click += new System.EventHandler(this.kryptonContextMenuItemFileCopy_Click);
+            // 
+            // kryptonContextMenuItemFilePaste
+            // 
+            this.kryptonContextMenuItemFilePaste.Image = global::PhotoTagsSynchronizer.Properties.Resources.EditPaste32x32;
+            this.kryptonContextMenuItemFilePaste.Text = "Paste";
+            this.kryptonContextMenuItemFilePaste.Click += new System.EventHandler(this.kryptonContextMenuItemFilePaste_Click);
+            // 
+            // kryptonContextMenuItemFileOpen
+            // 
+            this.kryptonContextMenuItemFileOpen.Checked = true;
+            this.kryptonContextMenuItemFileOpen.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.kryptonContextMenuItemFileOpen.Image = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemOpen;
+            this.kryptonContextMenuItemFileOpen.Text = "&Open";
+            this.kryptonContextMenuItemFileOpen.Click += new System.EventHandler(this.kryptonContextMenuItemFileOpen_Click);
+            // 
+            // kryptonContextMenuItemFileEdit
+            // 
+            this.kryptonContextMenuItemFileEdit.Image = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemEdit;
+            this.kryptonContextMenuItemFileEdit.Text = "&Edit";
+            this.kryptonContextMenuItemFileEdit.Click += new System.EventHandler(this.kryptonContextMenuItemFileEdit_Click);
+            // 
+            // kryptonContextMenuItemFileDelete
+            // 
+            this.kryptonContextMenuItemFileDelete.Image = global::PhotoTagsSynchronizer.Properties.Resources.FileSystemDelete32x32;
+            this.kryptonContextMenuItemFileDelete.Text = "&Delete";
+            this.kryptonContextMenuItemFileDelete.Click += new System.EventHandler(this.kryptonContextMenuItemFileDelete_Click);
+            // 
+            // kryptonContextMenuItemFileSelectFiles
+            // 
+            this.kryptonContextMenuItemFileSelectFiles.Image = global::PhotoTagsSynchronizer.Properties.Resources.ImageListViewSelectMatchPattern;
+            this.kryptonContextMenuItemFileSelectFiles.Text = "Select files match pattern";
+            this.kryptonContextMenuItemFileSelectFiles.Click += new System.EventHandler(this.kryptonContextMenuItemFileSelectFiles_Click);
+            // 
+            // kryptonContextMenuItemFileSelectMatchCells
+            // 
+            this.kryptonContextMenuItemFileSelectMatchCells.Image = global::PhotoTagsSynchronizer.Properties.Resources.ImageListViewSelectMediaFilesWithErrors;
+            this.kryptonContextMenuItemFileSelectMatchCells.Text = "Select match selected cells";
+            this.kryptonContextMenuItemFileSelectMatchCells.Click += new System.EventHandler(this.kryptonContextMenuItemFileSelectMatchCells_Click);
+            // 
+            // kryptonContextMenuItemFileReloadLast
+            // 
+            this.kryptonContextMenuItemFileReloadLast.Image = global::PhotoTagsSynchronizer.Properties.Resources.MetadataReload;
+            this.kryptonContextMenuItemFileReloadLast.Text = "Reload Metadata (Reload last)";
+            this.kryptonContextMenuItemFileReloadLast.Click += new System.EventHandler(this.kryptonContextMenuItemFileReloadLast_Click);
+            // 
+            // kryptonContextMenuItemFileReloadAll
+            // 
+            this.kryptonContextMenuItemFileReloadAll.Image = global::PhotoTagsSynchronizer.Properties.Resources.MetadataDeleteHistory;
+            this.kryptonContextMenuItemFileReloadAll.Text = "Reload Metadata (Forget history)";
+            this.kryptonContextMenuItemFileReloadAll.Click += new System.EventHandler(this.kryptonContextMenuItemFileReloadAll_Click);
             // 
             // kryptonRibbonTabHome
             // 
@@ -7094,6 +7204,22 @@ namespace PhotoTagsSynchronizer
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonToolsReselectFilesHasErrors;
         private Krypton.Ribbon.KryptonRibbonGroupTriple kryptonRibbonGroupTriple7;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonSelectWildcardsSelect;
+        private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItemFileOpen;
+        private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItemFileEdit;
+        private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItemFileDelete;
+        private Krypton.Toolkit.KryptonContextMenuSeparator kryptonContextMenuSeparator3;
+        private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItemFileSelectFiles;
+        private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItemFileSave;
+        private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItemFileSaveAndAutoCorrect;
+        private Krypton.Toolkit.KryptonContextMenuSeparator kryptonContextMenuSeparator6;
+        private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItemFileCut;
+        private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItemFileCopy;
+        private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItemFilePaste;
+        private Krypton.Toolkit.KryptonContextMenuSeparator kryptonContextMenuSeparator4;
+        private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItemFileSelectMatchCells;
+        private Krypton.Toolkit.KryptonContextMenuSeparator kryptonContextMenuSeparator5;
+        private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItemFileReloadLast;
+        private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItemFileReloadAll;
     }
 }
 

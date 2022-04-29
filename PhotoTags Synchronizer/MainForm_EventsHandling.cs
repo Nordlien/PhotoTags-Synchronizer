@@ -1169,24 +1169,14 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region Select Match Wildcards Pattern
-        private void kryptonRibbonGroupButtonSelectWildcardsSelect_Click(object sender, EventArgs e)
+        private void kryptonContextMenuItemFileSelectFiles_Click(object sender, EventArgs e)
         {
             if (GlobalData.IsApplicationClosing) return;
             if (IsPerforminAButtonAction("Wildcards Select")) return;
-            if (IsPopulatingAnything("Wildcards Select")) return;
-            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
-
             try
             {
                 GlobalData.IsPerformingAButtonAction = true;
-
-                //Action
-                string wildcardsSelect = KryptonInputBox.Show("Wildcards select media files. ", "Select media files", Properties.Settings.Default.ToolsLastImageListViewWildcardsSelectMatch);
-                if (wildcardsSelect.Trim() != "")
-                {
-                    Properties.Settings.Default.ToolsLastImageListViewWildcardsSelectMatch = wildcardsSelect.Trim();
-                    ImageListViewWildcardsSelectMatch(imageListView1, wildcardsSelect);
-                }
+                ActionFileSelectWildcards();
             }
             catch (Exception ex)
             {
@@ -1197,6 +1187,40 @@ namespace PhotoTagsSynchronizer
             finally
             {
                 GlobalData.IsPerformingAButtonAction = false;
+            }
+        }
+
+        private void kryptonRibbonGroupButtonSelectWildcardsSelect_Click(object sender, EventArgs e)
+        {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Wildcards Select")) return;
+            if (IsPopulatingAnything("Wildcards Select")) return;
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            try
+            {
+                GlobalData.IsPerformingAButtonAction = true;
+                ActionFileSelectWildcards();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
+                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+            finally
+            {
+                GlobalData.IsPerformingAButtonAction = false;
+            }
+        }
+
+        private void ActionFileSelectWildcards()
+        {
+            string wildcardsSelect = KryptonInputBox.Show("Wildcards select media files. ", "Select media files", Properties.Settings.Default.ToolsLastImageListViewWildcardsSelectMatch);
+            if (wildcardsSelect.Trim() != "")
+            {
+                Properties.Settings.Default.ToolsLastImageListViewWildcardsSelectMatch = wildcardsSelect.Trim();
+                ImageListViewWildcardsSelectMatch(imageListView1, wildcardsSelect);
             }
         }
         #endregion
@@ -1233,6 +1257,27 @@ namespace PhotoTagsSynchronizer
             {
                 GlobalData.IsPerformingAButtonAction = true;
                 ActionCut();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
+                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+            finally
+            {
+                GlobalData.IsPerformingAButtonAction = false;
+            }
+        }
+
+        private void kryptonContextMenuItemFileCut_Click(object sender, EventArgs e)
+        {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Cut")) return;
+            try
+            {
+                GlobalData.IsPerformingAButtonAction = true;
+                MediaFilesCut();
             }
             catch (Exception ex)
             {
@@ -1590,6 +1635,28 @@ namespace PhotoTagsSynchronizer
                 GlobalData.IsPerformingAButtonAction = false;
             }
         }
+        
+
+        private void kryptonContextMenuItemFileCopy_Click(object sender, EventArgs e)
+        {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Copy")) return;
+            try
+            {
+                GlobalData.IsPerformingAButtonAction = true;
+                MediaFilesCopy();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
+                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+            finally
+            {
+                GlobalData.IsPerformingAButtonAction = false;
+            }
+        }
         #endregion
 
         #region ActionCopy()
@@ -1893,6 +1960,27 @@ namespace PhotoTagsSynchronizer
             {
                 GlobalData.IsPerformingAButtonAction = true;
                 ActionPaste();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
+                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+            finally
+            {
+                GlobalData.IsPerformingAButtonAction = false;
+            }
+        }
+
+        private void kryptonContextMenuItemFilePaste_Click(object sender, EventArgs e)
+        {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Paste")) return;
+            try
+            {
+                GlobalData.IsPerformingAButtonAction = true;
+                MediaFilesPaste();
             }
             catch (Exception ex)
             {
@@ -2300,6 +2388,27 @@ namespace PhotoTagsSynchronizer
             {
                 GlobalData.IsPerformingAButtonAction = true;
                 ActionGridCellAndFileSystemDelete();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
+                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+            finally
+            {
+                GlobalData.IsPerformingAButtonAction = false;
+            }
+        }
+
+        private void kryptonContextMenuItemFileDelete_Click(object sender, EventArgs e)
+        {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Delete")) return;
+            try
+            {
+                GlobalData.IsPerformingAButtonAction = true;
+                FileSystemSelectedFilesDelete();
             }
             catch (Exception ex)
             {
@@ -5857,6 +5966,100 @@ namespace PhotoTagsSynchronizer
                 GlobalData.IsPerformingAButtonAction = false;
             }
         }
+
+        private void kryptonContextMenuItemFileSave_Click(object sender, EventArgs e)
+        {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Save")) return;
+            if (IsPopulatingAnything("Save")) return;
+            //if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+            switch (ActiveKryptonPage)
+            {
+                case KryptonPages.None:
+                case KryptonPages.kryptonPageFolderSearchFilterFolder:
+                case KryptonPages.kryptonPageFolderSearchFilterSearch:
+                case KryptonPages.kryptonPageFolderSearchFilterFilter:
+                case KryptonPages.kryptonPageMediaFiles:
+                case KryptonPages.kryptonPageToolboxTags:
+                case KryptonPages.kryptonPageToolboxPeople:
+                case KryptonPages.kryptonPageToolboxMap:
+                case KryptonPages.kryptonPageToolboxDates:
+                case KryptonPages.kryptonPageToolboxExiftool:
+                case KryptonPages.kryptonPageToolboxWarnings:
+                case KryptonPages.kryptonPageToolboxProperties:
+                    break;
+                case KryptonPages.kryptonPageToolboxRename:
+                    if (SaveBeforeContinue(true, useAutoSave: false) == DialogResult.Cancel) return;
+                    break;
+                case KryptonPages.kryptonPageToolboxConvertAndMerge:
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+
+            try
+            {
+                GlobalData.IsPerformingAButtonAction = true;
+                ActionSave(false);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
+                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+            finally
+            {
+                GlobalData.IsPerformingAButtonAction = false;
+            }
+        }
+
+        private void kryptonContextMenuItemFileSaveAndAutoCorrect_Click(object sender, EventArgs e)
+        {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Save")) return;
+            if (IsPopulatingAnything("Save")) return;
+            //if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+            switch (ActiveKryptonPage)
+            {
+                case KryptonPages.None:
+                case KryptonPages.kryptonPageFolderSearchFilterFolder:
+                case KryptonPages.kryptonPageFolderSearchFilterSearch:
+                case KryptonPages.kryptonPageFolderSearchFilterFilter:
+                case KryptonPages.kryptonPageMediaFiles:
+                case KryptonPages.kryptonPageToolboxTags:
+                case KryptonPages.kryptonPageToolboxPeople:
+                case KryptonPages.kryptonPageToolboxMap:
+                case KryptonPages.kryptonPageToolboxDates:
+                case KryptonPages.kryptonPageToolboxExiftool:
+                case KryptonPages.kryptonPageToolboxWarnings:
+                case KryptonPages.kryptonPageToolboxProperties:
+                    break;
+                case KryptonPages.kryptonPageToolboxRename:
+                    if (SaveBeforeContinue(true, useAutoSave: false) == DialogResult.Cancel) return;
+                    break;
+                case KryptonPages.kryptonPageToolboxConvertAndMerge:
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+
+            try
+            {
+                GlobalData.IsPerformingAButtonAction = true;
+                ActionSave(true);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
+                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+            finally
+            {
+                GlobalData.IsPerformingAButtonAction = false;
+            }
+        }
         #endregion 
 
         #region ActionSave
@@ -8089,7 +8292,7 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-        #region FileSystemVerbOpen (Files in Folder, ImageListView, Grid)
+        #region FileSystem - VerbOpen - (Files in Folder, ImageListView, Grid)
 
         #region ActionFileSystemOpen
         private void ActionFileSystemVerbOpen(int? columnIndex, int? rowIndex)
@@ -8156,6 +8359,27 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region FileSystemVerbOpen - Click Events Sources
+        private void kryptonContextMenuItemFileOpen_Click(object sender, EventArgs e)
+        {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("FileSystemOpen")) return;
+            try
+            {
+                GlobalData.IsPerformingAButtonAction = true;
+                MediaFilesVerbOpen_Click(ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true));
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
+                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+            finally
+            {
+                GlobalData.IsPerformingAButtonAction = false;
+            }
+        }
+
         private void imageListView1_ItemDoubleClick(object sender, ItemClickEventArgs e)
         {
             if (GlobalData.IsApplicationClosing) return;
@@ -8278,11 +8502,6 @@ namespace PhotoTagsSynchronizer
         {
             ActionFileSystemVerbOpen(e.ColumnIndex, e.RowIndex);
         }
-
-
-        
-
-
         #endregion
 
         #region MediaFilesVerbOpen_Click
@@ -8313,7 +8532,7 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-        #region OpenWith - Selected Verb (Files in Folder, ImageListView, Grid)
+        #region FileSystem - OpenWith - Selected Verb (Files in Folder, ImageListView, Grid)
 
         #region ActionFileSystemOpenWith
         private void ActionFileSystemOpenWith(ApplicationData applicationData)
@@ -8408,7 +8627,7 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-        #region OpenAndAssociateWithDialog (Files in Folder, ImageListView, Grid)
+        #region FileSystem - OpenAndAssociateWithDialog (Files in Folder, ImageListView, Grid)
 
         #region ActionOpenAndAssociateWithDialog
         private void ActionOpenAndAssociateWithDialog()
@@ -8538,7 +8757,7 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-        #region FileSystemVerbEdit
+        #region FileSystem - VerbEdit
 
         #region ActionFileSystemVerbEdit (Files in Folder, ImageListView, Grid)
         private void ActionFileSystemVerbEdit()
@@ -8599,6 +8818,27 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region FileSystemVerbEdit - Click Events Sources
+        private void kryptonContextMenuItemFileEdit_Click(object sender, EventArgs e)
+        {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("FileSystemVerbEdit")) return;
+            try
+            {
+                GlobalData.IsPerformingAButtonAction = true;
+                MediaFilesVerbEdit(ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true));
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
+                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+            finally
+            {
+                GlobalData.IsPerformingAButtonAction = false;
+            }
+        }
+
         private void kryptonRibbonGroupButtonHomeFileSystemVerbEdit_Click(object sender, EventArgs e)
         {
             if (GlobalData.IsApplicationClosing) return;
@@ -8674,7 +8914,7 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-        #region FileSystemRunCommand (Files in Folder, ImageListView, Grid)
+        #region FileSystem - RunCommand (Files in Folder, ImageListView, Grid)
 
         #region ActionFileSystemRunCommand
         private void ActionFileSystemRunCommand()
@@ -9452,7 +9692,79 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+
         #region Metadata - Refresh - Last (Files in Folder, ImageListView, NOT Grid)
+
+        #region MetadataRefreshLast - Click Events Sources
+        private void kryptonRibbonGroupButtonHomeMetadataRefreshLast_Click(object sender, EventArgs e)
+        {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("MetadataRefreshLast")) return;
+            if (IsPopulatingAnything("MetadataRefreshLast")) return;
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            try
+            {
+                GlobalData.IsPerformingAButtonAction = true;
+                ActionMetadataRefreshLast();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
+                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+            finally
+            {
+                GlobalData.IsPerformingAButtonAction = false;
+            }
+        }
+
+        private void KryptonContextMenuItemGenericMetadataRefreshLast_Click(object sender, EventArgs e)
+        {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("MetadataRefreshLast")) return;
+            if (IsPopulatingAnything("MetadataRefreshLast")) return;
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            try
+            {
+                GlobalData.IsPerformingAButtonAction = true;
+                ActionMetadataRefreshLast();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
+                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+            finally
+            {
+                GlobalData.IsPerformingAButtonAction = false;
+            }
+        }
+        
+        private void kryptonContextMenuItemFileReloadLast_Click(object sender, EventArgs e)
+        {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("MetadataRefreshLast")) return;
+            try
+            {
+                GlobalData.IsPerformingAButtonAction = true;
+                MediaFilesMetadataRefreshLast();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
+                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+            finally
+            {
+                GlobalData.IsPerformingAButtonAction = false;
+            }
+        }
+        #endregion
 
         #region ActionMetadataRefreshLast
         private void ActionMetadataRefreshLast()
@@ -9503,55 +9815,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region MetadataRefreshLast - Click Events Sources
-        private void kryptonRibbonGroupButtonHomeMetadataRefreshLast_Click(object sender, EventArgs e)
-        {
-            if (GlobalData.IsApplicationClosing) return;
-            if (IsPerforminAButtonAction("MetadataRefreshLast")) return;
-            if (IsPopulatingAnything("MetadataRefreshLast")) return;
-            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
-
-            try
-            {
-                GlobalData.IsPerformingAButtonAction = true;
-                ActionMetadataRefreshLast();
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-            }
-            finally
-            {
-                GlobalData.IsPerformingAButtonAction = false;
-            }
-        }
-
-        private void KryptonContextMenuItemGenericMetadataRefreshLast_Click(object sender, EventArgs e)
-        {
-            if (GlobalData.IsApplicationClosing) return;
-            if (IsPerforminAButtonAction("MetadataRefreshLast")) return;
-            if (IsPopulatingAnything("MetadataRefreshLast")) return;
-            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
-
-            try
-            {
-                GlobalData.IsPerformingAButtonAction = true;
-                ActionMetadataRefreshLast();
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-            }
-            finally
-            {
-                GlobalData.IsPerformingAButtonAction = false;
-            }
-        }
-        #endregion
 
         #region DeleteLastMediadataAndReload
         void DeleteLastMetadataAndReloadThread(HashSet<FileEntry> fileEntries)
@@ -9656,7 +9919,7 @@ namespace PhotoTagsSynchronizer
                     case KryptonPages.kryptonPageFolderSearchFilterFilter:
                         break;
                     case KryptonPages.kryptonPageMediaFiles:
-                        MediaFilesMetadataReloadDeleteHistoryk();
+                        MediaFilesMetadataReloadDeleteHistory();
                         break;
                     case KryptonPages.kryptonPageToolboxTags:
                         break;
@@ -9735,6 +9998,27 @@ namespace PhotoTagsSynchronizer
                 GlobalData.IsPerformingAButtonAction = false;
             }
         }
+
+        private void kryptonContextMenuItemFileReloadAll_Click(object sender, EventArgs e)
+        {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("ReloadDeleteHistory")) return;
+            try
+            {
+                GlobalData.IsPerformingAButtonAction = true;
+                MediaFilesMetadataReloadDeleteHistory();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
+                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+            finally
+            {
+                GlobalData.IsPerformingAButtonAction = false;
+            }
+        }
         #endregion
 
         #region ReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory
@@ -9769,7 +10053,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region MediaFilesMetadataReloadDeleteHistory
-        private void MediaFilesMetadataReloadDeleteHistoryk()
+        private void MediaFilesMetadataReloadDeleteHistory()
         {
             if (GlobalData.IsApplicationClosing) return;
             try
@@ -10290,8 +10574,9 @@ namespace PhotoTagsSynchronizer
         {
             Action_CheckAndFixOneDriveIssues_ReturnWasFoundAndRemoved();
         }
-        #endregion 
+        #endregion
 
+        #region Files - Select Files Match Cells
         #region ActionSelectMediaFilesMatchCells
         private void ActionSelectMediaFilesMatchCells()
         {
@@ -10355,6 +10640,28 @@ namespace PhotoTagsSynchronizer
                 GlobalData.IsPerformingAButtonAction = false;
             }
         }
+
+        private void kryptonContextMenuItemFileSelectMatchCells_Click(object sender, EventArgs e)
+        {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Select Media Files Match Cells")) return;
+            try
+            {
+                GlobalData.IsPerformingAButtonAction = true;
+                ActionSelectMediaFilesMatchCells();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
+                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+            finally
+            {
+                GlobalData.IsPerformingAButtonAction = false;
+            }
+        }
+        #endregion
         #endregion
 
         #region ActionSelectMediaFilesWithErrors
