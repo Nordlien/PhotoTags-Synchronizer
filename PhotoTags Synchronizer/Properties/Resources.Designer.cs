@@ -813,6 +813,16 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ImageListViewSelectMatchPattern {
+            get {
+                object obj = ResourceManager.GetObject("ImageListViewSelectMatchPattern", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap ImageListViewSelectMediaFilesWithErrors {
             get {
                 object obj = ResourceManager.GetObject("ImageListViewSelectMediaFilesWithErrors", resourceCulture);

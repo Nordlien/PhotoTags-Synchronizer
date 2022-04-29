@@ -568,6 +568,7 @@ riff=UTF8
     </Setting>
     <Setting Name="RunBatchImageCommandList" Type="System.String" Scope="User">
       <Value Profile="(Default)">exiftool -t -a -G0:1 -s -n -P -struct "{FileFullPath}"
+magick.exe "{OriginalFileFullPath}" "{OriginalFileDirectory}\{OriginalFileNameWithoutExtension}.jpg"
 "C:\Program files\Exiftool\exiftool" -t -a -G0:1 -s -n -P -struct "{FileFullPath}"
 cmd.exe /K exiftool -t -a -G0:1 -s -n -P -struct "{FileFullPath}"       
 cmd.exe /K /C exiftool -t -a -G0:1 -s -n -P -struct "{FileFullPath}"
@@ -599,6 +600,7 @@ edit</Value>
     </Setting>
     <Setting Name="RunBatchVideoCommandList" Type="System.String" Scope="User">
       <Value Profile="(Default)">exiftool -t -a -G0:1 -s -n -P -struct "{FileFullPath}"
+ffmpeg -i "{OriginalFileFullPath}" "{OriginalFileDirectory}\{OriginalFileNameWithoutExtension}.mp4"
 "C:\Program files\Exiftool\exiftool" -t -a -G0:1 -s -n -P -struct "{FileFullPath}"
 cmd.exe /K exiftool -t -a -G0:1 -s -n -P -struct "{FileFullPath}"       
 cmd.exe /K /C exiftool -t -a -G0:1 -s -n -P -struct "{FileFullPath}"
@@ -1322,6 +1324,9 @@ Unknown 5
     </Setting>
     <Setting Name="WebScraperSearchTagUrlPrefix" Type="System.String" Scope="User">
       <Value Profile="(Default)">https://photos.google.com/search/</Value>
+    </Setting>
+    <Setting Name="ToolsLastImageListViewWildcardsSelectMatch" Type="System.String" Scope="User">
+      <Value Profile="(Default)">*.wmv</Value>
     </Setting>
   </Settings>
 </SettingsFile>

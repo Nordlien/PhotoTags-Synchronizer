@@ -728,6 +728,7 @@ namespace PhotoTagsSynchronizer.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute(@"exiftool -t -a -G0:1 -s -n -P -struct ""{FileFullPath}""
+magick.exe ""{OriginalFileFullPath}"" ""{OriginalFileDirectory}\{OriginalFileNameWithoutExtension}.jpg""
 ""C:\Program files\Exiftool\exiftool"" -t -a -G0:1 -s -n -P -struct ""{FileFullPath}""
 cmd.exe /K exiftool -t -a -G0:1 -s -n -P -struct ""{FileFullPath}""       
 cmd.exe /K /C exiftool -t -a -G0:1 -s -n -P -struct ""{FileFullPath}""
@@ -829,6 +830,7 @@ explorer ms-photos?filename=""{FileFullPath}""")]
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute(@"exiftool -t -a -G0:1 -s -n -P -struct ""{FileFullPath}""
+ffmpeg -i ""{OriginalFileFullPath}"" ""{OriginalFileDirectory}\{OriginalFileNameWithoutExtension}.mp4""
 ""C:\Program files\Exiftool\exiftool"" -t -a -G0:1 -s -n -P -struct ""{FileFullPath}""
 cmd.exe /K exiftool -t -a -G0:1 -s -n -P -struct ""{FileFullPath}""       
 cmd.exe /K /C exiftool -t -a -G0:1 -s -n -P -struct ""{FileFullPath}""
@@ -2790,6 +2792,18 @@ explorer ms-photos?filename=""{FileFullPath}""")]
             }
             set {
                 this["WebScraperSearchTagUrlPrefix"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("*.wmv")]
+        public string ToolsLastImageListViewWildcardsSelectMatch {
+            get {
+                return ((string)(this["ToolsLastImageListViewWildcardsSelectMatch"]));
+            }
+            set {
+                this["ToolsLastImageListViewWildcardsSelectMatch"] = value;
             }
         }
     }
