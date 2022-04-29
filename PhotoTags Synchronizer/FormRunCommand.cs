@@ -1067,7 +1067,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Build tab - Comapre click
+        #region Build tab - Compare click
         private void buttonArgumentFileBuilderCompare_Click(object sender, EventArgs e)
         {
             ExiftoolWriter.CreateExiftoolArguFileText(

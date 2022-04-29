@@ -1730,6 +1730,14 @@ namespace PhotoTagsSynchronizer
                                 ProcessPriorityClass processPriorityClass = (ProcessPriorityClass)Properties.Settings.Default.ApplicationDebugExiftoolWriteThreadPrioity;
 
                                 List<string> allowedFileNameDateTimeFormats = FileDateTimeReader.ConvertStringOfDatesToList(Properties.Settings.Default.RenameDateFormats);
+
+                                List<string> networkNames = new List<string>();
+                                string GPStag = Properties.Settings.Default.MicosoftOneDriveLocationHackPostfix;
+                                try
+                                {
+                                    networkNames = new List<string>(oneDriveNetworkNames);
+                                }
+                                catch { }
                                 #endregion
 
                                 #region Clear data
@@ -1907,7 +1915,8 @@ namespace PhotoTagsSynchronizer
                                             }
                                             UpdateStatusAction("Batch update a subset of " + exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser.Count + " media files...");
                                             ExiftoolWriter.WriteMetadata(
-                                                exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser, exiftoolSave_QueueSubset_MetadataOrigialBeforeUserUpdate, allowedFileNameDateTimeFormats,
+                                                exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser, exiftoolSave_QueueSubset_MetadataOrigialBeforeUserUpdate, 
+                                                allowedFileNameDateTimeFormats, networkNames, GPStag,
                                                 writeMetadataTagsConfiguration, writeMetadataKeywordAddConfiguration, out mediaFilesUpdatedByExiftool,
                                                 showCliWindow, processPriorityClass);
                                         }
@@ -1945,7 +1954,8 @@ namespace PhotoTagsSynchronizer
                                         if (writeXtraAtomOnMediaFile)
                                         {
                                             writeXtraAtom_FilesUpdated = ExiftoolWriter.WriteXtraAtom(
-                                                exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser, exiftoolSave_QueueSubset_MetadataOrigialBeforeUserUpdate, allowedFileNameDateTimeFormats,
+                                                exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser, exiftoolSave_QueueSubset_MetadataOrigialBeforeUserUpdate, 
+                                                allowedFileNameDateTimeFormats, networkNames, GPStag,
                                                 writeXtraAtomAlbumVariable, writeXtraAtomAlbumVideo,
                                                 writeXtraAtomCategoriesVariable, writeXtraAtomCategoriesVideo,
                                                 writeXtraAtomCommentVariable, writeXtraAtomCommentPicture, writeXtraAtomCommentVideo,
