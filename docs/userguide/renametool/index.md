@@ -15,7 +15,7 @@ Album: My album
 Date Taken: 1999-01-01 08:35
 
 Rename tool config:
-%Trim%%MediaFileNow_DateTime% %FileNameWithoutDateTime%%Extension%
+%Trim%%MediaFileNow_DateTime% %FileNameWithoutExtensionDateTime%%Extension%
 
 Result:
 C:\Pictures\1999-01-01 08:35 My picture.jpg
@@ -31,7 +31,7 @@ Album: My album
 Date Taken: 1999-01-01 08:35
 
 Rename tool config:
-..\..\%Media_yyyy%\%MediaAlbum%\%Trim%%GPS_DateTimeUTC%%MediaFileNow_DateTime% %FileNameWithoutDateTime%%Extension%
+..\..\%Media_yyyy%\%MediaAlbum%\%Trim%%GPS_DateTimeUTC%%MediaFileNow_DateTime% %FileNameWithoutExtensionDateTime%%Extension%
 
 Result:
 Folder change 1: ..\ -> C:\Pictures\My Camera\
@@ -50,8 +50,53 @@ Final: C:\Pictures\1999\My Album\1999-01-01 08:35 My picture.jpg
   - Removes spaces before  .
 - %FileName%
   - Original file name
+- %FileNameWithoutExtension%
+  - Original filename without Extension
+- %FileNameWithoutExtensionDateTime
+  - Original filename without Extension
+  - Original filename without dates and times 
+- %FileNameWithoutExtensionDateTimeComputerName%
+  - Original filename without Extension
+  - Original filename without dates and times
+  - Original filename without ComputerName, that OneDrive creates when sync issues occured
+- %FileNameWithoutExtensionDateTimeGPStag%
+  - Original filename without Extension
+  - Original filename without dates and times
+  - Original filename without GPStag, that is uses as Hack for avoid, Microsoft Photos, to restore wrong GPS location
+- %FileNameWithoutExtensionDateTimeComputerNameGPStag%
+  - Original filename without Extension
+  - Original filename without dates and times
+  - Original filename without ComputerName, that OneDrive creates when sync issues occured
+  - Original filename without GPStag, that is uses as Hack for avoid, Microsoft Photos, to restore wrong GPS location
+- %FileNameWithoutExtensionComputerName%
+  - Original filename without Extension
+  - Original filename without ComputerName, that OneDrive creates when sync issues occured
+- %FileNameWithoutExtensionComputerNameGPStag%
+  - Original filename without Extension
+  - Original filename without ComputerName, that OneDrive creates when sync issues occured
+  - Original filename without GPStag, that is uses as Hack for avoid, Microsoft Photos, to restore wrong GPS location
+- %FileNameWithoutExtensionGPStag%
+  - Original filename without Extension
+  - Original filename without GPStag, that is uses as Hack for avoid, Microsoft Photos, to restore wrong GPS location
 - %FileNameWithoutDateTime%
-  - Original filename but dates and times are removed from the original filename
+  - Original filename without dates and times
+- %FileNameWithoutDateTimeComputerName%
+  - Original filename without dates and times
+  - Original filename without ComputerName, that OneDrive creates when sync issues occured
+- %FileNameWithoutDateTimeGPStag%
+  - Original filename without Extension
+  - Original filename without GPStag, that is uses as Hack for avoid, Microsoft Photos, to restore wrong GPS location
+- %FileNameWithoutDateTimeComputerNameGPStag%
+  - Original filename without dates and times
+  - Original filename without ComputerName, that OneDrive creates when sync issues occured
+  - Original filename without GPStag, that is uses as Hack for avoid, Microsoft Photos, to restore wrong GPS location
+- %FileNameWithoutComputerName%
+  - Original filename without ComputerName, that OneDrive creates when sync issues occured
+- %FileNameWithoutComputerNameGPStag%
+  - Original filename without ComputerName, that OneDrive creates when sync issues occured
+  - Original filename without GPStag, that is uses as Hack for avoid, Microsoft Photos, to restore wrong GPS location
+- %FileNameWithoutGPStag%
+  - Original filename without GPStag, that is uses as Hack for avoid, Microsoft Photos, to restore wrong GPS location
 - %Extension%
   - Original extension from file
 - %MediaFileNow_DateTime%

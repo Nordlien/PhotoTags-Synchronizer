@@ -65,6 +65,9 @@ namespace PhotoTagsSynchronizer
         {
             InitializeComponent();
 
+            comboBoxRenameVariables.Items.Clear();
+            comboBoxRenameVariables.Items.AddRange(DataGridViewHandlerRename.ListOfRenameVariables);
+
             dataGridViewMetadataReadPriority.ContextMenu = null;
             dataGridViewMetadataReadPriority.KryptonContextMenu = kryptonContextMenuMetadataRead;
             

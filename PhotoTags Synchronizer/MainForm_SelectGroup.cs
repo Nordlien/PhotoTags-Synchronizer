@@ -375,7 +375,7 @@ namespace PhotoTagsSynchronizer
                 {
                     foreach (ImageListViewItem imageListViewItem in imageListView.Items)
                     {
-                        imageListViewItem.Selected = FileHandeling.FileHandler.FilenameMatchesPattern(imageListViewItem.Text, pattern);
+                        if(FileHandeling.FileHandler.FilenameMatchesPattern(imageListViewItem.Text, pattern)) imageListViewItem.Selected = true;
                     }
                 }
             }

@@ -484,7 +484,7 @@ namespace PhotoTagsSynchronizer
 
         #region Rename
         [JsonProperty("RenameVariable")]
-        public string RenameVariable { get; set; } = ".\\AutoCorrected\\%Trim%%MediaFileNow_DateTime% %FileNameWithoutDateTime%%Extension%";
+        public string RenameVariable { get; set; } = ".\\AutoCorrected\\%Trim%%MediaFileNow_DateTime% %FileNameWithoutExtensionDateTime%%Extension%";
         [JsonProperty("RenameAfterAutoCorrect")]
         public bool RenameAfterAutoCorrect { get; set; } = true;
 

@@ -288,7 +288,7 @@ namespace PhotoTagsSynchronizer.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("%Trim%%MediaFileNow_DateTime% %FileNameWithoutDateTime%%Extension%")]
+        [global::System.Configuration.DefaultSettingValueAttribute("%Trim%%MediaFileNow_DateTime% %FileNameWithoutExtensionDateTime%%Extension%")]
         public string RenameVariable {
             get {
                 return ((string)(this["RenameVariable"]));

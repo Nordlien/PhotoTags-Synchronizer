@@ -25,6 +25,8 @@ namespace PhotoTagsSynchronizer
             {
                 DataGridViewHandlerRename.RenameVaribale = Properties.Settings.Default.RenameVariable;
                 DataGridViewHandlerRename.ShowFullPath = Properties.Settings.Default.RenameShowFullPath;
+                DataGridViewHandlerRename.ComputerNames = new List<string>(oneDriveNetworkNames);
+                DataGridViewHandlerRename.GPStag = Properties.Settings.Default.MicosoftOneDriveLocationHackPostfix;
                 DataGridViewHandlerRename.UpdateFilenames(dataGridViewRename, checkBoxRenameShowFullPath.Checked);
             }
             catch (Exception ex)

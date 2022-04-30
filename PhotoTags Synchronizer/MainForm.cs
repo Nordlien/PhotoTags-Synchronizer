@@ -269,6 +269,8 @@ namespace PhotoTagsSynchronizer
             nameDataGridViewRename = this.dataGridViewRename.Name;
             nameDataGridViewTagsAndKeywords = this.dataGridViewTagsAndKeywords.Name;
 
+            comboBoxRenameVariableList.Items.Clear();
+            comboBoxRenameVariableList.Items.AddRange(DataGridViewHandlerRename.ListOfRenameVariables);
             #endregion
 
             SetPreviewRibbonEnabledStatus(previewStartEnabled: false, enabled: false);

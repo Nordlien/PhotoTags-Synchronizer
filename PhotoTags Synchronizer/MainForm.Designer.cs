@@ -31,7 +31,7 @@ namespace PhotoTagsSynchronizer
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Filter");
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Filter");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.panelMain = new Krypton.Toolkit.KryptonPanel();
             this.kryptonWorkspaceMain = new Krypton.Workspace.KryptonWorkspace();
@@ -1040,7 +1040,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.kryptonTextBoxSearchFilename.Location = new System.Drawing.Point(103, 29);
             this.kryptonTextBoxSearchFilename.Name = "kryptonTextBoxSearchFilename";
-            this.kryptonTextBoxSearchFilename.Size = new System.Drawing.Size(170, 21);
+            this.kryptonTextBoxSearchFilename.Size = new System.Drawing.Size(170, 20);
             this.kryptonTextBoxSearchFilename.TabIndex = 1;
             // 
             // kryptonLabelSearchFilename
@@ -1057,7 +1057,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.kryptonTextBoxSearchDirectory.Location = new System.Drawing.Point(103, 3);
             this.kryptonTextBoxSearchDirectory.Name = "kryptonTextBoxSearchDirectory";
-            this.kryptonTextBoxSearchDirectory.Size = new System.Drawing.Size(170, 21);
+            this.kryptonTextBoxSearchDirectory.Size = new System.Drawing.Size(170, 20);
             this.kryptonTextBoxSearchDirectory.TabIndex = 0;
             // 
             // groupBoxSearchPeople
@@ -1859,11 +1859,11 @@ namespace PhotoTagsSynchronizer
             this.treeViewFilter.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeViewFilter.Location = new System.Drawing.Point(0, 0);
             this.treeViewFilter.Name = "treeViewFilter";
-            treeNode2.Name = "NodeFolder";
-            treeNode2.Tag = "Filter";
-            treeNode2.Text = "Filter";
+            treeNode5.Name = "NodeFolder";
+            treeNode5.Tag = "Filter";
+            treeNode5.Text = "Filter";
             this.treeViewFilter.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode2});
+            treeNode5});
             this.treeViewFilter.Size = new System.Drawing.Size(399, 638);
             this.treeViewFilter.TabIndex = 0;
             this.treeViewFilter.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeViewFilter_AfterCheck);
@@ -2531,7 +2531,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageToolboxPeople.LastVisibleSet = true;
             this.kryptonPageToolboxPeople.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPageToolboxPeople.Name = "kryptonPageToolboxPeople";
-            this.kryptonPageToolboxPeople.Size = new System.Drawing.Size(400, 730);
+            this.kryptonPageToolboxPeople.Size = new System.Drawing.Size(400, 729);
             this.kryptonPageToolboxPeople.Tag = "People";
             this.kryptonPageToolboxPeople.Text = "People";
             this.kryptonPageToolboxPeople.TextDescription = "Edit region size and name";
@@ -2549,7 +2549,7 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewPeople.Name = "dataGridViewPeople";
             this.dataGridViewPeople.RowHeadersWidth = 51;
             this.dataGridViewPeople.RowTemplate.Height = 24;
-            this.dataGridViewPeople.Size = new System.Drawing.Size(400, 730);
+            this.dataGridViewPeople.Size = new System.Drawing.Size(400, 729);
             this.dataGridViewPeople.TabIndex = 0;
             this.dataGridViewPeople.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewPeople_CellBeginEdit);
             this.dataGridViewPeople.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewPeople_CellEndEdit);
@@ -3282,7 +3282,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxBrowserURL.Location = new System.Drawing.Point(132, 6);
             this.textBoxBrowserURL.Name = "textBoxBrowserURL";
-            this.textBoxBrowserURL.Size = new System.Drawing.Size(252, 21);
+            this.textBoxBrowserURL.Size = new System.Drawing.Size(252, 20);
             this.textBoxBrowserURL.TabIndex = 9;
             this.textBoxBrowserURL.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxBrowserURL_KeyPress);
             // 
@@ -3445,7 +3445,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageToolboxProperties.LastVisibleSet = true;
             this.kryptonPageToolboxProperties.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPageToolboxProperties.Name = "kryptonPageToolboxProperties";
-            this.kryptonPageToolboxProperties.Size = new System.Drawing.Size(400, 730);
+            this.kryptonPageToolboxProperties.Size = new System.Drawing.Size(400, 729);
             this.kryptonPageToolboxProperties.Tag = "Properties";
             this.kryptonPageToolboxProperties.Text = "Properties";
             this.kryptonPageToolboxProperties.TextDescription = "See and edit Windows File Properties";
@@ -3466,7 +3466,7 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewProperties.Name = "dataGridViewProperties";
             this.dataGridViewProperties.RowHeadersWidth = 51;
             this.dataGridViewProperties.RowTemplate.Height = 24;
-            this.dataGridViewProperties.Size = new System.Drawing.Size(400, 730);
+            this.dataGridViewProperties.Size = new System.Drawing.Size(400, 729);
             this.dataGridViewProperties.TabIndex = 0;
             this.dataGridViewProperties.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewProperties_CellBeginEdit);
             this.dataGridViewProperties.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewProperties_CellEndEdit);
@@ -3484,7 +3484,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageToolboxRename.LastVisibleSet = true;
             this.kryptonPageToolboxRename.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPageToolboxRename.Name = "kryptonPageToolboxRename";
-            this.kryptonPageToolboxRename.Size = new System.Drawing.Size(400, 730);
+            this.kryptonPageToolboxRename.Size = new System.Drawing.Size(400, 729);
             this.kryptonPageToolboxRename.Tag = "Rename";
             this.kryptonPageToolboxRename.Text = "Rename";
             this.kryptonPageToolboxRename.TextDescription = "Batch rename media files using variables";
@@ -3513,7 +3513,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonWorkspaceToolboxRename.Root.UniqueName = "d2af397dfebe40509007f3a61a52a985";
             this.kryptonWorkspaceToolboxRename.Root.WorkspaceControl = this.kryptonWorkspaceToolboxRename;
             this.kryptonWorkspaceToolboxRename.SeparatorStyle = Krypton.Toolkit.SeparatorStyle.HighProfile;
-            this.kryptonWorkspaceToolboxRename.Size = new System.Drawing.Size(400, 730);
+            this.kryptonWorkspaceToolboxRename.Size = new System.Drawing.Size(400, 729);
             this.kryptonWorkspaceToolboxRename.SplitterWidth = 5;
             this.kryptonWorkspaceToolboxRename.TabIndex = 0;
             this.kryptonWorkspaceToolboxRename.TabStop = true;
@@ -3604,7 +3604,22 @@ namespace PhotoTagsSynchronizer
             this.comboBoxRenameVariableList.Items.AddRange(new object[] {
             "%Trim%",
             "%FileName%",
-            "%FileNameWithoutDateTime%",
+            "%FileNameWithoutExtension",
+            "%FileNameWithoutExtensionDateTime",
+            "%FileNameWithoutExtensionDateTimeComputerName",
+            "%FileNameWithoutExtensionDateTimeGPStag",
+            "%FileNameWithoutExtensionDateTimeComputerNameGPStag",
+            "%FileNameWithoutExtensionComputerName",
+            "%FileNameWithoutExtensionComputerNameGPStag",
+            "%FileNameWithoutExtensionGPStag",
+            "%FileNameWithoutDateTime",
+            "%FileNameWithoutDateTimeComputerName",
+            "%FileNameWithoutDateTimeGPStag",
+            "%FileNameWithoutDateTimeComputerNameGPStag",
+            "%FileNameWithoutComputerName",
+            "%FileNameWithoutComputerNameGPStag",
+            "%FileNameWithoutGPStag",
+            "%FileExtension",
             "%Extension%",
             "%MediaFileNow_DateTime%",
             "%Media_DateTime%",
@@ -3658,7 +3673,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxRenameNewName.Location = new System.Drawing.Point(101, 30);
             this.textBoxRenameNewName.Name = "textBoxRenameNewName";
-            this.textBoxRenameNewName.Size = new System.Drawing.Size(294, 21);
+            this.textBoxRenameNewName.Size = new System.Drawing.Size(294, 20);
             this.textBoxRenameNewName.TabIndex = 1;
             this.textBoxRenameNewName.Enter += new System.EventHandler(this.textBoxRenameNewName_Enter);
             this.textBoxRenameNewName.Leave += new System.EventHandler(this.textBoxRenameNewName_Leave);
@@ -3706,7 +3721,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageToolboxRenameResult.LastVisibleSet = true;
             this.kryptonPageToolboxRenameResult.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPageToolboxRenameResult.Name = "kryptonPageToolboxRenameResult";
-            this.kryptonPageToolboxRenameResult.Size = new System.Drawing.Size(398, 573);
+            this.kryptonPageToolboxRenameResult.Size = new System.Drawing.Size(398, 572);
             this.kryptonPageToolboxRenameResult.Text = "Rename to";
             this.kryptonPageToolboxRenameResult.TextDescription = "Rename to this names";
             this.kryptonPageToolboxRenameResult.TextTitle = "Rename to";
@@ -3725,7 +3740,7 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewRename.Name = "dataGridViewRename";
             this.dataGridViewRename.RowHeadersWidth = 51;
             this.dataGridViewRename.RowTemplate.Height = 24;
-            this.dataGridViewRename.Size = new System.Drawing.Size(398, 573);
+            this.dataGridViewRename.Size = new System.Drawing.Size(398, 572);
             this.dataGridViewRename.TabIndex = 4;
             this.dataGridViewRename.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewRename_CellBeginEdit);
             this.dataGridViewRename.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewRename_CellEndEdit);

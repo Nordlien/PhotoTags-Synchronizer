@@ -69,7 +69,7 @@
       <Value Profile="(Default)">2</Value>
     </Setting>
     <Setting Name="RenameVariable" Type="System.String" Scope="User">
-      <Value Profile="(Default)">%Trim%%MediaFileNow_DateTime% %FileNameWithoutDateTime%%Extension%</Value>
+      <Value Profile="(Default)">%Trim%%MediaFileNow_DateTime% %FileNameWithoutExtensionDateTime%%Extension%</Value>
     </Setting>
     <Setting Name="RenameDateFormats" Type="System.String" Scope="User">
       <Value Profile="(Default)">yyyy_MM_dd_HH_mm_ss

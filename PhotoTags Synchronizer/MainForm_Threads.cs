@@ -3424,6 +3424,8 @@ namespace PhotoTagsSynchronizer
                                         {
                                             DataGridViewHandlerRename.FileDateTimeFormats = new FileDateTimeReader(Properties.Settings.Default.RenameDateFormats);
                                             DataGridViewHandlerRename.RenameVaribale = renameVaiable;
+                                            DataGridViewHandlerRename.ComputerNames = new List<string>(oneDriveNetworkNames);
+                                            DataGridViewHandlerRename.GPStag = Properties.Settings.Default.MicosoftOneDriveLocationHackPostfix;
                                             DataGridViewHandlerRename.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
 
                                             #region Get Old Filename

@@ -928,6 +928,8 @@ namespace PhotoTagsSynchronizer
 
                     DataGridViewHandlerRename.RenameVaribale = Properties.Settings.Default.RenameVariable;
                     DataGridViewHandlerRename.ShowFullPath = Properties.Settings.Default.RenameShowFullPath;
+                    DataGridViewHandlerRename.ComputerNames = new List<string>(oneDriveNetworkNames);
+                    DataGridViewHandlerRename.GPStag = Properties.Settings.Default.MicosoftOneDriveLocationHackPostfix;
                     DataGridViewHandlerConvertAndMerge.FileDateTimeFormats = new FileDateTimeReader(Properties.Settings.Default.RenameDateFormats);
                     DataGridViewHandlerConvertAndMerge.RenameVaribale = Properties.Settings.Default.RenameVariable;
                     DataGridViewHandlerPeople.SuggestRegionNameNearByDays = Properties.Settings.Default.SuggestRegionNameNearbyDays;
@@ -1289,6 +1291,8 @@ namespace PhotoTagsSynchronizer
                             DataGridViewHandlerRename.ShowFullPath = Properties.Settings.Default.RenameShowFullPath;
                             DataGridViewHandlerRename.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
                             DataGridViewHandlerRename.FilesCutCopyPasteDrag = filesCutCopyPasteDrag;
+                            DataGridViewHandlerRename.ComputerNames = new List<string>(oneDriveNetworkNames);
+                            DataGridViewHandlerRename.GPStag = Properties.Settings.Default.MicosoftOneDriveLocationHackPostfix;
                             checkBoxRenameShowFullPath.Checked = DataGridViewHandlerRename.ShowFullPath;
                             DataGridViewHandlerRename.HasBeenInitialized = true;
                             DataGridViewHandlerRename.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, dataGridViewSize, showWhatColumnsForTab, DataGridViewHandlerRename.ShowFullPath);

@@ -9,7 +9,7 @@ using FileHandeling;
 
 namespace PhotoTagsSynchronizer
 {
-    
+
 
     public static class DataGridViewHandlerRename
     {
@@ -23,51 +23,137 @@ namespace PhotoTagsSynchronizer
         public static string RenameVaribale { get; set; }
         public static bool ShowFullPath { get; set; } = false;
 
+        public static List<string> ComputerNames = new List<string>();
+        public static string GPStag = "";
+
+        #region
+        public static string RemoveComputerNames(string filename, List<string> computerNames)
+        {
+            foreach (string computerName in computerNames) filename = filename.Replace(computerName, "");
+            return filename;
+        }
+
+        public static string RemoveGPStag(string filename, string GPStag)
+        {
+            return filename.Replace(GPStag, "");
+        }
+        #endregion
+
+        public static string[] ListOfRenameVariables = new string[]
+            {
+            //%Trim%%MediaFileNow_DateTime% %FileNameWithoutDateTime%%Extension%
+            "%Trim%",
+            "%FileName%",
+            "%FileNameWithoutExtension%",
+            "%FileNameWithoutExtensionDateTime%",
+            "%FileNameWithoutExtensionDateTimeComputerName%",
+            "%FileNameWithoutExtensionDateTimeGPStag%",
+            "%FileNameWithoutExtensionDateTimeComputerNameGPStag%",
+            "%FileNameWithoutExtensionComputerName%",
+            "%FileNameWithoutExtensionComputerNameGPStag%",
+            "%FileNameWithoutExtensionGPStag%",
+            "%FileNameWithoutDateTime%",
+            "%FileNameWithoutDateTimeComputerName%",
+            "%FileNameWithoutDateTimeGPStag%",
+            "%FileNameWithoutDateTimeComputerNameGPStag%",
+            "%FileNameWithoutComputerName%",
+            "%FileNameWithoutComputerNameGPStag%",
+            "%FileNameWithoutGPStag%",
+            "%FileExtension%",
+            "%MediaFileNow_DateTime%",
+            "%Media_DateTime%",
+            "%Media_yyyy%",
+            "%Media_MM%",
+            "%Media_dd%",
+            "%Media_HH%",
+            "%Media_mm%",
+            "%Media_ss%",
+            "%File_DateTime%",
+            "%File_yyyy%",
+            "%File_MM%",
+            "%File_dd%",
+            "%File_HH%",
+            "%File_mm%",
+            "%File_ss%",
+            "%Now_DateTime%",
+            "%Now_yyyy%",
+            "%Now_MM",
+            "%Now_dd%",
+            "%Now_HH%",
+            "%Now_mm%",
+            "%Now_ss%",
+            "%GPS_DateTimeUTC%",
+            "%MediaAlbum%",
+            "%MediaTitle%",
+            "%MediaDescription%",
+            "%MediaAuthor%",
+            "%LocationName%",
+            "%LocationCountry%",
+            "%LocationRegion%"
+            };
+        
+
         #region CreateNewFilename
         public static string CreateNewFilename(string newFilenameVariable, string oldFilename, Metadata metadata)
         {
             #region List of vaiables - that can be used in Rename tool
-            //%Trim%%MediaFileNow_DateTime% %FileNameWithoutDateTime%%Extension%
-            //%Trim%
-            //%FileName%
-            //%FileNameWithoutDateTime%
-            //%Extension%
-            //%MediaFileNow_DateTime%
-            //%Media_DateTime%
-            //%Media_yyyy%
-            //%Media_MM%
-            //%Media_dd%
-            //%Media_HH%
-            //%Media_mm%
-            //%Media_ss%
-            //%File_DateTime%
-            //%File_yyyy%
-            //%File_MM%
-            //%File_dd%
-            //%File_HH%
-            //%File_mm%
-            //%File_ss%
-            //%Now_DateTime%
-            //%Now_yyyy%
-            //%Now_MM%
-            //%Now_dd%
-            //%Now_HH%
-            //%Now_mm%
-            //%Now_ss%
-            //%GPS_DateTimeUTC%
-            //%MediaAlbum%
-            //%MediaTitle%
-            //%MediaDescription%
-            //%MediaAuthor%
-            //%LocationName%
-            //%LocationCountry%
-            //%LocationRegion%
+            
             #endregion
 
             #region Filename
             string newFilename = newFilenameVariable;
             newFilename = newFilename.Replace("%FileName%", Path.GetFileNameWithoutExtension(oldFilename));
-            newFilename = newFilename.Replace("%FileNameWithoutDateTime%", FileDateTimeFormats.RemoveAllDateTimes(Path.GetFileNameWithoutExtension(oldFilename)));
+
+            #region Without Extension
+            newFilename = newFilename.Replace("%FileNameWithoutExtension%", Path.GetFileNameWithoutExtension(oldFilename));
+
+            newFilename = newFilename.Replace("%FileNameWithoutExtensionDateTime%", 
+                FileDateTimeFormats.RemoveAllDateTimes(Path.GetFileNameWithoutExtension(oldFilename)));
+
+            newFilename = newFilename.Replace("%FileNameWithoutExtensionDateTimeComputerName%",
+                FileDateTimeFormats.RemoveAllDateTimes(RemoveComputerNames(RemoveGPStag(Path.GetFileNameWithoutExtension(oldFilename), GPStag: GPStag), computerNames: ComputerNames)));
+            
+            newFilename = newFilename.Replace("%FileNameWithoutExtensionDateTimeGPStag%",
+                FileDateTimeFormats.RemoveAllDateTimes(RemoveGPStag(Path.GetFileNameWithoutExtension(oldFilename), GPStag: GPStag)));
+            
+            newFilename = newFilename.Replace("%FileNameWithoutExtensionDateTimeComputerNameGPStag%",
+                FileDateTimeFormats.RemoveAllDateTimes(RemoveComputerNames(RemoveGPStag(Path.GetFileNameWithoutExtension(oldFilename), GPStag: GPStag), computerNames: ComputerNames)));
+            
+            newFilename = newFilename.Replace("%FileNameWithoutExtensionComputerName%",
+                FileDateTimeFormats.RemoveAllDateTimes(RemoveComputerNames(Path.GetFileNameWithoutExtension(oldFilename), computerNames: ComputerNames)));
+            
+            newFilename = newFilename.Replace("%FileNameWithoutExtensionComputerNameGPStag%",
+                RemoveComputerNames(RemoveGPStag(Path.GetFileNameWithoutExtension(oldFilename), GPStag: GPStag), computerNames: ComputerNames));
+            
+            newFilename = newFilename.Replace("%FileNameWithoutExtensionGPStag%",
+                RemoveGPStag(Path.GetFileNameWithoutExtension(oldFilename), GPStag: GPStag));
+            #endregion
+
+            #region DateTime
+            newFilename = newFilename.Replace("%FileNameWithoutDateTime%",
+                FileDateTimeFormats.RemoveAllDateTimes(oldFilename));
+            newFilename = newFilename.Replace("%FileNameWithoutDateTimeComputerName%",
+                FileDateTimeFormats.RemoveAllDateTimes(RemoveComputerNames(RemoveGPStag(oldFilename, GPStag: GPStag), computerNames: ComputerNames)));
+
+            newFilename = newFilename.Replace("%FileNameWithoutDateTimeGPStag%",
+                FileDateTimeFormats.RemoveAllDateTimes(RemoveGPStag(oldFilename, GPStag: GPStag)));
+
+            newFilename = newFilename.Replace("%FileNameWithoutDateTimeComputerNameGPStag%",
+                FileDateTimeFormats.RemoveAllDateTimes(RemoveComputerNames(RemoveGPStag(oldFilename, GPStag: GPStag), computerNames: ComputerNames)));
+            #endregion
+
+            #region WithoutComputerName
+            newFilename = newFilename.Replace("%FileNameWithoutComputerName%",
+                RemoveComputerNames(oldFilename, computerNames: ComputerNames));
+            newFilename = newFilename.Replace("%FileNameWithoutComputerNameGPStag%",
+                RemoveComputerNames(RemoveGPStag(oldFilename, GPStag: GPStag), computerNames: ComputerNames));
+            #endregion
+
+            #region WithoutGPStag
+             newFilename = newFilename.Replace("%FileNameWithoutGPStag%",
+                RemoveGPStag(oldFilename, GPStag: GPStag));
+            #endregion
+
             newFilename = newFilename.Replace("%Extension%", Path.GetExtension(oldFilename));
             #endregion
 
