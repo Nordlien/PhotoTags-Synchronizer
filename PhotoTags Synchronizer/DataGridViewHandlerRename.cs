@@ -26,13 +26,15 @@ namespace PhotoTagsSynchronizer
         public static List<string> ComputerNames = new List<string>();
         public static string GPStag = "";
 
-        #region
+        #region RemoveComputerNames
         public static string RemoveComputerNames(string filename, List<string> computerNames)
         {
             foreach (string computerName in computerNames) filename = filename.Replace(computerName, "");
             return filename;
         }
+        #endregion
 
+        #region RemoveGPStag
         public static string RemoveGPStag(string filename, string GPStag)
         {
             return filename.Replace(GPStag, "");

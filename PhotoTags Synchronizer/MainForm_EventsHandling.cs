@@ -119,7 +119,6 @@ namespace PhotoTagsSynchronizer
     {
         // -----------------------------------------------------------------------
         #region Select All 
-
         #region SelectAll - Click Events Sources
         private void kryptonRibbonQATButtonSelectAll_Click(object sender, EventArgs e)
         {
@@ -155,6 +154,30 @@ namespace PhotoTagsSynchronizer
             {
                 GlobalData.IsPerformingAButtonAction = true;
                 ActionSelectAll();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
+                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+            finally
+            {
+                GlobalData.IsPerformingAButtonAction = false;
+            }
+        }
+
+        private void kryptonContextMenuItemFileSelectAll_Click(object sender, EventArgs e)
+        {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Select all")) return;
+            if (IsPopulatingAnything("Select all")) return;
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            try
+            {
+                GlobalData.IsPerformingAButtonAction = true;
+                ImageListViewSelectAll();
             }
             catch (Exception ex)
             {
@@ -287,7 +310,6 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region Select None
-
         #region SelectNone - Click Events Sources
         private void kryptonRibbonQATButtonSelectNone_Click(object sender, EventArgs e)
         {
@@ -323,6 +345,30 @@ namespace PhotoTagsSynchronizer
             {
                 GlobalData.IsPerformingAButtonAction = true;
                 ActionSelectNone();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
+                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+            finally
+            {
+                GlobalData.IsPerformingAButtonAction = false;
+            }
+        }
+
+        private void kryptonContextMenuItemFileSelectNone_Click(object sender, EventArgs e)
+        {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Select none")) return;
+            if (IsPopulatingAnything("Select none")) return;
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            try
+            {
+                GlobalData.IsPerformingAButtonAction = true;
+                ImageListViewSelectNone();
             }
             catch (Exception ex)
             {
@@ -455,7 +501,6 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region Select Toggle
-
         #region Select Toggle - Click Events Sources
         private void kryptonRibbonGroupButtonSelectToggle_Click(object sender, EventArgs e)
         {
@@ -492,6 +537,30 @@ namespace PhotoTagsSynchronizer
             {
                 GlobalData.IsPerformingAButtonAction = true;
                 ActionSelectToggle();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
+                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+            finally
+            {
+                GlobalData.IsPerformingAButtonAction = false;
+            }
+        }
+
+        private void kryptonContextMenuItemFileSelectInverse_Click(object sender, EventArgs e)
+        {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Select toggle")) return;
+            if (IsPopulatingAnything("Select toggle")) return;
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            try
+            {
+                GlobalData.IsPerformingAButtonAction = true;
+                ImageListViewSelectToggle();
             }
             catch (Exception ex)
             {
@@ -10496,8 +10565,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region OneDriveDuplicates - Action_CheckAndFixOneDriveIssues_ReturnWasFoundAndRemoved 
-        private void Action_CheckAndFixOneDriveIssues_ReturnWasFoundAndRemoved()
+        #region Remove OneDriveDuplicates - Action 
+        private void Action_CheckAndFixOneDriveIssues_Return_WasFoundAndRemoved()
         {
             HashSet<FileEntry> fileEntries = ImageListViewHandler.GetFileEntriesItems(imageListView1);
             List<string> deletedFiles = FixOneDriveIssues(fileEntries, out List<string> notFixed, oneDriveNetworkNames, fixError: true,
@@ -10511,6 +10580,7 @@ namespace PhotoTagsSynchronizer
             }
             #endregion 
 
+            #region Status report
             if (deletedFiles.Count > 0 || notFixed.Count > 0)
             {
                 string filesNotFixed = "";
@@ -10566,13 +10636,96 @@ namespace PhotoTagsSynchronizer
                 "Result running OneDrive duplicated tool.",
                 MessageBoxButtons.OK);
             }
+            #endregion
         }
         #endregion
 
-        #region kryptonRibbonGroupButtonToolsRemoveOneDriveDuplicates_Click
+        #region Remove OneDriveDuplicates - Click
         private void kryptonRibbonGroupButtonToolsRemoveOneDriveDuplicates_Click(object sender, EventArgs e)
         {
-            Action_CheckAndFixOneDriveIssues_ReturnWasFoundAndRemoved();
+            Action_CheckAndFixOneDriveIssues_Return_WasFoundAndRemoved();
+        }
+        #endregion
+
+        #region Remove DateTimeDuplicates - Action 
+        private void Action_RemovedDuplicates()
+        {
+            HashSet<FileEntry> fileEntries = ImageListViewHandler.GetFileEntriesItems(imageListView1);
+            List<string> deletedFiles = FixOneDriveIssuesUsingCreatedDate(fileEntries, out List<string> notFixed, 
+                moveToRecycleBin: Properties.Settings.Default.MoveToRecycleBin, metadataDatabaseCache: databaseAndCacheMetadataExiftool);
+
+            #region Remove delete files form ImageListView
+            foreach (string fullFileName in deletedFiles)
+            {
+                ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView1.Items, fullFileName);
+                if (foundItem != null) ImageListViewHandler.ImageListViewRemoveItem(imageListView1, foundItem);
+            }
+            #endregion
+
+            #region Status report
+            if (deletedFiles.Count > 0 || notFixed.Count > 0)
+            {
+                string filesNotFixed = "";
+                for (int fileIndex = 0; fileIndex < Math.Min(notFixed.Count, 5); fileIndex++)
+                {
+                    filesNotFixed += (string.IsNullOrWhiteSpace(filesNotFixed) ? "" : "\r\n") + notFixed[fileIndex];
+                }
+
+                string filesDeleted = "";
+                for (int fileIndex = 0; fileIndex < Math.Min(deletedFiles.Count, 5); fileIndex++)
+                {
+                    filesDeleted += (string.IsNullOrWhiteSpace(filesDeleted) ? "" : "\r\n") + deletedFiles[fileIndex];
+                }
+
+                if (
+                    KryptonMessageBox.Show("Result after running CreateDateTime duplicated tool.\r\n" +
+                    "Also: After OneDrive is finished with sync. Then Refresh the files in the folder, to fetch the last files downloaded by OneDrive.\r\n\r\n" +
+                    "When CreateDateTime duplicated tool is not able to figure out what's new and old. Compare the media files manually in the DataGridView.\r\n" +
+                    "To delete your files of choice. Select the minimum of one cell in the DataGridView for files you like to delete. \r\n" +
+                    "Use the select tool and select all media files match cells, then you are able to delete selected files.\r\n" +
+                    "\r\n" +
+
+                    "Delete files: " + deletedFiles.Count + "\r\n\r\n" +
+                    (deletedFiles.Count == 0 ? "\r\n" : "Deleted files:\r\n" + filesDeleted + (deletedFiles.Count > 5 ? "\r\n..." : "") + "\r\n\r\n") +
+                    (notFixed.Count == 0 ? "\r\n" : "Files not fixed: " + notFixed.Count + "\r\n") +
+                    (
+                        notFixed.Count == 0 ? "\r\n" :
+                        "Example files:\r\n" + filesNotFixed + "\r\n\r\n" +
+                        "Select the files not fixed?\r\n" +
+                        "Yes - Media files will be select in ImageListView\r\n" +
+                        "No - No changes in selections"
+                    ),
+                    "Result after running OneDrive duplicated tool.",
+                    (notFixed.Count == 0 ? MessageBoxButtons.OK : MessageBoxButtons.YesNo),
+                    MessageBoxIcon.Question, showCtrlCopy: true) == DialogResult.Yes)
+                {
+                    ImageListView_SelectFiles(notFixed);
+                }
+            }
+            else
+            {
+                KryptonMessageBox.Show("Result after running CreateDateTime duplicated tool.\r\n" +
+                    "For best result, run the tool after Exiftool has read all metadatas from media files.\r\n" +
+                    "Also: After OneDrive is finished with sync. Then Refresh the files in the folder, to fetch the last files downloaded by OneDrive.\r\n\r\n" +
+                    "When CreateDateTime duplicated tool is not able to figure out what's new and old. Compare the media files manually in the DataGridView.\r\n" +
+                    "To delete your files of choice. Select the minimum of one cell in the DataGridView for files you like to delete. \r\n" +
+                    "Use the select tool and select all media files match cells, then you are able to delete selected files.\r\n" +
+                    "\r\n" +
+
+                "Delete files: 0 \r\n" +
+                "Files not fixed: 0\r\n\r\n" +
+                "No files found, was searching for <FileNames><-MachineName<-xx>>.ext\r\n",
+                "Result running OneDrive duplicated tool.",
+                MessageBoxButtons.OK);
+            }
+            #endregion
+        }
+        #endregion
+
+        #region Remove DateTimeDuplicates - Click
+        private void kryptonRibbonGroupButtonToolsRemoveCreatedDateDuplicates_Click(object sender, EventArgs e)
+        {
+            Action_RemovedDuplicates();
         }
         #endregion
 

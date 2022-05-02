@@ -1263,6 +1263,16 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
+        #region ImageListView - UpdateImageViewListeAfterRename
+        private void UpdateImageViewListeAfterRename(ImageListView imageListView, string oldFilename, string newFilename)
+        {
+            Dictionary<string, string> renameSuccess = new Dictionary<string, string>();
+            Dictionary<string, RenameToNameAndResult> renameFailed = new Dictionary<string, RenameToNameAndResult>();
+            renameSuccess.Add(oldFilename, newFilename);
+            UpdateImageViewListeAfterRename(imageListView, renameSuccess, renameFailed, true);
+        }
+        #endregion 
+
         #region ImageListView - Aggregate - Rename Items
         private void UpdateImageViewListeAfterRename(ImageListView imageListView, Dictionary<string, string> renameSuccess, Dictionary<string, RenameToNameAndResult> renameFailed, bool onlyRenameAddbackToListView)
         {
