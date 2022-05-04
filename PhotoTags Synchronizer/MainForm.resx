@@ -839,6 +839,28 @@ When enter a date and time in   HYPERLINK "https://www.w3.org/TR/NOTE-datetime"
   <metadata name="kryptonManager1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>237, 5</value>
   </metadata>
+  <data name="kryptonRibbonGroupRadioButtonHomeDateAndTimeDate.ToolTipValues.Description" xml:space="preserve">
+    <value>When inside Date tab and when doing Fast Copy date and/or Time
+
+Using:
+- Fast Copy Text and no Overwrite (Ctrl+O)
+- Fast Copy Text and Overwrite (Ctrl+Shift+O
+
+Then:
+Copy and replace only Date, keeping Time intact
+</value>
+  </data>
+  <data name="kryptonRibbonGroupRadioButtonHomeDateAndTimeTime.ToolTipValues.Description" xml:space="preserve">
+    <value>When inside Date tab and when doing Fast Copy date and/or Time
+
+Using:
+- Fast Copy Text and no Overwrite (Ctrl+O)
+- Fast Copy Text and Overwrite (Ctrl+Shift+O
+
+Then:
+Copy and replace only Date, keeping Time intact
+</value>
+  </data>
   <data name="kryptonRibbonGroupButtonHomeFastCopyNoOverwrite.ToolTipValues.Description" xml:space="preserve">
     <value>
 Select one and many cells.

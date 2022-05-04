@@ -228,6 +228,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonContextMenuItemMapShowCoordinateOnGoogleMap.Click += KryptonContextMenuItemMapShowCoordinateOnGoogleMap_Click;
             this.kryptonContextMenuItemMapReloadUsingNominatim.Click += KryptonContextMenuItemMapReloadUsingNominatim_Click;
             this.kryptonContextMenuItemToolLocationAnalytics.Click += KryptonContextMenuItemToolLocationAnalytics_Click;
+            this.kryptonContextMenuItemMapSaveExactLocation.Click += KryptonContextMenuItemMapSaveExactLocation_Click;
 
             //
             this.kryptonContextMenuRadioButtonFileSystemColumnSortFilename.Click += KryptonContextMenuRadioButtonFileSystemColumnSortFilename_Click;
@@ -697,6 +698,7 @@ namespace PhotoTagsSynchronizer
 
             MaximizeOrRestoreWorkspaceMainCellAndChilds();
         }
+
         #endregion
 
         #region Resize and restore windows size when reopen application
@@ -1110,7 +1112,6 @@ namespace PhotoTagsSynchronizer
 
 
         #endregion
-
     }
 }
 

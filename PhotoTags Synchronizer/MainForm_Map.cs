@@ -506,7 +506,7 @@ namespace PhotoTagsSynchronizer
                         locationCoordinateSearch, locationAccuracyLatitude, locationAccuracyLongitude);
                     #endregion
 
-                    #region Find nearby location in Datbase
+                    #region Find nearby location in Database
                     LocationCoordinate locationCoordinateFromDatabase;
                     if (locationCoordinateAndDescriptionFromDatabase != null && !createNewAccurateLocation)
                         locationCoordinateFromDatabase = locationCoordinateAndDescriptionFromDatabase.Coordinate; //If exist, updated
@@ -541,6 +541,23 @@ namespace PhotoTagsSynchronizer
             }
 
             isDataGridViewMaps_CellValueChanging = false;
+        }
+        #endregion
+
+
+        #region Map - Save Exact Location
+        private void KryptonContextMenuItemMapSaveExactLocation_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewMap;
+            List<int> selectedColumns = DataGridViewHandler.GetColumnSelected(dataGridView);
+            foreach (int columnIndex in selectedColumns)
+            {
+                LocationCoordinate locationCoordinate = DataGridViewHandlerMap.GetUserInputLocationCoordinate(dataGridView, columnIndex, null);
+                if (locationCoordinate != null)
+                {
+                    DataGridViewHandlerMap.SetLocationCoordinate(dataGridView, columnIndex, locationCoordinate.ToString() + "+"); //Trigger dataGridViewMap_CellValueChanged
+                }
+            }
         }
         #endregion
 

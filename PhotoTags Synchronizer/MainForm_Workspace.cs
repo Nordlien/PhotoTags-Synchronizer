@@ -1453,6 +1453,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonContextMenuItemMapShowCoordinateOnGoogleMap.Visible = visible;
             this.kryptonContextMenuItemMapReloadUsingNominatim.Visible = visible;
             this.kryptonContextMenuItemToolLocationAnalytics.Visible = locationAnalyticsVisible;
+            this.kryptonContextMenuItemMapSaveExactLocation.Visible = visible;
         }
         #endregion
 

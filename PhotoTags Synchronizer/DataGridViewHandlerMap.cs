@@ -12,8 +12,6 @@ using Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {
-
-
     public static class DataGridViewHandlerMap
     {
         public static bool HasBeenInitialized { get; set; } = false;
@@ -114,6 +112,11 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.SetCellValue(dataGridView, columnIndex, headerGoogleLocations, tagCameraOwner, value);
         }
         #endregion
+
+        public static void SetLocationCoordinate(DataGridView dataGridView, int columnIndex, string value)
+        {
+            DataGridViewHandler.SetCellValue(dataGridView, columnIndex, headerMedia, tagMediaCoordinates, value);
+        }
 
         #region GetLocationCoordinate
         public static LocationCoordinate GetUserInputLocationCoordinate(DataGridView dataGridViewMap, int? columnIndex, FileEntryAttribute fileEntryAttribute)
