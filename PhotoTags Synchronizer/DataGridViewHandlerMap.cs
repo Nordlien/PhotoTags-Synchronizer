@@ -113,10 +113,12 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region SetLocationCoordinate
         public static void SetLocationCoordinate(DataGridView dataGridView, int columnIndex, string value)
         {
             DataGridViewHandler.SetCellValue(dataGridView, columnIndex, headerMedia, tagMediaCoordinates, value);
         }
+        #endregion
 
         #region GetLocationCoordinate
         public static LocationCoordinate GetUserInputLocationCoordinate(DataGridView dataGridViewMap, int? columnIndex, FileEntryAttribute fileEntryAttribute)
