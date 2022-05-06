@@ -164,82 +164,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region FilesCutCopyPasteDrag - DeleteSelectedFiles
-        public void DeleteSelectedFiles(ImageListView imageListView, HashSet<FileEntry> fileEntries, bool deleteFromFileSystemAlso)
-        {
-            try
-            {
-                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
-                ImageListViewHandler.SuspendLayout(imageListView);
-
-                using (new WaitCursor())
-                {
-                    foreach (FileEntry fileEntry in fileEntries)
-                    {
-                        try
-                        {
-                            DeleteFile(fileEntry.FileFullPath, deleteFromFileSystemAlso);
-                            imageListView.Items.Remove(ImageListViewHandler.FindItem(imageListView.Items, fileEntry.FileFullPath));
-                        }
-                        catch (Exception ex)
-                        {
-                            KryptonMessageBox.Show("Was not able to delete the file: " + fileEntry.FileFullPath + "\r\n\r\n" + ex.Message,
-                                "Deleting file failed", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-            }
-            finally
-            {
-                ImageListViewHandler.ResumeLayout(imageListView);
-                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
-            }
-        }
-        #endregion
-
-        #region FilesCutCopyPasteDrag - DeleteFilesInFolder
-        public int DeleteFilesInFolder(TreeViewFolderBrowser folderTreeViewFolder, string folder)
-        {
-            string[] subFolders = Directory.GetDirectories(folder + (folder.EndsWith(@"\") ? "" : @"\"), "*", SearchOption.AllDirectories);
-
-            if (OnFileSystemAction != null) OnFileSystemAction(this, new FileSystemActionEventArgs("Delete files and folder", folder, ""));
-            FileHandler.DirectoryDelete(folder, true);
-
-            int recordAffected = 0;
-            
-            foreach (string directory in subFolders)
-            {
-                if (OnFileSystemAction != null) OnFileSystemAction(this, new FileSystemActionEventArgs("Delete files and folder", directory, ""));
-                recordAffected += this.DeleteDirectoryAndHistory(directory);
-            }
-
-            if (OnFileSystemAction != null) OnFileSystemAction(this, new FileSystemActionEventArgs("Delete files and folder", folder, ""));
-            recordAffected += this.DeleteDirectoryAndHistory(folder);
-            
-            TreeNode selectedNode = folderTreeViewFolder.SelectedNode;
-            TreeNode parentNode = folderTreeViewFolder.SelectedNode.Parent;
-
-            #region Update Node in TreeView
-            GlobalData.DoNotTrigger_TreeViewFolder_BeforeAndAfterSelect = true;
-            
-            TreeViewFolderBrowserHandler.RemoveTreeNode (folderTreeViewFolder, selectedNode);
-            if (parentNode != null)
-            {
-                TreeViewFolderBrowserHandler.RefreshTreeNode(folderTreeViewFolder, parentNode);
-            }
-            GlobalData.DoNotTrigger_TreeViewFolder_BeforeAndAfterSelect = false;
-            #endregion
-
-            return recordAffected;
-        }
-        #endregion
-
         #region FilesCutCopyPasteDrag - DeleteFile
         public void DeleteFile(string sourceFullFilename, bool deleteFromFileSystemAlso = true)
         {
@@ -328,6 +252,82 @@ namespace PhotoTagsSynchronizer
                 databaseAndCacheMetadataExiftool.Copy(oldDirectory, oldFilename, newDirectory, newFilename);
             }
             return directoryCreated;
+        }
+        #endregion
+
+        #region ImageListView - FilesCutCopyPasteDrag - DeleteSelectedFiles
+        public void DeleteSelectedFiles(ImageListView imageListView, HashSet<FileEntry> fileEntries, bool deleteFromFileSystemAlso)
+        {
+            try
+            {
+                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
+                ImageListViewHandler.SuspendLayout(imageListView);
+
+                using (new WaitCursor())
+                {
+                    foreach (FileEntry fileEntry in fileEntries)
+                    {
+                        try
+                        {
+                            DeleteFile(fileEntry.FileFullPath, deleteFromFileSystemAlso);
+                            imageListView.Items.Remove(ImageListViewHandler.FindItem(imageListView.Items, fileEntry.FileFullPath));
+                        }
+                        catch (Exception ex)
+                        {
+                            KryptonMessageBox.Show("Was not able to delete the file: " + fileEntry.FileFullPath + "\r\n\r\n" + ex.Message,
+                                "Deleting file failed", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
+                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+            finally
+            {
+                ImageListViewHandler.ResumeLayout(imageListView);
+                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
+            }
+        }
+        #endregion
+
+        #region FolderTreeViewFolder - FilesCutCopyPasteDrag - DeleteFilesInFolder
+        public int DeleteFilesInFolder(TreeViewFolderBrowser folderTreeViewFolder, string folder)
+        {
+            string[] subFolders = Directory.GetDirectories(folder + (folder.EndsWith(@"\") ? "" : @"\"), "*", SearchOption.AllDirectories);
+
+            if (OnFileSystemAction != null) OnFileSystemAction(this, new FileSystemActionEventArgs("Delete files and folder", folder, ""));
+            FileHandler.DirectoryDelete(folder, true);
+
+            int recordAffected = 0;
+
+            foreach (string directory in subFolders)
+            {
+                if (OnFileSystemAction != null) OnFileSystemAction(this, new FileSystemActionEventArgs("Delete files and folder", directory, ""));
+                recordAffected += this.DeleteDirectoryAndHistory(directory);
+            }
+
+            if (OnFileSystemAction != null) OnFileSystemAction(this, new FileSystemActionEventArgs("Delete files and folder", folder, ""));
+            recordAffected += this.DeleteDirectoryAndHistory(folder);
+
+            TreeNode selectedNode = folderTreeViewFolder.SelectedNode;
+            TreeNode parentNode = folderTreeViewFolder.SelectedNode.Parent;
+
+            #region Update Node in TreeView
+            GlobalData.DoNotTrigger_TreeViewFolder_BeforeAndAfterSelect = true;
+
+            TreeViewFolderBrowserHandler.RemoveTreeNode(folderTreeViewFolder, selectedNode);
+            if (parentNode != null)
+            {
+                TreeViewFolderBrowserHandler.RefreshTreeNode(folderTreeViewFolder, parentNode);
+            }
+            GlobalData.DoNotTrigger_TreeViewFolder_BeforeAndAfterSelect = false;
+            #endregion
+
+            return recordAffected;
         }
         #endregion
     }

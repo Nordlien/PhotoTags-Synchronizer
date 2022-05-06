@@ -252,7 +252,7 @@ namespace FileHandeling
         private static object cloundFileTouchedFailedAndWhenLock = new object();
 
         private static int TouchTimeout = 1000 * 20;
-        private static int TouchTimeoutFailed = 1000 * 60 * 2;
+        private static int TouchWaitDownloadingTimeoutFailed = 1000 * 60 * 2;
 
         #region RemoveOfflineFileTouched
         public static void RemoveOfflineFileTouched(string fullFileName)
@@ -291,7 +291,7 @@ namespace FileHandeling
             {
                 if (cloundFileTouchedFailedAndWhen.ContainsKey(fullFileName))
                 {
-                    if ((DateTime.Now - cloundFileTouchedFailedAndWhen[fullFileName]).TotalMilliseconds > TouchTimeoutFailed) //Remove when timeout
+                    if ((DateTime.Now - cloundFileTouchedFailedAndWhen[fullFileName]).TotalMilliseconds > TouchWaitDownloadingTimeoutFailed) //Remove when timeout
                         cloundFileTouchedFailedAndWhen.Remove(fullFileName);
                 }
             }
@@ -322,7 +322,7 @@ namespace FileHandeling
             {
                 if (cloundFileTouchedFailedAndWhen.ContainsKey(fullFileName))
                 {
-                    if ((DateTime.Now - cloundFileTouchedFailedAndWhen[fullFileName]).TotalMilliseconds < TouchTimeoutFailed)
+                    if ((DateTime.Now - cloundFileTouchedFailedAndWhen[fullFileName]).TotalMilliseconds < TouchWaitDownloadingTimeoutFailed)
                         isTounch = true;
                 }
             }

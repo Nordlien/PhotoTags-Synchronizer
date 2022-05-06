@@ -97,7 +97,7 @@ namespace PhotoTagsSynchronizer
                     HashSet<string> directoriesCreated;
                     
                     DataGridViewHandlerRename.Write(dataGridViewRename, out renameSuccess, out renameFailed, out directoriesCreated, checkBoxRenameShowFullPath.Checked);
-                    UpdateImageViewListeAfterRename(imageListView1, renameSuccess, renameFailed, true);
+                    ImageViewListeUpdateAfterRename(imageListView1, renameSuccess, renameFailed, true);
 
                     foreach (string newDirector in directoriesCreated)
                     {

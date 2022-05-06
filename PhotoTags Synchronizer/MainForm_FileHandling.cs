@@ -586,7 +586,7 @@ namespace PhotoTagsSynchronizer
                                     ImageListViewHandler.ImageListViewRemoveItem(imageListView1, ImageListViewHandler.FindItem(imageListView1.Items, fileEntryWithoutMachineName.FileFullPath));
 
                                     filesCutCopyPasteDrag.MoveFile(fileEntryMaybeHasMachineName.FileFullPath, fileEntryWithoutMachineName.FileFullPath);
-                                    UpdateImageViewListeAfterRename(imageListView1, fileEntryMaybeHasMachineName.FileFullPath, fileEntryWithoutMachineName.FileFullPath);
+                                    ImageViewListeUpdateAfterRename(imageListView1, fileEntryMaybeHasMachineName.FileFullPath, fileEntryWithoutMachineName.FileFullPath);
                                 }
                                 catch (Exception ex)
                                 {
@@ -630,7 +630,7 @@ namespace PhotoTagsSynchronizer
                             ImageListViewHandler.ImageListViewRemoveItem(imageListView1, ImageListViewHandler.FindItem(imageListView1.Items, fileEntryWithoutMachineName.FileFullPath));
 
                             filesCutCopyPasteDrag.MoveFile(fileEntryMaybeHasMachineName.FileFullPath, fileEntryWithoutMachineName.FileFullPath);
-                            UpdateImageViewListeAfterRename(imageListView1, fileEntryMaybeHasMachineName.FileFullPath, fileEntryWithoutMachineName.FileFullPath);
+                            ImageViewListeUpdateAfterRename(imageListView1, fileEntryMaybeHasMachineName.FileFullPath, fileEntryWithoutMachineName.FileFullPath);
                         }
                         catch (Exception ex)
                         {

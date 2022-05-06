@@ -674,36 +674,14 @@ namespace PhotoTagsSynchronizer
 
                 if (filesDoesNotExist.Count > 0)
                 {
-                    #region Create "shorten" list of none existing files 
-                    string listOfFiles = "";
-                    int count = 0;
-                    foreach (FileEntry fileEntry in filesDoesNotExist)
+                    #region Remove from ImageListView
+                    using (new WaitCursor())
                     {
-                        listOfFiles += fileEntry.FileFullPath + "\r\n";
-                        if (count++ > 4)
-                        {
-                            listOfFiles += "and more....\r\n";
-                            break;
-                        }
+                        foreach (FileEntry fileEntry in filesDoesNotExist) fileEntries.Remove(fileEntry);
+                        UpdateStatusAction("Deleing files and all record about files in database....");
+                        filesCutCopyPasteDrag.DeleteSelectedFiles(imageListView1, filesDoesNotExist, false);
+                        ImageListViewHandler.ClearCacheFileEntries(imageListView1);
                     }
-                    #endregion 
-
-                    #region Show MessageBox of none existing files, ask to remove from ImageListView
-                    //if (KryptonMessageBox.Show(
-                    //    (filesDoesNotExist.Count == 1 ? "File" : filesDoesNotExist.Count.ToString() + " files") + " doesn't exsist anymore\r\n" +
-                    //    "The files will be removed from the list of media files and from the database.\r\n\r\n" +
-                    //    "Example:\r\n" +
-                    //    listOfFiles, "File(s) does'n exist...",
-                    //    MessageBoxButtons.OKCancel, MessageBoxIcon.Warning, showCtrlCopy: true) == DialogResult.OK)
-                    //{
-                        using (new WaitCursor())
-                        {
-                            foreach (FileEntry fileEntry in filesDoesNotExist) fileEntries.Remove(fileEntry);
-                            UpdateStatusAction("Deleing files and all record about files in database....");
-                            filesCutCopyPasteDrag.DeleteSelectedFiles(imageListView1, filesDoesNotExist, false);
-                            ImageListViewHandler.ClearCacheFileEntries(imageListView1);
-                        }
-                    //}
                     #endregion
                 }
             }
@@ -1263,18 +1241,65 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-        #region ImageListView - UpdateImageViewListeAfterRename
-        private void UpdateImageViewListeAfterRename(ImageListView imageListView, string oldFilename, string newFilename)
+        #region ImageListView - Rename 
+
+        #region ImageListView - Remove Item - Invoke
+        private void ImageListViewRemoveItemInvoke(string filename)
+        {
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new Action<string>(ImageListViewRemoveItemInvoke), filename);
+                return;
+            }
+
+            try
+            {
+                //ImageListViewHandler.SuspendLayout(imageListView1);
+                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
+
+                #region Remove items with old names
+                ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView1.Items, filename);
+                if (foundItem != null) ImageListViewHandler.ImageListViewRemoveItem(imageListView1, foundItem);
+                #endregion
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
+                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+            finally
+            {
+                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
+                //ImageListViewHandler.ResumeLayout(imageListView1);
+            }
+        }
+        #endregion
+
+        #region ImageListView - Rename Item - Invoke
+        private void ImageListViewRenameInvoke(string oldFilename, string newFilename)
+        {
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new Action<string, string>(ImageListViewRenameInvoke), oldFilename, newFilename);
+                return;
+            }
+            ImageViewListeUpdateAfterRename(imageListView1, oldFilename, newFilename);
+        }
+        #endregion
+
+        #region ImageListView - Rename Item - UpdateImageViewListeAfterRename
+        private void ImageViewListeUpdateAfterRename(ImageListView imageListView, string oldFilename, string newFilename)
         {
             Dictionary<string, string> renameSuccess = new Dictionary<string, string>();
             Dictionary<string, RenameToNameAndResult> renameFailed = new Dictionary<string, RenameToNameAndResult>();
             renameSuccess.Add(oldFilename, newFilename);
-            UpdateImageViewListeAfterRename(imageListView, renameSuccess, renameFailed, true);
+            ImageViewListeUpdateAfterRename(imageListView, renameSuccess, renameFailed, true);
         }
         #endregion 
 
-        #region ImageListView - Aggregate - Rename Items
-        private void UpdateImageViewListeAfterRename(ImageListView imageListView, Dictionary<string, string> renameSuccess, Dictionary<string, RenameToNameAndResult> renameFailed, bool onlyRenameAddbackToListView)
+        #region ImageListView - Rename Items - Aggregate 
+        private void ImageViewListeUpdateAfterRename(ImageListView imageListView, Dictionary<string, string> renameSuccess, Dictionary<string, RenameToNameAndResult> renameFailed, bool onlyRenameAddbackToListView)
         {
             try 
             { 
@@ -1358,6 +1383,6 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-
+        #endregion
     }
 }
