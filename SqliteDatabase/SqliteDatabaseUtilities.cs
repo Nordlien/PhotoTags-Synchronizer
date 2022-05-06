@@ -62,13 +62,9 @@ namespace SqliteDatabase
         }
         #endregion
 
-        int transactionCount = 0;
-        int transactionCountSelect = 0;
-
         #region TransactionBeginSelect
         public SqliteTransaction TransactionBeginSelect()
         {
-            transactionCountSelect++;
             return connectionDatabase.BeginTransaction();
         }
         #endregion
@@ -78,7 +74,6 @@ namespace SqliteDatabase
         {
             try
             {
-                transactionCountSelect--;
                 if (sqliteTransaction != null) sqliteTransaction.Commit();
                 return true;
             }
@@ -102,7 +97,6 @@ namespace SqliteDatabase
         {
             if (connectionDatabase.State == System.Data.ConnectionState.Open)
             {
-                transactionCount++;
                 return connectionDatabase.BeginTransaction(); 
             }
             else
@@ -123,7 +117,6 @@ namespace SqliteDatabase
         {
             try
             {
-                transactionCount--;
                 if (sqliteTransaction != null) sqliteTransaction.Commit();
                 return true;
             }
