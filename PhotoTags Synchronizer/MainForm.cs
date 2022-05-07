@@ -719,6 +719,9 @@ namespace PhotoTagsSynchronizer
         private bool isClosingProcesAlreadyStarted = false;
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            if (isClosingProcesAlreadyStarted) return;
+            isClosingProcesAlreadyStarted = true;
+
             if (exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUser.Count > 0 || IsAnyDataUnsaved())
             {
                 if (KryptonMessageBox.Show(
@@ -730,6 +733,7 @@ namespace PhotoTagsSynchronizer
                     "Press Ok will quit application and changed will get lost.\r\n" +
                     "Press Cancel and return back to application.", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning, showCtrlCopy: true) == DialogResult.Cancel)
                 {
+                    isClosingProcesAlreadyStarted = false;
                     e.Cancel = true;
                     return;
                 }
@@ -740,12 +744,6 @@ namespace PhotoTagsSynchronizer
                     ImageListView_SelectionChanged_Action_ImageListView_DataGridView(true); //Even when 0 selected files, allocate data and flags, etc...
                 }
             }
-
-            GlobalData.IsApplicationClosing = true;
-
-            if (!isClosingProcesAlreadyStarted)
-            {
-                isClosingProcesAlreadyStarted = true;
 
                 MetadataDatabaseCache.StopApplication = true;
 
@@ -764,132 +762,132 @@ namespace PhotoTagsSynchronizer
                 }
                 catch { }
 
+            try
+            {
+                GlobalData.IsStopAndEmptyExiftoolReadQueueRequest = true;
+                MetadataDatabaseCache.StopCaching = true;
+                ThumbnailPosterDatabaseCache.StopCaching = true;
+
+                //Close down nHTTP server;
+                nHttpServerThreadWaitApplicationClosing.Set();
+
+                FormSplash.ShowSplashScreen("PhotoTags Synchronizer - Closing...", 6, false, false);
+
+                FormSplash.UpdateStatus("Saving layout...");
+
+
+
+                //---------------------------------------------------------
                 try
                 {
-                    GlobalData.IsStopAndEmptyExiftoolReadQueueRequest = true;
-                    MetadataDatabaseCache.StopCaching = true;
-                    ThumbnailPosterDatabaseCache.StopCaching = true;
-
-                    //Close down nHTTP server;
-                    nHttpServerThreadWaitApplicationClosing.Set();
-
-                    FormSplash.ShowSplashScreen("PhotoTags Synchronizer - Closing...", 6, false, false);
-
-                    FormSplash.UpdateStatus("Saving layout...");
-
-
-
-                    //---------------------------------------------------------
-                    try
+                    if (this.WindowState == FormWindowState.Normal)
                     {
-                        if (this.WindowState == FormWindowState.Normal)
-                        {
-                            Properties.Settings.Default.IsMainFormMaximized = false;
-                            Properties.Settings.Default.MainFormSize = this.Size;
-                            Properties.Settings.Default.MainFormLocation = this.Location;
-                        }
-                        else
-                        {
-                            Properties.Settings.Default.IsMainFormMaximized = true;
-                            Properties.Settings.Default.MainFormSize = this.RestoreBounds.Size;
-                            Properties.Settings.Default.MainFormLocation = this.RestoreBounds.Location;
-                        }
-
-                        kryptonWorkspaceCellToolboxTagsDetails.HideAllPages();
-                        Properties.Settings.Default.WorkspaceCellMediaFilesStarSize = kryptonWorkspaceCellMediaFiles.StarSize; //"367*,50*"
-                        Properties.Settings.Default.WorkspaceCellToolboxStarSize = kryptonWorkspaceCellToolbox.StarSize; //"674*,50*"
-                        Properties.Settings.Default.WorkspaceCellToolboxMapBroswerStarSize = kryptonWorkspaceCellToolboxMapBroswer.StarSize; //"50*,211*"
-                        Properties.Settings.Default.WorkspaceCellToolboxMapBroswerPropertiesStarSize = kryptonWorkspaceCellToolboxMapBroswerProperties.StarSize; //"50*,35"
-                        Properties.Settings.Default.WorkspaceCellToolboxMapDetailsStarSize = kryptonWorkspaceCellToolboxMapDetails.StarSize; //"50*,497*"
-                        Properties.Settings.Default.WorkspaceCellToolboxMapPropertiesStarSize = kryptonWorkspaceCellToolboxMapProperties.StarSize; //"50*,29"
-                        Properties.Settings.Default.WorkspaceCellToolboxRenameResultStarSize = kryptonWorkspaceCellToolboxRenameResult.StarSize; //"50*,650*"
-                        Properties.Settings.Default.WorkspaceCellToolboxRenameVariablesStarSize = kryptonWorkspaceCellToolboxRenameVariables.StarSize; //"50*,132"
-                        Properties.Settings.Default.WorkspaceCellToolboxTagsDetailsStarSize = kryptonWorkspaceCellToolboxTagsDetails.StarSize; //"50*,272*"
-                        Properties.Settings.Default.WorkspaceCellToolboxTagsKeywordsStarSize = kryptonWorkspaceCellToolboxTagsKeywords.StarSize; //"50*,510*"
-                        Properties.Settings.Default.WorkspaceCellFolderSearchFilterNavigatorMode = (int)kryptonWorkspaceCellFolderSearchFilter.NavigatorMode;
-                        if (kryptonWorkspaceCellFolderSearchFilter.NavigatorMode != NavigatorMode.OutlookMini)
-                            Properties.Settings.Default.WorkspaceCellFolderSearchFilterStarSize = kryptonWorkspaceCellFolderSearchFilter.StarSize; //"313*,50*"
-
+                        Properties.Settings.Default.IsMainFormMaximized = false;
+                        Properties.Settings.Default.MainFormSize = this.Size;
+                        Properties.Settings.Default.MainFormLocation = this.Location;
                     }
-                    catch { }
-
-                    try
+                    else
                     {
-                        Properties.Settings.Default.Save();
+                        Properties.Settings.Default.IsMainFormMaximized = true;
+                        Properties.Settings.Default.MainFormSize = this.RestoreBounds.Size;
+                        Properties.Settings.Default.MainFormLocation = this.RestoreBounds.Location;
                     }
-                    catch (Exception ex)
-                    {
-                        KryptonMessageBox.Show(ex.Message, "Can't save settings", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-                    }
-                    //---------------------------------------------------------
 
-                    FormSplash.UpdateStatus("Closing Exiftool read...");
-                    try
-                    {
-                        if (exiftoolReader != null) exiftoolReader.Close();
-                    }
-                    catch { }
+                    kryptonWorkspaceCellToolboxTagsDetails.HideAllPages();
+                    Properties.Settings.Default.WorkspaceCellMediaFilesStarSize = kryptonWorkspaceCellMediaFiles.StarSize; //"367*,50*"
+                    Properties.Settings.Default.WorkspaceCellToolboxStarSize = kryptonWorkspaceCellToolbox.StarSize; //"674*,50*"
+                    Properties.Settings.Default.WorkspaceCellToolboxMapBroswerStarSize = kryptonWorkspaceCellToolboxMapBroswer.StarSize; //"50*,211*"
+                    Properties.Settings.Default.WorkspaceCellToolboxMapBroswerPropertiesStarSize = kryptonWorkspaceCellToolboxMapBroswerProperties.StarSize; //"50*,35"
+                    Properties.Settings.Default.WorkspaceCellToolboxMapDetailsStarSize = kryptonWorkspaceCellToolboxMapDetails.StarSize; //"50*,497*"
+                    Properties.Settings.Default.WorkspaceCellToolboxMapPropertiesStarSize = kryptonWorkspaceCellToolboxMapProperties.StarSize; //"50*,29"
+                    Properties.Settings.Default.WorkspaceCellToolboxRenameResultStarSize = kryptonWorkspaceCellToolboxRenameResult.StarSize; //"50*,650*"
+                    Properties.Settings.Default.WorkspaceCellToolboxRenameVariablesStarSize = kryptonWorkspaceCellToolboxRenameVariables.StarSize; //"50*,132"
+                    Properties.Settings.Default.WorkspaceCellToolboxTagsDetailsStarSize = kryptonWorkspaceCellToolboxTagsDetails.StarSize; //"50*,272*"
+                    Properties.Settings.Default.WorkspaceCellToolboxTagsKeywordsStarSize = kryptonWorkspaceCellToolboxTagsKeywords.StarSize; //"50*,510*"
+                    Properties.Settings.Default.WorkspaceCellFolderSearchFilterNavigatorMode = (int)kryptonWorkspaceCellFolderSearchFilter.NavigatorMode;
+                    if (kryptonWorkspaceCellFolderSearchFilter.NavigatorMode != NavigatorMode.OutlookMini)
+                        Properties.Settings.Default.WorkspaceCellFolderSearchFilterStarSize = kryptonWorkspaceCellFolderSearchFilter.StarSize; //"313*,50*"
 
-                    //---------------------------------------------------------
+                }
+                catch { }
 
-                    try
-                    {
-                        ImageListViewHandler.ClearAllAndCaches(imageListView1);
-                        imageListView1.Dispose();
-                    }
-                    catch { }
-
-                    //---------------------------------------------------------
-                    Application.DoEvents();
-                    Task.Delay(200).Wait();
-
-                    int waitForProcessEndRetray = 30;
-
-                    FormSplash.UpdateStatus("Stopping ImageView background threads...");
-                    try
-                    {
-                        waitForProcessEndRetray = 30;
-                        while (!imageListView1.IsBackgroundThreadsStopped() && waitForProcessEndRetray-- > 0)
-                        {
-                            Application.DoEvents();
-                            Task.Delay(200).Wait();
-                        }
-                    }
-                    catch { }
-
-                    FormSplash.UpdateStatus("Stopping fetch metadata background threads...");
-                    try
-                    {
-                        waitForProcessEndRetray = 30;
-                        while (IsAnyThreadRunning() && waitForProcessEndRetray-- > 0)
-                        {
-                            Application.DoEvents();
-                            Task.Delay(100).Wait();
-                        }
-                    }
-                    catch { }
-
-                    FormSplash.UpdateStatus("Disconnecting databases...");
-                    try
-                    {
-                        databaseUtilitiesSqliteMetadata.DatabaseClose(); //Close database after all background threads stopped
-                    }
-                    catch { }
-
-                    FormSplash.UpdateStatus("Disposing...");
-                    try
-                    {
-                        imageListView1.Dispose();
-                    }
-                    catch { }
-
-                    FormSplash.CloseForm();
+                try
+                {
+                    Properties.Settings.Default.Save();
                 }
                 catch (Exception ex)
                 {
-                    KryptonMessageBox.Show(ex.Message, "Problems during close all threads and other process during closing application", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    KryptonMessageBox.Show(ex.Message, "Can't save settings", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
                 }
+                //---------------------------------------------------------
+
+                FormSplash.UpdateStatus("Closing Exiftool read...");
+                try
+                {
+                    if (exiftoolReader != null) exiftoolReader.Close();
+                }
+                catch { }
+
+                //---------------------------------------------------------
+
+                try
+                {
+                    ImageListViewHandler.ClearAllAndCaches(imageListView1);
+                    imageListView1.Dispose();
+                }
+                catch { }
+
+                //---------------------------------------------------------
+                Application.DoEvents();
+                Task.Delay(200).Wait();
+
+                int waitForProcessEndRetray = 30;
+
+                FormSplash.UpdateStatus("Stopping ImageView background threads...");
+                try
+                {
+                    waitForProcessEndRetray = 30;
+                    while (!imageListView1.IsBackgroundThreadsStopped() && waitForProcessEndRetray-- > 0)
+                    {
+                        Application.DoEvents();
+                        Task.Delay(200).Wait();
+                    }
+                }
+                catch { }
+
+                FormSplash.UpdateStatus("Stopping fetch metadata background threads...");
+                try
+                {
+                    waitForProcessEndRetray = 30;
+                    while (IsAnyThreadRunning() && waitForProcessEndRetray-- > 0)
+                    {
+                        Application.DoEvents();
+                        Task.Delay(100).Wait();
+                    }
+                }
+                catch { }
+
+                FormSplash.UpdateStatus("Disconnecting databases...");
+                try
+                {
+                    databaseUtilitiesSqliteMetadata.DatabaseClose(); //Close database after all background threads stopped
+                }
+                catch { }
+
+                FormSplash.UpdateStatus("Disposing...");
+                try
+                {
+                    imageListView1.Dispose();
+                }
+                catch { }
+
+                FormSplash.CloseForm();
             }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show(ex.Message, "Problems during close all threads and other process during closing application", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+
             isClosingProcesAlreadyStarted = false;
         }
         #endregion
