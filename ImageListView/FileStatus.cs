@@ -111,19 +111,18 @@ namespace Manina.Windows.Forms
         #region ToString
         public override string ToString()
         {
-            
-            string status = "";
-            if (!FileExists) status = "File not exists";
-            else if (HasErrorOccured) status = "Error occured";
-            else if (IsDirty) status = "Status sill unknown";
-            else if (ExiftoolProcessStatus == ExiftoolProcessStatus.WaitAction) status = "";
-            else if (ExiftoolProcessStatus == ExiftoolProcessStatus.ExiftoolProcessing) status = "Exiftool processing";
-            else if (ExiftoolProcessStatus == ExiftoolProcessStatus.ExiftoolWillNotProcessingFileInCloud) status = "Files is keeped offline";
-            else if (ExiftoolProcessStatus == ExiftoolProcessStatus.FileInaccessibleOrError) status = "File is inaccessible";
-            else if (ExiftoolProcessStatus == ExiftoolProcessStatus.InExiftoolReadQueue) status = "Wait Exiftool";
-            else if (ExiftoolProcessStatus == ExiftoolProcessStatus.WaitOfflineBecomeLocal) status = "Downloading";
-            else if (ExiftoolProcessStatus == ExiftoolProcessStatus.DoNotUpdate) 
-                status = "Status unknown";
+            string status = FileErrorMessage;
+            if (!FileExists) status += (string.IsNullOrWhiteSpace(status) ? "" : ", ") + (string.IsNullOrWhiteSpace(status) ? "" : ", ") + "File not exists";
+            else if (HasErrorOccured) status += (string.IsNullOrWhiteSpace(status) ? "" : ", ") + "Error occured";
+            else if (IsDirty) status += (string.IsNullOrWhiteSpace(status) ? "" : ", ") + "Status sill unknown";
+            else if (ExiftoolProcessStatus == ExiftoolProcessStatus.WaitAction) status += (string.IsNullOrWhiteSpace(status) ? "" : ", ") + "";
+            else if (ExiftoolProcessStatus == ExiftoolProcessStatus.ExiftoolProcessing) status += (string.IsNullOrWhiteSpace(status) ? "" : ", ") + "Exiftool processing";
+            else if (ExiftoolProcessStatus == ExiftoolProcessStatus.ExiftoolWillNotProcessingFileInCloud) status += (string.IsNullOrWhiteSpace(status) ? "" : ", ") + "Files is keeped offline";
+            else if (ExiftoolProcessStatus == ExiftoolProcessStatus.FileInaccessibleOrError) status += (string.IsNullOrWhiteSpace(status) ? "" : ", ") + "File is inaccessible";
+            else if (ExiftoolProcessStatus == ExiftoolProcessStatus.InExiftoolReadQueue) status += (string.IsNullOrWhiteSpace(status) ? "" : ", ") + "Wait Exiftool";
+            else if (ExiftoolProcessStatus == ExiftoolProcessStatus.WaitOfflineBecomeLocal) status += (string.IsNullOrWhiteSpace(status) ? "" : ", ") + "Downloading";
+            else if (ExiftoolProcessStatus == ExiftoolProcessStatus.DoNotUpdate)
+                status += (string.IsNullOrWhiteSpace(status) ? "" : ", ") + "Status unknown";
             
             if (IsInCloudOrVirtualOrOffline) status += (string.IsNullOrWhiteSpace(status) ? "" : ", ") + "File is offline (" + (IsInCloud ? "C":"") + (IsVirtual ? "V" : "") + (IsOffline ? "O" :"") + ")";
             else if (HasAnyLocks) status += (string.IsNullOrWhiteSpace(status) ? "" : ", ") + "File is locked (" + (IsFileLockedForRead ? "R":"") + (IsFileLockedReadAndWrite ? "W" : "")  + ")";

@@ -56,12 +56,13 @@ namespace PhotoTagsSynchronizer
         #region ImageListView - Update FileStatus - Invoke
         private void ImageListView_UpdateItemFileStatusInvoke(string fullFileName, FileStatus fileStatus)
         {
+            if (GlobalData.IsApplicationClosing) return;
             if (InvokeRequired)
             {
                 this.BeginInvoke(new Action<string, FileStatus>(ImageListView_UpdateItemFileStatusInvoke), fullFileName, fileStatus);
                 return;
             }
-            if (GlobalData.IsApplicationClosing) return;
+            
             try
             {
                 ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView1.Items, fullFileName);
@@ -489,7 +490,18 @@ namespace PhotoTagsSynchronizer
             }
         }
         #endregion
-        
+
+        #region ImageListView - Event - GetFileStatusIcon
+        private Image GetFileStatusIcon(FileStatus fileStatus)
+        {
+            if (!fileStatus.FileExists) return (Image)Properties.Resources.ImageListViewLoadErrorFileNotExist; //File has become deleted
+            else if (fileStatus.IsVirtual) return (Image)Properties.Resources.ImageListViewLoadErrorOneDriveNotRunning;
+            else if (fileStatus.IsInCloudOrVirtualOrOffline) return (Image)Properties.Resources.ImageListViewLoadErrorFileInCloud;
+            else if (fileStatus.HasErrorOccured) return (Image)Properties.Resources.ImageListViewLoadErrorGeneral;
+            return (Image)Properties.Resources.ImageListViewLoadErrorOneDriveNotRunning;
+        }
+        #endregion 
+
         #region ImageListView - Event - Retrieve Image 
         /// <summary>
         /// RetrieveImage occures when ImageListView will show bigger picture than Thumbnail
@@ -550,12 +562,7 @@ namespace PhotoTagsSynchronizer
                     FileStatus fileStatus = FileHandler.GetFileStatus(
                             e.FullFilePath, checkLockedStatus: true, hasErrorOccured: true, errorMessage: ex.Message);
                     ImageListView_UpdateItemFileStatusInvoke(e.FullFilePath, fileStatus);
-                    
-                    e.LoadedImage = (Image)Properties.Resources.ImageListViewLoadErrorGeneral;                    
-                    if (!fileStatus.FileExists) e.LoadedImage = (Image)Properties.Resources.ImageListViewLoadErrorFileNotExist; //File has become deleted
-                    else if (fileStatus.IsVirtual) e.LoadedImage = (Image)Properties.Resources.ImageListViewLoadErrorOneDriveNotRunning;
-                    else if (fileStatus.IsInCloudOrVirtualOrOffline) e.LoadedImage = (Image)Properties.Resources.ImageListViewLoadErrorFileInCloud;
-                    else if (fileStatus.HasErrorOccured) e.LoadedImage = (Image)Properties.Resources.ImageListViewLoadErrorGeneral;
+                    e.LoadedImage = GetFileStatusIcon(fileStatus);
                 }
 
                 
@@ -564,13 +571,7 @@ namespace PhotoTagsSynchronizer
                     FileStatus fileStatus = FileHandler.GetFileStatus(
                         e.FullFilePath, checkLockedStatus: true, hasErrorOccured: true, errorMessage: "Failed to load poster");
                     ImageListView_UpdateItemFileStatusInvoke(e.FullFilePath, fileStatus);
-
-                    if (!fileStatus.FileExists) e.LoadedImage = (Image)Properties.Resources.ImageListViewLoadErrorFileNotExist; //File has become deleted
-                    else if (fileStatus.IsVirtual) e.LoadedImage = (Image)Properties.Resources.ImageListViewLoadErrorOneDriveNotRunning;
-                    else if (fileStatus.IsInCloudOrVirtualOrOffline) e.LoadedImage = (Image)Properties.Resources.ImageListViewLoadErrorFileInCloud;
-                    else if (fileStatus.HasErrorOccured) e.LoadedImage = (Image)Properties.Resources.ImageListViewLoadErrorGeneral;
-
-                    e.LoadedImage = (Image)Properties.Resources.ImageListViewLoadErrorOneDriveNotRunning;
+                    e.LoadedImage = GetFileStatusIcon(fileStatus);
                 }
                 #endregion
             } while (retry);
@@ -630,7 +631,11 @@ namespace PhotoTagsSynchronizer
                     HashSet<FileEntry> fileEntries = ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, allowUseCache);
                     ImageListView_SelectionChanged_Action_CheckFileStatusRemoveNoneExistFilesFromSelectedFiles(ref fileEntries);
                     DataGridView_CleanAll();
-                    
+                    foreach (FileEntry fileEntry in fileEntries)
+                    {
+                        FileHandler.RemoveOfflineFileTouchedFailed(fileEntry.FileFullPath);
+                        FileHandler.RemoveOfflineFileTouched(fileEntry.FileFullPath);
+                    }
                     DataGridView_Populate_SelectedItemsThread(fileEntries);
 
                     PopulateImageListViewOpenWithToolStripThread(fileEntries, ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true));

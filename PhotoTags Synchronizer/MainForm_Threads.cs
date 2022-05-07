@@ -1081,6 +1081,8 @@ namespace PhotoTagsSynchronizer
 
                                             RemoveQueueLazyLoadningSelectedFilesLock(new FileEntryBroker(fileEntry, MetadataBrokerType.Queue));
                                             RemoveQueueLazyLoadningSelectedFilesLock(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
+                                            ImageListViewRemoveItemInvoke(fileEntry.FileFullPath);
+                                            //DataGridView_Populate_FileEntryAttributeInvoke(fileEntry.FileFullPath, MetadataBrokerType.UserSavedData);
 
                                             FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(fileEntry, FileEntryVersion.ExtractedNowUsingExiftoolFileNotExist);
                                             DataGridView_Populate_FileEntryAttributeInvoke(fileEntryAttribute, MetadataBrokerType.ExifTool);
@@ -1100,6 +1102,8 @@ namespace PhotoTagsSynchronizer
 
                                             RemoveQueueLazyLoadningSelectedFilesLock(new FileEntryBroker(fileEntry, MetadataBrokerType.Queue));
                                             RemoveQueueLazyLoadningSelectedFilesLock(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
+                                            ImageListViewRemoveItemInvoke(fileEntry.FileFullPath);
+                                            //DataGridView_Populate_FileEntryAttributeInvoke(fileEntry.FileFullPath, MetadataBrokerType.UserSavedData);
 
                                             //When in cloud, and can't read, also need to populate dataGridView but will become with empty rows in column
                                             FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(fileEntry, FileEntryVersion.NotAvailable);
@@ -1140,8 +1144,8 @@ namespace PhotoTagsSynchronizer
                                         #region File exist and offline, touch file and put back last in queue
                                         else if (fileStatus.FileExists && fileStatus.IsInCloudOrVirtualOrOffline)
                                         {
-                                            #region Touched file failed
-                                            if (FileHandler.IsOfflineFileTouchedAndFailedWithoutTimedOut(fileEntry.FileFullPath))
+                                            #region Touched file failed download
+                                            if (FileHandler.DidTouchedFileTimeoutDuringDownload(fileEntry.FileFullPath))
                                             {
                                                 fileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.FileInaccessibleOrError; //TimeOut Error
                                                 fileStatus.FileErrorMessage = "Failed download";
@@ -1622,7 +1626,7 @@ namespace PhotoTagsSynchronizer
                                         #region Check file status
                                         FileStatus fileStatus = FileHandler.GetFileStatus(fileEntryOriginal.FileFullPath);
 
-                                        #region File not Exist, forget file
+                                        #region Check file status - File not Exist, forget file
                                         if (!fileStatus.FileExists)
                                         {
                                             fileStatus.FileExists = false;
@@ -1631,20 +1635,21 @@ namespace PhotoTagsSynchronizer
                                             FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(fileEntryOriginal, FileEntryVersion.ExtractedNowUsingExiftoolFileNotExist);
                                             RemoveQueueLazyLoadningSelectedFilesLock(new FileEntryBroker(fileEntryOriginal, MetadataBrokerType.Queue));
                                             RemoveQueueLazyLoadningSelectedFilesLock(new FileEntryBroker(fileEntryOriginal, MetadataBrokerType.ExifTool));
-                                            DataGridView_Populate_FileEntryAttributeInvoke(fileEntryAttribute, MetadataBrokerType.UserSavedData);
+                                            ImageListViewRemoveItemInvoke(fileEntryOriginal.FileFullPath);
+                                            //DataGridView_Populate_FileEntryAttributeInvoke(fileEntryAttribute, MetadataBrokerType.UserSavedData);
                                         }
                                         #endregion
-                                        #region File exist and not in clud, proceed
+                                        #region Check file status - File exist and not in clud, proceed
                                         else if (fileStatus.FileExists && !fileStatus.IsInCloudOrVirtualOrOffline)
                                         {
                                             fileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.InExiftoolReadQueue;
                                         }
                                         #endregion
-                                        #region File exist and offline, touch file and put back last in queue
+                                        #region Check file status - File exist and offline, touch file and put back last in queue until Timeout
                                         else if (fileStatus.FileExists && fileStatus.IsInCloudOrVirtualOrOffline)
                                         {
                                             #region Touched file failed to Download
-                                            if (FileHandler.IsOfflineFileTouchedAndFailedWithoutTimedOut(fileEntryOriginal.FileFullPath))
+                                            if (FileHandler.DidTouchedFileTimeoutDuringDownload(fileEntryOriginal.FileFullPath))
                                             {
                                                 fileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.FileInaccessibleOrError; //TimeOut Error
                                                 fileStatus.FileErrorMessage = "Failed download";
@@ -1660,15 +1665,13 @@ namespace PhotoTagsSynchronizer
                                             {
                                                 FileHandler.TouchOfflineFileToGetFileOnline(fileEntryOriginal.FileFullPath);
                                                 fileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.WaitOfflineBecomeLocal;
-
-                                                //If offlilne, will be added back to queue / #region When in cloud, move back in queue
-                                                //AddQueueReadFromSourceExiftoolLock(fileEntryOriginal); //Add last in queue and wait for become downloaded
                                             }
                                             #endregion
                                         }
                                         #endregion
-
+                                        #region Check file status - Updated status
                                         ImageListView_UpdateItemFileStatusInvoke(fileEntryOriginal.FileFullPath, fileStatus);
+                                        #endregion
 
                                         #endregion
 
@@ -1678,7 +1681,7 @@ namespace PhotoTagsSynchronizer
 
                                         lock (exiftoolSave_QueueSaveUsingExiftool_MetadataUpdatedByUserLock)
                                         {
-                                            if (!fileStatus.FileExists)
+                                            if (!fileStatus.FileExists || fileStatus.ExiftoolProcessStatus == ExiftoolProcessStatus.FileInaccessibleOrError)
                                             {
                                                 #region File doesn't exist anymore, remove from queue, and remove from circle status queue
                                                 exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUser.RemoveAt(0);
@@ -1686,7 +1689,8 @@ namespace PhotoTagsSynchronizer
                                                 
                                                 RemoveQueueLazyLoadningSelectedFilesLock(new FileEntryBroker(fileEntryOriginal, MetadataBrokerType.Queue));
                                                 RemoveQueueLazyLoadningSelectedFilesLock(new FileEntryBroker(fileEntryOriginal, MetadataBrokerType.ExifTool));
-                                                ImageListViewRemoveItemInvoke(fileEntryOriginal.FileFullPath);
+
+                                                if (!fileStatus.FileExists) ImageListViewRemoveItemInvoke(fileEntryOriginal.FileFullPath);
                                                 #endregion
                                             }
                                             else if (fileStatus.IsInCloudOrVirtualOrOffline)
@@ -1707,7 +1711,7 @@ namespace PhotoTagsSynchronizer
                                             }
                                             else if (!fileStatus.IsInCloudOrVirtualOrOffline)
                                             {
-                                                #region File ready to be written to, add to write qeue
+                                                #region File ready to be written to, add to write queue
                                                 
                                                 lock (exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUserLock)
                                                 {
@@ -1769,12 +1773,15 @@ namespace PhotoTagsSynchronizer
                                                 databaseAndCacheMetadataExiftool.DeleteFileEntry(metadataToSave.FileEntryBroker);
                                                 databaseAndCacheMetadataExiftool.Write(metadataToSave);
                                             }
-                                            UpdateStatusAction("Batch update a subset of " + exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser.Count + " media files...");
-                                            ExiftoolWriter.WriteMetadata(
-                                                exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser, exiftoolSave_QueueSubset_MetadataOrigialBeforeUserUpdate, 
-                                                allowedFileNameDateTimeFormats, networkNames, GPStag,
-                                                writeMetadataTagsConfiguration, writeMetadataKeywordAddConfiguration, out mediaFilesUpdatedByExiftool,
-                                                showCliWindow, processPriorityClass);
+                                            if (exiftoolSave_QueueSubset_MetadataOrigialBeforeUserUpdate.Count > 0)
+                                            {
+                                                UpdateStatusAction("Batch update a subset of " + exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser.Count + " media files...");
+                                                ExiftoolWriter.WriteMetadata(
+                                                    exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser, exiftoolSave_QueueSubset_MetadataOrigialBeforeUserUpdate,
+                                                    allowedFileNameDateTimeFormats, networkNames, GPStag,
+                                                    writeMetadataTagsConfiguration, writeMetadataKeywordAddConfiguration, out mediaFilesUpdatedByExiftool,
+                                                    showCliWindow, processPriorityClass);
+                                            }
                                         }
                                     }
                                     catch (Exception ex)
@@ -1806,9 +1813,10 @@ namespace PhotoTagsSynchronizer
                                 {
                                     if (!GlobalData.IsApplicationClosing)
                                     {
-                                        UpdateStatusAction("Write Xtra Atom to " + exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser.Count + " media files...");
-                                        if (writeXtraAtomOnMediaFile)
+                                        
+                                        if (writeXtraAtomOnMediaFile && exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser.Count > 0)
                                         {
+                                            UpdateStatusAction("Write Xtra Atom to " + exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser.Count + " media files...");
                                             writeXtraAtom_FilesUpdated = ExiftoolWriter.WriteXtraAtom(
                                                 exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser, exiftoolSave_QueueSubset_MetadataOrigialBeforeUserUpdate, 
                                                 allowedFileNameDateTimeFormats, networkNames, GPStag,
@@ -1945,7 +1953,7 @@ namespace PhotoTagsSynchronizer
                                                 }
                                                 #endregion
 
-                                                #region Rename from QUeues when file doesn't exist anymore
+                                                #region Remove from Circle Progressbar when file doesn't exist anymore
                                                 if (!File.Exists(exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser[indexExiftoolFailedOn].FileFullPath) &&
                                                     !File.Exists(exiftoolSave_QueueSubset_MetadataOrigialBeforeUserUpdate[indexExiftoolFailedOn].FileFullPath))
                                                 {
@@ -2046,7 +2054,7 @@ namespace PhotoTagsSynchronizer
                                 //Status updated for user
                                 ShowExiftoolSaveProgressClear();
                                 
-                                Thread.Sleep(10);
+                                Thread.Sleep(50);
                             }
 
                             if (GlobalData.IsApplicationClosing)
@@ -2693,7 +2701,7 @@ namespace PhotoTagsSynchronizer
                                                                 if (fileStatus.IsInCloudOrVirtualOrOffline)
                                                                 {
                                                                     #region Download from cloud failed in time (Remove frome queue)
-                                                                    if (FileHandler.IsOfflineFileTouchedAndFailedWithoutTimedOut(current_FileEntryBrokerRegion.FileFullPath))
+                                                                    if (FileHandler.DidTouchedFileTimeoutDuringDownload(current_FileEntryBrokerRegion.FileFullPath))
                                                                     {
                                                                         fileNeedRemoveFromList = true;
                                                                         didExceptionOccureWhenLoading = true; //Was not able to download in time
@@ -2703,7 +2711,7 @@ namespace PhotoTagsSynchronizer
 
                                                                     #region If file not touch by now (by this, Exiftool or other processes) - Give error message
                                                                     if (dontReadFilesInCloud &&
-                                                                        !FileHandler.IsOfflineFileTouchedAndWithoutTimeout(current_FileEntryBrokerRegion.FileFullPath))
+                                                                        !FileHandler.IsOfflineFileTouched(current_FileEntryBrokerRegion.FileFullPath))
                                                                     {
                                                                         fileNeedRemoveFromList = true;
                                                                         didExceptionOccureWhenLoading = true; //Not allowed to download cloud file

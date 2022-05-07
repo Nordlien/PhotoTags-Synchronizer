@@ -9743,6 +9743,10 @@ namespace PhotoTagsSynchronizer
             {
                 foreach (FileEntry fileEntry in fileEntries)
                 {
+                    
+                    FileHandler.RemoveOfflineFileTouchedFailed(fileEntry.FileFullPath);
+                    FileHandler.RemoveOfflineFileTouched(fileEntry.FileFullPath);
+                    
                     FileStatus fileStatus = FileHandler.GetFileStatus(
                         fileEntry.FileFullPath,
                         checkLockedStatus: true,

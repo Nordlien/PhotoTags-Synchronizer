@@ -299,34 +299,28 @@ namespace FileHandeling
         #endregion
 
         #region IsOfflineFileTouchedAndWithoutTimeout
-        public static bool IsOfflineFileTouchedAndWithoutTimeout(string fullFileName)
+        public static bool IsOfflineFileTouched(string fullFileName)
         {
-            bool isTounch = false;
             lock (cloundFileTouchedAndWhenLock)
             {
-                if (cloundFileTouchedAndWhen.ContainsKey(fullFileName))
-                {
-                    if ((DateTime.Now - cloundFileTouchedAndWhen[fullFileName]).TotalMilliseconds < TouchTimeout)
-                        isTounch = true;
-                }
+                return cloundFileTouchedAndWhen.ContainsKey(fullFileName);
             }
-            return isTounch;
         }
         #endregion
 
         #region IsOfflineFileTouchedAndFailedWithoutTimedOut
-        public static bool IsOfflineFileTouchedAndFailedWithoutTimedOut(string fullFileName)
+        public static bool DidTouchedFileTimeoutDuringDownload(string fullFileName)
         {
-            bool isTounch = false;
+            bool didTounchTimeout = false;
             lock (cloundFileTouchedFailedAndWhenLock)
             {
                 if (cloundFileTouchedFailedAndWhen.ContainsKey(fullFileName))
                 {
-                    if ((DateTime.Now - cloundFileTouchedFailedAndWhen[fullFileName]).TotalMilliseconds < TouchWaitDownloadingTimeoutFailed)
-                        isTounch = true;
+                    if ((DateTime.Now - cloundFileTouchedFailedAndWhen[fullFileName]).TotalMilliseconds > TouchWaitDownloadingTimeoutFailed)
+                        didTounchTimeout = true;
                 }
             }
-            return isTounch;
+            return didTounchTimeout;
         }
         #endregion
 
@@ -356,13 +350,10 @@ namespace FileHandeling
         #region Touch Offline File To Get File Online
         public static void TouchOfflineFileToGetFileOnline(string fullFileName)
         {
-            if (IsOfflineFileTouchedAndFailedWithoutTimedOut(fullFileName))
+            if (IsOfflineFileTouched(fullFileName))
                 return;
-            RemoveOldOfflineFileTouchedFailed(fullFileName);
-
-            if (IsOfflineFileTouchedAndWithoutTimeout(fullFileName))
+            if (DidTouchedFileTimeoutDuringDownload(fullFileName))
                 return;
-            RemoveOldOfflineFileTouched(fullFileName);
 
             #region Touch the file and log when
             FileStatus fileStatus = GetFileStatus(fullFileName, checkLockedStatus: false);
