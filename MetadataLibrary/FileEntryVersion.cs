@@ -178,8 +178,7 @@ namespace MetadataLibrary
             switch (fileEntryVersionCompare)
             {
                 case FileEntryVersionCompare.Won_Update_Satuts_Metdata_DataGridView:
-                case FileEntryVersionCompare.Update_Status_DataGridView_LostOverUserData:
-                case FileEntryVersionCompare.Update_Status_FileNotFound:
+                case FileEntryVersionCompare.Update_Status_DataGridView_LostOverUserData:                
                     return true;
 
                 case FileEntryVersionCompare.CreateColumnHistoricalOrError_CreateColumn:
@@ -187,6 +186,7 @@ namespace MetadataLibrary
                 
                     return true;
 
+                case FileEntryVersionCompare.Update_Status_FileNotFound:
                 case FileEntryVersionCompare.Update_Status_Metadata_WriteFailed:
                 case FileEntryVersionCompare.LostOverUserInput_Update_Status:
                 case FileEntryVersionCompare.LostWasOlder_Updated_Nothing:

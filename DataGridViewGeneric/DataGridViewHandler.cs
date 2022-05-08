@@ -1483,7 +1483,7 @@ namespace DataGridViewGeneric
                 switch (fileEntryVersionCompareReason)
                 {
                     case FileEntryVersionCompare.Update_Status_FileNotFound:
-                        SetCellReadOnlyForColumn(dataGridView, columnIndex);
+                        SetCellReadOnlyForColumn(dataGridView, columnIndex, true);
                         currentDataGridViewGenericColumn.FileEntryAttribute = fileEntryAttribute; //Updated from FromSource, Database or AutoCorrect                
                         currentDataGridViewGenericColumn.Thumbnail = (thumbnail == null ? null : new Bitmap(thumbnail)); //Avoid thread issues
                         currentDataGridViewGenericColumn.ReadWriteAccess = readWriteAccessForColumn;
@@ -2585,10 +2585,18 @@ namespace DataGridViewGeneric
         #endregion
 
         #region Cell Handling - SetCellReadOnlyForColumn - int columnIndex
-        public static void SetCellReadOnlyForColumn(DataGridView dataGridView, int columnIndex)
+        public static void SetCellReadOnlyForColumn(DataGridView dataGridView, int columnIndex, bool readOnly)
         {
-            DataGridViewGenericCellStatus dataGridViewGenericCellStatus = new DataGridViewGenericCellStatus(true);
-            SetCellStatusDefaultColumnWhenAdded(dataGridView, columnIndex, dataGridViewGenericCellStatus);
+            for (int rowIndex = 0; rowIndex < GetRowCountWithoutEditRow(dataGridView); rowIndex++)
+            {
+                DataGridViewGenericCellStatus dataGridViewGenericCellStatus = GetCellStatus(dataGridView, columnIndex, rowIndex);
+                if (dataGridViewGenericCellStatus != null)
+                {
+                    dataGridViewGenericCellStatus.CellReadOnly = readOnly;
+                    SetCellStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatus, false);
+                    SetCellReadOnlyDependingOfStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatus);
+                }
+            }
         }
         #endregion
 

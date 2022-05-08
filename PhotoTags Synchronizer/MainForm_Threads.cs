@@ -1084,8 +1084,7 @@ namespace PhotoTagsSynchronizer
                                             RemoveQueueLazyLoadningSelectedFilesLock(new FileEntryBroker(fileEntry, MetadataBrokerType.Queue));
                                             RemoveQueueLazyLoadningSelectedFilesLock(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
                                             ImageListViewRemoveItemInvoke(fileEntry.FileFullPath);
-                                            //DataGridView_Populate_FileEntryAttributeInvoke(fileEntry.FileFullPath, MetadataBrokerType.UserSavedData);
-
+                                            
                                             FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(fileEntry, FileEntryVersion.ExtractedNowUsingExiftoolFileNotExist);
                                             DataGridView_Populate_FileEntryAttributeInvoke(fileEntryAttribute, MetadataBrokerType.ExifTool);
                                         }
@@ -1105,7 +1104,6 @@ namespace PhotoTagsSynchronizer
                                             RemoveQueueLazyLoadningSelectedFilesLock(new FileEntryBroker(fileEntry, MetadataBrokerType.Queue));
                                             RemoveQueueLazyLoadningSelectedFilesLock(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
                                             ImageListViewRemoveItemInvoke(fileEntry.FileFullPath);
-                                            //DataGridView_Populate_FileEntryAttributeInvoke(fileEntry.FileFullPath, MetadataBrokerType.UserSavedData);
 
                                             //When in cloud, and can't read, also need to populate dataGridView but will become with empty rows in column
                                             FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(fileEntry, FileEntryVersion.NotAvailable);
