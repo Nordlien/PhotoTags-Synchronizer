@@ -1015,6 +1015,8 @@ namespace PhotoTagsSynchronizer
             {
                 UpdateStatusImageListView("Remove old queues...");
                 ImageListViewHandler.ClearAllAndCaches(imageListView1);
+                FileHandler.ClearOfflineFileTouched();
+                FileHandler.ClearOfflineFileTouchedFailed();
                 GlobalData.IsPopulatingImageListViewFromFolderOrDatabaseList = false;
                 GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
             }

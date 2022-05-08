@@ -253,6 +253,26 @@ namespace FileHandeling
 
         private static int TouchWaitDownloadingTimeoutFailed = 1000 * 60 * 2;
 
+        #region ClearOfflineFileTouched
+        public static void ClearOfflineFileTouched(string fullFileName)
+        {
+            lock (CloundFileTouchedAndWhenLock)
+            {
+                CloundFileTouchedAndWhen.Clear();
+            }
+        }
+        #endregion
+
+        #region ClearOfflineFileTouchedFailed
+        public static void ClearOfflineFileTouchedFailed(string fullFileName)
+        {
+            lock (CloundFileTouchedFailedAndWhenLock)
+            {
+                CloundFileTouchedFailedAndWhen.Clear();
+            }
+        }
+        #endregion
+
         #region RemoveOfflineFileTouched
         public static void RemoveOfflineFileTouched(string fullFileName)
         {
