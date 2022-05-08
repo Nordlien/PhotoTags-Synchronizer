@@ -254,7 +254,7 @@ namespace FileHandeling
         private static int TouchWaitDownloadingTimeoutFailed = 1000 * 60 * 2;
 
         #region ClearOfflineFileTouched
-        public static void ClearOfflineFileTouched(string fullFileName)
+        public static void ClearOfflineFileTouched()
         {
             lock (CloundFileTouchedAndWhenLock)
             {
@@ -264,7 +264,7 @@ namespace FileHandeling
         #endregion
 
         #region ClearOfflineFileTouchedFailed
-        public static void ClearOfflineFileTouchedFailed(string fullFileName)
+        public static void ClearOfflineFileTouchedFailed()
         {
             lock (CloundFileTouchedFailedAndWhenLock)
             {
