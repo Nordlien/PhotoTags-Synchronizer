@@ -22,13 +22,17 @@ namespace MetadataLibrary
 
     public enum FileEntryVersionCompare
     {
-        WonWasEqual,
-        WonWasNewer,
-        LostWasOlder,
-        LostNoneEqualFound_ContinueSearch,
-        LostOverUserInput,
-        WonColumnCreatedHistoricalOrError,
-        WonColumnCredtedCurrent
+        Won_Update_Satuts_Metdata_DataGridView,
+        Update_Status_FileNotFound,
+        Update_Status_DataGridView_LostOverUserData,
+
+        CreateColumnHistoricalOrError_CreateColumn,
+        CreateColumnCurrent_CreateColumn,
+
+        Update_Status_Metadata_WriteFailed,
+        LostOverUserInput_Update_Status,
+        LostWasOlder_Updated_Nothing,
+        LostNoneEqualFound_ContinueSearch_Update_Nothing
     }
 
     public class FileEntryVersionHandler
@@ -40,7 +44,12 @@ namespace MetadataLibrary
                 fileEntryVersion == FileEntryVersion.CurrentVersionInDatabase || 
                 fileEntryVersion == FileEntryVersion.CompatibilityFixedAndAutoUpdated ||
                 fileEntryVersion == FileEntryVersion.MetadataToSave ||
-                fileEntryVersion == FileEntryVersion.ExtractedNowUsingExiftool || 
+
+                fileEntryVersion == FileEntryVersion.ExtractedNowUsingExiftool ||
+                fileEntryVersion == FileEntryVersion.ExtractedNowUsingExiftoolWithError ||
+                fileEntryVersion == FileEntryVersion.ExtractedNowUsingExiftoolTimeout ||
+                fileEntryVersion == FileEntryVersion.ExtractedNowUsingExiftoolFileNotExist ||
+                
                 fileEntryVersion == FileEntryVersion.ExtractedNowUsingReadMediaFile ||
                 fileEntryVersion == FileEntryVersion.ExtractedNowUsingWindowsLivePhotoGallery ||
                 fileEntryVersion == FileEntryVersion.ExtractedNowUsingMicrosoftPhotos ||
@@ -60,7 +69,6 @@ namespace MetadataLibrary
         #region IsErrorOrHistoricalVersion
         public static bool IsErrorOrHistoricalVersion(FileEntryVersion fileEntryVersion)
         {
-            //fileEntryAttribute.FileEntryVersion != FileEntryVersion.AutoCorrect && fileEntryAttribute.FileEntryVersion != FileEntryVersion.Curren
             return fileEntryVersion == FileEntryVersion.Historical || fileEntryVersion == FileEntryVersion.Error;
         }
         #endregion
@@ -73,16 +81,18 @@ namespace MetadataLibrary
                 case FileEntryVersion.MetadataToSave:
                 case FileEntryVersion.CompatibilityFixedAndAutoUpdated:
                 case FileEntryVersion.CurrentVersionInDatabase:
-                case FileEntryVersion.ExtractedNowUsingExiftool:
-                case FileEntryVersion.ExtractedNowUsingReadMediaFile:
-                case FileEntryVersion.ExtractedNowUsingWindowsLivePhotoGallery:
-                case FileEntryVersion.ExtractedNowUsingMicrosoftPhotos:
-                case FileEntryVersion.ExtractedNowUsingWebScraping:
-                    return FileEntryVersion.CurrentVersionInDatabase;
 
+                case FileEntryVersion.ExtractedNowUsingExiftool:                
                 case FileEntryVersion.ExtractedNowUsingExiftoolFileNotExist:
                 case FileEntryVersion.ExtractedNowUsingExiftoolTimeout:
                 case FileEntryVersion.ExtractedNowUsingExiftoolWithError:
+
+                case FileEntryVersion.ExtractedNowUsingReadMediaFile:
+                case FileEntryVersion.ExtractedNowUsingWindowsLivePhotoGallery:
+                case FileEntryVersion.ExtractedNowUsingMicrosoftPhotos:
+                case FileEntryVersion.ExtractedNowUsingWebScraping:                
+                    return FileEntryVersion.CurrentVersionInDatabase;
+
                 case FileEntryVersion.Error:
                     return FileEntryVersion.Error;
                 case FileEntryVersion.Historical:
@@ -107,6 +117,12 @@ namespace MetadataLibrary
                     return "Current";
                 case FileEntryVersion.ExtractedNowUsingExiftool:
                     return "Exiftool extracted";
+                case FileEntryVersion.ExtractedNowUsingExiftoolTimeout:
+                    return "Exiftool timeout";
+                case FileEntryVersion.ExtractedNowUsingExiftoolFileNotExist:
+                    return "File not found";
+                case FileEntryVersion.ExtractedNowUsingExiftoolWithError:
+                    return "Exiftool with Error";
                 case FileEntryVersion.ExtractedNowUsingReadMediaFile:
                     return "Extracted Poster";
                 case FileEntryVersion.ExtractedNowUsingWindowsLivePhotoGallery:
@@ -114,13 +130,7 @@ namespace MetadataLibrary
                 case FileEntryVersion.ExtractedNowUsingMicrosoftPhotos:
                     return "Extracted Microsoft Photos";
                 case FileEntryVersion.ExtractedNowUsingWebScraping:
-                    return "Extracted WebScraping";
-                case FileEntryVersion.ExtractedNowUsingExiftoolTimeout:
-                    return "Exiftool timeout";
-                case FileEntryVersion.ExtractedNowUsingExiftoolFileNotExist:
-                    return "File not found";
-                case FileEntryVersion.ExtractedNowUsingExiftoolWithError:
-                    return "Exiftool with Error";
+                    return "Extracted WebScraping";                
                 case FileEntryVersion.Error:
                     return "Error";
                 case FileEntryVersion.Historical:
@@ -132,23 +142,26 @@ namespace MetadataLibrary
         }
         #endregion
 
-        #region IsReadOnlyType
-        public static bool IsReadOnlyType(FileEntryVersion fileEntryVersion)
+        #region IsReadOnlyColumnType
+        public static bool IsReadOnlyColumnType(FileEntryVersion fileEntryVersion)
         {
             switch (fileEntryVersion)
             {
                 case FileEntryVersion.MetadataToSave:
                 case FileEntryVersion.CompatibilityFixedAndAutoUpdated:
                 case FileEntryVersion.CurrentVersionInDatabase:
+                
                 case FileEntryVersion.ExtractedNowUsingExiftool:
+                case FileEntryVersion.ExtractedNowUsingExiftoolTimeout:
+                case FileEntryVersion.ExtractedNowUsingExiftoolWithError:
+
                 case FileEntryVersion.ExtractedNowUsingReadMediaFile:
                 case FileEntryVersion.ExtractedNowUsingWindowsLivePhotoGallery:
                 case FileEntryVersion.ExtractedNowUsingMicrosoftPhotos:
                 case FileEntryVersion.ExtractedNowUsingWebScraping:
                     return false;
-                case FileEntryVersion.ExtractedNowUsingExiftoolTimeout:
+
                 case FileEntryVersion.ExtractedNowUsingExiftoolFileNotExist:
-                case FileEntryVersion.ExtractedNowUsingExiftoolWithError:
                 case FileEntryVersion.Error:
                 case FileEntryVersion.Historical:
                 case FileEntryVersion.NotAvailable:
@@ -159,20 +172,27 @@ namespace MetadataLibrary
         }
         #endregion
 
-        #region NeedUpdate
-        public static bool NeedUpdate(FileEntryVersionCompare fileEntryVersionCompare)
+        #region DoesCellsNeedUpdate
+        public static bool DoesCellsNeedUpdate(FileEntryVersionCompare fileEntryVersionCompare)
         {
             switch (fileEntryVersionCompare)
             {
-                case FileEntryVersionCompare.WonWasNewer:
-                case FileEntryVersionCompare.WonWasEqual:
-                case FileEntryVersionCompare.WonColumnCreatedHistoricalOrError:
-                case FileEntryVersionCompare.WonColumnCredtedCurrent:
+                case FileEntryVersionCompare.Won_Update_Satuts_Metdata_DataGridView:
+                case FileEntryVersionCompare.Update_Status_DataGridView_LostOverUserData:
+                case FileEntryVersionCompare.Update_Status_FileNotFound:
                     return true;
-                case FileEntryVersionCompare.LostOverUserInput:
-                case FileEntryVersionCompare.LostWasOlder:
-                case FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch:
+
+                case FileEntryVersionCompare.CreateColumnHistoricalOrError_CreateColumn:
+                case FileEntryVersionCompare.CreateColumnCurrent_CreateColumn:
+                
+                    return true;
+
+                case FileEntryVersionCompare.Update_Status_Metadata_WriteFailed:
+                case FileEntryVersionCompare.LostOverUserInput_Update_Status:
+                case FileEntryVersionCompare.LostWasOlder_Updated_Nothing:
+                case FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch_Update_Nothing:
                     return false;
+
                 default:
                     throw new NotImplementedException();
             }
@@ -183,211 +203,416 @@ namespace MetadataLibrary
         public static FileEntryVersionCompare CompareFileEntryAttribute(FileEntryAttribute fileEntryAttributeDataGridViewColumn, FileEntryAttribute fileEntryAttributeFromQueue)
         {
             if (String.Compare(fileEntryAttributeFromQueue.FileFullPath, fileEntryAttributeDataGridViewColumn.FileFullPath, 
-                comparisonType: StringComparison.OrdinalIgnoreCase) != 0) return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch;
+                comparisonType: StringComparison.OrdinalIgnoreCase) != 0) return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch_Update_Nothing;
 
             switch (fileEntryAttributeFromQueue.FileEntryVersion)
             {
+                case FileEntryVersion.CurrentVersionInDatabase:                         //From queue
+                    #region Queue from From CurrentVersionInDatabase
+                    switch (fileEntryAttributeDataGridViewColumn.FileEntryVersion)
+                    {
+                        #region Queue: CurrentVersionInDatabase - DataGridView: CurrentVersionInDatabase - Result: Depends on LastWriteDateTime
+                        case FileEntryVersion.CurrentVersionInDatabase:                 //DataGridView Column
+                            if (fileEntryAttributeFromQueue.LastWriteDateTime > fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
+                                return FileEntryVersionCompare.Won_Update_Satuts_Metdata_DataGridView;
+
+                            if (fileEntryAttributeFromQueue.LastWriteDateTime == fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
+                                return FileEntryVersionCompare.Won_Update_Satuts_Metdata_DataGridView;
+
+                            if (fileEntryAttributeFromQueue.LastWriteDateTime < fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
+                                return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch_Update_Nothing; //Continue search, can be missing data from past, eg. ThreadSaveToDatabaseRegionAndThumbnail when updated old regions
+                            break;
+                        #endregion
+
+                        #region Queue: CurrentVersionInDatabase - DataGridView: Failed - Result: Depends on LastWriteDateTime
+                        case FileEntryVersion.ExtractedNowUsingExiftoolFileNotExist:    //DataGridView Column
+                            return FileEntryVersionCompare.Update_Status_FileNotFound;
+                        case FileEntryVersion.ExtractedNowUsingExiftoolTimeout:         //DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingExiftoolWithError:       //DataGridView Column
+                            return FileEntryVersionCompare.LostWasOlder_Updated_Nothing;
+                        #endregion
+
+                        #region Queue: CurrentVersionInDatabase - DataGridView: Extracted - Result: LostWasOlder_Updated_Nothing???
+                        case FileEntryVersion.ExtractedNowUsingExiftool:                //DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingReadMediaFile:           //DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingWindowsLivePhotoGallery: //DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingMicrosoftPhotos:         //DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingWebScraping:             //DataGridView Column
+                            return FileEntryVersionCompare.LostWasOlder_Updated_Nothing;
+                        #endregion
+
+                        #region Queue: CurrentVersionInDatabase - DataGridView: ToSave - Result: Won was newer
+                        case FileEntryVersion.MetadataToSave:                           //DataGridView Column
+                        case FileEntryVersion.CompatibilityFixedAndAutoUpdated:         //DataGridView Column
+                            return FileEntryVersionCompare.Won_Update_Satuts_Metdata_DataGridView;
+                        #endregion
+
+                        #region Queue: CurrentVersionInDatabase - DataGridView: Historical/Error - Result: Continue Search
+                        case FileEntryVersion.Historical:                               //DataGridView Column
+                        case FileEntryVersion.Error:                                    //DataGridView Column
+                            //Need continue the search
+                            return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch_Update_Nothing;
+                        #endregion
+
+                        #region NotAvailable
+                        case FileEntryVersion.NotAvailable:                             //DataGridView Column
+                            return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch_Update_Nothing;
+                        default:
+                            throw new NotImplementedException();
+                            #endregion
+                    }
+                    #endregion
+                    break;
+
+                case FileEntryVersion.ExtractedNowUsingExiftoolFileNotExist:            //From queue
+                    #region Queue From File not Exist
+                    switch (fileEntryAttributeDataGridViewColumn.FileEntryVersion)
+                    {
+                        #region Queue: File not Exist - DataGridView: CurrentVersion - Result: WonWasEqual_Update_Status_Metadata_WriteFailed
+                        case FileEntryVersion.CurrentVersionInDatabase:                 //DataGridView Column
+                            return FileEntryVersionCompare.Update_Status_FileNotFound;
+                        #endregion
+
+                        #region Queue: File not Exist - DataGridView: Failed - Result: Update_Status_Metadata_WriteFailed
+                        case FileEntryVersion.ExtractedNowUsingExiftoolFileNotExist:    //DataGridView Column
+                            return FileEntryVersionCompare.Update_Status_FileNotFound;
+                        case FileEntryVersion.ExtractedNowUsingExiftoolTimeout:         //DataGridView Column                        
+                        case FileEntryVersion.ExtractedNowUsingExiftoolWithError:       //DataGridView Column
+                            return FileEntryVersionCompare.Update_Status_FileNotFound;
+                        #endregion
+
+                        #region Queue: File not Exist - DataGridView: Extracted - Result: Depends on LastWriteDateTime
+                        case FileEntryVersion.ExtractedNowUsingExiftool:                //DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingReadMediaFile:           //DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingWindowsLivePhotoGallery: //DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingMicrosoftPhotos:         //DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingWebScraping:             //DataGridView Column
+                            return FileEntryVersionCompare.Update_Status_FileNotFound;
+                            break;
+                        #endregion
+
+                        #region Queue: File not Exist - DataGridView: ToSave - Result: Depends on LastWriteDateTime
+                        case FileEntryVersion.MetadataToSave:                           //DataGridView Column
+                        case FileEntryVersion.CompatibilityFixedAndAutoUpdated:         //DataGridView Column
+                            return FileEntryVersionCompare.Update_Status_FileNotFound;
+                        #endregion
+
+                        #region Queue: File not Exist - DataGridView: Historical/Error - Result: Continue Search
+                        case FileEntryVersion.Historical:                               //DataGridView Column
+                        case FileEntryVersion.Error:                                    //DataGridView Column
+                            //Need continue the search
+                            return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch_Update_Nothing;
+                        #endregion
+
+                        #region NotAvailable
+                        case FileEntryVersion.NotAvailable:                             //DataGridView Column
+                            return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch_Update_Nothing;
+                        default:
+                            throw new NotImplementedException();
+                            #endregion
+                    }
+                    #endregion
+                    break;
+                case FileEntryVersion.ExtractedNowUsingExiftoolTimeout:                 //From queue                
+                case FileEntryVersion.ExtractedNowUsingExiftoolWithError:               //From queue
+                    #region Queue From Failed
+                    switch (fileEntryAttributeDataGridViewColumn.FileEntryVersion)
+                    {
+                        #region Queue: Failed - DataGridView: CurrentVersion - Result: WonWasEqual_Update_Status_Metadata_WriteFailed
+                        case FileEntryVersion.CurrentVersionInDatabase:                 //DataGridView Column
+                            return FileEntryVersionCompare.Update_Status_Metadata_WriteFailed;
+                        #endregion
+
+                        #region Queue: Failed - DataGridView: Failed - Result: Update_Status_Metadata_WriteFailed
+                        case FileEntryVersion.ExtractedNowUsingExiftoolFileNotExist:    //DataGridView Column
+                            return FileEntryVersionCompare.Update_Status_FileNotFound;
+                        case FileEntryVersion.ExtractedNowUsingExiftoolTimeout:         //DataGridView Column                        
+                        case FileEntryVersion.ExtractedNowUsingExiftoolWithError:       //DataGridView Column
+                            return FileEntryVersionCompare.Update_Status_Metadata_WriteFailed;
+                        #endregion
+
+                        #region Queue: Failed - DataGridView: Extracted - Result: Depends on LastWriteDateTime
+                        case FileEntryVersion.ExtractedNowUsingExiftool:                //DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingReadMediaFile:           //DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingWindowsLivePhotoGallery: //DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingMicrosoftPhotos:         //DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingWebScraping:             //DataGridView Column
+                            if (fileEntryAttributeFromQueue.LastWriteDateTime > fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
+                                return FileEntryVersionCompare.Update_Status_Metadata_WriteFailed;
+
+                            if (fileEntryAttributeFromQueue.LastWriteDateTime == fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
+                                return FileEntryVersionCompare.Update_Status_Metadata_WriteFailed;
+
+                            if (fileEntryAttributeFromQueue.LastWriteDateTime < fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
+                                return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch_Update_Nothing;
+                            break;
+                        #endregion
+
+                        #region Queue: Failed - DataGridView: ToSave - Result: Depends on LastWriteDateTime
+                        case FileEntryVersion.MetadataToSave:                           //DataGridView Column
+                        case FileEntryVersion.CompatibilityFixedAndAutoUpdated:         //DataGridView Column
+                            return FileEntryVersionCompare.Update_Status_Metadata_WriteFailed;
+                        #endregion
+
+                        #region Queue: Failed - DataGridView: Historical/Error - Result: Continue Search
+                        case FileEntryVersion.Historical:                               //DataGridView Column
+                        case FileEntryVersion.Error:                                    //DataGridView Column
+                            //Need continue the search
+                            return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch_Update_Nothing;
+                        #endregion
+
+                        #region NotAvailable
+                        case FileEntryVersion.NotAvailable:                             //DataGridView Column
+                            return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch_Update_Nothing;
+                        default:
+                            throw new NotImplementedException();
+                            #endregion
+                    }
+                    #endregion
+                    break;
+
                 case FileEntryVersion.ExtractedNowUsingExiftool:                        //From queue
                 case FileEntryVersion.ExtractedNowUsingReadMediaFile:                   //From queue
                 case FileEntryVersion.ExtractedNowUsingWindowsLivePhotoGallery:         //From queue
                 case FileEntryVersion.ExtractedNowUsingMicrosoftPhotos:                 //From queue
                 case FileEntryVersion.ExtractedNowUsingWebScraping:                     //From queue
-                    #region Extracted
+                    #region Queue from Extracted
                     switch (fileEntryAttributeDataGridViewColumn.FileEntryVersion)
                     {
+                        #region Queue: Extracted - DataGridView: CurrentVersion - Result: Depends on LastWriteDateTime
+                        case FileEntryVersion.CurrentVersionInDatabase:                 //DataGridView Column
+                            if (fileEntryAttributeFromQueue.LastWriteDateTime > fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
+                                return FileEntryVersionCompare.Won_Update_Satuts_Metdata_DataGridView;
+
+                            if (fileEntryAttributeFromQueue.LastWriteDateTime == fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
+                                return FileEntryVersionCompare.Won_Update_Satuts_Metdata_DataGridView;
+
+                            if (fileEntryAttributeFromQueue.LastWriteDateTime < fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
+                                return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch_Update_Nothing; //Continue search, can be missing data from past, eg. ThreadSaveToDatabaseRegionAndThumbnail when updated old regions
+                            break;
+                        #endregion
+
+                        #region Queue: Extracted - DataGridView: Failed - Result: Update_Status_Metadata_WriteFailed
+                        case FileEntryVersion.ExtractedNowUsingExiftoolFileNotExist:    //DataGridView Column
+                            return FileEntryVersionCompare.Update_Status_FileNotFound;
+                        case FileEntryVersion.ExtractedNowUsingExiftoolTimeout:         //DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingExiftoolWithError:       //DataGridView Column
+                            return FileEntryVersionCompare.Update_Status_Metadata_WriteFailed;
+                        #endregion
+
+                        #region Queue: Extracted - DataGridView: Extracted - Result: Depends on LastWriteDateTime
                         case FileEntryVersion.ExtractedNowUsingExiftool:                //DataGridView Column
                         case FileEntryVersion.ExtractedNowUsingReadMediaFile:           //DataGridView Column
                         case FileEntryVersion.ExtractedNowUsingWindowsLivePhotoGallery: //DataGridView Column
                         case FileEntryVersion.ExtractedNowUsingMicrosoftPhotos:         //DataGridView Column
                         case FileEntryVersion.ExtractedNowUsingWebScraping:             //DataGridView Column
-                            //Both Extracted from source, newst version win
+                            //Both Extracted from source, newest version win
                             if (fileEntryAttributeFromQueue.LastWriteDateTime > fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
-                                return FileEntryVersionCompare.WonWasNewer;
+                                return FileEntryVersionCompare.Won_Update_Satuts_Metdata_DataGridView;
 
                             if (fileEntryAttributeFromQueue.LastWriteDateTime == fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
-                                return FileEntryVersionCompare.WonWasEqual;
+                                return FileEntryVersionCompare.Won_Update_Satuts_Metdata_DataGridView;
 
                             if (fileEntryAttributeFromQueue.LastWriteDateTime < fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
-                                return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch; //Continue search, can be missing data from past, eg. ThreadSaveToDatabaseRegionAndThumbnail when updated old regions
+                                return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch_Update_Nothing; //Continue search, can be missing data from past, eg. ThreadSaveToDatabaseRegionAndThumbnail when updated old regions
                             break;
+                        #endregion
+
+                        #region Queue: Extracted - DataGridView: ToSave - Result: WonWasNewer_Update_Status_Metdata_DataGridView
                         case FileEntryVersion.MetadataToSave:                           //DataGridView Column
                         case FileEntryVersion.CompatibilityFixedAndAutoUpdated:         //DataGridView Column
-                            return FileEntryVersionCompare.WonWasNewer; //Extracted from source always win over AutoCorrect (No need to check dates, It's only exist one column, regardless of date)
-                            
-                        case FileEntryVersion.CurrentVersionInDatabase:                 //DataGridView Column
-                            if (fileEntryAttributeFromQueue.LastWriteDateTime > fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
-                                return FileEntryVersionCompare.WonWasNewer;
+                            return FileEntryVersionCompare.Won_Update_Satuts_Metdata_DataGridView; //Extracted from source always win over AutoCorrect (No need to check dates, It's only exist one column, regardless of date)
+                        #endregion
 
-                            if (fileEntryAttributeFromQueue.LastWriteDateTime == fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
-                                return FileEntryVersionCompare.WonWasEqual;
-
-                            if (fileEntryAttributeFromQueue.LastWriteDateTime < fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
-                                return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch; //Continue search, can be missing data from past, eg. ThreadSaveToDatabaseRegionAndThumbnail when updated old regions
-                            break;
-                        case FileEntryVersion.Historical:                               //DataGridView Column
-                        case FileEntryVersion.ExtractedNowUsingExiftoolTimeout:         //DataGridView Column
-                        case FileEntryVersion.ExtractedNowUsingExiftoolFileNotExist:    //DataGridView Column
-                        case FileEntryVersion.ExtractedNowUsingExiftoolWithError:       //DataGridView Column
+                        #region Queue: Extracted - DataGridView: Historical/Error - Result: Continue search
+                        case FileEntryVersion.Historical:                               //DataGridView Column                        
                         case FileEntryVersion.Error:                                    //DataGridView Column
-                            return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch;          
+                            return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch_Update_Nothing;
+                        #endregion
+
+                        #region NotAvailable
                         case FileEntryVersion.NotAvailable:                             //DataGridView Column
-                            return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch;
+                            return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch_Update_Nothing;
                         default:
                             throw new NotImplementedException();
+                        #endregion
                     }
                     #endregion
                     break;
+
                 case FileEntryVersion.MetadataToSave:                                   //From queue
                 case FileEntryVersion.CompatibilityFixedAndAutoUpdated:                 //From queue
-                    #region Saving
+                    #region Queue from Saving
                     switch (fileEntryAttributeDataGridViewColumn.FileEntryVersion)
                     {
-                        case FileEntryVersion.ExtractedNowUsingExiftool:                //DataGridView Column
-                        case FileEntryVersion.ExtractedNowUsingReadMediaFile:           //DataGridView Column
-                        case FileEntryVersion.ExtractedNowUsingWindowsLivePhotoGallery: //DataGridView Column
-                        case FileEntryVersion.ExtractedNowUsingMicrosoftPhotos:         //DataGridView Column
-                        case FileEntryVersion.ExtractedNowUsingWebScraping:             //DataGridView Column
-                            if (fileEntryAttributeFromQueue.LastWriteDateTime > fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
-                                return FileEntryVersionCompare.WonWasNewer;
-
-                            if (fileEntryAttributeFromQueue.LastWriteDateTime == fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
-                                return FileEntryVersionCompare.WonWasEqual;
-
-                            if (fileEntryAttributeFromQueue.LastWriteDateTime < fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
-                                return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch; //Continue search, can be missing data from past, eg. ThreadSaveToDatabaseRegionAndThumbnail when updated old regions
-                            break;
-                        case FileEntryVersion.MetadataToSave:                           //DataGridView Column
-                        case FileEntryVersion.CompatibilityFixedAndAutoUpdated:         //DataGridView Column
-                            if (fileEntryAttributeFromQueue.LastWriteDateTime > fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
-                                return FileEntryVersionCompare.WonWasNewer;
-
-                            if (fileEntryAttributeFromQueue.LastWriteDateTime == fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
-                                return FileEntryVersionCompare.WonWasEqual;
-
-                            if (fileEntryAttributeFromQueue.LastWriteDateTime < fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
-                                return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch; //Continue search, can be missing data from past, eg. ThreadSaveToDatabaseRegionAndThumbnail when updated old regions
-                            break;
+                        #region Queue: ToSave - DataGridView: CurrentVersion - Result: WonWasNewer_Update_Status_Metdata_DataGridView
                         case FileEntryVersion.CurrentVersionInDatabase:                 //DataGridView Column
                             //AutoCorrect, always win over Read from database
-                            return FileEntryVersionCompare.WonWasNewer;
+                            return FileEntryVersionCompare.Won_Update_Satuts_Metdata_DataGridView;
+                        #endregion
 
-                        case FileEntryVersion.Historical:                               //DataGridView Column
-                        case FileEntryVersion.ExtractedNowUsingExiftoolTimeout:         //DataGridView Column
+                        #region Queue: ToSave - DataGridView: Failed - Result: Depends on LastWriteDateTime
                         case FileEntryVersion.ExtractedNowUsingExiftoolFileNotExist:    //DataGridView Column
+                            return FileEntryVersionCompare.Update_Status_FileNotFound;
+                        case FileEntryVersion.ExtractedNowUsingExiftoolTimeout:         //DataGridView Column
                         case FileEntryVersion.ExtractedNowUsingExiftoolWithError:       //DataGridView Column
-                        case FileEntryVersion.Error: //is store in DataGridView Column, Need continue the search
-                            return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch;
-                        case FileEntryVersion.NotAvailable:                             //DataGridView Column
-                            return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch;
-                        default:
-                            throw new NotImplementedException();
-                    }
-                    #endregion
-                    break;
-                case FileEntryVersion.CurrentVersionInDatabase:                         //From queue
-                    #region From Source
-                    switch (fileEntryAttributeDataGridViewColumn.FileEntryVersion)
-                    {
+                            return FileEntryVersionCompare.Won_Update_Satuts_Metdata_DataGridView;
+                        #endregion
+
+                        #region Queue: ToSave - DataGridView: Extracted - Result: Depends on LastWriteDateTime 
                         case FileEntryVersion.ExtractedNowUsingExiftool:                //DataGridView Column
                         case FileEntryVersion.ExtractedNowUsingReadMediaFile:           //DataGridView Column
                         case FileEntryVersion.ExtractedNowUsingWindowsLivePhotoGallery: //DataGridView Column
                         case FileEntryVersion.ExtractedNowUsingMicrosoftPhotos:         //DataGridView Column
                         case FileEntryVersion.ExtractedNowUsingWebScraping:             //DataGridView Column
-                            return FileEntryVersionCompare.LostWasOlder;                
-                        case FileEntryVersion.MetadataToSave:                           //DataGridView Column
-                        case FileEntryVersion.CompatibilityFixedAndAutoUpdated:         //DataGridView Column
-                            return FileEntryVersionCompare.WonWasNewer;                 
-                        case FileEntryVersion.CurrentVersionInDatabase:                 //DataGridView Column
                             if (fileEntryAttributeFromQueue.LastWriteDateTime > fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
-                                return FileEntryVersionCompare.WonWasNewer;
+                                return FileEntryVersionCompare.Won_Update_Satuts_Metdata_DataGridView;
 
                             if (fileEntryAttributeFromQueue.LastWriteDateTime == fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
-                                return FileEntryVersionCompare.WonWasEqual;
+                                return FileEntryVersionCompare.Won_Update_Satuts_Metdata_DataGridView;
 
                             if (fileEntryAttributeFromQueue.LastWriteDateTime < fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
-                                return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch; //Continue search, can be missing data from past, eg. ThreadSaveToDatabaseRegionAndThumbnail when updated old regions
+                                return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch_Update_Nothing; //Continue search, can be missing data from past, eg. ThreadSaveToDatabaseRegionAndThumbnail when updated old regions
                             break;
+                        #endregion
 
+                        #region Queue: ToSave - DataGridView: ToSave - Result: Depends on LastWriteDateTime (Last save wins)
+                        case FileEntryVersion.MetadataToSave:                           //DataGridView Column
+                        case FileEntryVersion.CompatibilityFixedAndAutoUpdated:         //DataGridView Column
+                            if (fileEntryAttributeFromQueue.LastWriteDateTime > fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
+                                return FileEntryVersionCompare.Won_Update_Satuts_Metdata_DataGridView;
+
+                            if (fileEntryAttributeFromQueue.LastWriteDateTime == fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
+                                return FileEntryVersionCompare.Won_Update_Satuts_Metdata_DataGridView;
+
+                            if (fileEntryAttributeFromQueue.LastWriteDateTime < fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
+                                return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch_Update_Nothing; //Continue search, can be missing data from past, eg. ThreadSaveToDatabaseRegionAndThumbnail when updated old regions
+                            break;
+                        #endregion
+
+                        #region Queue: ToSave - DataGridView: Historical/Error - Result: Continue Search
                         case FileEntryVersion.Historical:                               //DataGridView Column
-                        case FileEntryVersion.ExtractedNowUsingExiftoolTimeout:         //DataGridView Column
-                        case FileEntryVersion.ExtractedNowUsingExiftoolFileNotExist:    //DataGridView Column
-                        case FileEntryVersion.ExtractedNowUsingExiftoolWithError:       //DataGridView Column
-                        case FileEntryVersion.Error:                                    //DataGridView Column
-                            //Need continue the search
-                            return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch;
+                        case FileEntryVersion.Error: //is store in DataGridView Column, Need continue the search
+                            return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch_Update_Nothing;
+                        #endregion
+
+                        #region NotAvailable
                         case FileEntryVersion.NotAvailable:                             //DataGridView Column
-                            return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch;
+                            return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch_Update_Nothing;
                         default:
                             throw new NotImplementedException();
+                        #endregion
                     }
                     #endregion
                     break;
+                
                 case FileEntryVersion.Error:                                            //From queue
-                    #region Error, Historical
+                    #region Queue from Error
                     switch (fileEntryAttributeDataGridViewColumn.FileEntryVersion)
                     {
+                        #region Queue: Error - DataGridView: CurrenyVersion - Result: Continue Search
+                        case FileEntryVersion.CurrentVersionInDatabase:                 //DataGridView Column
+                            return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch_Update_Nothing;
+                        #endregion
+
+                        #region Queue: Error - DataGridView: Failed - Result: Continue Search
+                        case FileEntryVersion.ExtractedNowUsingExiftoolFileNotExist:    //DataGridView Column
+                            return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch_Update_Nothing;
+                        case FileEntryVersion.ExtractedNowUsingExiftoolTimeout:         //DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingExiftoolWithError:       //DataGridView Column
+                            return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch_Update_Nothing;
+                        #endregion
+
+                        #region Queue: Error - DataGridView: Extracted - Result: Continue Search
                         case FileEntryVersion.ExtractedNowUsingExiftool:                //DataGridView Column
                         case FileEntryVersion.ExtractedNowUsingReadMediaFile:           //DataGridView Column
                         case FileEntryVersion.ExtractedNowUsingWindowsLivePhotoGallery: //DataGridView Column
                         case FileEntryVersion.ExtractedNowUsingMicrosoftPhotos:         //DataGridView Column
                         case FileEntryVersion.ExtractedNowUsingWebScraping:             //DataGridView Column
+                            return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch_Update_Nothing;
+                        #endregion
+
+                        #region Queue: Error - DataGridView: ToSave - Result: Continue Search
                         case FileEntryVersion.MetadataToSave:                           //DataGridView Column
                         case FileEntryVersion.CompatibilityFixedAndAutoUpdated:         //DataGridView Column
-                        case FileEntryVersion.CurrentVersionInDatabase:                 //DataGridView Column
+                            return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch_Update_Nothing;
+                        #endregion
+
+                        #region Queue: Error - DataGridView: Historical - Result: Depends on LastWriteDateTime
                         case FileEntryVersion.Historical:                               //DataGridView Column
-                        case FileEntryVersion.ExtractedNowUsingExiftoolTimeout:         //DataGridView Column
-                        case FileEntryVersion.ExtractedNowUsingExiftoolFileNotExist:    //DataGridView Column
-                        case FileEntryVersion.ExtractedNowUsingExiftoolWithError:       //DataGridView Column
-                            return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch;
+                            return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch_Update_Nothing;
                         case FileEntryVersion.Error:                                    //DataGridView Column
                             if (fileEntryAttributeFromQueue.LastWriteDateTime == fileEntryAttributeDataGridViewColumn.LastWriteDateTime)
-                                return FileEntryVersionCompare.WonWasEqual;
-                            return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch;
+                                return FileEntryVersionCompare.Won_Update_Satuts_Metdata_DataGridView;
+                            return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch_Update_Nothing;
+                        #endregion
+
+                        #region NotAvailable
                         case FileEntryVersion.NotAvailable:                             //DataGridView Column
-                            return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch;
+                            return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch_Update_Nothing;
                         default:
                             throw new NotImplementedException();
+                        #endregion
                     }
                     #endregion
 
-                case FileEntryVersion.ExtractedNowUsingExiftoolTimeout:                 //From queue
-                case FileEntryVersion.ExtractedNowUsingExiftoolFileNotExist:            //From queue
-                case FileEntryVersion.ExtractedNowUsingExiftoolWithError:               //From queue                
                 case FileEntryVersion.Historical:                                       //From queue
-                    #region Error, Historical
+                    #region Queue from Historical
                     switch (fileEntryAttributeDataGridViewColumn.FileEntryVersion)
                     {
+                        #region Queue: Historical - DataGridView: CurrentVersion - Result: Continue Search
+                        case FileEntryVersion.CurrentVersionInDatabase:                 //DataGridView Column
+                            return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch_Update_Nothing;
+                        #endregion
+
+                        #region Queue: Historical - DataGridView: Failed - Result: Continue Search
+                        case FileEntryVersion.ExtractedNowUsingExiftoolFileNotExist:    //DataGridView Column
+                            return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch_Update_Nothing;
+                        case FileEntryVersion.ExtractedNowUsingExiftoolTimeout:         //DataGridView Column
+                        case FileEntryVersion.ExtractedNowUsingExiftoolWithError:       //DataGridView Column
+                            return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch_Update_Nothing;
+                        #endregion
+
+                        #region Queue: Historical - DataGridView: Extracted - Result: Depends on LastWriteDateTime
                         case FileEntryVersion.ExtractedNowUsingExiftool:                //DataGridView Column
                         case FileEntryVersion.ExtractedNowUsingReadMediaFile:           //DataGridView Column
                         case FileEntryVersion.ExtractedNowUsingWindowsLivePhotoGallery: //DataGridView Column
                         case FileEntryVersion.ExtractedNowUsingMicrosoftPhotos:         //DataGridView Column
                         case FileEntryVersion.ExtractedNowUsingWebScraping:             //DataGridView Column
+                            return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch_Update_Nothing;
+                        #endregion
+
+                        #region Queue: Historical - DataGridView: ToSave - Result: Depends on LastWriteDateTime
                         case FileEntryVersion.MetadataToSave:                           //DataGridView Column
                         case FileEntryVersion.CompatibilityFixedAndAutoUpdated:         //DataGridView Column
-                        case FileEntryVersion.CurrentVersionInDatabase:                 //DataGridView Column
-                            return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch;
+                            return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch_Update_Nothing;
+                        #endregion 
+
+                        #region Queue: Historical - DataGridView: Historical - Result: Depends on LastWriteDateTime
                         case FileEntryVersion.Historical:                               //DataGridView Column
                             if (fileEntryAttributeFromQueue.LastWriteDateTime == fileEntryAttributeDataGridViewColumn.LastWriteDateTime) 
-                                return FileEntryVersionCompare.WonWasEqual;
-                            return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch;
-                        case FileEntryVersion.ExtractedNowUsingExiftoolTimeout:         //DataGridView Column
-                        case FileEntryVersion.ExtractedNowUsingExiftoolFileNotExist:    //DataGridView Column
-                        case FileEntryVersion.ExtractedNowUsingExiftoolWithError:       //DataGridView Column
+                                return FileEntryVersionCompare.Won_Update_Satuts_Metdata_DataGridView;
+                            return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch_Update_Nothing;
                         case FileEntryVersion.Error:                                    //DataGridView Column
-                            return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch;
+                            return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch_Update_Nothing;
+                        #endregion
+
+                        #region NotAvailable
                         case FileEntryVersion.NotAvailable:                             //DataGridView Column
-                            return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch;
+                            return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch_Update_Nothing;
                         default:
                             throw new NotImplementedException();
+                        #endregion
                     }
                     #endregion
+
                 case FileEntryVersion.NotAvailable:                                     //From queue
-                    return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch;
+                    return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch_Update_Nothing;
                 default:
                     throw new NotImplementedException();
             }
 
-            return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch; //DEBUG - If arrived here, means not all cases handled with care
+            return FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch_Update_Nothing; //DEBUG - If arrived here, means not all cases handled with care
         }
         #endregion
     }

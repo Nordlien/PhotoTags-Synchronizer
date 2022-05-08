@@ -245,33 +245,20 @@ namespace FileHandeling
         #endregion
 
         #region IsStillInCloudAfterTouchFileActivateReadFromCloud
-        private static Dictionary<string, DateTime> cloundFileTouchedAndWhen = new Dictionary<string, DateTime>();
-        private static object cloundFileTouchedAndWhenLock = new object();
+        public static Dictionary<string, DateTime> CloundFileTouchedAndWhen = new Dictionary<string, DateTime>();
+        public static object CloundFileTouchedAndWhenLock = new object();
 
-        private static Dictionary<string, DateTime> cloundFileTouchedFailedAndWhen = new Dictionary<string, DateTime>();
-        private static object cloundFileTouchedFailedAndWhenLock = new object();
+        public static Dictionary<string, DateTime> CloundFileTouchedFailedAndWhen { get; set; } = new Dictionary<string, DateTime>();
+        public static object CloundFileTouchedFailedAndWhenLock = new object();
 
-        private static int TouchTimeout = 1000 * 20;
         private static int TouchWaitDownloadingTimeoutFailed = 1000 * 60 * 2;
 
         #region RemoveOfflineFileTouched
         public static void RemoveOfflineFileTouched(string fullFileName)
         {
-            lock (cloundFileTouchedAndWhenLock)
+            lock (CloundFileTouchedAndWhenLock)
             {
-                if (cloundFileTouchedAndWhen.ContainsKey(fullFileName)) cloundFileTouchedAndWhen.Remove(fullFileName);
-            }
-        }
-
-        public static void RemoveOldOfflineFileTouched(string fullFileName)
-        {
-            lock (cloundFileTouchedAndWhenLock)
-            {
-                if (cloundFileTouchedAndWhen.ContainsKey(fullFileName))
-                {
-                    if ((DateTime.Now - cloundFileTouchedAndWhen[fullFileName]).TotalMilliseconds > TouchTimeout) //Remove when timeout
-                        cloundFileTouchedAndWhen.Remove(fullFileName);
-                }
+                if (CloundFileTouchedAndWhen.ContainsKey(fullFileName)) CloundFileTouchedAndWhen.Remove(fullFileName);
             }
         }
         #endregion
@@ -279,21 +266,9 @@ namespace FileHandeling
         #region RemoveOfflineFileTouchedFailed
         public static void RemoveOfflineFileTouchedFailed(string fullFileName)
         {
-            lock (cloundFileTouchedFailedAndWhenLock)
+            lock (CloundFileTouchedFailedAndWhenLock)
             {
-                if (cloundFileTouchedFailedAndWhen.ContainsKey(fullFileName)) cloundFileTouchedFailedAndWhen.Remove(fullFileName);
-            }
-        }
-
-        public static void RemoveOldOfflineFileTouchedFailed(string fullFileName)
-        {
-            lock (cloundFileTouchedFailedAndWhenLock)
-            {
-                if (cloundFileTouchedFailedAndWhen.ContainsKey(fullFileName))
-                {
-                    if ((DateTime.Now - cloundFileTouchedFailedAndWhen[fullFileName]).TotalMilliseconds > TouchWaitDownloadingTimeoutFailed) //Remove when timeout
-                        cloundFileTouchedFailedAndWhen.Remove(fullFileName);
-                }
+                if (CloundFileTouchedFailedAndWhen.ContainsKey(fullFileName)) CloundFileTouchedFailedAndWhen.Remove(fullFileName);
             }
         }
         #endregion
@@ -301,9 +276,9 @@ namespace FileHandeling
         #region IsOfflineFileTouchedAndWithoutTimeout
         public static bool IsOfflineFileTouched(string fullFileName)
         {
-            lock (cloundFileTouchedAndWhenLock)
+            lock (CloundFileTouchedAndWhenLock)
             {
-                return cloundFileTouchedAndWhen.ContainsKey(fullFileName);
+                return CloundFileTouchedAndWhen.ContainsKey(fullFileName);
             }
         }
         #endregion
@@ -312,11 +287,11 @@ namespace FileHandeling
         public static bool DidTouchedFileTimeoutDuringDownload(string fullFileName)
         {
             bool didTounchTimeout = false;
-            lock (cloundFileTouchedFailedAndWhenLock)
+            lock (CloundFileTouchedFailedAndWhenLock)
             {
-                if (cloundFileTouchedFailedAndWhen.ContainsKey(fullFileName))
+                if (CloundFileTouchedFailedAndWhen.ContainsKey(fullFileName))
                 {
-                    if ((DateTime.Now - cloundFileTouchedFailedAndWhen[fullFileName]).TotalMilliseconds > TouchWaitDownloadingTimeoutFailed)
+                    if ((DateTime.Now > CloundFileTouchedFailedAndWhen[fullFileName]))
                         didTounchTimeout = true;
                 }
             }
@@ -324,7 +299,7 @@ namespace FileHandeling
         }
         #endregion
 
-        #region Touch Offline File - Log errors 
+        #region Touch Offline File 
         private static void TouchOfflineFileProcess(string fullFileName)
         {
             try
@@ -338,10 +313,10 @@ namespace FileHandeling
             }
             catch
             {
-                lock (cloundFileTouchedFailedAndWhenLock)
+                lock (CloundFileTouchedFailedAndWhenLock)
                 {
-                    if (!cloundFileTouchedFailedAndWhen.ContainsKey(fullFileName))
-                        cloundFileTouchedFailedAndWhen.Add(fullFileName, DateTime.Now);
+                    if (!CloundFileTouchedFailedAndWhen.ContainsKey(fullFileName)) CloundFileTouchedFailedAndWhen.Add(fullFileName, DateTime.Now);
+                    else CloundFileTouchedFailedAndWhen[fullFileName] = DateTime.Now;
                 }
             }
         }
@@ -350,18 +325,17 @@ namespace FileHandeling
         #region Touch Offline File To Get File Online
         public static void TouchOfflineFileToGetFileOnline(string fullFileName)
         {
-            if (IsOfflineFileTouched(fullFileName))
-                return;
-            if (DidTouchedFileTimeoutDuringDownload(fullFileName))
-                return;
+            if (IsOfflineFileTouched(fullFileName)) return;
 
             #region Touch the file and log when
             FileStatus fileStatus = GetFileStatus(fullFileName, checkLockedStatus: false);
             if (fileStatus.IsInCloudOrVirtualOrOffline)
             {
-                lock (cloundFileTouchedAndWhenLock)
+                lock (CloundFileTouchedAndWhenLock)
                 {
-                    if (!cloundFileTouchedAndWhen.ContainsKey(fullFileName)) cloundFileTouchedAndWhen.Add(fullFileName, DateTime.Now);
+                    if (!CloundFileTouchedAndWhen.ContainsKey(fullFileName)) CloundFileTouchedAndWhen.Add(fullFileName, DateTime.Now);
+                    if (!CloundFileTouchedFailedAndWhen.ContainsKey(fullFileName)) CloundFileTouchedFailedAndWhen.Add(fullFileName, DateTime.Now.AddMilliseconds(TouchWaitDownloadingTimeoutFailed));
+                    else CloundFileTouchedFailedAndWhen[fullFileName] = DateTime.Now.AddMilliseconds(TouchWaitDownloadingTimeoutFailed);
                 }
 
                 Task task = Task.Run(() =>

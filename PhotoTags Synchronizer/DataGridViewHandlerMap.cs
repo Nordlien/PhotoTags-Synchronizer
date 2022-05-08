@@ -443,7 +443,7 @@ namespace PhotoTagsSynchronizer
             if (metadataAutoCorrected != null) metadataExiftool = metadataAutoCorrected; //If AutoCorrect is run, use AutoCorrect values. Needs to be after DataGridViewHandler.AddColumnOrUpdateNew, so orignal metadata stored will not be overwritten
 
             ReadWriteAccess readWriteAccessColumn =
-                (FileEntryVersionHandler.IsReadOnlyType(fileEntryAttribute.FileEntryVersion) ||
+                (FileEntryVersionHandler.IsReadOnlyColumnType(fileEntryAttribute.FileEntryVersion) ||
                 metadataExiftool == null) ? ReadWriteAccess.ForceCellToReadOnly : ReadWriteAccess.AllowCellReadAndWrite;
 
             int columnIndex = DataGridViewHandler.AddColumnOrUpdateNew(
@@ -451,11 +451,11 @@ namespace PhotoTagsSynchronizer
                 DataGridViewGenericCellStatus.DefaultEmpty(), out FileEntryVersionCompare fileEntryVersionCompareReason);
 
             //Chech if populated and new refresh data
-            if (onlyRefresh && FileEntryVersionHandler.NeedUpdate(fileEntryVersionCompareReason) && !DataGridViewHandler.IsColumnPopulated(dataGridView, columnIndex))
-                fileEntryVersionCompareReason = FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch; //No need to populate
+            if (onlyRefresh && FileEntryVersionHandler.DoesCellsNeedUpdate(fileEntryVersionCompareReason) && !DataGridViewHandler.IsColumnPopulated(dataGridView, columnIndex))
+                fileEntryVersionCompareReason = FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch_Update_Nothing; //No need to populate
             //-----------------------------------------------------------------
 
-            if (FileEntryVersionHandler.NeedUpdate(fileEntryVersionCompareReason))
+            if (FileEntryVersionHandler.DoesCellsNeedUpdate(fileEntryVersionCompareReason))
             {
                 //Media
                 int rowIndex;

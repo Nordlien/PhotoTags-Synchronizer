@@ -697,92 +697,16 @@ namespace DataGridViewGeneric
         #endregion 
 
         #region Suspend and Resume layout - SuspendLayout
-        private static int suspendCount = 0;
-        private static bool isSuspended = false;
         public static void SuspendLayoutSetDelay(DataGridView dataGridView, bool doesColumnFilenameExist)
         {
-            //suspendCount++;
-            //if (suspendCount > 1) return; //Already suspended
-            //if (!doesColumnFilenameExist) return; //No need to supspend when not updated 
-
-            //if (!isSuspended)
-            //{
-            //    dataGridView.SuspendLayout();
-
-            //    dataGridViewAutoSizeRowsMode = dataGridView.AutoSizeRowsMode;
-            //    dataGridViewAutoSizeColumnMode = dataGridView.AutoSizeColumnsMode;
-            //    dataGridViewRowHeadersWidthSizeMode = dataGridView.RowHeadersWidthSizeMode;
-            //    dataGridViewColumnHeadersHeightSizeMode = dataGridView.ColumnHeadersHeightSizeMode;
-
-            //    dataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
-            //    dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
-            //    dataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            //    dataGridView.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-
-            //    dataGridView.RowHeadersVisible = false;
-
-            //    SendMessage(dataGridView.Handle, WM_SETREDRAW, false, 0);
-
-            //    isSuspended = true;
-            //}
         }
         #endregion 
 
         #region Suspend and Resume layout - ResumeLayout
-        private static Thread _ThreadResumeDataGrid = null;
-
-        private static void ResumeLayoutInvoke(DataGridView dataGridView)
-        {
-            //dataGridView.AutoSizeRowsMode = dataGridViewAutoSizeRowsMode;
-            //dataGridView.AutoSizeColumnsMode = dataGridViewAutoSizeColumnMode;
-            //dataGridView.RowHeadersWidthSizeMode = dataGridViewRowHeadersWidthSizeMode;
-            //dataGridView.ColumnHeadersHeightSizeMode = dataGridViewColumnHeadersHeightSizeMode;
-
-            //dataGridView.RowHeadersVisible = true;
-            //dataGridView.ResumeLayout();
-
-            //SendMessage(dataGridView.Handle, WM_SETREDRAW, true, 0);
-            //dataGridView.Refresh();
-
-            //isSuspended = false;
-        }
-
         public static bool ResumeLayoutDelayed(DataGridView dataGridView)
         {
-            bool didResume = false;
-            //suspendCount--;
-            //if (suspendCount < 0) suspendCount = 0;
-            //if (suspendCount == 0 && isSuspended)
-            //{
-            //    dataGridView.BeginInvoke(new Action<DataGridView>(ResumeLayoutInvoke), dataGridView);
-
-            //    //if (_ThreadResumeDataGrid == null)
-            //    //{
-            //    //    try
-            //    //    {
-            //    //        _ThreadResumeDataGrid = new Thread(() =>
-            //    //        {
-            //    //            Task.Delay(100).Wait();
-            //    //            if (suspendCount == 0) //In case if more ites in queue have arrived
-            //    //                dataGridView.BeginInvoke(new Action<DataGridView>(ResumeLayoutInvoke), dataGridView); //ResumeLayoutInvoke(dataGridView);
-            //    //            _ThreadResumeDataGrid = null;
-            //    //        });
-
-            //    //        if (_ThreadResumeDataGrid != null)
-            //    //        {
-            //    //            _ThreadResumeDataGrid.Priority = ThreadPriority.Highest;
-            //    //            _ThreadResumeDataGrid.Start();
-            //    //        }
-            //    //    }
-            //    //    catch
-            //    //    {
-            //    //        _ThreadResumeDataGrid = null;
-            //    //    }
-            //    //    didResume = true;
-            //    //} 
-            //}
-             
-            return didResume;
+            
+            return true;
         }
         #endregion
 
@@ -1215,12 +1139,17 @@ namespace DataGridViewGeneric
                         switch (fileEntryAttribute.FileEntryVersion)
                         {
                             case FileEntryVersion.ExtractedNowUsingExiftool: //is used in in DataGridView Column
+                            case FileEntryVersion.ExtractedNowUsingExiftoolTimeout:
+                            case FileEntryVersion.ExtractedNowUsingExiftoolFileNotExist:
+                            case FileEntryVersion.ExtractedNowUsingExiftoolWithError:
+
                             case FileEntryVersion.ExtractedNowUsingReadMediaFile:
                             case FileEntryVersion.ExtractedNowUsingWindowsLivePhotoGallery:
                             case FileEntryVersion.ExtractedNowUsingMicrosoftPhotos:
                             case FileEntryVersion.ExtractedNowUsingWebScraping:
                             case FileEntryVersion.CompatibilityFixedAndAutoUpdated:
                             case FileEntryVersion.MetadataToSave:
+
                             case FileEntryVersion.CurrentVersionInDatabase:
                                 if (FileEntryVersionHandler.IsCurrenOrUpdatedVersion(dataGridViewGenericColumn.FileEntryAttribute.FileEntryVersion) &&
                                     IsFilenameEqual(fileEntryAttribute.FileFullPath, dataGridViewGenericColumn.FileEntryAttribute.FileFullPath) &&
@@ -1291,13 +1220,14 @@ namespace DataGridViewGeneric
                         fileEntryVersionPriorityReason = FileEntryVersionHandler.CompareFileEntryAttribute(dataGridViewGenericColumn.FileEntryAttribute, fileEntryAttribute2);
                         switch (fileEntryVersionPriorityReason)
                         {
-                            case FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch:
+                            case FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch_Update_Nothing:
                                 break; //Continue search
-                            case FileEntryVersionCompare.LostWasOlder:
+                            case FileEntryVersionCompare.LostWasOlder_Updated_Nothing:
                                 //break; //Continue search
                                 return columnIndex;
-                            case FileEntryVersionCompare.WonWasEqual:
-                            case FileEntryVersionCompare.WonWasNewer:
+                            case FileEntryVersionCompare.Update_Status_Metadata_WriteFailed:
+                            case FileEntryVersionCompare.Update_Status_FileNotFound:
+                            case FileEntryVersionCompare.Won_Update_Satuts_Metdata_DataGridView:
                                 return columnIndex;
                             default:
                                 throw new NotImplementedException();
@@ -1309,7 +1239,7 @@ namespace DataGridViewGeneric
             {
                 //DEBUG
             }
-            fileEntryVersionPriorityReason = FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch;
+            fileEntryVersionPriorityReason = FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch_Update_Nothing;
             return -1; //Not found
         }
 
@@ -1351,9 +1281,9 @@ namespace DataGridViewGeneric
             out FileEntryVersionCompare fileEntryVersionCompareReason)
         {
             int columnIndex = GetColumnIndexWhenAddColumn(dataGridView, fileEntryAttribute, out fileEntryVersionCompareReason); //Find column Index for Filename and date last written, Prioritize
-            if (fileEntryVersionCompareReason == FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch && columnIndex != -1)
+            if (fileEntryVersionCompareReason == FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch_Update_Nothing && columnIndex != -1)
             {
-                fileEntryVersionCompareReason = FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch;
+                fileEntryVersionCompareReason = FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch_Update_Nothing;
                 return -1; //DEBUG, should not happen, need to fix IF happen
             }
 
@@ -1364,11 +1294,11 @@ namespace DataGridViewGeneric
             bool isCurrenOrUpdatedColumn = FileEntryVersionHandler.IsCurrenOrUpdatedVersion(fileEntryAttribute.FileEntryVersion);
             bool isErrorOrHistoricalColumn = FileEntryVersionHandler.IsErrorOrHistoricalVersion(fileEntryAttribute.FileEntryVersion);
 
-            if (fileEntryVersionCompareReason == FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch) //Column not found, add a new column
+            if (fileEntryVersionCompareReason == FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch_Update_Nothing) //Column not found, add a new column
             {
                 if (columnIndex != -1)
                 {
-                    fileEntryVersionCompareReason = FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch;
+                    fileEntryVersionCompareReason = FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch_Update_Nothing;
                     return -1; //DEBUG, should not happen, need to fix IF happen
                 }
 
@@ -1427,7 +1357,7 @@ namespace DataGridViewGeneric
                             )
                         {
                             columnIndexFilename += 1;
-                            fileEntryVersionCompareReason = FileEntryVersionCompare.WonWasEqual;
+                            fileEntryVersionCompareReason = FileEntryVersionCompare.Won_Update_Satuts_Metdata_DataGridView;
 
                         }
                     }
@@ -1449,13 +1379,7 @@ namespace DataGridViewGeneric
                     if (createNewColumn)
                     {
                         dataGridView.Columns.Insert(columnIndex, dataGridViewColumn);
-                        if (isErrorColumn || showErrorColumns)
-                            fileEntryVersionCompareReason = FileEntryVersionCompare.WonColumnCreatedHistoricalOrError;
-                        else
-                        {
-                            //DEBUG
-                            //    fileEntryVersionCompareReason = FileEntryVersionCompare.WonColumnCreatedHistoricalOrError; //DEBUG REMOVE?
-                        }
+                        if (isErrorColumn || showErrorColumns) fileEntryVersionCompareReason = FileEntryVersionCompare.CreateColumnHistoricalOrError_CreateColumn;
                     }
                 }
                 #endregion
@@ -1467,11 +1391,6 @@ namespace DataGridViewGeneric
             {
                 DataGridViewGenericColumn currentDataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
 
-                //DEBUG: Can be removed, after test 
-                if (currentDataGridViewGenericColumn == null) //DEBUG: Can be removed if not happen
-                    currentDataGridViewGenericColumn = new DataGridViewGenericColumn(fileEntryAttribute, thumbnail, metadata, readWriteAccessForColumn);
-                
-
                 #region Updated - When new, No updated when Equal or older
                 if (IsColumnDirty(dataGridView, columnIndex)) //That means, data was changed by user and trying to make changes to "past"
                 {
@@ -1480,9 +1399,12 @@ namespace DataGridViewGeneric
 
                     switch (fileEntryVersionCompareReason)
                     {
-                        case FileEntryVersionCompare.WonWasNewer:
-
-                        case FileEntryVersionCompare.WonWasEqual:
+                        case FileEntryVersionCompare.Update_Status_Metadata_WriteFailed:
+                        case FileEntryVersionCompare.Update_Status_FileNotFound:
+                            currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = true; //Write failed, data not equal
+                            currentDataGridViewGenericColumn.Metadata = metadata; //Write back orginal, due to data was not saved
+                            break;
+                        case FileEntryVersionCompare.Won_Update_Satuts_Metdata_DataGridView:
                             if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.MetadataToSave)
                             {
                                 currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warning needed, expected behaviour
@@ -1492,10 +1414,10 @@ namespace DataGridViewGeneric
                             {
                                 currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warning needed, expected behaviour
                                 //currentDataGridViewGenericColumn.Metadata = metadata; //Don't updated Metadata with AutoCorrect, needs to know orginal to check for changes
-                            } 
+                            }
                             else 
                             { 
-                                fileEntryVersionCompareReason = FileEntryVersionCompare.LostOverUserInput;
+                                fileEntryVersionCompareReason = FileEntryVersionCompare.LostOverUserInput_Update_Status;
                                 if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.CurrentVersionInDatabase)
                                     //|| fileEntryAttribute.FileEntryVersion == FileEntryVersion.ExtractedNowFromExternalSource ||
                                     // fileEntryAttribute.FileEntryVersion == FileEntryVersion.ExtractedNowFromMediaFile)
@@ -1511,10 +1433,10 @@ namespace DataGridViewGeneric
                                 }
                             }
                             break;
-                        case FileEntryVersionCompare.LostWasOlder:
+                        case FileEntryVersionCompare.LostWasOlder_Updated_Nothing:
                             currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warning needed
                             break;
-                        case FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch:
+                        case FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch_Update_Nothing:
                             break;
                         //case FileEntryVersionCompare.LostOverUserInput:
                         default:
@@ -1527,17 +1449,27 @@ namespace DataGridViewGeneric
                     #region Check if need to reload/refresh dataGridView
                     switch (fileEntryVersionCompareReason)
                     {
-                        case FileEntryVersionCompare.WonWasNewer:
-                        case FileEntryVersionCompare.WonWasEqual:
+                        case FileEntryVersionCompare.Update_Status_FileNotFound:
+                        case FileEntryVersionCompare.Update_Status_Metadata_WriteFailed:
+                            currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = true; //Write failed
+                            currentDataGridViewGenericColumn.Metadata = metadata; //Return orginal version, data was not saved, user data will not be overwritten
+                            break;
+
+                        case FileEntryVersionCompare.Update_Status_DataGridView_LostOverUserData:
+                            currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = true; 
+                            currentDataGridViewGenericColumn.Metadata = metadata; 
+                            break;
+
+                        case FileEntryVersionCompare.Won_Update_Satuts_Metdata_DataGridView:
                             currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warnings needed, just updated datagrid with new data
-                            if (fileEntryAttribute.FileEntryVersion != FileEntryVersion.CompatibilityFixedAndAutoUpdated)
+                            if (fileEntryAttribute.FileEntryVersion != FileEntryVersion.CompatibilityFixedAndAutoUpdated) //Don't overwrite user data
                                 currentDataGridViewGenericColumn.Metadata = metadata; //Keep newest version, PS All columns get added with empty Metadata
                             break;
                             
-                        case FileEntryVersionCompare.LostWasOlder:
+                        case FileEntryVersionCompare.LostWasOlder_Updated_Nothing:
                             currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warning needed
                             break;
-                        case FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch:
+                        case FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch_Update_Nothing:
                             break;
                         //case FileEntryVersionCompare.LostOverUserInput:
                         default:
@@ -1550,17 +1482,26 @@ namespace DataGridViewGeneric
                 #region Updated - currentDataGridViewGenericColumn
                 switch (fileEntryVersionCompareReason)
                 {
-                    case FileEntryVersionCompare.WonWasNewer:
-                    case FileEntryVersionCompare.WonWasEqual:                    
+                    case FileEntryVersionCompare.Update_Status_FileNotFound:
+                        SetCellReadOnlyForColumn(dataGridView, columnIndex);
                         currentDataGridViewGenericColumn.FileEntryAttribute = fileEntryAttribute; //Updated from FromSource, Database or AutoCorrect                
                         currentDataGridViewGenericColumn.Thumbnail = (thumbnail == null ? null : new Bitmap(thumbnail)); //Avoid thread issues
                         currentDataGridViewGenericColumn.ReadWriteAccess = readWriteAccessForColumn;
                         dataGridView.Columns[columnIndex].Tag = currentDataGridViewGenericColumn;
                         SetCellBackgroundColorForColumn(dataGridView, columnIndex);
                         break;
-                    case FileEntryVersionCompare.LostOverUserInput:
-                    case FileEntryVersionCompare.LostWasOlder:
-                    case FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch:
+                    case FileEntryVersionCompare.Update_Status_DataGridView_LostOverUserData:
+                    case FileEntryVersionCompare.Update_Status_Metadata_WriteFailed:
+                    case FileEntryVersionCompare.Won_Update_Satuts_Metdata_DataGridView:                    
+                        currentDataGridViewGenericColumn.FileEntryAttribute = fileEntryAttribute; //Updated from FromSource, Database or AutoCorrect                
+                        currentDataGridViewGenericColumn.Thumbnail = (thumbnail == null ? null : new Bitmap(thumbnail)); //Avoid thread issues
+                        currentDataGridViewGenericColumn.ReadWriteAccess = readWriteAccessForColumn;
+                        dataGridView.Columns[columnIndex].Tag = currentDataGridViewGenericColumn;
+                        SetCellBackgroundColorForColumn(dataGridView, columnIndex);
+                        break;
+                    case FileEntryVersionCompare.LostOverUserInput_Update_Status:
+                    case FileEntryVersionCompare.LostWasOlder_Updated_Nothing:
+                    case FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch_Update_Nothing:
                         break;
                     default:
                         throw new NotImplementedException();
@@ -1957,7 +1898,7 @@ namespace DataGridViewGeneric
                         FileEntryVersionCompare fileEntryVersionCompareReason =
                             FileEntryVersionHandler.CompareFileEntryAttribute(dataGridViewGenericRowDataGridView.FileEntryAttribute, dataGridViewGenericRow.FileEntryAttribute);
 
-                        if (FileEntryVersionHandler.NeedUpdate(fileEntryVersionCompareReason))
+                        if (FileEntryVersionHandler.DoesCellsNeedUpdate(fileEntryVersionCompareReason))
                             dataGridView.Rows[rowIndex].HeaderCell.Tag = dataGridViewGenericRow;
                     }
 
@@ -2640,6 +2581,14 @@ namespace DataGridViewGeneric
                     SetCellBackGroundColor(dataGridView, dataGridCell.ColumnIndex, rowIndex);
                 }
             }
+        }
+        #endregion
+
+        #region Cell Handling - SetCellReadOnlyForColumn - int columnIndex
+        public static void SetCellReadOnlyForColumn(DataGridView dataGridView, int columnIndex)
+        {
+            DataGridViewGenericCellStatus dataGridViewGenericCellStatus = new DataGridViewGenericCellStatus(true);
+            SetCellStatusDefaultColumnWhenAdded(dataGridView, columnIndex, dataGridViewGenericCellStatus);
         }
         #endregion
 

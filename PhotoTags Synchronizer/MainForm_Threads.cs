@@ -622,6 +622,10 @@ namespace PhotoTagsSynchronizer
                                     case FileEntryVersion.CompatibilityFixedAndAutoUpdated:
                                     case FileEntryVersion.CurrentVersionInDatabase:
                                     case FileEntryVersion.ExtractedNowUsingExiftool:
+                                    case FileEntryVersion.ExtractedNowUsingExiftoolTimeout:         //DataGridView Column
+                                    case FileEntryVersion.ExtractedNowUsingExiftoolFileNotExist:    //DataGridView Column
+                                    case FileEntryVersion.ExtractedNowUsingExiftoolWithError:       //DataGridView Column
+
                                         readColumn = true;
                                         break;
                                     case FileEntryVersion.ExtractedNowUsingReadMediaFile:
@@ -630,9 +634,7 @@ namespace PhotoTagsSynchronizer
                                     case FileEntryVersion.ExtractedNowUsingWebScraping:
                                         readColumn = true;
                                         break;
-                                    case FileEntryVersion.ExtractedNowUsingExiftoolFileNotExist:
-                                    case FileEntryVersion.ExtractedNowUsingExiftoolWithError:
-                                        readColumn = true;
+                                    
                                         break;
                                     case FileEntryVersion.Error:
                                         if ((showWhatColumns & ShowWhatColumns.ErrorColumns) > 0) readColumn = true;
@@ -1636,7 +1638,7 @@ namespace PhotoTagsSynchronizer
                                             RemoveQueueLazyLoadningSelectedFilesLock(new FileEntryBroker(fileEntryOriginal, MetadataBrokerType.Queue));
                                             RemoveQueueLazyLoadningSelectedFilesLock(new FileEntryBroker(fileEntryOriginal, MetadataBrokerType.ExifTool));
                                             ImageListViewRemoveItemInvoke(fileEntryOriginal.FileFullPath);
-                                            //DataGridView_Populate_FileEntryAttributeInvoke(fileEntryAttribute, MetadataBrokerType.UserSavedData);
+                                            DataGridView_Populate_FileEntryAttributeInvoke(fileEntryAttribute, MetadataBrokerType.ExifTool);
                                         }
                                         #endregion
                                         #region Check file status - File exist and not in clud, proceed
@@ -1657,7 +1659,7 @@ namespace PhotoTagsSynchronizer
                                                 FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(fileEntryOriginal, FileEntryVersion.ExtractedNowUsingExiftoolTimeout);
                                                 RemoveQueueLazyLoadningSelectedFilesLock(new FileEntryBroker(fileEntryOriginal, MetadataBrokerType.Queue));
                                                 RemoveQueueLazyLoadningSelectedFilesLock(new FileEntryBroker(fileEntryOriginal, MetadataBrokerType.ExifTool));
-                                                DataGridView_Populate_FileEntryAttributeInvoke(fileEntryAttribute, MetadataBrokerType.UserSavedData);
+                                                DataGridView_Populate_FileEntryAttributeInvoke(fileEntryAttribute, MetadataBrokerType.ExifTool);
                                             }
                                             #endregion
                                             else
@@ -3803,7 +3805,7 @@ namespace PhotoTagsSynchronizer
                                     FileStatus fileStatus = FileHandler.GetFileStatus(fileEntryAttributeAndAllowUseMetadataLocationInfo.Key.FileFullPath);
                                     if (fileStatus.FileExists)
                                     {
-                                        if (!isPopulated && fileEntryVersionCompare != FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch)
+                                        if (!isPopulated && fileEntryVersionCompare != FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch_Update_Nothing)
                                         {
                                             AddQueueLazyLoadingMapNomnatatimLock(
                                                 fileEntryAttributeAndAllowUseMetadataLocationInfo.Key,

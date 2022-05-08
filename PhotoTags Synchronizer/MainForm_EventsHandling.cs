@@ -10105,8 +10105,9 @@ namespace PhotoTagsSynchronizer
 
                 foreach (FileEntry fileEntry in fileEntries)
                 {
-
                     UpdateStatusAction("Refreshing database for " + fileEntry.FileFullPath);
+                    FileHandler.RemoveOfflineFileTouched(fileEntry.FileFullPath);
+                    FileHandler.RemoveOfflineFileTouchedFailed(fileEntry.FileFullPath);
                     TouchFiles(fileEntries);
                     filesCutCopyPasteDrag.DeleteFileAndHistory(fileEntry.FileFullPath);
                     ImageListView_UpdateItemThumbnailUpdateAllInvoke(fileEntry);

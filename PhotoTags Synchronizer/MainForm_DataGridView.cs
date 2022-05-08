@@ -922,7 +922,7 @@ namespace PhotoTagsSynchronizer
                 #endregion
 
 
-                if (isFilSelectedInImageListView)
+                if (isFilSelectedInImageListView || fileEntryAttribute.FileEntryVersion == FileEntryVersion.ExtractedNowUsingExiftoolFileNotExist)
                 {
                     DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, isFilSelectedInImageListView); //Will not suspend when Column Don't exist, but counter will increase
 
@@ -1531,7 +1531,7 @@ namespace PhotoTagsSynchronizer
                 {
                     if (dataGridViewGenericColumn.Metadata != null) //throw new Exception("Missing needed metadata"); //This should not happen. Means it's not aggregated 
                     {
-                        if (!FileEntryVersionHandler.IsReadOnlyType(dataGridViewGenericColumn.FileEntryAttribute.FileEntryVersion)) //Only check columns User can edit
+                        if (!FileEntryVersionHandler.IsReadOnlyColumnType(dataGridViewGenericColumn.FileEntryAttribute.FileEntryVersion)) //Only check columns User can edit
                         {
                             Metadata metadataFromDataGridView = new Metadata(dataGridViewGenericColumn.Metadata);
                             CollectedMetadataFromAllDataGridView(dataGridViewGenericColumn.FileEntryAttribute, ref metadataFromDataGridView);

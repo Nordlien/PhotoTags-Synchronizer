@@ -660,8 +660,8 @@ namespace PhotoTagsSynchronizer
                     else
                     {
                         #region Report Not fixed
-                        notFixed.Add(fileEntryBrokerExiftoolWithoutMachineName.FileFullPath);
-                        notFixed.Add(fileEntryMaybeHasMachineName.FileFullPath);
+                        if (!notFixed.Contains(fileEntryBrokerExiftoolWithoutMachineName.FileFullPath)) notFixed.Add(fileEntryBrokerExiftoolWithoutMachineName.FileFullPath);
+                        if (!notFixed.Contains(fileEntryMaybeHasMachineName.FileFullPath)) notFixed.Add(fileEntryMaybeHasMachineName.FileFullPath);
                         #endregion
                     }
                     #endregion

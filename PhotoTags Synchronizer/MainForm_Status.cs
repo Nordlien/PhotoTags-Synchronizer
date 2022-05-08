@@ -83,7 +83,7 @@ namespace PhotoTagsSynchronizer
 
         private static FormMessageBox formMessageBoxThread = null;
 
-        #region Show Status Form / Window
+        #region -- Show Status Form / Window --
         private void AddTaskToFileTasks(Dictionary<string, List<string>> fileTasks, string fullFileName, DateTime? modifiedDate, string task)
         {
             if (!fileTasks.ContainsKey(fullFileName))
@@ -232,6 +232,36 @@ namespace PhotoTagsSynchronizer
                 {
                     foreach (FileEntry fileEntry in exiftool_MediaFilesNotInDatabase)
                         AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, null, "Exiftool read, in process");
+                }
+            }
+            catch { }
+
+            try
+            {
+                lock (FileHandler.CloundFileTouchedAndWhenLock)
+                {
+                    foreach (KeyValuePair<string, DateTime> filenameKeyWhenValue in FileHandler.CloundFileTouchedAndWhen)
+                        AddTaskToFileTasks(fileTasks, filenameKeyWhenValue.Key, null, "Downloading... Started: " + filenameKeyWhenValue.Value.ToString());
+                }
+            }
+            catch { }
+
+            try
+            {
+                lock (FileHandler.CloundFileTouchedFailedAndWhenLock)
+                {
+                    foreach (KeyValuePair<string, DateTime> filenameKeyWhenValue in FileHandler.CloundFileTouchedFailedAndWhen)
+                        AddTaskToFileTasks(fileTasks, filenameKeyWhenValue.Key, null, "Failed downloading, timeout at: " + filenameKeyWhenValue.Value.ToString());
+                }
+            }
+            catch { }
+
+            try
+            {
+                //lock ()
+                {
+                    foreach (KeyValuePair<string, DateTime> filenameKeyWhenValue in FileHandler.CloundFileTouchedFailedAndWhen)
+                        AddTaskToFileTasks(fileTasks, filenameKeyWhenValue.Key, null, "Downloading... Started: " + filenameKeyWhenValue.Value.ToString());
                 }
             }
             catch { }
@@ -421,6 +451,28 @@ namespace PhotoTagsSynchronizer
                     stopwatchLastDisplayedExiftoolWaitCloud.Restart();
                 }
             }
+
+            try
+            {
+                lock (FileHandler.CloundFileTouchedAndWhenLock)
+                {
+                    if (FileHandler.CloundFileTouchedAndWhen.Count > 0)
+                        progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") +
+                            string.Format("In clound: {0}", FileHandler.CloundFileTouchedAndWhen.Count);
+                }
+            }
+            catch { }
+
+            try
+            {
+                lock (FileHandler.CloundFileTouchedFailedAndWhenLock)
+                {
+                    if (FileHandler.CloundFileTouchedFailedAndWhen.Count > 0)
+                        progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") +
+                            string.Format("Failed: {0}", FileHandler.CloundFileTouchedFailedAndWhen.Count);
+                }
+            }
+            catch { }
 
             if (readToCacheQueues.Count > 0)
             {
