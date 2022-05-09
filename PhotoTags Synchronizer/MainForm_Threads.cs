@@ -523,7 +523,7 @@ namespace PhotoTagsSynchronizer
             {
                 List<FileEntryAttribute> fileEntryAttributeDateVersions =
                     databaseAndCacheMetadataExiftool.ListFileEntryAttributesCache(MetadataBrokerType.ExifTool,
-                    fileEntry.FileFullPath, FileHandler.GetLastWriteTime(fileEntry.FileFullPath, waitAndRetry: false));
+                    fileEntry.FileFullPath, FileHandler.GetLastWriteTime(fileEntry.FileFullPath, waitAndRetry: IsFileInTemporaryUnavailableLock(fileEntry.FileFullPath)));
 
                 lazyLoadingAllExiftoolVersionOfMediaFile.AddRange(fileEntryAttributeDateVersions);
 
@@ -560,7 +560,7 @@ namespace PhotoTagsSynchronizer
             foreach (FileEntry fileEntry in fileEntries)
             {
                 #region Add to list, if file exist and use current written date 
-                DateTime dateTime = FileHandler.GetLastWriteTime(fileEntry.FileFullPath, waitAndRetry: true);
+                DateTime dateTime = FileHandler.GetLastWriteTime(fileEntry.FileFullPath, waitAndRetry: IsFileInTemporaryUnavailableLock(fileEntry.FileFullPath));
                 if (dateTime > FileHandler.MinimumFileSystemDateTime) //If file not exist, written date becomes MinimumFileSystemDateTime
                 {
                     FileEntry fileEntryCurrent = new FileEntry(fileEntry.FileFullPath, dateTime);
@@ -1334,7 +1334,7 @@ namespace PhotoTagsSynchronizer
                                                 #endregion
 
                                                 #region Check if still missing data in Database, if yes, read again
-                                                FileEntry fileEntry = new FileEntry(fullFilePath, FileHandler.GetLastWriteTime(fullFilePath, waitAndRetry: true));
+                                                FileEntry fileEntry = new FileEntry(fullFilePath, FileHandler.GetLastWriteTime(fullFilePath, waitAndRetry: IsFileInTemporaryUnavailableLock(fullFilePath)));
                                                 Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
                                                 if (metadata == null)
                                                 {
@@ -1924,7 +1924,7 @@ namespace PhotoTagsSynchronizer
                                             }
                                             #endregion
 
-                                            DateTime currentLastWrittenDateTime = FileHandler.GetLastWriteTime(fileSuposeToBeUpdated.FileFullPath, waitAndRetry: true);
+                                            DateTime currentLastWrittenDateTime = FileHandler.GetLastWriteTime(fileSuposeToBeUpdated.FileFullPath, waitAndRetry: false);
                                             DateTime previousLastWrittenDateTime = (DateTime)fileSuposeToBeUpdated.LastWriteDateTime;
 
                                             //Find last known writtenDate for file
@@ -2609,7 +2609,7 @@ namespace PhotoTagsSynchronizer
                                                             fileExists = true;
 
                                                             if (current_FileEntryBrokerRegion.Broker == MetadataBrokerType.WebScraping || //If source WebScraper, date and time will not match                                                        
-                                                                FileHandler.GetLastWriteTime(current_FileEntryBrokerRegion.FileFullPath, waitAndRetry: true) == current_FileEntryBrokerRegion.LastWriteDateTime) //Check if the current Metadata are same as newest file 
+                                                                FileHandler.GetLastWriteTime(current_FileEntryBrokerRegion.FileFullPath, waitAndRetry: IsFileInTemporaryUnavailableLock(current_FileEntryBrokerRegion.FileFullPath)) == current_FileEntryBrokerRegion.LastWriteDateTime) //Check if the current Metadata are same as newest file 
                                                                 fileHasCorrectDate = true;
                                                             else 
                                                                 fileHasCorrectDate = false;
@@ -2755,7 +2755,7 @@ namespace PhotoTagsSynchronizer
                                                                     fileStatus.FileErrorMessage +=
                                                                         "File date has changed. Need create thumbnail for different date. Requested: " +
                                                                         current_FileEntryBrokerRegion.LastWriteDateTime.ToString() + " vs. File date: " +
-                                                                        FileHandler.GetLastWriteTime(current_FileEntryBrokerRegion.FileFullPath, waitAndRetry: true);
+                                                                        FileHandler.GetLastWriteTime(current_FileEntryBrokerRegion.FileFullPath, waitAndRetry: false);
 
                                                                     string errorDesciption =
                                                                         "Issue: Issue while create thumbnails for regions.\r\n" +
@@ -3147,6 +3147,24 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region
+        public bool IsFileInTemporaryUnavailableLock(string fullFilename)
+        {
+            bool fileInUse = false;
+            if (!fileInUse)
+                lock (exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUserLock)
+                    foreach (Metadata metadata in exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser)
+                    {
+                        if (FilesCutCopyPasteDrag.IsFilenameEqual(metadata.FileFullPath, fullFilename))
+                        {
+                            fileInUse = true;
+                            break;
+                        }
+                    }
+            return fileInUse;
+        }
+        #endregion
+
         #region Check ThreadQueues - IsFileInQueueSaveUsingExiftoolMetadata
         public bool IsFileInQueueSaveUsingExiftoolMetadataLock(string fullFilename)
         {
@@ -3413,7 +3431,7 @@ namespace PhotoTagsSynchronizer
                                         fileInUse = IsFileInAnyQueueLock(fullFilename);
                                         if (!fileInUse)
                                         {
-                                            DateTime currentLastWrittenDateTime = FileHandler.GetLastWriteTime(fullFilename, waitAndRetry: true);
+                                            DateTime currentLastWrittenDateTime = FileHandler.GetLastWriteTime(fullFilename, waitAndRetry: IsFileInTemporaryUnavailableLock(fullFilename));
                                             if (currentLastWrittenDateTime > FileHandler.MinimumFileSystemDateTime)
                                             {
                                                 FileEntry fileEntry = new FileEntry(fullFilename, currentLastWrittenDateTime);
@@ -3450,7 +3468,7 @@ namespace PhotoTagsSynchronizer
                                 {
                                     if (!fileInUse)
                                     {
-                                        DateTime currentLastWrittenDateTime = FileHandler.GetLastWriteTime(fullFilename, waitAndRetry: true);
+                                        DateTime currentLastWrittenDateTime = FileHandler.GetLastWriteTime(fullFilename, waitAndRetry: IsFileInTemporaryUnavailableLock(fullFilename));
                                         if (currentLastWrittenDateTime <= FileHandler.MinimumFileSystemDateTime)
                                         {
                                             //DEBUG

@@ -1015,12 +1015,13 @@ namespace PhotoTagsSynchronizer
             {
                 UpdateStatusImageListView("Remove old queues...");
                 ImageListViewHandler.ClearAllAndCaches(imageListView1);
-                FileHandler.ClearOfflineFileTouched();
-                FileHandler.ClearOfflineFileTouchedFailed();
                 GlobalData.IsPopulatingImageListViewFromFolderOrDatabaseList = false;
                 GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
             }
             #endregion
+
+            FileHandler.ClearOfflineFileTouched();
+            FileHandler.ClearOfflineFileTouchedFailed();
 
             #region Read from Folder
             string selectedFolder = GetSelectedNodeFullRealPath();

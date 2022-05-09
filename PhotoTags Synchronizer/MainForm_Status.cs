@@ -468,8 +468,13 @@ namespace PhotoTagsSynchronizer
                 lock (FileHandler.CloundFileTouchedFailedAndWhenLock)
                 {
                     if (FileHandler.CloundFileTouchedFailedAndWhen.Count > 0)
+                    {
+                        int countTimeouts = 0;
+                        foreach (DateTime dateTime in FileHandler.CloundFileTouchedFailedAndWhen.Values) if (DateTime.Now > dateTime) countTimeouts++;
+
                         progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") +
-                            string.Format("Failed: {0}", FileHandler.CloundFileTouchedFailedAndWhen.Count);
+                            string.Format("Failed: {0}", countTimeouts);
+                    }
                 }
             }
             catch { }
