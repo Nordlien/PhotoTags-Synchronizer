@@ -523,7 +523,7 @@ namespace PhotoTagsSynchronizer
             {
                 List<FileEntryAttribute> fileEntryAttributeDateVersions =
                     databaseAndCacheMetadataExiftool.ListFileEntryAttributesCache(MetadataBrokerType.ExifTool,
-                    fileEntry.FileFullPath, FileHandler.GetLastWriteTime(fileEntry.FileFullPath, waitAndRetry: true));
+                    fileEntry.FileFullPath, FileHandler.GetLastWriteTime(fileEntry.FileFullPath, waitAndRetry: false));
 
                 lazyLoadingAllExiftoolVersionOfMediaFile.AddRange(fileEntryAttributeDateVersions);
 
@@ -633,8 +633,6 @@ namespace PhotoTagsSynchronizer
                                     case FileEntryVersion.ExtractedNowUsingMicrosoftPhotos:
                                     case FileEntryVersion.ExtractedNowUsingWebScraping:
                                         readColumn = true;
-                                        break;
-                                    
                                         break;
                                     case FileEntryVersion.Error:
                                         if ((showWhatColumns & ShowWhatColumns.ErrorColumns) > 0) readColumn = true;

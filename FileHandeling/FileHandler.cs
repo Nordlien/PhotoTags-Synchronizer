@@ -40,7 +40,7 @@ namespace FileHandeling
             DateTime currentLastWrittenDateTime = File.GetLastWriteTime(fullFileName);
             if (waitAndRetry && currentLastWrittenDateTime <= FileHandler.MinimumFileSystemDateTime)
             {
-                int retryCount = 40;
+                int retryCount = 5;
                 do
                 {
                     Thread.Sleep(25);
