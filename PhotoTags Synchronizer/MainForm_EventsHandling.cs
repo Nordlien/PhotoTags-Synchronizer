@@ -1555,40 +1555,18 @@ namespace PhotoTagsSynchronizer
                 switch (ActiveKryptonPage)
                 {
                     case KryptonPages.None:
-                        break;
                     case KryptonPages.kryptonPageFolderSearchFilterFolder:
-                        break;
                     case KryptonPages.kryptonPageFolderSearchFilterSearch:
-                        break;
                     case KryptonPages.kryptonPageFolderSearchFilterFilter:
-                        break;
                     case KryptonPages.kryptonPageMediaFiles:
-                        SelectMissingMetadata();
-                        break;
                     case KryptonPages.kryptonPageToolboxTags:
-                        SelectMissingMetadata();
-                        break;
                     case KryptonPages.kryptonPageToolboxPeople:
-                        SelectMissingMetadata();
-                        break;
                     case KryptonPages.kryptonPageToolboxMap:
-                        SelectMissingMetadata();
-                        break;
                     case KryptonPages.kryptonPageToolboxDates:
-                        SelectMissingMetadata();
-                        break;
                     case KryptonPages.kryptonPageToolboxExiftool:
-                        SelectMissingMetadata();
-                        break;
                     case KryptonPages.kryptonPageToolboxWarnings:
-                        SelectMissingMetadata();
-                        break;
                     case KryptonPages.kryptonPageToolboxProperties:
-                        SelectMissingMetadata();
-                        break;
                     case KryptonPages.kryptonPageToolboxRename:
-                        SelectMissingMetadata();
-                        break;
                     case KryptonPages.kryptonPageToolboxConvertAndMerge:
                         SelectMissingMetadata();
                         break;
