@@ -676,7 +676,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region FixOneDriveIssuesUsingCreatedDate 
-        public List<string> FixOneDriveIssuesUsingCreatedDate(HashSet<FileEntry> fileEntries, out List<string> notFixed, bool moveToRecycleBin = true,
+        public List<string> FixOneDriveIssuesUsingCreatedDate(HashSet<FileEntry> fileEntries, out List<string> notFixed, bool fixError = false, bool moveToRecycleBin = true,
             MetadataDatabaseCache metadataDatabaseCache = null)
         {
             List<string> foundOrRemovedFiles = new List<string>();
@@ -687,9 +687,9 @@ namespace PhotoTagsSynchronizer
 
 
 
-            for (int indexSource = 0; indexSource < fileEntriesArray.Length; indexSource++)
+            for (int indexSource = 0; indexSource < fileEntriesArray.Length - 1; indexSource++)
             {
-                for (int indexOther = indexSource + 1; indexOther < fileEntriesArray.Length - 1; indexOther++)
+                for (int indexOther = indexSource + 1; indexOther < fileEntriesArray.Length; indexOther++)
                 {
                     #region Create FileEntry Broker
                     FileEntryBroker fileEntryBrokerExiftoolOther = new FileEntryBroker(
@@ -707,9 +707,17 @@ namespace PhotoTagsSynchronizer
                         metadataExiftoolOther.MediaDateTaken == metadataExiftoolSource.MediaDateTaken &&
                         metadataExiftoolOther != metadataExiftoolSource)
                     {
+                        if (fixError)
+                        {
+                            foundOrRemovedFiles.AddRange(FixOneDriveIssuesDeleteLoser(
+                                    fileEntries, fileEntriesArray[indexSource], fileEntriesArray[indexOther], ref notFixed, moveToRecycleBin, metadataDatabaseCache));
+                        }
+                        else
+                        {
+                            if (!foundOrRemovedFiles.Contains(fileEntriesArray[indexSource].FileFullPath)) foundOrRemovedFiles.Add(fileEntriesArray[indexSource].FileFullPath);
+                            if (!foundOrRemovedFiles.Contains(fileEntriesArray[indexOther].FileFullPath)) foundOrRemovedFiles.Add(fileEntriesArray[indexOther].FileFullPath);
 
-                        foundOrRemovedFiles.AddRange(FixOneDriveIssuesDeleteLoser(
-                                fileEntries, fileEntriesArray[indexSource], fileEntriesArray[indexOther], ref notFixed, moveToRecycleBin, metadataDatabaseCache));
+                        }
                     }
                 }
 
@@ -780,7 +788,7 @@ namespace PhotoTagsSynchronizer
                             if (FileEntry.FullFileNameExist(fileEntries, fileEntryWithoutMachineName.FileFullPath))
                             {
                                 if (!foundOrRemovedFiles.Contains(fileEntryWithoutMachineName.FileFullPath)) foundOrRemovedFiles.Add(fileEntryWithoutMachineName.FileFullPath);
-                                foundOrRemovedFiles.Add(fileEntryMaybeHasMachineName.FileFullPath);
+                                if (!foundOrRemovedFiles.Contains(fileEntryMaybeHasMachineName.FileFullPath)) foundOrRemovedFiles.Add(fileEntryMaybeHasMachineName.FileFullPath);
                             }
                             #endregion
                         }

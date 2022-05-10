@@ -800,6 +800,14 @@ namespace PhotoTagsSynchronizer
                             kryptonRibbonGroupButtonHomeFileSystemOpenExplorer.TextLine2 = "(Files)";
                             kryptonRibbonGroupButtonFileSystemRunCommand.TextLine2 = "(Files)";
                             kryptonRibbonGroupButtonHomeFileSystemEdit.TextLine2 = "(Files)";
+
+                            kryptonRibbonGroupButtonHomeAutoCorrectRun.TextLine2 = "(Files)";
+                            kryptonRibbonGroupButtonHomeAutoCorrectForm.TextLine2 = "(Files)";
+                            kryptonRibbonGroupButtonDatGridShowPoster.TextLine2 = "(Files)";
+
+                            kryptonRibbonGroupButtonSelectMissingMetadata.TextLine2 = "inside DataGridView";
+                            kryptonRibbonGroupButtonToolsRemoveOneDriveDuplicates.TextLine2 = "Duplicates (selection)";
+                            kryptonRibbonGroupButtonToolsRemoveCreatedDateDuplicates.TextLine2 = "Duplicates (selection)";
                         }
                         else if (isSomethingSelected)
                         {
@@ -813,6 +821,14 @@ namespace PhotoTagsSynchronizer
                             kryptonRibbonGroupButtonHomeFileSystemOpenExplorer.TextLine2 = "(File)";
                             kryptonRibbonGroupButtonFileSystemRunCommand.TextLine2 = "(File)";
                             kryptonRibbonGroupButtonHomeFileSystemEdit.TextLine2 = "(File)";
+
+                            kryptonRibbonGroupButtonHomeAutoCorrectRun.TextLine2 = "(File)";
+                            kryptonRibbonGroupButtonHomeAutoCorrectForm.TextLine2 = "(File)";
+                            kryptonRibbonGroupButtonDatGridShowPoster.TextLine2 = "(File)";
+
+                            kryptonRibbonGroupButtonSelectMissingMetadata.TextLine2 = "from list of files";
+                            kryptonRibbonGroupButtonToolsRemoveOneDriveDuplicates.TextLine2 = "Duplicates";
+                            kryptonRibbonGroupButtonToolsRemoveCreatedDateDuplicates.TextLine2 = "Duplicates";
                         }
                         else
                         {
@@ -826,15 +842,22 @@ namespace PhotoTagsSynchronizer
                             kryptonRibbonGroupButtonHomeFileSystemOpenExplorer.TextLine2 = "(Files)";
                             kryptonRibbonGroupButtonFileSystemRunCommand.TextLine2 = "(Files)";
                             kryptonRibbonGroupButtonHomeFileSystemEdit.TextLine2 = "(Files)";
+
+                            kryptonRibbonGroupButtonHomeAutoCorrectRun.TextLine2 = "";
+                            kryptonRibbonGroupButtonHomeAutoCorrectForm.TextLine2 = "";
+                            kryptonRibbonGroupButtonDatGridShowPoster.TextLine2 = "";
+
+                            kryptonRibbonGroupButtonSelectMissingMetadata.TextLine2 = "from list of files";
+                            kryptonRibbonGroupButtonToolsRemoveOneDriveDuplicates.TextLine2 = "Duplicates";
+                            kryptonRibbonGroupButtonToolsRemoveCreatedDateDuplicates.TextLine2 = "Duplicates";
                         }
 
                         //Home - Rotate
                         RibbonGroupButtonHomeRotate(enabled: isSomethingSelected);
                         //Home - Metadata - AutoCorrect - Refresh/Reload - TriState/Tag Select
                         RibbonGroupButtonHomeMetadata(enabledAutoCorrect: isSomethingSelected, enabledDeleteHistoryRefresh: isSomethingSelected, enabledTriState: false, enablePreviewPoster: isSomethingSelected);
-                        kryptonRibbonGroupButtonHomeAutoCorrectRun.TextLine2 = "(Files)";
-                        kryptonRibbonGroupButtonHomeAutoCorrectForm.TextLine2 = "(Files)";
-                        kryptonRibbonGroupButtonDatGridShowPoster.TextLine2 = "(Files)";
+
+                        
 
                         this.kryptonRibbonQATButtonSelectPrevius.ToolTipBody = "Select Previous group of media files. Using the properties set in this ribbon.";
                         this.kryptonRibbonQATButtonSelectNext.ToolTipBody = "Select Next group of media files. Using the properties set in this ribbon.";

@@ -1001,7 +1001,7 @@ namespace DataGridViewGeneric
         }
         #endregion
 
-        #region ColumnC handling - SelectColumnRows
+        #region Column handling - SelectColumnRows
         public static void SelectColumnRows(DataGridView dataGridView, int selectColumnIndex, bool selected = true)
         {
             for (int rowIndex = 0; rowIndex < dataGridView.RowCount; rowIndex++) dataGridView[selectColumnIndex, rowIndex].Selected = selected;
@@ -1281,11 +1281,6 @@ namespace DataGridViewGeneric
             out FileEntryVersionCompare fileEntryVersionCompareReason)
         {
             int columnIndex = GetColumnIndexWhenAddColumn(dataGridView, fileEntryAttribute, out fileEntryVersionCompareReason); //Find column Index for Filename and date last written, Prioritize
-            if (fileEntryVersionCompareReason == FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch_Update_Nothing && columnIndex != -1)
-            {
-                fileEntryVersionCompareReason = FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch_Update_Nothing;
-                return -1; //DEBUG, should not happen, need to fix IF happen
-            }
 
             bool isErrorColumn = fileEntryAttribute.FileEntryVersion == FileEntryVersion.Error;
             bool showErrorColumns = ShowWhatColumnHandler.ShowErrorColumns(showWhatColumns);
@@ -1296,12 +1291,6 @@ namespace DataGridViewGeneric
 
             if (fileEntryVersionCompareReason == FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch_Update_Nothing) //Column not found, add a new column
             {
-                if (columnIndex != -1)
-                {
-                    fileEntryVersionCompareReason = FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch_Update_Nothing;
-                    return -1; //DEBUG, should not happen, need to fix IF happen
-                }
-
                 //Do not add columns that is not visible //Check if error column first, can be historical, and error
                 if (isErrorColumn && !showErrorColumns) return -1; //FileEntryVersionCompare.LostNoneEqualFound
                 if (!showHirstoryColumns && isHistoryColumn) return -1; //FileEntryVersionCompare.LostNoneEqualFound
@@ -1551,7 +1540,6 @@ namespace DataGridViewGeneric
                 dataGridViewGenericColumn = dataGridView.Columns[columnIndex].Tag as DataGridViewGenericColumn;
             } catch
             {
-                //DEBUG
             }
             return dataGridViewGenericColumn;
         }

@@ -889,6 +889,16 @@ In People tab:
 First select a cell with face/region name and then select region for this face/region
 </value>
   </data>
+  <data name="kryptonRibbonGroupButtonSelectMissingMetadata.ToolTipValues.Description" xml:space="preserve">
+    <value>Select suspicious media files.
+It's when: 
+- Other media files has exact same DateTaken
+- Missing DateTaken
+- DateTaken with time 00:00:00
+- GPS Coordindates missing
+- GPS Coordindates ends with xy.00000
+- Date in Filename doesn't match DataTaken, +-/ a minute </value>
+  </data>
   <data name="kryptonRibbonGroupButtonToolsImportLocations.ToolTipValues.Description" xml:space="preserve">
     <value>Import GPS locations. 
 For example import locationg from your GPS tracker og Google Location History.

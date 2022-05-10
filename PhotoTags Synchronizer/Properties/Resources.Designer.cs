@@ -833,6 +833,16 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ImageListViewSelectMissingMetadata {
+            get {
+                object obj = ResourceManager.GetObject("ImageListViewSelectMissingMetadata", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap ImageListViewStatusError {
             get {
                 object obj = ResourceManager.GetObject("ImageListViewStatusError", resourceCulture);

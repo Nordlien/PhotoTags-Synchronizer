@@ -127,5 +127,12 @@ namespace MetadataLibrary
         {
             return FindIndex(fileEntries, fileEntryToFind) > -1;
         }
+
+        public static List<string> ConvertToListOfFileFullPath(HashSet<FileEntry> fileEntries)
+        {
+            List<string> listOfFileFullPath = new List<string>();
+            foreach (FileEntry fileEntry in fileEntries) listOfFileFullPath.Add(fileEntry.FileFullPath);
+            return listOfFileFullPath;
+        }
     }
 }

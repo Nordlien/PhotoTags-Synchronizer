@@ -967,7 +967,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region ImageListView - SelectFiles
-        private void ImageListView_SelectFiles(List<string> notFixed)
+        private void ImageListView_SelectFiles(List<string> listOfFileFullPath, bool clearSelection = true)
         {
             if (GlobalData.IsApplicationClosing) return;
             try
@@ -978,10 +978,10 @@ namespace PhotoTagsSynchronizer
                 using (new WaitCursor())
                 {
 
-                    ImageListViewSuspendLayoutInvoke(imageListView1);
+                    if (clearSelection) ImageListViewSuspendLayoutInvoke(imageListView1);
 
                     imageListView1.ClearSelection();
-                    foreach (string fullFilename in notFixed)
+                    foreach (string fullFilename in listOfFileFullPath)
                     {
                         ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView1.Items, fullFilename);
                         if (foundItem != null) foundItem.Selected = true;

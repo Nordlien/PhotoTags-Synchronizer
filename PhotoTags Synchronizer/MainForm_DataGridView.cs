@@ -1906,5 +1906,47 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region Select
+
+        private void SelectDataGridViewAllUsingFileEntry(HashSet<FileEntry> selectedFileEntries)
+        {
+            SelectAndMatchDataGridViewRows(dataGridViewConvertAndMerge, selectedFileEntries);
+            SelectDataGridViewColumn(dataGridViewDate, selectedFileEntries);
+            SelectDataGridViewColumn(dataGridViewExiftool, selectedFileEntries);
+            SelectDataGridViewColumn(dataGridViewExiftoolWarning, selectedFileEntries);
+            SelectDataGridViewColumn(dataGridViewMap, selectedFileEntries);
+            SelectDataGridViewColumn(dataGridViewPeople, selectedFileEntries);
+            SelectDataGridViewColumn(dataGridViewProperties, selectedFileEntries);
+            SelectAndMatchDataGridViewRows(dataGridViewRename, selectedFileEntries);
+            SelectDataGridViewColumn(dataGridViewTagsAndKeywords, selectedFileEntries);
+        }
+
+        private void SelectDataGridViewColumn(DataGridView dataGridView, HashSet<FileEntry> selectedFileEntries)
+        {
+            dataGridView.ClearSelection();
+            for (int columnIndex = 0; columnIndex < DataGridViewHandler.GetColumnCount(dataGridView); columnIndex++)
+            {
+                DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+                if (dataGridViewGenericColumn != null && selectedFileEntries.Contains(dataGridViewGenericColumn.FileEntryAttribute.FileEntry))
+                    DataGridViewHandler.SelectColumnRows(dataGridView, columnIndex, true);
+                else
+                    DataGridViewHandler.SelectColumnRows(dataGridView, columnIndex, false);
+            }
+        }
+
+        private void SelectAndMatchDataGridViewRows(DataGridView dataGridView, HashSet<FileEntry> selectedFileEntries)
+        {
+            dataGridView.ClearSelection();
+            for (int rowIndex = 0; rowIndex < DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView); rowIndex++)
+            {
+                DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndex);
+                if (dataGridViewGenericRow?.FileEntryAttribute != null && selectedFileEntries.Contains(dataGridViewGenericRow?.FileEntryAttribute.FileEntry))
+                    dataGridView.Rows[rowIndex].Selected = true;
+                else
+                    dataGridView.Rows[rowIndex].Selected = false;
+            }
+        }
+
+        #endregion
     }
 }

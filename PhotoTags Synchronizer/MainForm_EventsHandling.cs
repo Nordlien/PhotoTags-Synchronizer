@@ -1237,7 +1237,378 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
+        #region Select MediaFiles Match Cells
+
+        #region ActionSelectMediaFilesMatchCells
+        private void ActionSelectMediaFilesMatchCells()
+        {
+
+            if (GlobalData.IsApplicationClosing) return;
+            try
+            {
+                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
+                ImageListViewHandler.SuspendLayout(imageListView1);
+
+                using (new WaitCursor())
+                {
+                    ImageListViewSuspendLayoutInvoke(imageListView1);
+                    imageListView1.ClearSelection();
+                    HashSet<FileEntry> selectedFileEntries = DataGridView_GetSelectedFilesFromActive();
+                    foreach (FileEntry fileEntry in selectedFileEntries)
+                    {
+                        ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView1.Items, fileEntry.FileFullPath);
+                        if (foundItem != null) foundItem.Selected = true;
+                    }
+                    ImageListViewResumeLayoutInvoke(imageListView1);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
+                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+            finally
+            {
+                ImageListViewHandler.ResumeLayout(imageListView1);
+                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
+
+                ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false);
+            }
+        }
+        #endregion
+
+        #region kryptonRibbonGroupButtonToolsReselectFilesMatchDataGridView_Click_1
+        private void kryptonRibbonGroupButtonToolsReselectFilesMatchDataGridView_Click_1(object sender, EventArgs e)
+        {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Select Media Files Match Cells")) return;
+            if (IsPopulatingAnything("Select Media Files Match Cells")) return;
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            try
+            {
+                GlobalData.IsPerformingAButtonAction = true;
+                ActionSelectMediaFilesMatchCells();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
+                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+            finally
+            {
+                GlobalData.IsPerformingAButtonAction = false;
+            }
+        }
+
+        private void kryptonContextMenuItemFileSelectMatchCells_Click(object sender, EventArgs e)
+        {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Select Media Files Match Cells")) return;
+            try
+            {
+                GlobalData.IsPerformingAButtonAction = true;
+                ActionSelectMediaFilesMatchCells();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
+                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+            finally
+            {
+                GlobalData.IsPerformingAButtonAction = false;
+            }
+        }
+        #endregion
+
+        #endregion
+
+        #region Select - MediaFiles With Errors
+
+        #region ActionSelectMediaFilesWithErrors
+        private void ActionSelectMediaFilesWithErrors()
+        {
+
+            if (GlobalData.IsApplicationClosing) return;
+            try
+            {
+                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
+                ImageListViewHandler.SuspendLayout(imageListView1);
+
+                using (new WaitCursor())
+                {
+                    ImageListViewSuspendLayoutInvoke(imageListView1);
+                    imageListView1.ClearSelection();
+
+                    lock (queueErrorQueueLock)
+                    {
+                        foreach (string fileFullPath in queueErrorQueue.Keys)
+                        {
+                            ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView1.Items, fileFullPath);
+                            if (foundItem != null) foundItem.Selected = true;
+                        }
+                    }
+                    ImageListViewResumeLayoutInvoke(imageListView1);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
+                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+            finally
+            {
+                ImageListViewHandler.ResumeLayout(imageListView1);
+                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
+
+                ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false);
+            }
+        }
+        #endregion
+
+        #region kryptonRibbonGroupButtonToolsReselectFilesHasErrors_Click
+        private void kryptonRibbonGroupButtonToolsReselectFilesHasErrors_Click(object sender, EventArgs e)
+        {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Select Media Files with errors")) return;
+            if (IsPopulatingAnything("Select Media Files with errors")) return;
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            try
+            {
+                GlobalData.IsPerformingAButtonAction = true;
+                ActionSelectMediaFilesWithErrors();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
+                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+            finally
+            {
+                GlobalData.IsPerformingAButtonAction = false;
+            }
+        }
+        #endregion
+
+        #endregion
+
+        #region Select - DataGridView Match Cells
+
+        #region ActionSelectDataGridViewMatchCells
+        private void ActionSelectDataGridViewMatchCells()
+        {
+
+            if (GlobalData.IsApplicationClosing) return;
+            try
+            {
+                using (new WaitCursor())
+                {
+                    HashSet<FileEntry> selectedFileEntries = DataGridView_GetSelectedFilesFromActive();
+                    SelectDataGridViewAllUsingFileEntry(selectedFileEntries);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
+                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+        }
+        #endregion
+
+        #region kryptonRibbonGroupButtonToolsReselectDataGridVIewMatchDataGridView_Click
+        private void kryptonRibbonGroupButtonToolsReselectDataGridVIewMatchDataGridView_Click(object sender, EventArgs e)
+        {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Select DataGridView Match Cells")) return;
+            if (IsPopulatingAnything("Select DataGridView Match Cells")) return;
+            //if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
+            try
+            {
+                GlobalData.IsPerformingAButtonAction = true;
+                ActionSelectDataGridViewMatchCells();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
+                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+            finally
+            {
+                GlobalData.IsPerformingAButtonAction = false;
+            }
+        }
+        #endregion
+
+        #endregion
+
+        #region Select MissingMetadata
+
+        #region kryptonRibbonGroupButtonSelectMissingMetadata_Click
+        private void kryptonRibbonGroupButtonSelectMissingMetadata_Click(object sender, EventArgs e)
+        {
+            if (GlobalData.IsApplicationClosing) return;
+            if (IsPerforminAButtonAction("Missing Metadata Select")) return;
+            try
+            {
+                GlobalData.IsPerformingAButtonAction = true;
+                ActionFileSelectMissingMetadata();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
+                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+            finally
+            {
+                GlobalData.IsPerformingAButtonAction = false;
+            }
+        }
+        #endregion
+
+        #region FilesFileSelectMissingMetadata
+        private void SelectMissingMetadata()
+        {
+            bool selectMediaFiles = false;
+            HashSet<FileEntry> fileEntries = ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true);
+            if (fileEntries.Count <= 1)
+            {
+                fileEntries = ImageListViewHandler.GetFileEntriesItems(imageListView1);
+                selectMediaFiles = true;
+            }
+
+            List<string> foundFiles = FixOneDriveIssuesUsingCreatedDate(fileEntries, out List<string> notFixed, fixError: false,
+                moveToRecycleBin: Properties.Settings.Default.MoveToRecycleBin, metadataDatabaseCache: databaseAndCacheMetadataExiftool);
+
+            HashSet<FileEntry> filesFound = new HashSet<FileEntry>();
+            foreach (FileEntry fileEntry in fileEntries)
+            {
+                #region Read Metadata
+                FileEntryBroker fileEntryBroker = new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool);
+                Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(fileEntryBroker);
+                #endregion
+
+                bool addToFoundList = false;
+                if (foundFiles.Contains(fileEntry.FileFullPath)) addToFoundList = true;
+
+                if (metadata != null)
+                {
+                    #region Missing location Coordinate
+                    if (metadata.LocationCoordinate == null) addToFoundList = true;
+                    #endregion
+
+                    #region Check for Microsoft Coordinate Bug -> Convert xx.xxxxx -> xx.00000
+                    if (metadata.LocationLatitude != null && ((float)(int)metadata.LocationLatitude) == metadata.LocationLatitude) addToFoundList = true;
+                    if (metadata.LocationLongitude != null && ((float)(int)metadata.LocationLongitude) == metadata.LocationLongitude) addToFoundList = true;
+                    #endregion
+
+                    #region MediaTaken not exist in existing DateTime in filename  
+                    if (metadata.MediaDateTaken != null)
+                    {
+                        FileDateTimeReader fileDateTimeReader1 = new FileDateTimeReader(Properties.Settings.Default.RenameDateFormats);
+                        List<DateTime> dates = fileDateTimeReader1.ListAllDateTimes(Path.GetFileNameWithoutExtension(metadata.FileName));
+                        
+                        if (dates.Count > 0)
+                        {
+                            bool dateFound = false;
+                            foreach (DateTime dateTime in dates) if ( (dateTime - (DateTime)metadata.MediaDateTaken).TotalSeconds < 60) dateFound = true;
+                            if (!dateFound) addToFoundList = true;
+                        }  
+                    } else addToFoundList = true;
+                    #endregion
+
+                    #region MediaTaken missing Time  
+                    if (metadata.MediaDateTaken != null)
+                    {
+                        DateTime dateTime = (DateTime)metadata.MediaDateTaken;
+                        if (dateTime.Hour == 0 && dateTime.Minute == 0 && dateTime.Second == 0 && dateTime.Millisecond == 0) addToFoundList = true;
+                    }
+                    else addToFoundList = true;
+                    #endregion
+                }
+
+
+                if (addToFoundList) 
+                    filesFound.Add(fileEntry);
+                
+            }
+            if (selectMediaFiles) ImageListView_SelectFiles(FileEntry.ConvertToListOfFileFullPath(filesFound), clearSelection: false);
+            else SelectDataGridViewAllUsingFileEntry(filesFound);
+        }
+        #endregion
+
+        #region ActionFileSelectMissingMetadata()
+        private void ActionFileSelectMissingMetadata()
+        {
+            try
+            {
+                switch (ActiveKryptonPage)
+                {
+                    case KryptonPages.None:
+                        break;
+                    case KryptonPages.kryptonPageFolderSearchFilterFolder:
+                        break;
+                    case KryptonPages.kryptonPageFolderSearchFilterSearch:
+                        break;
+                    case KryptonPages.kryptonPageFolderSearchFilterFilter:
+                        break;
+                    case KryptonPages.kryptonPageMediaFiles:
+                        SelectMissingMetadata();
+                        break;
+                    case KryptonPages.kryptonPageToolboxTags:
+                        SelectMissingMetadata();
+                        break;
+                    case KryptonPages.kryptonPageToolboxPeople:
+                        SelectMissingMetadata();
+                        break;
+                    case KryptonPages.kryptonPageToolboxMap:
+                        SelectMissingMetadata();
+                        break;
+                    case KryptonPages.kryptonPageToolboxDates:
+                        SelectMissingMetadata();
+                        break;
+                    case KryptonPages.kryptonPageToolboxExiftool:
+                        SelectMissingMetadata();
+                        break;
+                    case KryptonPages.kryptonPageToolboxWarnings:
+                        SelectMissingMetadata();
+                        break;
+                    case KryptonPages.kryptonPageToolboxProperties:
+                        SelectMissingMetadata();
+                        break;
+                    case KryptonPages.kryptonPageToolboxRename:
+                        SelectMissingMetadata();
+                        break;
+                    case KryptonPages.kryptonPageToolboxConvertAndMerge:
+                        SelectMissingMetadata();
+                        break;
+                    default:
+                        throw new NotImplementedException();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+        }
+        #endregion
+
+        #endregion
+
         #region Select Match Wildcards Pattern
+
+        #region kryptonContextMenuItemFileSelectFiles_Click
         private void kryptonContextMenuItemFileSelectFiles_Click(object sender, EventArgs e)
         {
             if (GlobalData.IsApplicationClosing) return;
@@ -1282,7 +1653,9 @@ namespace PhotoTagsSynchronizer
                 GlobalData.IsPerformingAButtonAction = false;
             }
         }
+        #endregion
 
+        #region ActionFileSelectWildcards
         private void ActionFileSelectWildcards()
         {
             string wildcardsSelect = KryptonInputBox.Show("Wildcards select media files. ", "Select media files", Properties.Settings.Default.ToolsLastImageListViewWildcardsSelectMatch);
@@ -1293,6 +1666,180 @@ namespace PhotoTagsSynchronizer
             }
         }
         #endregion
+
+        #endregion
+
+        //---
+
+        #region Remove OneDriveDuplicates - Action 
+        private void Action_CheckAndFixOneDriveIssues_Return_WasFoundAndRemoved()
+        {
+            HashSet<FileEntry> fileEntries = ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true);
+            if (fileEntries.Count == 0) fileEntries = ImageListViewHandler.GetFileEntriesItems(imageListView1);
+
+            List<string> deletedFiles = FixOneDriveIssues(fileEntries, out List<string> notFixed, oneDriveNetworkNames, fixError: true,
+                moveToRecycleBin: Properties.Settings.Default.MoveToRecycleBin, databaseAndCacheMetadataExiftool);
+
+            #region Remove delete files form ImageListView
+            foreach (string fullFileName in deletedFiles)
+            {
+                ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView1.Items, fullFileName);
+                if (foundItem != null) ImageListViewHandler.ImageListViewRemoveItem(imageListView1, foundItem);
+            }
+            #endregion 
+
+            #region Status report
+            if (deletedFiles.Count > 0 || notFixed.Count > 0)
+            {
+                string filesNotFixed = "";
+                for (int fileIndex = 0; fileIndex < Math.Min(notFixed.Count, 5); fileIndex++)
+                {
+                    filesNotFixed += (string.IsNullOrWhiteSpace(filesNotFixed) ? "" : "\r\n") + notFixed[fileIndex];
+                }
+
+                string filesDeleted = "";
+                for (int fileIndex = 0; fileIndex < Math.Min(deletedFiles.Count, 5); fileIndex++)
+                {
+                    filesDeleted += (string.IsNullOrWhiteSpace(filesDeleted) ? "" : "\r\n") + deletedFiles[fileIndex];
+                }
+
+                if (
+                    KryptonMessageBox.Show("Result after running OneDrive duplicated tool.\r\n" +
+                    "Also: After OneDrive is finished with sync. Then Refresh the files in the folder, to fetch the last files downloaded by OneDrive.\r\n\r\n" +
+                    "When OneDrive duplicated tool is not able to figure out what's new and old. Compare the media files manually in the DataGridView.\r\n" +
+                    "To delete your files of choice. Select the minimum of one cell in the DataGridView for files you like to delete. \r\n" +
+                    "Use the select tool and select all media files match cells, then you are able to delete selected files.\r\n" +
+                    "\r\n" +
+
+                    "Delete files: " + deletedFiles.Count + "\r\n\r\n" +
+                    (deletedFiles.Count == 0 ? "\r\n" : "Deleted files:\r\n" + filesDeleted + (deletedFiles.Count > 5 ? "\r\n..." : "") + "\r\n\r\n") +
+                    (notFixed.Count == 0 ? "\r\n" : "Files not fixed: " + notFixed.Count + "\r\n") +
+                    (
+                        notFixed.Count == 0 ? "\r\n" :
+                        "Example files:\r\n" + filesNotFixed + "\r\n\r\n" +
+                        "Select the files not fixed?\r\n" +
+                        "Yes - Media files will be select in ImageListView\r\n" +
+                        "No - No changes in selections"
+                    ),
+                    "Result after running OneDrive duplicated tool.",
+                    (notFixed.Count == 0 ? MessageBoxButtons.OK : MessageBoxButtons.YesNo),
+                    MessageBoxIcon.Question, showCtrlCopy: true) == DialogResult.Yes)
+                {
+                    ImageListView_SelectFiles(notFixed);
+                }
+            }
+            else
+            {
+                KryptonMessageBox.Show("Result after running OneDrive duplicated tool.\r\n" +
+                    "For best result, run the tool after Exiftool has read all metadatas from media files.\r\n" +
+                    "Also: After OneDrive is finished with sync. Then Refresh the files in the folder, to fetch the last files downloaded by OneDrive.\r\n\r\n" +
+                    "When OneDrive duplicated tool is not able to figure out what's new and old. Compare the media files manually in the DataGridView.\r\n" +
+                    "To delete your files of choice. Select the minimum of one cell in the DataGridView for files you like to delete. \r\n" +
+                    "Use the select tool and select all media files match cells, then you are able to delete selected files.\r\n" +
+                    "\r\n" +
+
+                "Delete files: 0 \r\n" +
+                "Files not fixed: 0\r\n\r\n" +
+                "No files found, was searching for <FileNames><-MachineName<-xx>>.ext\r\n",
+                "Result running OneDrive duplicated tool.",
+                MessageBoxButtons.OK);
+            }
+            #endregion
+        }
+        #endregion
+
+        #region Remove OneDriveDuplicates - Click
+        private void kryptonRibbonGroupButtonToolsRemoveOneDriveDuplicates_Click(object sender, EventArgs e)
+        {
+            Action_CheckAndFixOneDriveIssues_Return_WasFoundAndRemoved();
+        }
+        #endregion
+
+        #region Remove DateTimeDuplicates - Action 
+        private void Action_RemovedDuplicates()
+        {
+            HashSet<FileEntry> fileEntries = ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true);
+            if (fileEntries.Count == 0) fileEntries = ImageListViewHandler.GetFileEntriesItems(imageListView1);
+
+            List<string> deletedFiles = FixOneDriveIssuesUsingCreatedDate(fileEntries, out List<string> notFixed, fixError: true,
+                moveToRecycleBin: Properties.Settings.Default.MoveToRecycleBin, metadataDatabaseCache: databaseAndCacheMetadataExiftool);
+
+            #region Remove delete files form ImageListView
+            foreach (string fullFileName in deletedFiles)
+            {
+                ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView1.Items, fullFileName);
+                if (foundItem != null) ImageListViewHandler.ImageListViewRemoveItem(imageListView1, foundItem);
+            }
+            #endregion
+
+            #region Status report
+            if (deletedFiles.Count > 0 || notFixed.Count > 0)
+            {
+                string filesNotFixed = "";
+                for (int fileIndex = 0; fileIndex < Math.Min(notFixed.Count, 5); fileIndex++)
+                {
+                    filesNotFixed += (string.IsNullOrWhiteSpace(filesNotFixed) ? "" : "\r\n") + notFixed[fileIndex];
+                }
+
+                string filesDeleted = "";
+                for (int fileIndex = 0; fileIndex < Math.Min(deletedFiles.Count, 5); fileIndex++)
+                {
+                    filesDeleted += (string.IsNullOrWhiteSpace(filesDeleted) ? "" : "\r\n") + deletedFiles[fileIndex];
+                }
+
+                if (
+                    KryptonMessageBox.Show("Result after running CreateDateTime duplicated tool.\r\n" +
+                    "Also: After OneDrive is finished with sync. Then Refresh the files in the folder, to fetch the last files downloaded by OneDrive.\r\n\r\n" +
+                    "When CreateDateTime duplicated tool is not able to figure out what's new and old. Compare the media files manually in the DataGridView.\r\n" +
+                    "To delete your files of choice. Select the minimum of one cell in the DataGridView for files you like to delete. \r\n" +
+                    "Use the select tool and select all media files match cells, then you are able to delete selected files.\r\n" +
+                    "\r\n" +
+
+                    "Delete files: " + deletedFiles.Count + "\r\n\r\n" +
+                    (deletedFiles.Count == 0 ? "\r\n" : "Deleted files:\r\n" + filesDeleted + (deletedFiles.Count > 5 ? "\r\n..." : "") + "\r\n\r\n") +
+                    (notFixed.Count == 0 ? "\r\n" : "Files not fixed: " + notFixed.Count + "\r\n") +
+                    (
+                        notFixed.Count == 0 ? "\r\n" :
+                        "Example files:\r\n" + filesNotFixed + "\r\n\r\n" +
+                        "Select the files not fixed?\r\n" +
+                        "Yes - Media files will be select in ImageListView\r\n" +
+                        "No - No changes in selections"
+                    ),
+                    "Result after running OneDrive duplicated tool.",
+                    (notFixed.Count == 0 ? MessageBoxButtons.OK : MessageBoxButtons.YesNo),
+                    MessageBoxIcon.Question, showCtrlCopy: true) == DialogResult.Yes)
+                {
+                    ImageListView_SelectFiles(notFixed);
+                }
+            }
+            else
+            {
+                KryptonMessageBox.Show("Result after running CreateDateTime duplicated tool.\r\n" +
+                    "For best result, run the tool after Exiftool has read all metadatas from media files.\r\n" +
+                    "Also: After OneDrive is finished with sync. Then Refresh the files in the folder, to fetch the last files downloaded by OneDrive.\r\n\r\n" +
+                    "When CreateDateTime duplicated tool is not able to figure out what's new and old. Compare the media files manually in the DataGridView.\r\n" +
+                    "To delete your files of choice. Select the minimum of one cell in the DataGridView for files you like to delete. \r\n" +
+                    "Use the select tool and select all media files match cells, then you are able to delete selected files.\r\n" +
+                    "\r\n" +
+
+                "Delete files: 0 \r\n" +
+                "Files not fixed: 0\r\n\r\n" +
+                "No files found, was searching for <FileNames><-MachineName<-xx>>.ext\r\n",
+                "Result running OneDrive duplicated tool.",
+                MessageBoxButtons.OK);
+            }
+            #endregion
+        }
+        #endregion
+
+        #region Remove DateTimeDuplicates - Click
+        private void kryptonRibbonGroupButtonToolsRemoveCreatedDateDuplicates_Click(object sender, EventArgs e)
+        {
+            Action_RemovedDuplicates();
+        }
+        #endregion
+
+        //---
 
         #region Cut
 
@@ -10556,408 +11103,6 @@ namespace PhotoTagsSynchronizer
                     GlobalData.IsPerformingAButtonAction = true;
                     ShowFormLocationHistoryAnalytics();
                 }
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-            }
-            finally
-            {
-                GlobalData.IsPerformingAButtonAction = false;
-            }
-        }
-        #endregion
-
-        #region Remove OneDriveDuplicates - Action 
-        private void Action_CheckAndFixOneDriveIssues_Return_WasFoundAndRemoved()
-        {
-            HashSet<FileEntry> fileEntries = ImageListViewHandler.GetFileEntriesItems(imageListView1);
-            List<string> deletedFiles = FixOneDriveIssues(fileEntries, out List<string> notFixed, oneDriveNetworkNames, fixError: true,
-                moveToRecycleBin: Properties.Settings.Default.MoveToRecycleBin, databaseAndCacheMetadataExiftool);
-
-            #region Remove delete files form ImageListView
-            foreach (string fullFileName in deletedFiles)
-            {
-                ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView1.Items, fullFileName);
-                if (foundItem != null) ImageListViewHandler.ImageListViewRemoveItem(imageListView1, foundItem);
-            }
-            #endregion 
-
-            #region Status report
-            if (deletedFiles.Count > 0 || notFixed.Count > 0)
-            {
-                string filesNotFixed = "";
-                for (int fileIndex = 0; fileIndex < Math.Min(notFixed.Count, 5); fileIndex++)
-                {
-                    filesNotFixed += (string.IsNullOrWhiteSpace(filesNotFixed) ? "" : "\r\n") + notFixed[fileIndex];
-                }
-
-                string filesDeleted = "";
-                for (int fileIndex = 0; fileIndex < Math.Min(deletedFiles.Count, 5); fileIndex++)
-                {
-                    filesDeleted += (string.IsNullOrWhiteSpace(filesDeleted) ? "" : "\r\n") + deletedFiles[fileIndex];
-                }
-
-                if (
-                    KryptonMessageBox.Show("Result after running OneDrive duplicated tool.\r\n" +
-                    "Also: After OneDrive is finished with sync. Then Refresh the files in the folder, to fetch the last files downloaded by OneDrive.\r\n\r\n" +
-                    "When OneDrive duplicated tool is not able to figure out what's new and old. Compare the media files manually in the DataGridView.\r\n" +
-                    "To delete your files of choice. Select the minimum of one cell in the DataGridView for files you like to delete. \r\n" +
-                    "Use the select tool and select all media files match cells, then you are able to delete selected files.\r\n" +
-                    "\r\n" +
-
-                    "Delete files: " + deletedFiles.Count + "\r\n\r\n" +
-                    (deletedFiles.Count == 0 ? "\r\n" : "Deleted files:\r\n" + filesDeleted + (deletedFiles.Count > 5 ? "\r\n..." : "") + "\r\n\r\n") +
-                    (notFixed.Count == 0 ? "\r\n" : "Files not fixed: " + notFixed.Count + "\r\n") +
-                    (
-                        notFixed.Count == 0 ? "\r\n" :
-                        "Example files:\r\n" + filesNotFixed + "\r\n\r\n" +
-                        "Select the files not fixed?\r\n" +
-                        "Yes - Media files will be select in ImageListView\r\n" +
-                        "No - No changes in selections"
-                    ),
-                    "Result after running OneDrive duplicated tool.",
-                    (notFixed.Count == 0 ? MessageBoxButtons.OK : MessageBoxButtons.YesNo),
-                    MessageBoxIcon.Question, showCtrlCopy: true) == DialogResult.Yes)
-                {
-                    ImageListView_SelectFiles(notFixed);
-                }
-            }
-            else
-            {
-                KryptonMessageBox.Show("Result after running OneDrive duplicated tool.\r\n" + 
-                    "For best result, run the tool after Exiftool has read all metadatas from media files.\r\n" +
-                    "Also: After OneDrive is finished with sync. Then Refresh the files in the folder, to fetch the last files downloaded by OneDrive.\r\n\r\n" +
-                    "When OneDrive duplicated tool is not able to figure out what's new and old. Compare the media files manually in the DataGridView.\r\n" +
-                    "To delete your files of choice. Select the minimum of one cell in the DataGridView for files you like to delete. \r\n" + 
-                    "Use the select tool and select all media files match cells, then you are able to delete selected files.\r\n" +
-                    "\r\n" +
-
-                "Delete files: 0 \r\n" +
-                "Files not fixed: 0\r\n\r\n" +
-                "No files found, was searching for <FileNames><-MachineName<-xx>>.ext\r\n",
-                "Result running OneDrive duplicated tool.",
-                MessageBoxButtons.OK);
-            }
-            #endregion
-        }
-        #endregion
-
-        #region Remove OneDriveDuplicates - Click
-        private void kryptonRibbonGroupButtonToolsRemoveOneDriveDuplicates_Click(object sender, EventArgs e)
-        {
-            Action_CheckAndFixOneDriveIssues_Return_WasFoundAndRemoved();
-        }
-        #endregion
-
-        #region Remove DateTimeDuplicates - Action 
-        private void Action_RemovedDuplicates()
-        {
-            HashSet<FileEntry> fileEntries = ImageListViewHandler.GetFileEntriesItems(imageListView1);
-            List<string> deletedFiles = FixOneDriveIssuesUsingCreatedDate(fileEntries, out List<string> notFixed, 
-                moveToRecycleBin: Properties.Settings.Default.MoveToRecycleBin, metadataDatabaseCache: databaseAndCacheMetadataExiftool);
-
-            #region Remove delete files form ImageListView
-            foreach (string fullFileName in deletedFiles)
-            {
-                ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView1.Items, fullFileName);
-                if (foundItem != null) ImageListViewHandler.ImageListViewRemoveItem(imageListView1, foundItem);
-            }
-            #endregion
-
-            #region Status report
-            if (deletedFiles.Count > 0 || notFixed.Count > 0)
-            {
-                string filesNotFixed = "";
-                for (int fileIndex = 0; fileIndex < Math.Min(notFixed.Count, 5); fileIndex++)
-                {
-                    filesNotFixed += (string.IsNullOrWhiteSpace(filesNotFixed) ? "" : "\r\n") + notFixed[fileIndex];
-                }
-
-                string filesDeleted = "";
-                for (int fileIndex = 0; fileIndex < Math.Min(deletedFiles.Count, 5); fileIndex++)
-                {
-                    filesDeleted += (string.IsNullOrWhiteSpace(filesDeleted) ? "" : "\r\n") + deletedFiles[fileIndex];
-                }
-
-                if (
-                    KryptonMessageBox.Show("Result after running CreateDateTime duplicated tool.\r\n" +
-                    "Also: After OneDrive is finished with sync. Then Refresh the files in the folder, to fetch the last files downloaded by OneDrive.\r\n\r\n" +
-                    "When CreateDateTime duplicated tool is not able to figure out what's new and old. Compare the media files manually in the DataGridView.\r\n" +
-                    "To delete your files of choice. Select the minimum of one cell in the DataGridView for files you like to delete. \r\n" +
-                    "Use the select tool and select all media files match cells, then you are able to delete selected files.\r\n" +
-                    "\r\n" +
-
-                    "Delete files: " + deletedFiles.Count + "\r\n\r\n" +
-                    (deletedFiles.Count == 0 ? "\r\n" : "Deleted files:\r\n" + filesDeleted + (deletedFiles.Count > 5 ? "\r\n..." : "") + "\r\n\r\n") +
-                    (notFixed.Count == 0 ? "\r\n" : "Files not fixed: " + notFixed.Count + "\r\n") +
-                    (
-                        notFixed.Count == 0 ? "\r\n" :
-                        "Example files:\r\n" + filesNotFixed + "\r\n\r\n" +
-                        "Select the files not fixed?\r\n" +
-                        "Yes - Media files will be select in ImageListView\r\n" +
-                        "No - No changes in selections"
-                    ),
-                    "Result after running OneDrive duplicated tool.",
-                    (notFixed.Count == 0 ? MessageBoxButtons.OK : MessageBoxButtons.YesNo),
-                    MessageBoxIcon.Question, showCtrlCopy: true) == DialogResult.Yes)
-                {
-                    ImageListView_SelectFiles(notFixed);
-                }
-            }
-            else
-            {
-                KryptonMessageBox.Show("Result after running CreateDateTime duplicated tool.\r\n" +
-                    "For best result, run the tool after Exiftool has read all metadatas from media files.\r\n" +
-                    "Also: After OneDrive is finished with sync. Then Refresh the files in the folder, to fetch the last files downloaded by OneDrive.\r\n\r\n" +
-                    "When CreateDateTime duplicated tool is not able to figure out what's new and old. Compare the media files manually in the DataGridView.\r\n" +
-                    "To delete your files of choice. Select the minimum of one cell in the DataGridView for files you like to delete. \r\n" +
-                    "Use the select tool and select all media files match cells, then you are able to delete selected files.\r\n" +
-                    "\r\n" +
-
-                "Delete files: 0 \r\n" +
-                "Files not fixed: 0\r\n\r\n" +
-                "No files found, was searching for <FileNames><-MachineName<-xx>>.ext\r\n",
-                "Result running OneDrive duplicated tool.",
-                MessageBoxButtons.OK);
-            }
-            #endregion
-        }
-        #endregion
-
-        #region Remove DateTimeDuplicates - Click
-        private void kryptonRibbonGroupButtonToolsRemoveCreatedDateDuplicates_Click(object sender, EventArgs e)
-        {
-            Action_RemovedDuplicates();
-        }
-        #endregion
-
-        #region Files - Select Files Match Cells
-        #region ActionSelectMediaFilesMatchCells
-        private void ActionSelectMediaFilesMatchCells()
-        {
-
-            if (GlobalData.IsApplicationClosing) return;
-            try
-            {
-                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
-                ImageListViewHandler.SuspendLayout(imageListView1);
-
-                using (new WaitCursor())
-                {
-                    ImageListViewSuspendLayoutInvoke(imageListView1);
-                    imageListView1.ClearSelection();
-                    HashSet<FileEntry> selectedFileEntries = DataGridView_GetSelectedFilesFromActive();
-                    foreach (FileEntry fileEntry in selectedFileEntries)
-                    {
-                        ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView1.Items, fileEntry.FileFullPath);
-                        if (foundItem != null) foundItem.Selected = true;
-                    }
-                    ImageListViewResumeLayoutInvoke(imageListView1);
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-            }
-            finally
-            {
-                ImageListViewHandler.ResumeLayout(imageListView1);
-                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
-
-                ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false);
-            }
-        }
-        #endregion
-
-        #region kryptonRibbonGroupButtonToolsReselectFilesMatchDataGridView_Click_1
-        private void kryptonRibbonGroupButtonToolsReselectFilesMatchDataGridView_Click_1(object sender, EventArgs e)
-        {
-            if (GlobalData.IsApplicationClosing) return;
-            if (IsPerforminAButtonAction("Select Media Files Match Cells")) return;
-            if (IsPopulatingAnything("Select Media Files Match Cells")) return;
-            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
-
-            try
-            {
-                GlobalData.IsPerformingAButtonAction = true;
-                ActionSelectMediaFilesMatchCells();
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-            }
-            finally
-            {
-                GlobalData.IsPerformingAButtonAction = false;
-            }
-        }
-
-        private void kryptonContextMenuItemFileSelectMatchCells_Click(object sender, EventArgs e)
-        {
-            if (GlobalData.IsApplicationClosing) return;
-            if (IsPerforminAButtonAction("Select Media Files Match Cells")) return;
-            try
-            {
-                GlobalData.IsPerformingAButtonAction = true;
-                ActionSelectMediaFilesMatchCells();
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-            }
-            finally
-            {
-                GlobalData.IsPerformingAButtonAction = false;
-            }
-        }
-        #endregion
-        #endregion
-
-        #region ActionSelectMediaFilesWithErrors
-        private void ActionSelectMediaFilesWithErrors()
-        {
-
-            if (GlobalData.IsApplicationClosing) return;
-            try
-            {
-                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
-                ImageListViewHandler.SuspendLayout(imageListView1);
-
-                using (new WaitCursor())
-                {
-                    ImageListViewSuspendLayoutInvoke(imageListView1);
-                    imageListView1.ClearSelection();
-
-                    lock (queueErrorQueueLock)
-                    {
-                        foreach (string fileFullPath in queueErrorQueue.Keys)
-                        {
-                            ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView1.Items, fileFullPath);
-                            if (foundItem != null) foundItem.Selected = true;
-                        }
-                    }
-                    ImageListViewResumeLayoutInvoke(imageListView1);
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-            }
-            finally
-            {
-                ImageListViewHandler.ResumeLayout(imageListView1);
-                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
-
-                ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false);
-            }
-        }
-        #endregion
-
-        #region kryptonRibbonGroupButtonToolsReselectFilesHasErrors_Click
-        private void kryptonRibbonGroupButtonToolsReselectFilesHasErrors_Click(object sender, EventArgs e)
-        {
-            if (GlobalData.IsApplicationClosing) return;
-            if (IsPerforminAButtonAction("Select Media Files with errors")) return;
-            if (IsPopulatingAnything("Select Media Files with errors")) return;
-            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
-
-            try
-            {
-                GlobalData.IsPerformingAButtonAction = true;
-                ActionSelectMediaFilesWithErrors();
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-            }
-            finally
-            {
-                GlobalData.IsPerformingAButtonAction = false;
-            }
-        }
-        #endregion 
-
-        #region ActionSelectMediaFilesMatchCells
-        private void SelectDataGridViewColumn(DataGridView dataGridView, HashSet<FileEntry> selectedFileEntries)
-        {
-            dataGridView.ClearSelection();
-            for (int columnIndex = 0; columnIndex < DataGridViewHandler.GetColumnCount(dataGridView); columnIndex++)
-            {
-                DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-                if (dataGridViewGenericColumn != null && selectedFileEntries.Contains(dataGridViewGenericColumn.FileEntryAttribute.FileEntry))
-                    DataGridViewHandler.SelectColumnRows(dataGridView, columnIndex, true);
-                else
-                    DataGridViewHandler.SelectColumnRows(dataGridView, columnIndex, false);
-            }
-        }
-
-        private void SelectAndMatchDataGridViewRows(DataGridView dataGridView, HashSet<FileEntry> selectedFileEntries)
-        {
-            dataGridView.ClearSelection();
-            for (int rowIndex = 0; rowIndex < DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView); rowIndex++)
-            {
-                DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndex);
-                if (dataGridViewGenericRow?.FileEntryAttribute != null && selectedFileEntries.Contains(dataGridViewGenericRow?.FileEntryAttribute.FileEntry))
-                    dataGridView.Rows[rowIndex].Selected = true;
-                else
-                    dataGridView.Rows[rowIndex].Selected = false;
-            }
-        }
-
-        private void ActionSelectDataGridViewMatchCells()
-        {
-
-            if (GlobalData.IsApplicationClosing) return;
-            try
-            {
-                using (new WaitCursor())
-                {
-                    HashSet<FileEntry> selectedFileEntries = DataGridView_GetSelectedFilesFromActive();
-                    SelectAndMatchDataGridViewRows(dataGridViewConvertAndMerge, selectedFileEntries);
-                    SelectDataGridViewColumn(dataGridViewDate, selectedFileEntries);
-                    SelectDataGridViewColumn(dataGridViewExiftool, selectedFileEntries);
-                    SelectDataGridViewColumn(dataGridViewExiftoolWarning, selectedFileEntries);
-                    SelectDataGridViewColumn(dataGridViewMap, selectedFileEntries);
-                    SelectDataGridViewColumn(dataGridViewPeople, selectedFileEntries);
-                    SelectDataGridViewColumn(dataGridViewProperties, selectedFileEntries);
-                    SelectAndMatchDataGridViewRows(dataGridViewRename, selectedFileEntries);
-                    SelectDataGridViewColumn(dataGridViewTagsAndKeywords, selectedFileEntries);
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-            }
-        }
-        #endregion
-
-        #region kryptonRibbonGroupButtonToolsReselectDataGridVIewMatchDataGridView_Click
-        private void kryptonRibbonGroupButtonToolsReselectDataGridVIewMatchDataGridView_Click(object sender, EventArgs e)
-        {
-            if (GlobalData.IsApplicationClosing) return;
-            if (IsPerforminAButtonAction("Select DataGridView Match Cells")) return;
-            if (IsPopulatingAnything("Select DataGridView Match Cells")) return;
-            //if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
-
-            try
-            {
-                GlobalData.IsPerformingAButtonAction = true;
-                ActionSelectDataGridViewMatchCells();
             }
             catch (Exception ex)
             {

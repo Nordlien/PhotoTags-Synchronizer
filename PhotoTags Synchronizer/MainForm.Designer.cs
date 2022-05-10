@@ -436,6 +436,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonToolsReselectFilesHasErrors = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupTriple7 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
             this.kryptonRibbonGroupButtonSelectWildcardsSelect = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupButtonSelectMissingMetadata = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupTripleSelectForwardBackwards = new Krypton.Ribbon.KryptonRibbonGroupTriple();
             this.kryptonRibbonGroupButtonSelectBackwards = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupButtonSelectForwards = new Krypton.Ribbon.KryptonRibbonGroupButton();
@@ -5470,7 +5471,8 @@ namespace PhotoTagsSynchronizer
             // kryptonRibbonGroupTriple7
             // 
             this.kryptonRibbonGroupTriple7.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
-            this.kryptonRibbonGroupButtonSelectWildcardsSelect});
+            this.kryptonRibbonGroupButtonSelectWildcardsSelect,
+            this.kryptonRibbonGroupButtonSelectMissingMetadata});
             // 
             // kryptonRibbonGroupButtonSelectWildcardsSelect
             // 
@@ -5484,6 +5486,17 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonSelectWildcardsSelect.ToolTipValues.Heading = "Select files matching the Wildcards pattern";
             this.kryptonRibbonGroupButtonSelectWildcardsSelect.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.ImageListViewSelectMatchPattern;
             this.kryptonRibbonGroupButtonSelectWildcardsSelect.Click += new System.EventHandler(this.kryptonRibbonGroupButtonSelectWildcardsSelect_Click);
+            // 
+            // kryptonRibbonGroupButtonSelectMissingMetadata
+            // 
+            this.kryptonRibbonGroupButtonSelectMissingMetadata.ImageLarge = global::PhotoTagsSynchronizer.Properties.Resources.ImageListViewSelectMissingMetadata;
+            this.kryptonRibbonGroupButtonSelectMissingMetadata.ImageSmall = global::PhotoTagsSynchronizer.Properties.Resources.ImageListViewSelectMissingMetadata;
+            this.kryptonRibbonGroupButtonSelectMissingMetadata.TextLine1 = "Select missing metadata";
+            this.kryptonRibbonGroupButtonSelectMissingMetadata.TextLine2 = "Metadata";
+            this.kryptonRibbonGroupButtonSelectMissingMetadata.ToolTipValues.Description = resources.GetString("kryptonRibbonGroupButtonSelectMissingMetadata.ToolTipValues.Description");
+            this.kryptonRibbonGroupButtonSelectMissingMetadata.ToolTipValues.Heading = "Select suspicious media files";
+            this.kryptonRibbonGroupButtonSelectMissingMetadata.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.ImageListViewSelectMissingMetadata;
+            this.kryptonRibbonGroupButtonSelectMissingMetadata.Click += new System.EventHandler(this.kryptonRibbonGroupButtonSelectMissingMetadata_Click);
             // 
             // kryptonRibbonGroupTripleSelectForwardBackwards
             // 
@@ -7507,6 +7520,7 @@ namespace PhotoTagsSynchronizer
         private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItemFileSelectInverse;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonToolsRemoveCreatedDateDuplicates;
         private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItemMapSaveExactLocation;
+        private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonSelectMissingMetadata;
     }
 }
 
