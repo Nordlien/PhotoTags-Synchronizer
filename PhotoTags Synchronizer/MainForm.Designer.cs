@@ -290,6 +290,7 @@ namespace PhotoTagsSynchronizer
             this.buttonSpecAny2 = new Krypton.Toolkit.ButtonSpecAny();
             this.kryptonRibbonMain = new Krypton.Ribbon.KryptonRibbon();
             this.kryptonRibbonQATButtonSave = new Krypton.Ribbon.KryptonRibbonQATButton();
+            this.kryptonRibbonQATButtonSaveAutoCorrect = new Krypton.Ribbon.KryptonRibbonQATButton();
             this.kryptonRibbonQATButtonMediaPreview = new Krypton.Ribbon.KryptonRibbonQATButton();
             this.kryptonRibbonQATButtonMediaPoster = new Krypton.Ribbon.KryptonRibbonQATButton();
             this.kryptonRibbonQATButtonSelectPrevius = new Krypton.Ribbon.KryptonRibbonQATButton();
@@ -4011,6 +4012,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonMain.Name = "kryptonRibbonMain";
             this.kryptonRibbonMain.QATButtons.AddRange(new System.ComponentModel.Component[] {
             this.kryptonRibbonQATButtonSave,
+            this.kryptonRibbonQATButtonSaveAutoCorrect,
             this.kryptonRibbonQATButtonMediaPreview,
             this.kryptonRibbonQATButtonMediaPoster,
             this.kryptonRibbonQATButtonSelectPrevius,
@@ -4070,6 +4072,16 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonQATButtonSave.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.MetadataSave32x32;
             this.kryptonRibbonQATButtonSave.ToolTipTitle = "Save (Ctrl+S)";
             this.kryptonRibbonQATButtonSave.Click += new System.EventHandler(this.kryptonRibbonQATButtonSave_Click);
+            // 
+            // kryptonRibbonQATButtonSaveAutoCorrect
+            // 
+            this.kryptonRibbonQATButtonSaveAutoCorrect.Image = global::PhotoTagsSynchronizer.Properties.Resources.MetadataSaveAndAutoCorrect16x16;
+            this.kryptonRibbonQATButtonSaveAutoCorrect.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.S)));
+            this.kryptonRibbonQATButtonSaveAutoCorrect.ToolTipBody = "AutoCorrect and Save your changes back to media files.";
+            this.kryptonRibbonQATButtonSaveAutoCorrect.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.MetadataSaveAndAutoCorrect;
+            this.kryptonRibbonQATButtonSaveAutoCorrect.ToolTipTitle = "AutoCorrect and Save (Ctrl+Shift S)";
+            this.kryptonRibbonQATButtonSaveAutoCorrect.Click += new System.EventHandler(this.kryptonRibbonQATButtonSaveAndAutoCorrect_Click);
             // 
             // kryptonRibbonQATButtonMediaPreview
             // 
@@ -7521,6 +7533,7 @@ namespace PhotoTagsSynchronizer
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonToolsRemoveCreatedDateDuplicates;
         private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItemMapSaveExactLocation;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButtonSelectMissingMetadata;
+        private Krypton.Ribbon.KryptonRibbonQATButton kryptonRibbonQATButtonSaveAutoCorrect;
     }
 }
 

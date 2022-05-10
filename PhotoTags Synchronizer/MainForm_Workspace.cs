@@ -474,6 +474,7 @@ namespace PhotoTagsSynchronizer
             try
             {
                 kryptonRibbonQATButtonSave.Visible = saveVisible;
+                kryptonRibbonQATButtonSaveAutoCorrect.Visible = saveVisible;
                 kryptonRibbonQATButtonMediaPreview.Visible = mediaSelectVisible;
                 kryptonRibbonQATButtonMediaPoster.Visible = mediaSelectVisible;
                 kryptonRibbonQATButtonSelectPrevius.Visible = mediaSelectVisible;
