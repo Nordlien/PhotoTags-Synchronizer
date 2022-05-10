@@ -3147,7 +3147,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region IsFileInTemporaryUnavailableLock
+        #region Check ThreadQueues - IsFileInTemporaryUnavailableLock
         public bool IsFileInTemporaryUnavailableLock(string fullFilename)
         {
             bool fileInUse = false;
