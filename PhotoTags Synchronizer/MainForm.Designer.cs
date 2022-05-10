@@ -4059,7 +4059,8 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonTabSelect,
             this.kryptonRibbonTabTools,
             this.kryptonRibbonTabPreview});
-            this.kryptonRibbonMain.SelectedTab = this.kryptonRibbonTabHome;
+            this.kryptonRibbonMain.SelectedContext = null;
+            this.kryptonRibbonMain.SelectedTab = this.kryptonRibbonTabSelect;
             this.kryptonRibbonMain.Size = new System.Drawing.Size(1214, 115);
             this.kryptonRibbonMain.TabIndex = 12;
             this.kryptonRibbonMain.SelectedTabChanged += new System.EventHandler(this.kryptonRibbonMain_SelectedTabChanged);
@@ -5506,6 +5507,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupButtonSelectMissingMetadata.TextLine1 = "Select missing metadata";
             this.kryptonRibbonGroupButtonSelectMissingMetadata.TextLine2 = "Metadata";
             this.kryptonRibbonGroupButtonSelectMissingMetadata.ToolTipValues.Description = resources.GetString("kryptonRibbonGroupButtonSelectMissingMetadata.ToolTipValues.Description");
+            this.kryptonRibbonGroupButtonSelectMissingMetadata.ToolTipValues.EnableToolTips = true;
             this.kryptonRibbonGroupButtonSelectMissingMetadata.ToolTipValues.Heading = "Select suspicious media files";
             this.kryptonRibbonGroupButtonSelectMissingMetadata.ToolTipValues.Image = global::PhotoTagsSynchronizer.Properties.Resources.ImageListViewSelectMissingMetadata;
             this.kryptonRibbonGroupButtonSelectMissingMetadata.Click += new System.EventHandler(this.kryptonRibbonGroupButtonSelectMissingMetadata_Click);
