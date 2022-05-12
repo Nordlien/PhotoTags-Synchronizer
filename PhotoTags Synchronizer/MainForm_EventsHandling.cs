@@ -1521,7 +1521,7 @@ namespace PhotoTagsSynchronizer
                         if (dates.Count > 0)
                         {
                             bool dateFound = false;
-                            foreach (DateTime dateTime in dates) if ( (dateTime - (DateTime)metadata.MediaDateTaken).TotalSeconds < 60) dateFound = true;
+                            foreach (DateTime dateTime in dates) if ( Math.Abs((dateTime - (DateTime)metadata.MediaDateTaken).TotalSeconds) < 60) dateFound = true;
                             if (!dateFound) addToFoundList = true;
                         }  
                     } else addToFoundList = true;
@@ -1652,19 +1652,47 @@ namespace PhotoTagsSynchronizer
         #region Remove OneDriveDuplicates - Action 
         private void Action_CheckAndFixOneDriveIssues_Return_WasFoundAndRemoved()
         {
+            if (GlobalData.IsApplicationClosing) return;
+            //if (IsPerforminAButtonAction("MetadataRefreshLast")) return;
+            //if (IsPopulatingAnything("MetadataRefreshLast")) return;
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
             HashSet<FileEntry> fileEntries = ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true);
             if (fileEntries.Count == 0) fileEntries = ImageListViewHandler.GetFileEntriesItems(imageListView1);
+
 
             List<string> deletedFiles = FixOneDriveIssues(fileEntries, out List<string> notFixed, oneDriveNetworkNames, fixError: true,
                 moveToRecycleBin: Properties.Settings.Default.MoveToRecycleBin, databaseAndCacheMetadataExiftool);
 
             #region Remove delete files form ImageListView
-            foreach (string fullFileName in deletedFiles)
+            try
             {
-                ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView1.Items, fullFileName);
-                if (foundItem != null) ImageListViewHandler.ImageListViewRemoveItem(imageListView1, foundItem);
+                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
+                ImageListViewSuspendLayoutInvoke(imageListView1);
+
+                using (new WaitCursor())
+                {
+                    foreach (string fullFileName in deletedFiles)
+                    {
+                        ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView1.Items, fullFileName);
+                        if (foundItem != null) ImageListViewHandler.ImageListViewRemoveItem(imageListView1, foundItem);
+                    }
+                }
             }
-            #endregion 
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
+                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+            finally
+            {
+                ImageListViewHandler.ResumeLayout(imageListView1);
+                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
+
+                ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false);
+            }
+            #endregion
 
             #region Status report
             if (deletedFiles.Count > 0 || notFixed.Count > 0)
@@ -1736,6 +1764,11 @@ namespace PhotoTagsSynchronizer
         #region Remove DateTimeDuplicates - Action 
         private void Action_RemovedDuplicates()
         {
+            if (GlobalData.IsApplicationClosing) return;
+            //if (IsPerforminAButtonAction("MetadataRefreshLast")) return;
+            //if (IsPopulatingAnything("MetadataRefreshLast")) return;
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+
             HashSet<FileEntry> fileEntries = ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true);
             if (fileEntries.Count == 0) fileEntries = ImageListViewHandler.GetFileEntriesItems(imageListView1);
 
@@ -1743,10 +1776,32 @@ namespace PhotoTagsSynchronizer
                 moveToRecycleBin: Properties.Settings.Default.MoveToRecycleBin, metadataDatabaseCache: databaseAndCacheMetadataExiftool);
 
             #region Remove delete files form ImageListView
-            foreach (string fullFileName in deletedFiles)
+            try
             {
-                ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView1.Items, fullFileName);
-                if (foundItem != null) ImageListViewHandler.ImageListViewRemoveItem(imageListView1, foundItem);
+                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
+                ImageListViewSuspendLayoutInvoke(imageListView1);
+
+                using (new WaitCursor())
+                {
+                    foreach (string fullFileName in deletedFiles)
+                    {
+                        ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView1.Items, fullFileName);
+                        if (foundItem != null) ImageListViewHandler.ImageListViewRemoveItem(imageListView1, foundItem);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
+                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+            finally
+            {
+                ImageListViewHandler.ResumeLayout(imageListView1);
+                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
+
+                ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false);
             }
             #endregion
 
@@ -1802,7 +1857,7 @@ namespace PhotoTagsSynchronizer
 
                 "Delete files: 0 \r\n" +
                 "Files not fixed: 0\r\n\r\n" +
-                "No files found, was searching for <FileNames><-MachineName<-xx>>.ext\r\n",
+                "No files found, was searching for equal DateTaken between metadata in media files\r\n",
                 "Result running OneDrive duplicated tool.",
                 MessageBoxButtons.OK);
             }
