@@ -3469,11 +3469,6 @@ namespace PhotoTagsSynchronizer
                                     if (!fileInUse)
                                     {
                                         DateTime currentLastWrittenDateTime = FileHandler.GetLastWriteTime(fullFilename, waitAndRetry: IsFileInTemporaryUnavailableLock(fullFilename));
-                                        if (currentLastWrittenDateTime <= FileHandler.MinimumFileSystemDateTime)
-                                        {
-                                            //DEBUG
-                                        }
-
                                         FileEntry fileEntry = new FileEntry(fullFilename, currentLastWrittenDateTime);
 
                                         FileEntryBroker fileEntryBroker = new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool);
