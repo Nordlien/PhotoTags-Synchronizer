@@ -297,6 +297,8 @@ namespace Manina.Windows.Forms
             public bool Remove(ImageListViewItem item)
             {
                 bool ret;
+                if (item == null) 
+                    return false;
                 for (int i = item.mIndex; i < mItems.Count; i++) mItems[i].mIndex--;
                 if (item == mFocused) mFocused = null;
                 ret = mItems.Remove(item);
