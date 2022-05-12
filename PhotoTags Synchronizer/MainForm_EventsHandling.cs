@@ -1260,6 +1260,7 @@ namespace PhotoTagsSynchronizer
                         if (foundItem != null) foundItem.Selected = true;
                     }
                     ImageListViewResumeLayoutInvoke(imageListView1);
+                    DisplayAllQueueStatus();
                 }
             }
             catch (Exception ex)
@@ -1353,6 +1354,8 @@ namespace PhotoTagsSynchronizer
                         }
                     }
                     ImageListViewResumeLayoutInvoke(imageListView1);
+
+                    DisplayAllQueueStatus();
                 }
             }
             catch (Exception ex)
@@ -1544,6 +1547,8 @@ namespace PhotoTagsSynchronizer
             }
             if (selectMediaFiles) ImageListView_SelectFiles(FileEntry.ConvertToListOfFileFullPath(filesFound), clearSelection: false);
             else SelectDataGridViewAllUsingFileEntry(filesFound);
+
+            DisplayAllQueueStatus();
         }
         #endregion
 
@@ -1641,6 +1646,7 @@ namespace PhotoTagsSynchronizer
             {
                 Properties.Settings.Default.ToolsLastImageListViewWildcardsSelectMatch = wildcardsSelect.Trim();
                 ImageListViewWildcardsSelectMatch(imageListView1, wildcardsSelect);
+                DisplayAllQueueStatus();
             }
         }
         #endregion

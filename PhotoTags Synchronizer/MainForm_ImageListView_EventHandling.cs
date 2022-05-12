@@ -995,6 +995,7 @@ namespace PhotoTagsSynchronizer
                     }
                     ImageListViewResumeLayoutInvoke(imageListView1);
                 }
+                DisplayAllQueueStatus();
             }
             catch (Exception ex)
             {
@@ -1066,7 +1067,7 @@ namespace PhotoTagsSynchronizer
                     ImageListView_SelectFiles(dublicatedFound);
                 }
             }
-            
+
             #endregion
 
             #endregion
@@ -1281,6 +1282,8 @@ namespace PhotoTagsSynchronizer
                 ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView1.Items, filename);
                 if (foundItem != null) ImageListViewHandler.ImageListViewRemoveItem(imageListView1, foundItem);
                 #endregion
+
+                DisplayAllQueueStatus();
             }
             catch (Exception ex)
             {

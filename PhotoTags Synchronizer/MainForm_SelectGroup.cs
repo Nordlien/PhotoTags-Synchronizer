@@ -294,6 +294,7 @@ namespace PhotoTagsSynchronizer
                     Properties.Settings.Default.SelectGroupSameDistrict,
                     Properties.Settings.Default.SelectGroupSameCountry,
                     Properties.Settings.Default.SelectGroupCheckAllLocations);
+                DisplayAllQueueStatus();
             }
             catch (Exception ex)
             {
@@ -323,6 +324,7 @@ namespace PhotoTagsSynchronizer
                     Properties.Settings.Default.SelectGroupSameDistrict,
                     Properties.Settings.Default.SelectGroupSameCountry,
                     Properties.Settings.Default.SelectGroupCheckAllLocations);
+                DisplayAllQueueStatus();
             }
             catch (Exception ex)
             {
@@ -377,7 +379,7 @@ namespace PhotoTagsSynchronizer
                     {
                         if (FileHandeling.FileHandler.FilenameMatchesPattern(imageListViewItem.Text, pattern)) imageListViewItem.Selected = true;
                     }
-                }
+                }     
             }
             catch (Exception ex)
             {
@@ -475,6 +477,7 @@ namespace PhotoTagsSynchronizer
                     Properties.Settings.Default.SelectGroupSameDistrict,
                     Properties.Settings.Default.SelectGroupSameCountry,
                     Properties.Settings.Default.SelectGroupCheckAllLocations);
+                DisplayAllQueueStatus();
             }
             catch (Exception ex)
             {
