@@ -353,6 +353,7 @@ namespace Exiftool
             metadataUpdatedByUserCopy.FileSize = metadataRead.FileSize;                   //This has changed, do not care
             metadataUpdatedByUserCopy.Errors = metadataRead.Errors;                       //This has changed, do not care, Hopefully this is gone
             metadataUpdatedByUserCopy.Broker = metadataRead.Broker;                       //This has changed, do not care
+            metadataUpdatedByUserCopy.FileDateModified = metadataRead.FileDateModified;   //This has changed, do not care
 
             if (metadataUpdatedByUserCopy.MediaHeight == metadataRead.MediaWidth &&
                 metadataUpdatedByUserCopy.MediaWidth == metadataRead.MediaHeight) //Media has been Rotated
