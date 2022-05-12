@@ -29,6 +29,13 @@ namespace PhotoTagsSynchronizer
                 return;
             }
 
+            FileStatus fileStatus = FileHandler.GetFileStatus(fileEntry.FileFullPath);
+            if (fileStatus.FileExists)
+            {
+                FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(fileEntry.FileFullPath, fileStatus.LastWrittenDateTime, FileEntryVersion.CurrentVersionInDatabase);
+                AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(fileEntryAttribute);
+            }
+
             ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView1.Items, fileEntry.FileFullPath);
             if (foundItem != null) foundItem.Update();   
         }
@@ -1037,8 +1044,12 @@ namespace PhotoTagsSynchronizer
 
             UpdateStatusImageListView("Check for OneDrive duplicate files in folder: " + selectedFolder);
             #region Check for OneDrive duplicate files in folder
+
+            
             List<string> dublicatedFound = FixOneDriveIssues(fileEntries, out List<string> notFixed, oneDriveNetworkNames, fixError: false,
                 moveToRecycleBin: Properties.Settings.Default.MoveToRecycleBin, databaseAndCacheMetadataExiftool);
+
+
             if (dublicatedFound.Count > 0)
             {
                 string filesExampleFound = "";
@@ -1055,6 +1066,7 @@ namespace PhotoTagsSynchronizer
                     ImageListView_SelectFiles(dublicatedFound);
                 }
             }
+            
             #endregion
 
             #endregion
