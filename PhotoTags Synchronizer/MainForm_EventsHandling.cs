@@ -6871,35 +6871,8 @@ namespace PhotoTagsSynchronizer
 
                         metadataToSave.FileName = newFilename;
 
-                        ImageListViewItem imageListViewItem = ImageListViewHandler.FindItem(imageListView1.Items, oldFullFilename);
-                        if (imageListViewItem != null) imageListViewItem.FileFullPath = newFullFilename;
-                        else
-                        {
-                            //DEBUG
-                        }
-                        //ImageListViewHandler.ClearAllAndCaches(imageListView1);
-                        ImageListViewHandler.ClearCacheFileEntries(imageListView1);
-                        ImageListViewHandler.ClearCacheFileEntriesSelectedItems(imageListView1);
-                        try
-                        {
-                            if (GlobalData.IsAgregatedTags) DataGridViewUpdatedFilenameColumns(dataGridViewTagsAndKeywords, oldFullFilename, newFullFilename);
-                            if (GlobalData.IsAgregatedMap) DataGridViewUpdatedFilenameColumns(dataGridViewMap, oldFullFilename, newFullFilename);
-                            if (GlobalData.IsAgregatedPeople) DataGridViewUpdatedFilenameColumns(dataGridViewPeople, oldFullFilename, newFullFilename);
-                            if (GlobalData.IsAgregatedDate) DataGridViewUpdatedFilenameColumns(dataGridViewDate, oldFullFilename, newFullFilename);
-
-                            if (GlobalData.IsAgregatedExiftoolTags) DataGridViewUpdatedFilenameColumns(dataGridViewExiftool, oldFullFilename, newFullFilename);
-                            if (GlobalData.IsAgregatedExiftoolWarning) DataGridViewUpdatedFilenameColumns(dataGridViewExiftoolWarning, oldFullFilename, newFullFilename);
-                            if (GlobalData.IsAgregatedProperties) DataGridViewUpdatedFilenameColumns(dataGridViewProperties, oldFullFilename, newFullFilename);
-
-                            if (GlobalData.IsAgregatedConvertAndMerge) DataGridViewUpdatedFilenameConvertAndMergeRows(dataGridViewConvertAndMerge, oldFullFilename, newFullFilename);
-                            if (GlobalData.IsAgregatedRename) DataGridViewUpdatedFilenameRenameRows(dataGridViewRename, oldFullFilename, newFullFilename);
-                        }
-                        catch (Exception ex)
-                        {
-                            Logger.Error(ex);
-                            KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-                        }
-
+                        ImageListView_Rename_Invoke(oldFullFilename, newFullFilename);
+                        DataGridView_Rename_Invoke(oldFullFilename, newFullFilename);
 
                         databaseAndCacheThumbnailPoster.Move(oldDirectory, oldFilename, newDirectory, newFilename);
                         if (!databaseAndCacheMetadataExiftool.Move(oldDirectory, oldFilename, newDirectory, newFilename))

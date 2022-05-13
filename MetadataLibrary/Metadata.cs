@@ -201,9 +201,9 @@ namespace MetadataLibrary
             if (String.Compare(m1.FileName, m2.FileName, comparisonType: StringComparison.OrdinalIgnoreCase) != 0) return false;
             if (String.Compare(m1.fileDirectory, m2.fileDirectory, comparisonType: StringComparison.OrdinalIgnoreCase) != 0) return false;
             if (m1.FileSize != m2.FileSize) return false;
-            if (!TimeZoneLibrary.IsDateTimeEqualWithinOneSecond(m1.FileDateCreated, m2.FileDateCreated)) return false;
-            if (!TimeZoneLibrary.IsDateTimeEqualWithinOneSecond(m1.FileDateModified, m2.FileDateModified)) return false;
-            if (!TimeZoneLibrary.IsDateTimeEqualWithinOneSecond(m1.FileDateAccessed, m2.FileDateAccessed)) return false;
+            if (!TimeZoneLibrary.IsDateTimeYYYYMMDDHHmmSSEqual(m1.FileDateCreated, m2.FileDateCreated)) return false;
+            if (!TimeZoneLibrary.IsDateTimeYYYYMMDDHHmmSSEqual(m1.FileDateModified, m2.FileDateModified)) return false;
+            if (!TimeZoneLibrary.IsDateTimeYYYYMMDDHHmmSSEqual(m1.FileDateAccessed, m2.FileDateAccessed)) return false;
             if (m1.FileMimeType != m2.FileMimeType) return false;
             #endregion
 
@@ -236,7 +236,7 @@ namespace MetadataLibrary
             #endregion
 
             #region Media
-            if (!TimeZoneLibrary.IsDateTimeEqualWithinOneSecond(m1.mediaDateTaken, m2.mediaDateTaken)) return false;
+            if (!TimeZoneLibrary.IsDateTimeYYYYMMDDHHmmSSEqual(m1.mediaDateTaken, m2.mediaDateTaken)) return false;
             if (m1.mediaWidth != m2.mediaWidth) return false;
             if (m1.mediaHeight != m2.mediaHeight) return false;
             if (m1.mediaOrientation != m2.mediaOrientation) return false;
@@ -247,7 +247,7 @@ namespace MetadataLibrary
             if (m1.locationAltitude != m2.locationAltitude) return false;
             if (m1.locationLatitude != m2.locationLatitude) return false;
             if (m1.locationLongitude != m2.locationLongitude) return false;
-            if (!TimeZoneLibrary.IsDateTimeEqualWithinOneSecond(m1.locationDateTime, m2.locationDateTime)) return false;
+            if (!TimeZoneLibrary.IsDateTimeYYYYMMDDHHmmSSEqual(m1.locationDateTime, m2.locationDateTime)) return false;
             if (m1.locationName != m2.locationName) return false;
             if (m1.locationCountry != m2.locationCountry) return false;
             if (m1.locationCity != m2.locationCity) return false;
@@ -2375,7 +2375,7 @@ namespace MetadataLibrary
             {
                 #region File System
                 case "{IfFileDateModifiedChanged}":
-                    if (!TimeZoneLibrary.IsDateTimeEqualWithinOneSecond(this.FileDateAccessed, metadata.FileDateAccessed)) result = true;
+                    if (!TimeZoneLibrary.IsDateTimeYYYYMMDDHHmmSSEqual(this.FileDateAccessed, metadata.FileDateAccessed)) result = true;
                     break;
                 #endregion
 
@@ -2428,7 +2428,7 @@ namespace MetadataLibrary
 
                 #region Media
                 case "{IfMediaDateTakenChanged}":
-                    if (!TimeZoneLibrary.IsDateTimeEqualWithinOneSecond(this.MediaDateTaken, metadata.MediaDateTaken)) result = true;
+                    if (!TimeZoneLibrary.IsDateTimeYYYYMMDDHHmmSSEqual(this.MediaDateTaken, metadata.MediaDateTaken)) result = true;
                     break;
                 #endregion
 
@@ -2447,7 +2447,7 @@ namespace MetadataLibrary
                     if (this.locationLongitude != metadata.locationLongitude) result = true;
                     break;
                 case "{IfLocationDateTimeChanged}":
-                    if (!TimeZoneLibrary.IsDateTimeEqualWithinOneSecond(this.locationDateTime, metadata.locationDateTime)) result = true;
+                    if (!TimeZoneLibrary.IsDateTimeYYYYMMDDHHmmSSEqual(this.locationDateTime, metadata.locationDateTime)) result = true;
                     break;
                 case "{IfLocationNameChanged}":
                     if (this.locationName != metadata.locationName) result = true;

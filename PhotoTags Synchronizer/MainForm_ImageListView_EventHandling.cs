@@ -1300,14 +1300,15 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region ImageListView - Rename Item - Invoke
-        private void ImageListViewRenameInvoke(string oldFilename, string newFilename)
+        private void ImageListView_Rename_Invoke(string oldFullFilename, string newFullFilename)
         {
             if (InvokeRequired)
             {
-                this.BeginInvoke(new Action<string, string>(ImageListViewRenameInvoke), oldFilename, newFilename);
+                this.BeginInvoke(new Action<string, string>(ImageListView_Rename_Invoke), oldFullFilename, newFullFilename);
                 return;
             }
-            ImageViewListeUpdateAfterRename(imageListView1, oldFilename, newFilename);
+            ImageListViewItem imageListViewItem = ImageListViewHandler.FindItem(imageListView1.Items, oldFullFilename);
+            if (imageListViewItem != null) imageListViewItem.FileFullPath = newFullFilename;
         }
         #endregion
 

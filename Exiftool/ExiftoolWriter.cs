@@ -324,7 +324,12 @@ namespace Exiftool
             {
                 ///Remove from list and add back to Read Exif once more
                 if (metadataRead.FileEntryBroker.LastWriteDateTime > metadataWrittenByExiftoolWaitVerify[verifyPosition].FileDateModified)
-                { 
+                {
+                    var fileStatus = FileHandler.GetFileStatus(metadataRead.FileFullPath);
+                    
+                    if (fileStatus.FileExists) metadataWrittenByExiftoolWaitVerify[verifyPosition].FileDateModified = fileStatus.LastWrittenDateTime;
+                    else metadataWrittenByExiftoolWaitVerify.RemoveAt(verifyPosition);
+
                     return MetadataErrors.WasUpdatedAfterRead;
                 }
             }

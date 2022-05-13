@@ -1510,18 +1510,36 @@ namespace PhotoTagsSynchronizer
                                         #endregion
 
                                         //Input: List<Metadata> exiftoolSave_QueueMetadataWrittenByExiftoolReadyToVerify
-                                        //Output: List<FileEntry> commonQueueReadMetadataFromSourceExiftool, if still in verified queue, add it back to read list
-                                        #region 
+                                        //Output: List<FileEntry> commonQueueReadMetadataFromSourceExiftool 
+                                        #region If still in verified queue, add it back to read list
                                         lock (exiftoolSave_QueueMetadataWrittenByExiftoolReadyToVerifyLock)
                                         {
                                             foreach (Metadata metadataToBeVerified in exiftoolSave_QueueMetadataWrittenByExiftoolReadyToVerify)
                                             {
-                                                AddQueueReadFromSourceExiftoolLock(metadataToBeVerified.FileEntry, alsoAddToTheEnd: false);
+                                                Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(metadataToBeVerified.FileEntry, MetadataBrokerType.ExifTool));
+                                                if (metadata != null)
+                                                {
+                                                    #region Populate - Current ImageListView Item - If no erros
+                                                    FileStatus fileStatus = FileHandler.GetFileStatus(metadataToBeVerified.FileFullPath);
+                                                    fileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.WaitAction;
+
+                                                    FileEntryAttribute fileEntryAttributeExtractedNowUsingExiftool = new FileEntryAttribute(metadataToBeVerified.FileFullPath,
+                                                        (DateTime)metadataToBeVerified.FileDateModified,
+                                                        FileEntryVersion.ExtractedNowUsingExiftool);
+                                                    ImageListView_UpdateItemExiftoolMetadataInvoke(fileEntryAttributeExtractedNowUsingExiftool, fileStatus);
+                                                    #endregion
+                                                }
+                                                else
+                                                {
+                                                    AddQueueReadFromSourceExiftoolLock(metadataToBeVerified.FileEntry, alsoAddToTheEnd: false);
+                                                }
                                             }
                                         }
                                         #endregion 
-                                    }
-                                }
+
+                                    } //while (!GlobalData.IsStopAndEmptyExiftoolReadQueueRequest && ExiftoolSave_MediaFilesNotInDatabaseCountLock() > 0 && !GlobalData.IsApplicationClosing)
+
+                                } //if (!GlobalData.IsApplicationClosing)
 
                                 Thread.Sleep(10);
                             }
@@ -1998,8 +2016,13 @@ namespace PhotoTagsSynchronizer
                                                         !File.Exists(exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser[indexExiftoolFailedOn].FileFullPath) && //New rename to name doesn't exit
                                                         File.Exists(exiftoolSave_QueueSubset_MetadataOrigialBeforeUserUpdate[indexExiftoolFailedOn].FileFullPath) //But old filename exit
                                                         )
-                                                    { 
-                                                        ImageListViewRenameInvoke(
+                                                    {
+
+                                                        DataGridView_Rename_Invoke(
+                                                            exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser[indexExiftoolFailedOn].FileFullPath,
+                                                            exiftoolSave_QueueSubset_MetadataOrigialBeforeUserUpdate[indexExiftoolFailedOn].FileFullPath);
+
+                                                        ImageListView_Rename_Invoke(
                                                             exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser[indexExiftoolFailedOn].FileFullPath,
                                                             exiftoolSave_QueueSubset_MetadataOrigialBeforeUserUpdate[indexExiftoolFailedOn].FileFullPath);
                                                     }
