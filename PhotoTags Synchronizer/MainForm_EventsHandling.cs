@@ -1354,7 +1354,6 @@ namespace PhotoTagsSynchronizer
                         }
                     }
                     ImageListViewResumeLayoutInvoke(imageListView1);
-
                     DisplayAllQueueStatus();
                 }
             }

@@ -995,14 +995,23 @@ namespace PhotoTagsSynchronizer
         ///     -- Region Queue: Read Media Poster -> Extract Region Thmbnail
         /// </summary>
         /// <param name="fileEntry"></param>
-        public void AddQueueReadFromSourceExiftoolLock(FileEntry fileEntry)
+        public void AddQueueReadFromSourceExiftoolLock(FileEntry fileEntry, bool alsoAddToTheEnd = false)
         {
             lock (commonQueueReadMetadataFromSourceExiftoolLock)
             {
                 AddQueueLazyLoadningSelectedFilesLock(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
 
-                bool existInQueue = IsFolderInQueueReadAndSaveMetadataFromSourceExiftoolLock(fileEntry.FileFullPath); 
-                if (!existInQueue) commonQueueReadMetadataFromSourceExiftool.Add(fileEntry);
+                if (alsoAddToTheEnd)
+                {
+                    
+                    if (commonQueueReadMetadataFromSourceExiftool.IndexOf(fileEntry) == commonQueueReadMetadataFromSourceExiftool.LastIndexOf(fileEntry))
+                        commonQueueReadMetadataFromSourceExiftool.Add(fileEntry);
+                }
+                else
+                {
+                    bool existInQueue = IsFolderInQueueReadAndSaveMetadataFromSourceExiftoolLock(fileEntry.FileFullPath);
+                    if (!existInQueue) commonQueueReadMetadataFromSourceExiftool.Add(fileEntry);
+                }
             }
             RemoveError(fileEntry.FileFullPath);
         }
@@ -1014,11 +1023,7 @@ namespace PhotoTagsSynchronizer
             try
             {
                 if (GlobalData.IsStopAndEmptyExiftoolReadQueueRequest || _ThreadReadMetadataFromSourceExiftool != null || CommonQueueReadMetadataFromSourceExiftoolCountDirty() <= 0) return;
-                if (ExiftoolSave_MediaFilesNotInDatabaseCountLock() > 0)
-                {
-                    //DEBUG
-                    //return; //Don't start double read of exiftool
-                }
+
                 lock (_ThreadReadMetadataFromSourceExiftoolLock)
                 {
                     _ThreadReadMetadataFromSourceExiftool = new Thread(() =>
@@ -1043,6 +1048,10 @@ namespace PhotoTagsSynchronizer
                                 List<FileEntry> mediaFilesNotInDatabase_NeedCheckInCloud = new List<FileEntry>();
                                 List<FileEntry> mediaFilesReadFromDatabase_NeedUpdated_DataGridView_ImageList = new List<FileEntry>();
 
+                                //Input: commonQueueReadMetadataFromSourceExiftool (Main queue - Read this from Exiftool)
+                                //Output: List<FileEntry> mediaFilesWasNotInCache                                       (Was not in database cache)
+                                //Output: List<FileEntry> mediaFilesNotInDatabase_NeedCheckInCloud                      (Was not in database either)
+                                //Output: List<FileEntry> mediaFilesReadFromDatabase_NeedUpdated_DataGridView_ImageList (Was alread in database)
                                 #region From the Read Queue - Find files not alread in database
                                 lock (commonQueueReadMetadataFromSourceExiftoolLock)
                                 {
@@ -1065,6 +1074,15 @@ namespace PhotoTagsSynchronizer
                                 }
                                 #endregion
 
+                                //Input: List<FileEntry> mediaFilesNotInDatabase_NeedCheckInCloud
+                                //Output: List<FileEntry> exiftool_MediaFilesNotInDatabase
+                                //When file exist and ready to be processed:
+                                //  Output: no changes
+                                //When wait cloud file to be downloaded
+                                //  Output: AddQueueReadFromSourceExiftoolLock(fileEntry); 
+                                //When wait cloud file to be downloaded timeouted
+                                //  Output: RemoveQueueLazyLoadningSelectedFilesLock(new FileEntryBroker(fileEntry, MetadataBrokerType.Queue));
+                                //  Output: RemoveQueueLazyLoadningSelectedFilesLock(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
                                 #region Check if need avoid files in cloud, if yes, don't read files in cloud
                                 if (Properties.Settings.Default.AvoidReadExifFromCloud)
                                 {
@@ -1174,8 +1192,11 @@ namespace PhotoTagsSynchronizer
 
                                 if (!GlobalData.IsApplicationClosing)
                                 {
+                                    
                                     while (!GlobalData.IsStopAndEmptyExiftoolReadQueueRequest && ExiftoolSave_MediaFilesNotInDatabaseCountLock() > 0 && !GlobalData.IsApplicationClosing)
                                     {
+                                        //Input: List<FileEntry> exiftool_MediaFilesNotInDatabase ** This will get cleared after batch process done ** 
+                                        //Output: List<String> useExiftoolOnThisSubsetOfFiles
                                         #region Create a subset of files to Read using Exiftool command line with parameters, and remove subset from queue
                                         int range = 0;
                                         //On computers running Microsoft Windows XP or later, the maximum length of the string that you can 
@@ -1205,6 +1226,9 @@ namespace PhotoTagsSynchronizer
                                         }
                                         #endregion
 
+                                        //Input: List<filename> useExiftoolOnThisSubsetOfFiles
+                                        //Output: List<Metadata> metadataReadFromExiftool
+                                        //Output: Dictionary<string filename, string errormessage> exiftoolErrorMessageOnFiles
                                         #region useExiftoolOnThisSubsetOfFiles - To - Read using Exiftool - Update ImageListView - Item Status
                                         string lastKownExiftoolGenericErrorMessage = "";
                                         Dictionary<string, string> exiftoolErrorMessageOnFiles = new Dictionary<string, string>();
@@ -1238,6 +1262,13 @@ namespace PhotoTagsSynchronizer
                                         #region CHECK IF READ OR NOT - Check if all files are read by Exiftool - Check against - metadataReadFromExiftool - if not read, no need to verify
                                         try
                                         {
+                                            //Input: List<filename> useExiftoolOnThisSubsetOfFiles
+                                            //Input: List<Metadata> metadataReadFromExiftool - List of files readby Exiftool
+                                            //Input: Dictionary<filename, errormessage> exiftoolErrorMessageOnFiles[fullFilePath] - contains error messages from Exiftool
+
+                                            //Output: List<Metadata> exiftoolSave_QueueMetadataWrittenByExiftoolReadyToVerify (Remove from the verified queue)
+                                            
+                                            //Output: commonQueueReadMetadataFromSourceExiftool (Added back last in queue - when data was not read or failed to read)
                                             foreach (string fullFilePath in useExiftoolOnThisSubsetOfFiles)
                                             {
                                                 #region Check if Files added for Read, but failed to be Read
@@ -1262,6 +1293,7 @@ namespace PhotoTagsSynchronizer
                                                         "Error Message: " + exiftoolErrorMessageForFile;
                                                     #endregion
 
+                                                    //Output: FileEntry fileEntryMetadataNotRead - Filename read, add LastWrittenDateTime
                                                     #region Find FileEntry Information
                                                     FileEntry fileEntryMetadataNotRead;
                                                     lock (exiftool_MediaFilesNotInDatabaseLock)
@@ -1277,41 +1309,43 @@ namespace PhotoTagsSynchronizer
                                                     }
                                                     #endregion
 
-                                                    #region Create dummy Metadata - MetadataBrokerType.ExifTool
-                                                    Metadata metadataDummy = new Metadata(MetadataBrokerType.ExifTool | MetadataBrokerType.ExifToolWriteError);
-                                                    metadataDummy.FileDateModified = fileEntryMetadataNotRead.LastWriteDateTime;
-                                                    metadataDummy.FileName = fileEntryMetadataNotRead.FileName;
-                                                    metadataDummy.FileDirectory = fileEntryMetadataNotRead.Directory;
-                                                    metadataDummy.FileMimeType = FormDatabaseCleaner.CorruptFile; //Also used
-                                                    metadataDummy.PersonalTitle = "Exiftool failed";
-                                                    metadataDummy.PersonalComments = FileHandler.ConvertFileStatusToText(fileStatus) + " " + lastKownExiftoolGenericErrorMessage;
-                                                    metadataDummy.FileDateCreated = fileEntryMetadataNotRead.LastWriteDateTime;
-                                                    metadataDummy.FileDateAccessed = DateTime.Now;
-                                                    metadataDummy.FileSize = 0;
+                                                    //Output: Metadata metadataErrorDummy
+                                                    #region Create Metadata Error Dummy - MetadataBrokerType.ExifTool | ExifToolWriteError
+                                                    Metadata metadataErrorDummy = new Metadata(MetadataBrokerType.ExifTool | MetadataBrokerType.ExifToolWriteError);
+                                                    metadataErrorDummy.FileDateModified = fileEntryMetadataNotRead.LastWriteDateTime;
+                                                    metadataErrorDummy.FileName = fileEntryMetadataNotRead.FileName;
+                                                    metadataErrorDummy.FileDirectory = fileEntryMetadataNotRead.Directory;
+                                                    metadataErrorDummy.FileMimeType = FormDatabaseCleaner.CorruptFile; //Also used
+                                                    metadataErrorDummy.PersonalTitle = "Exiftool failed";
+                                                    metadataErrorDummy.PersonalComments = FileHandler.ConvertFileStatusToText(fileStatus) + " " + lastKownExiftoolGenericErrorMessage;
+                                                    metadataErrorDummy.FileDateCreated = fileEntryMetadataNotRead.LastWriteDateTime;
+                                                    metadataErrorDummy.FileDateAccessed = DateTime.Now;
+                                                    metadataErrorDummy.FileSize = 0;
                                                     try
                                                     {
                                                         if (File.Exists(fileEntryMetadataNotRead.FileFullPath))
                                                         {
                                                             FileInfo fileInfo = new FileInfo(fileEntryMetadataNotRead.FileFullPath);
-                                                            metadataDummy.FileDateCreated = fileInfo.CreationTime;
-                                                            metadataDummy.FileDateAccessed = fileInfo.LastAccessTime;
-                                                            metadataDummy.FileSize = fileInfo.Length;
+                                                            metadataErrorDummy.FileDateCreated = fileInfo.CreationTime;
+                                                            metadataErrorDummy.FileDateAccessed = fileInfo.LastAccessTime;
+                                                            metadataErrorDummy.FileSize = fileInfo.Length;
                                                         }
                                                         else
                                                         {
-                                                            metadataDummy.PersonalComments = "File doesn't exist - Exiftool failed";
+                                                            metadataErrorDummy.PersonalComments = "File doesn't exist - Exiftool failed";
                                                         }
                                                     }
                                                     catch { }
-                                                    databaseAndCacheMetadataExiftool.Write(metadataDummy);
+                                                    databaseAndCacheMetadataExiftool.Write(metadataErrorDummy);
                                                     #endregion
 
+                                                    //AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock (Error fileEntry)
                                                     #region Save Error, Update ImageListView Exiftool status
-                                                    ImageListView_UpdateItemFileStatusInvoke(metadataDummy.FileFullPath, fileStatus);
+                                                    ImageListView_UpdateItemFileStatusInvoke(metadataErrorDummy.FileFullPath, fileStatus);
 
                                                     FileEntryAttribute fileEntryAttributeError = new FileEntryAttribute(
-                                                        metadataDummy.FileFullPath,
-                                                        (DateTime)metadataDummy.FileDateModified,
+                                                        metadataErrorDummy.FileFullPath,
+                                                        (DateTime)metadataErrorDummy.FileDateModified,
                                                         FileEntryVersion.Error);
 
                                                     AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(fileEntryAttributeError);
@@ -1323,6 +1357,7 @@ namespace PhotoTagsSynchronizer
                                                         exiftoolErrorMessageForFile, false);
                                                     #endregion
 
+                                                    //Output: exiftoolSave_QueueMetadataWrittenByExiftoolReadyToVerify (Remove from the verified queue)
                                                     #region Remove from Verdify queue, no need verify 
                                                     lock (exiftoolSave_QueueMetadataWrittenByExiftoolReadyToVerifyLock)
                                                     {
@@ -1333,13 +1368,15 @@ namespace PhotoTagsSynchronizer
                                                 }
                                                 #endregion
 
+                                                //Input: fullFilePath
+                                                //Output: commonQueueReadMetadataFromSourceExiftool (Added back last in queue)
                                                 #region Check if still missing data in Database, if yes, read again
                                                 FileEntry fileEntry = new FileEntry(fullFilePath, FileHandler.GetLastWriteTime(fullFilePath, waitAndRetry: IsFileInTemporaryUnavailableLock(fullFilePath)));
                                                 Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
                                                 if (metadata == null)
                                                 {
                                                     metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool | MetadataBrokerType.ExifToolWriteError));
-                                                    if (metadata == null) AddQueueReadFromSourceExiftoolLock(fileEntry);
+                                                    if (metadata == null) AddQueueReadFromSourceExiftoolLock(fileEntry, alsoAddToTheEnd: true);
                                                 }
                                                 #endregion
                                             }
@@ -1357,90 +1394,95 @@ namespace PhotoTagsSynchronizer
                                             {
                                                 lock (exiftoolSave_QueueMetadataWrittenByExiftoolReadyToVerifyLock)
                                                 {
-                                                    bool isMetadataHavingErrors = false;
+                                                    //Input:  List<Metadata> metadataReadFromExiftool -> one by one - metadataRead 
+                                                    //Input:  List<Metadata> *exiftoolSave_QueueMetadataWrittenByExiftoolReadyToVerify (list of metadataUpdatedByUserCopy)*
+                                                    //Output: List<Metadata> *exiftoolSave_QueueMetadataWrittenByExiftoolReadyToVerify (will be removed after verified)*
+                                                    //Outout: Metadata metadataUpdatedByUserCopy (found item from exiftoolSave_QueueMetadataWrittenByExiftoolReadyToVerify[])
+                                                    //If has error
+                                                    //Output
+                                                    //If Media file changed since read
+                                                    //Output: commonQueueReadMetadataFromSourceExiftool - Added to queue
+                                                    //If read, no errors
+                                                    //Output: commonQueueSaveToDatabaseRegionAndThumbnail - Added to queue
                                                     #region Verify - Read back not Equal to saved - Then Add Error, Populate DataGridView and ImageListView
-                                                    if (ExiftoolWriter.HasWriteMetadataErrors(
+                                                    switch (ExiftoolWriter.HasWriteMetadataErrors(
                                                         metadataRead,
-                                                        exiftoolSave_QueueMetadataWrittenByExiftoolReadyToVerify,
+                                                        ref exiftoolSave_QueueMetadataWrittenByExiftoolReadyToVerify,
                                                         out Metadata metadataUpdatedByUserCopy,
                                                         out string writeErrorDesciption))
                                                     {
-                                                        isMetadataHavingErrors = true;
+                                                        case MetadataErrors.HasError:
+                                                            #region Add Verified Error (Not read error)
+                                                            AddError(
+                                                                metadataUpdatedByUserCopy.FileEntryBroker.Directory, metadataUpdatedByUserCopy.FileEntryBroker.FileName, metadataUpdatedByUserCopy.FileEntryBroker.LastWriteDateTime,
+                                                                AddErrorExiftooRegion, AddErrorExiftooCommandVerify,
+                                                                AddErrorExiftooParameterVerify, AddErrorExiftooParameterVerify,
+                                                                "Issue: Verified Metadata is not equal with written.\r\n" +
+                                                                "File Name: " + metadataUpdatedByUserCopy.FileFullPath + "\r\n" +
+                                                                "Error Message: " + writeErrorDesciption + "\r\n" +
+                                                                "Reason: 3rd party applicatoin are doing correction on file, e.g OneDrive -> Microsoft Photos -> Synced back with changes\r\n" +
+                                                                "Reason: There's tags from Manifactors or other applications store metadata same type of metadata.\r\n" +
+                                                                "Solution: 1) Config Write Metadata to overwite old infomtation with new. 2) Config the tag with lower priority or ignor it.");
+                                                            #endregion
 
-                                                        #region Add Verified Error (Not read error)
-                                                        AddError(
-                                                            metadataUpdatedByUserCopy.FileEntryBroker.Directory, metadataUpdatedByUserCopy.FileEntryBroker.FileName, metadataUpdatedByUserCopy.FileEntryBroker.LastWriteDateTime,
-                                                            AddErrorExiftooRegion, AddErrorExiftooCommandVerify,
-                                                            AddErrorExiftooParameterVerify, AddErrorExiftooParameterVerify,
-                                                            "Issue: Verified Metadata is not equal with written.\r\n" +
-                                                            "File Name: " + metadataUpdatedByUserCopy.FileFullPath + "\r\n" +
-                                                            "Error Message: " + writeErrorDesciption + "\r\n" +
-                                                            "Reason: 3rd party applicatoin are doing correction on file, e.g OneDrive -> Microsoft Photos -> Synced back with changes\r\n" +
-                                                            "Reason: There's tags from Manifactors or other applications store metadata same type of metadata.\r\n" +
-                                                            "Solution: 1) Config Write Metadata to overwite old infomtation with new. 2) Config the tag with lower priority or ignor it.");
-                                                        #endregion
+                                                            #region Save Metadata with Broker Exiftool | WriteError 
+                                                            Metadata metadataError = new Metadata(metadataUpdatedByUserCopy);
+                                                            //metadataError.FileDateModified = DateTime.Now;
+                                                            metadataError.Broker |= MetadataBrokerType.ExifToolWriteError;
+                                                            databaseAndCacheMetadataExiftool.Write(metadataError);
+                                                            #endregion
 
-                                                        #region Save Metadata with Broker Exiftool | WriteError 
-                                                        Metadata metadataError = new Metadata(metadataUpdatedByUserCopy);
-                                                        //metadataError.FileDateModified = DateTime.Now;
-                                                        metadataError.Broker |= MetadataBrokerType.ExifToolWriteError;
-                                                        databaseAndCacheMetadataExiftool.Write(metadataError);
-                                                        #endregion
+                                                            DataGridViewSetMetadataOnAllDataGridView(metadataRead);
+                                                            DataGridViewSetDirtyFlagAfterSave(metadataRead, true);
 
-                                                        DataGridViewSetMetadataOnAllDataGridView(metadataRead);
-                                                        DataGridViewSetDirtyFlagAfterSave(metadataRead, true);
+                                                            #region Populate - Current ImageListView Item - With erros info
+                                                            FileStatus fileStatusVerify = FileHandler.GetFileStatus(
+                                                                metadataError.FileFullPath, checkLockedStatus: true, checkLockStatusTimeout: FileHandler.GetFileLockedStatusTimeout,
+                                                                hasErrorOccured: true, errorMessage: "Verify data failed",
+                                                                exiftoolProcessStatus: ExiftoolProcessStatus.FileInaccessibleOrError);
+                                                            ImageListView_UpdateItemFileStatusInvoke(metadataError.FileFullPath, fileStatusVerify);
+                                                            #endregion
 
-                                                        #region Populate - Current ImageListView Item - With erros info
-                                                        FileStatus fileStatusVerify = FileHandler.GetFileStatus(
-                                                            metadataError.FileFullPath, checkLockedStatus: true, checkLockStatusTimeout: FileHandler.GetFileLockedStatusTimeout,
-                                                            hasErrorOccured: true, errorMessage: "Verify data failed",
-                                                            exiftoolProcessStatus: ExiftoolProcessStatus.FileInaccessibleOrError);
-                                                        ImageListView_UpdateItemFileStatusInvoke(metadataError.FileFullPath, fileStatusVerify);
-                                                        #endregion
+                                                            #region Populate - Current DataGridView Column - Add new Error Coloumn
+                                                            FileEntryAttribute fileEntryAttributeError = new FileEntryAttribute(
+                                                                metadataError.FileFullPath, (DateTime)metadataError.FileDateModified, FileEntryVersion.Error);
+                                                            AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(fileEntryAttributeError);
+                                                            #endregion
 
-                                                        #region Populate - Current DataGridView Column - Add new Error Coloumn
-                                                        FileEntryAttribute fileEntryAttributeError = new FileEntryAttribute(
-                                                            metadataError.FileFullPath, (DateTime)metadataError.FileDateModified, FileEntryVersion.Error);
-                                                        AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(fileEntryAttributeError);
-                                                        #endregion
-                                                    }
-                                                    #endregion
+                                                            #region Data was read, (even with errors), need to updated datagrid
+                                                            AddQueueSaveToDatabaseRegionAndThumbnailLock(metadataRead);
+                                                            #endregion
 
-                                                    //Data was read, (even with errors), need to updated datagrid
-                                                    AddQueueSaveToDatabaseRegionAndThumbnailLock(metadataRead);
+                                                            break;
+                                                        case MetadataErrors.WasUpdatedAfterRead:
+                                                            //Output: List<Metadata> *exiftoolSave_QueueMetadataWrittenByExiftoolReadyToVerify (was not found)*
+                                                            //Was added back to queue - Check if still missing data in Database, if yes, read again
+                                                            break;
+                                                        case MetadataErrors.NoErrors:
+                                                            #region Data was read, (even with errors), need to updated datagrid
+                                                            AddQueueSaveToDatabaseRegionAndThumbnailLock(metadataRead);
+                                                            #endregion
 
-                                                    if (!isMetadataHavingErrors) //If have error, already populated, with error info
-                                                    {
-                                                        #region Populate - Current ImageListView Item - If no erros
-                                                        FileStatus fileStatus = FileHandler.GetFileStatus(metadataRead.FileFullPath);
-                                                        if (isMetadataHavingErrors)
-                                                        {
-                                                            fileStatus.HasErrorOccured = true;
-                                                            fileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.FileInaccessibleOrError;
-                                                        }
-                                                        else
-                                                        {
+                                                            #region Populate - Current ImageListView Item - If no erros
+                                                            FileStatus fileStatus = FileHandler.GetFileStatus(metadataRead.FileFullPath);
                                                             fileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.WaitAction;
-                                                        }
+                                                            
+                                                            FileEntryAttribute fileEntryAttributeExtractedNowUsingExiftool = new FileEntryAttribute(metadataRead.FileFullPath,
+                                                                (DateTime)metadataRead.FileDateModified,
+                                                                FileEntryVersion.ExtractedNowUsingExiftool);
+                                                            ImageListView_UpdateItemExiftoolMetadataInvoke(fileEntryAttributeExtractedNowUsingExiftool, fileStatus);
+                                                            #endregion
 
-                                                        FileEntryAttribute fileEntryAttributeExtractedNowUsingExiftool = new FileEntryAttribute(metadataRead.FileFullPath,
-                                                            (DateTime)metadataRead.FileDateModified,
-                                                            FileEntryVersion.ExtractedNowUsingExiftool);
-                                                        //ImageListView_UpdateItemFileStatusInvoke(metadataRead.FileFullPath, fileStatus);
-                                                        ImageListView_UpdateItemExiftoolMetadataInvoke(fileEntryAttributeExtractedNowUsingExiftool, fileStatus);
-                                                        #endregion
-
-                                                        #region Populate - Current DataGridView Column - If no errors
-                                                        AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(fileEntryAttributeExtractedNowUsingExiftool);
-                                                        #endregion
+                                                            #region Populate - Current DataGridView Column - If no errors
+                                                            AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(fileEntryAttributeExtractedNowUsingExiftool);
+                                                            #endregion 
+                                                            break;
+                                                        default:
+                                                            throw new NotImplementedException();
                                                     }
-
-                                                    #region Populate - Historical DataGridView Column 
-                                                    FileEntryAttribute fileEntryAttributeHistorical = new FileEntryAttribute(metadataRead.FileFullPath,
-                                                        (DateTime)metadataRead.FileDateModified,
-                                                        FileEntryVersion.Historical);
-                                                    AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(fileEntryAttributeHistorical);
                                                     #endregion
+
+                                                    
                                                 }
                                             }
 
@@ -1451,7 +1493,8 @@ namespace PhotoTagsSynchronizer
                                         }
                                         #endregion
 
-                                        #region mediaFilesNotInDatabase.RemoveRange(0, range)
+                                        //Output: exiftool_MediaFilesNotInDatabase - Clear
+                                        #region Clear the mediaFilesNotInDatabase
                                         try
                                         {
                                             lock (exiftool_MediaFilesNotInDatabaseLock)
@@ -1465,6 +1508,18 @@ namespace PhotoTagsSynchronizer
                                             Logger.Error(ex, "ThreadCollectMetadataExiftool - mediaFilesNotInDatabase.RemoveRange(0, range) failed.");
                                         }
                                         #endregion
+
+                                        //Input: List<Metadata> exiftoolSave_QueueMetadataWrittenByExiftoolReadyToVerify
+                                        //Output: List<FileEntry> commonQueueReadMetadataFromSourceExiftool, if still in verified queue, add it back to read list
+                                        #region 
+                                        lock (exiftoolSave_QueueMetadataWrittenByExiftoolReadyToVerifyLock)
+                                        {
+                                            foreach (Metadata metadataToBeVerified in exiftoolSave_QueueMetadataWrittenByExiftoolReadyToVerify)
+                                            {
+                                                AddQueueReadFromSourceExiftoolLock(metadataToBeVerified.FileEntry, alsoAddToTheEnd: false);
+                                            }
+                                        }
+                                        #endregion 
                                     }
                                 }
 

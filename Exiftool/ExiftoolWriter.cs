@@ -13,7 +13,12 @@ using System.Threading;
 
 namespace Exiftool
 {
-
+    public enum MetadataErrors
+    {
+        HasError,
+        WasUpdatedAfterRead,
+        NoErrors
+    }
     public static class ExiftoolWriter
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
@@ -301,8 +306,8 @@ namespace Exiftool
         #endregion
 
         #region Verify HasWriteMetadataErrors
-        public static bool HasWriteMetadataErrors(Metadata metadataRead,    /* Data read back after saved and need to be verifyed */
-            List<Metadata> metadataWrittenByExiftoolWaitVerify,             /* This what should have been saved, check if same info read back */ 
+        public static MetadataErrors HasWriteMetadataErrors(Metadata metadataRead,    /* Data read back after saved and need to be verifyed */
+            ref List<Metadata> metadataWrittenByExiftoolWaitVerify,             /* This what should have been saved, check if same info read back */ 
             out Metadata metadataUpdatedByUserCopy, out string errorMessage)
         {
             //Out parameter default
@@ -310,33 +315,27 @@ namespace Exiftool
             metadataUpdatedByUserCopy = null;
 
             if (metadataWrittenByExiftoolWaitVerify.Count == 0) 
-                return false;
+                return MetadataErrors.NoErrors;
 
-            bool foundErrors = false;
+            MetadataErrors foundErrors = MetadataErrors.NoErrors;
 
             int verifyPosition = Metadata.FindFullFilenameInList(metadataWrittenByExiftoolWaitVerify, metadataRead.FileEntryBroker.FileFullPath);
             if (verifyPosition != -1)
             {
                 ///Remove from list and add back to Read Exif once more
                 if (metadataRead.FileEntryBroker.LastWriteDateTime > metadataWrittenByExiftoolWaitVerify[verifyPosition].FileDateModified)
-                {
-                    string fileErrorMessage = "File has been updated between writing and read back using exiftool.\r\n" +
-                        "This can occure when OneDrive, GoogleDrive, Dropbox, iDrive, Box etc... change dates during syncing files.\r\n" +
-                        "File modified before Exiftool: " + metadataRead.FileEntryBroker.LastWriteDateTime.ToString() + "\r\n" +
-                        "File modified after  Exiftool: " + metadataWrittenByExiftoolWaitVerify[verifyPosition].FileDateModified.ToString();
-                    errorMessage += (string.IsNullOrWhiteSpace(errorMessage) ? "" : "\r\n") + fileErrorMessage;
-                    Logger.Warn("File with error: " + metadataRead.FileFullPath + "\r\n" + errorMessage);
-                    foundErrors = true;
+                { 
+                    return MetadataErrors.WasUpdatedAfterRead;
                 }
             }
             
-            if (verifyPosition == -1) return false; //No need for verify, the metadata was only read, most likly first time read (without save, read and verify)
+            if (verifyPosition == -1) return MetadataErrors.NoErrors; //No need for verify, the metadata was only read, most likly first time read (without save, read and verify)
 
             metadataUpdatedByUserCopy = new Metadata(metadataWrittenByExiftoolWaitVerify[verifyPosition]); //Copy data to verify
             metadataWrittenByExiftoolWaitVerify.RemoveAt(verifyPosition);
 
             //Remove old versions of "Need to be veriyfied"
-            bool foundOldVersionToVerify; //Happens when multiple save are done and save faild, and veridify was not done for each media file
+            bool foundOldVersionToVerify; //Happens when multiple save are done and save failed, and veridify was not done for each media file
             do
             {
                 foundOldVersionToVerify = false;
@@ -374,7 +373,7 @@ namespace Exiftool
                     "Metadata errors:\r\n" + Metadata.GetErrors(metadataUpdatedByUserCopy, metadataRead);
                 Logger.Warn("File with error: " + metadataUpdatedByUserCopy.FileFullPath + "\r\n" + errorMessage);
 
-                foundErrors = true;
+                foundErrors = MetadataErrors.HasError;
             }                
             
             return foundErrors;  
