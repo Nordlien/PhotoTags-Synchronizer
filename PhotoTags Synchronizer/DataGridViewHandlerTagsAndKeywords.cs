@@ -69,11 +69,8 @@ namespace PhotoTagsSynchronizer
 
             byte rating = 255; //empty
             var ratingValue = DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagRating);
-            if (ratingValue == null) { }
-            else if (ratingValue.GetType() == typeof(byte)) rating = (byte)ratingValue;
-            else if (ratingValue.GetType() == typeof(int)) rating = (byte)(int)ratingValue;
-            else if (ratingValue.GetType() == typeof(string)) byte.TryParse((string)ratingValue, out rating);
-
+            if (ratingValue != null && !byte.TryParse(ratingValue.ToString(), out rating)) rating = 255;
+            
             if (rating >= 0 && rating <= 5)
                 metadata.PersonalRating = rating;
             else
