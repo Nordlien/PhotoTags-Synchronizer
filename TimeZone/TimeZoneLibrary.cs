@@ -352,7 +352,7 @@ namespace TimeZone
             return CalulateTimeDiffrentWithoutTimeZone(dateTime1, dateTime2);
         }
 
-        #region Check DateTime Equal -accept one secound mismatch
+        #region Check DateTime Equal - accept one secound mismatch
         public static bool IsDateTimeEqualWithinOneSecond(DateTime? c1, DateTime? c2, int numberOfSeconds = 1)
         {
             if (c1 == null && c2 == null) return true;
@@ -367,6 +367,28 @@ namespace TimeZone
             return false;
         }
         #endregion
+
+        #region Check DateTime Equal - accept one secound mismatch
+        public static bool IsDateTimeYYYYMMDDHHmmSSEqual(DateTime? c1, DateTime? c2)
+        {
+            if (c1 == null && c2 == null) return true;
+            if (c1 == null && c2 != null) return false;
+            if (c1 != null && c2 == null) return false;
+            if (
+                ((DateTime)c1).Year == ((DateTime)c2).Year &&
+                ((DateTime)c1).Month == ((DateTime)c2).Month &&
+                ((DateTime)c1).Day == ((DateTime)c2).Day &&
+                ((DateTime)c1).Hour == ((DateTime)c2).Hour &&
+                ((DateTime)c1).Minute == ((DateTime)c2).Minute &&
+                ((DateTime)c1).Second == ((DateTime)c2).Second
+                )
+                return true;
+
+            return false;
+        }
+        #endregion
+
+        #region IsTimeZoneEqual
         public static bool IsTimeZoneEqual(double metadataLocationLatitude, double metadataLocationLongitude, DateTime dateTimeMediaTaken, DateTime dateTimeLocation, out string TimeZoneVerfification)
         {
             DateTime dateTimeMediaTakenWithoutZone = new DateTime(dateTimeMediaTaken.Ticks);
@@ -399,5 +421,6 @@ namespace TimeZone
                 return false;
             }
         }
+        #endregion
     }
 }
