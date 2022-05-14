@@ -1440,7 +1440,11 @@ namespace PhotoTagsSynchronizer
                                                                 metadataError.FileFullPath, checkLockedStatus: true, checkLockStatusTimeout: FileHandler.GetFileLockedStatusTimeout,
                                                                 hasErrorOccured: true, errorMessage: "Verify data failed",
                                                                 exiftoolProcessStatus: ExiftoolProcessStatus.FileInaccessibleOrError);
-                                                            ImageListView_UpdateItemFileStatusInvoke(metadataError.FileFullPath, fileStatusVerify);
+                                                            
+                                                            FileEntryAttribute fileEntryAttributeCurrent = new FileEntryAttribute(
+                                                                metadataError.FileFullPath, (DateTime)metadataError.FileDateModified, FileEntryVersion.Error);
+                                                            //ImageListView_UpdateItemFileStatusInvoke(metadataError.FileFullPath, fileStatusVerify);
+                                                            ImageListView_UpdateItemExiftoolMetadataInvoke(fileEntryAttributeCurrent, fileStatusVerify);
                                                             #endregion
 
                                                             #region Populate - Current DataGridView Column - Add new Error Coloumn
@@ -1974,94 +1978,84 @@ namespace PhotoTagsSynchronizer
                                 #region Check if all files was updated, if updated, add to verify queue
                                 if (!GlobalData.IsApplicationClosing)
                                 {
-                                    foreach (FileEntry fileSuposeToBeUpdated in mediaFilesUpdatedByExiftool)
+                                    foreach (FileEntry fileEntrySupposedToBeUpdated in mediaFilesUpdatedByExiftool)
                                     {
                                         try
                                         {
-                                            #region AddError - When Write Xtra Atoms failed?
-                                            if (writeXtraAtom_ErrorMessageForFile.ContainsKey(fileSuposeToBeUpdated.FileFullPath))
+                                            string currentFilenameAfterUpdate = fileEntrySupposedToBeUpdated.FileFullPath;
+                                            int indexExiftoolFailedOn = Metadata.FindFileEntryInList(exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser, fileEntrySupposedToBeUpdated);
+
+                                            Metadata metadataSupposedToBeSaved = exiftoolSave_QueueSubset_MetadataOrigialBeforeUserUpdate[indexExiftoolFailedOn];
+
+                                            //Output: currentFilenameAfterUpdate
+                                            #region If not written to new Filename, use old filename.
+                                            lock (exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUserLock)
                                             {
-                                                FileStatus fileStatus = FileHandler.GetFileStatus(
-                                                    fileSuposeToBeUpdated.FileFullPath, checkLockedStatus: true,
-                                                    hasErrorOccured: true, errorMessage: writeXtraAtom_ErrorMessageForFile[fileSuposeToBeUpdated.FileFullPath],
-                                                    exiftoolProcessStatus: ExiftoolProcessStatus.FileInaccessibleOrError);
-                                                ImageListView_UpdateItemFileStatusInvoke(fileSuposeToBeUpdated.FileFullPath, fileStatus);
-                                                
-                                                AddError(
-                                                    fileSuposeToBeUpdated.Directory, fileSuposeToBeUpdated.FileName, fileSuposeToBeUpdated.LastWriteDateTime,
-                                                    AddErrorExiftooRegion, AddErrorExiftooCommandWrite, AddErrorExiftooParameterWrite, AddErrorExiftooParameterWrite,
-                                                    "Issue: Failed write Xtra Atom property to file.\r\n" +
-                                                    "File Name:   " + fileSuposeToBeUpdated.FileFullPath + "\r\n" +
-                                                    "File Status: " + fileStatus.ToString() + "\r\n" +
-                                                    "Error message:" + writeXtraAtom_ErrorMessageForFile[fileSuposeToBeUpdated.FileFullPath]);
+                                                if (
+                                                    fileEntrySupposedToBeUpdated.FileFullPath != exiftoolSave_QueueSubset_MetadataOrigialBeforeUserUpdate[indexExiftoolFailedOn].FileFullPath &&
+                                                    !File.Exists(fileEntrySupposedToBeUpdated.FileFullPath) && //New rename to name doesn't exit
+                                                    File.Exists(metadataSupposedToBeSaved.FileFullPath) //But old filename exit
+                                                    )
+                                                {
+                                                    string oldFullFilename = fileEntrySupposedToBeUpdated.FileFullPath;
+                                                    string newFullFilename = metadataSupposedToBeSaved.FileFullPath;
+
+                                                    DataGridView_Rename_Invoke(oldFullFilename, newFullFilename);
+                                                    ImageListView_Rename_Invoke(oldFullFilename, newFullFilename);
+
+                                                    Database_Rename(
+                                                        Path.GetDirectoryName(oldFullFilename), Path.GetFileName(oldFullFilename),
+                                                        Path.GetDirectoryName(newFullFilename), Path.GetFileName(newFullFilename));
+
+                                                    currentFilenameAfterUpdate = newFullFilename;
+                                                }
+                                                else
+                                                {
+                                                    currentFilenameAfterUpdate = fileEntrySupposedToBeUpdated.FileFullPath;
+                                                }
                                             }
                                             #endregion
 
-                                            DateTime currentLastWrittenDateTime = FileHandler.GetLastWriteTime(fileSuposeToBeUpdated.FileFullPath, waitAndRetry: false);
-                                            DateTime previousLastWrittenDateTime = (DateTime)fileSuposeToBeUpdated.LastWriteDateTime;
+                                            //Output: writeXtraAtom_ErrorMessageForFile[fileEntrySupposedToBeUpdated.FileFullPath] on currentFilenameAfterUpdate
+                                            #region AddError - When Write Xtra Atoms failed?
+                                            if (writeXtraAtom_ErrorMessageForFile.ContainsKey(fileEntrySupposedToBeUpdated.FileFullPath))
+                                            {
+                                                FileStatus fileStatus = FileHandler.GetFileStatus(
+                                                    currentFilenameAfterUpdate, checkLockedStatus: true,
+                                                    hasErrorOccured: true, errorMessage: writeXtraAtom_ErrorMessageForFile[fileEntrySupposedToBeUpdated.FileFullPath],
+                                                    exiftoolProcessStatus: ExiftoolProcessStatus.FileInaccessibleOrError);
+                                                ImageListView_UpdateItemFileStatusInvoke(currentFilenameAfterUpdate, fileStatus);
+
+                                                AddError(
+                                                    fileEntrySupposedToBeUpdated.Directory, currentFilenameAfterUpdate, fileEntrySupposedToBeUpdated.LastWriteDateTime,
+                                                    AddErrorExiftooRegion, AddErrorExiftooCommandWrite, AddErrorExiftooParameterWrite, AddErrorExiftooParameterWrite,
+                                                    "Issue: Failed write Xtra Atom property to file.\r\n" +
+                                                    "File Name:   " + currentFilenameAfterUpdate + "\r\n" +
+                                                    "File Status: " + fileStatus.ToString() + "\r\n" +
+                                                    "Error message:" + writeXtraAtom_ErrorMessageForFile[fileEntrySupposedToBeUpdated.FileFullPath]);
+                                            }
+                                            #endregion
+
+                                            #region Remove from Circle Progressbar when file doesn't exist anymore
+                                            if (!File.Exists(fileEntrySupposedToBeUpdated.FileFullPath))
+                                            {
+                                                RemoveQueueLazyLoadningSelectedFilesLock(new FileEntryBroker(fileEntrySupposedToBeUpdated, MetadataBrokerType.Queue));
+                                                RemoveQueueLazyLoadningSelectedFilesLock(new FileEntryBroker(fileEntrySupposedToBeUpdated, MetadataBrokerType.ExifTool));
+                                                ImageListViewRemoveItemInvoke(fileEntrySupposedToBeUpdated.FileFullPath);
+                                            }
+                                            #endregion
+
+                                            #region Get file LastWritten date on file to check if updated (currentFilenameAfterUpdate)
+                                            DateTime currentLastWrittenDateTime = FileHandler.GetLastWriteTime(currentFilenameAfterUpdate, waitAndRetry: false);
+                                            DateTime previousLastWrittenDateTime = (DateTime)fileEntrySupposedToBeUpdated.LastWriteDateTime;
+                                            #endregion
 
                                             //Find last known writtenDate for file
                                             //Check if file is updated, if file LastWrittenDateTime has changed, file is updated
                                             //If file not found, current will become 1601.01.01, ref. Microsoft documentation
                                             if (currentLastWrittenDateTime <= previousLastWrittenDateTime)
                                             {
-                                                int indexExiftoolFailedOn = Metadata.FindFileEntryInList(exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser, fileSuposeToBeUpdated);
-
-                                                #region If not written and should be renamed, that means old filename are still been used.
-                                                lock (exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUserLock)
-                                                {
-                                                    if (
-                                                        exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser[indexExiftoolFailedOn].FileFullPath !=
-                                                        exiftoolSave_QueueSubset_MetadataOrigialBeforeUserUpdate[indexExiftoolFailedOn].FileFullPath &&
-                                                        !File.Exists(exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser[indexExiftoolFailedOn].FileFullPath) && //New rename to name doesn't exit
-                                                        File.Exists(exiftoolSave_QueueSubset_MetadataOrigialBeforeUserUpdate[indexExiftoolFailedOn].FileFullPath) //But old filename exit
-                                                        )
-                                                    {
-
-                                                        DataGridView_Rename_Invoke(
-                                                            exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser[indexExiftoolFailedOn].FileFullPath,
-                                                            exiftoolSave_QueueSubset_MetadataOrigialBeforeUserUpdate[indexExiftoolFailedOn].FileFullPath);
-
-                                                        ImageListView_Rename_Invoke(
-                                                            exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser[indexExiftoolFailedOn].FileFullPath,
-                                                            exiftoolSave_QueueSubset_MetadataOrigialBeforeUserUpdate[indexExiftoolFailedOn].FileFullPath);
-                                                    }
-                                                }
-                                                #endregion
-
-                                                #region Remove from Circle Progressbar when file doesn't exist anymore
-                                                if (!File.Exists(exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser[indexExiftoolFailedOn].FileFullPath) &&
-                                                    !File.Exists(exiftoolSave_QueueSubset_MetadataOrigialBeforeUserUpdate[indexExiftoolFailedOn].FileFullPath))
-                                                {
-                                                    RemoveQueueLazyLoadningSelectedFilesLock(new FileEntryBroker(exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser[indexExiftoolFailedOn].FileEntry, MetadataBrokerType.Queue));
-                                                    RemoveQueueLazyLoadningSelectedFilesLock(new FileEntryBroker(exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser[indexExiftoolFailedOn].FileEntry, MetadataBrokerType.ExifTool));
-                                                    ImageListViewRemoveItemInvoke(exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser[indexExiftoolFailedOn].FileFullPath);
-                                                }
-                                                #endregion
-
-                                                #region Updated ImageListView Error Status
-                                                FileStatus fileStatus = FileHandler.GetFileStatus(
-                                                    fileSuposeToBeUpdated.FileFullPath, checkLockedStatus: true,
-                                                    hasErrorOccured: true, errorMessage: exiftoolErrorMessage,
-                                                    exiftoolProcessStatus: ExiftoolProcessStatus.FileInaccessibleOrError);
-                                                ImageListView_UpdateItemFileStatusInvoke(fileSuposeToBeUpdated.FileFullPath, fileStatus);
-                                                #endregion
-
-                                                #region AddError - Exiftool failed
-                                                string lockedByProcessesText = "";
-                                                if (fileStatus.HasAnyLocks) lockedByProcessesText = FileHandler.GetLockedByText(fileSuposeToBeUpdated.FileFullPath);
-                                                
-                                                AddError(
-                                                    fileSuposeToBeUpdated.Directory, fileSuposeToBeUpdated.FileName, fileSuposeToBeUpdated.LastWriteDateTime,
-                                                    AddErrorExiftooRegion, AddErrorExiftooCommandWrite, AddErrorExiftooParameterWrite, AddErrorExiftooParameterWrite,
-                                                    "Issue: EXIFTOOL.EXE failed write to file." + "\r\n" +
-                                                    "File Name:  " + fileSuposeToBeUpdated.FileFullPath + "\r\n" +
-                                                    "File Status: " + FileHandler.GetFileStatusText(fileSuposeToBeUpdated.FileFullPath, checkLockedStatus: true, showLockedByProcess: true) + "\r\n" +
-                                                    "Error Message: " + exiftoolErrorMessage);
-                                                #endregion
-
                                                 #region Remove from SubsetQueue (Exiftool failed to write, no need to verify data that hasn't been written)
-                                                //int indexExiftoolFailedOn = Metadata.FindFileEntryInList(exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser, fileSuposeToBeUpdated);
                                                 if (indexExiftoolFailedOn > -1 && indexExiftoolFailedOn < exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser.Count)
                                                 {
                                                     lock (exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUserLock)
@@ -2071,11 +2065,32 @@ namespace PhotoTagsSynchronizer
                                                     }
                                                 }
                                                 #endregion
+
+                                                #region Updated ImageListView Error Status (currentFilenameAfterUpdate)
+                                                FileStatus fileStatus = FileHandler.GetFileStatus(
+                                                    currentFilenameAfterUpdate, checkLockedStatus: true,
+                                                    hasErrorOccured: true, errorMessage: exiftoolErrorMessage,
+                                                    exiftoolProcessStatus: ExiftoolProcessStatus.FileInaccessibleOrError);
+                                                ImageListView_UpdateItemFileStatusInvoke(currentFilenameAfterUpdate, fileStatus);
+                                                #endregion
+
+                                                #region AddError - Exiftool failed (currentFilenameAfterUpdate)
+                                                string lockedByProcessesText = "";
+                                                if (fileStatus.HasAnyLocks) lockedByProcessesText = FileHandler.GetLockedByText(fileEntrySupposedToBeUpdated.FileFullPath);
+
+                                                AddError(
+                                                    Path.GetDirectoryName(currentFilenameAfterUpdate), Path.GetFileName(currentFilenameAfterUpdate), fileEntrySupposedToBeUpdated.LastWriteDateTime,
+                                                    AddErrorExiftooRegion, AddErrorExiftooCommandWrite, AddErrorExiftooParameterWrite, AddErrorExiftooParameterWrite,
+                                                    "Issue: EXIFTOOL.EXE failed write to file." + "\r\n" +
+                                                    "File Name:  " + currentFilenameAfterUpdate + "\r\n" +
+                                                    "File Status: " + FileHandler.GetFileStatusText(currentFilenameAfterUpdate, checkLockedStatus: true, showLockedByProcess: true) + "\r\n" +
+                                                    "Error Message: " + exiftoolErrorMessage);
+                                                #endregion
                                             }
 
                                             #region Add to Verify queue, clear thumbnail on ImageListView (exiftoolSave_QueueSubsetMetadataToSave contains only written)
                                             //When Write With Exiftool Fail, then file was removed from "exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser"
-                                            int indexInVerifyQueue = Metadata.FindFileEntryInList(exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser, fileSuposeToBeUpdated);
+                                            int indexInVerifyQueue = Metadata.FindFileEntryInList(exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser, fileEntrySupposedToBeUpdated);
                                             if (indexInVerifyQueue > -1 && indexInVerifyQueue < exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser.Count)
                                             {
                                                 Metadata currentMetadata;
@@ -2087,7 +2102,7 @@ namespace PhotoTagsSynchronizer
 
                                                 #region Save the metatdata into DataGridView(s) - saved metadata should also be readed back, if not, verify will tell save failed
                                                 DataGridViewSetMetadataOnAllDataGridView(currentMetadata); //PS: Sets only Metadata, not updates the content
-                                                DataGridViewSetDirtyFlagAfterSave(currentMetadata, false); //Not set Dirty flag is fals, not edit by user (yet)
+                                                DataGridViewSetDirtyFlagAfterSave(currentMetadata, false); //Not set Dirty flag is false, not edit by user (yet)
                                                 #endregion
 
                                                 #region If file was updated - Add to Verify queue
@@ -2101,12 +2116,12 @@ namespace PhotoTagsSynchronizer
                                                 ImageListView_UpdateItemThumbnailUpdateAllInvoke(currentMetadata.FileEntryBroker);
 
                                                 FileEntryAttribute fileEntryAttributeHistorical = 
-                                                    new FileEntryAttribute(fileSuposeToBeUpdated, FileEntryVersion.Historical);
+                                                    new FileEntryAttribute(fileEntrySupposedToBeUpdated, FileEntryVersion.Historical);
                                                 AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(fileEntryAttributeHistorical);
                                             }
                                             else
                                             {
-                                                Logger.Warn("Was not able to removed from queue, didn't exist in queue anymore: " + fileSuposeToBeUpdated);
+                                                Logger.Warn("Was not able to removed from queue, didn't exist in queue anymore: " + fileEntrySupposedToBeUpdated);
                                             }
                                             #endregion
                                         }

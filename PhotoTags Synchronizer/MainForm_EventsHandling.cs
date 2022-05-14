@@ -6873,14 +6873,7 @@ namespace PhotoTagsSynchronizer
 
                         ImageListView_Rename_Invoke(oldFullFilename, newFullFilename);
                         DataGridView_Rename_Invoke(oldFullFilename, newFullFilename);
-
-                        databaseAndCacheThumbnailPoster.Move(oldDirectory, oldFilename, newDirectory, newFilename);
-                        if (!databaseAndCacheMetadataExiftool.Move(oldDirectory, oldFilename, newDirectory, newFilename))
-                        {
-                            filesCutCopyPasteDrag.DeleteFileAndHistory(oldFilename);
-                            databaseAndCacheThumbnailPoster.Move(oldDirectory, oldFilename, newDirectory, newFilename);
-                            databaseAndCacheMetadataExiftool.Move(oldDirectory, oldFilename, newDirectory, newFilename);
-                        }
+                        Database_Rename(oldDirectory, oldFilename, newDirectory, newFullFilename);
                     }
                 }
             }

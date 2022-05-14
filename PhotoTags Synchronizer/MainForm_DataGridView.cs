@@ -1952,6 +1952,16 @@ namespace PhotoTagsSynchronizer
         
 
         #region DataGridView - Rename
+        private void Database_Rename(string oldDirectory, string oldFilename, string newDirectory, string newFilename)
+        {
+            databaseAndCacheThumbnailPoster.Move(oldDirectory, oldFilename, newDirectory, newFilename);
+            if (!databaseAndCacheMetadataExiftool.Move(oldDirectory, oldFilename, newDirectory, newFilename))
+            {
+                filesCutCopyPasteDrag.DeleteFileAndHistory(oldFilename);
+                databaseAndCacheThumbnailPoster.Move(oldDirectory, oldFilename, newDirectory, newFilename);
+                databaseAndCacheMetadataExiftool.Move(oldDirectory, oldFilename, newDirectory, newFilename);
+            }
+        }
         private void DataGridView_Rename_Invoke(string oldFullFilename, string newFullFilename)
         {
             if (InvokeRequired)
