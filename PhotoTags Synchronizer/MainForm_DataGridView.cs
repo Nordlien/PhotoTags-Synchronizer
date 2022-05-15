@@ -1906,7 +1906,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Select
+        #region DataGridView - Select DataGridView - All UsingFileEntry
 
         private void SelectDataGridViewAllUsingFileEntry(HashSet<FileEntry> selectedFileEntries)
         {
@@ -1949,9 +1949,7 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-        
-
-        #region DataGridView - Rename
+        #region DataGridView - Rename Header - Database
         private void Database_Rename(string oldDirectory, string oldFilename, string newDirectory, string newFilename)
         {
             databaseAndCacheThumbnailPoster.Move(oldDirectory, oldFilename, newDirectory, newFilename);
@@ -1962,6 +1960,9 @@ namespace PhotoTagsSynchronizer
                 databaseAndCacheMetadataExiftool.Move(oldDirectory, oldFilename, newDirectory, newFilename);
             }
         }
+        #endregion
+
+        #region DataGridView - Rename Header
         private void DataGridView_Rename_Invoke(string oldFullFilename, string newFullFilename)
         {
             if (InvokeRequired)
