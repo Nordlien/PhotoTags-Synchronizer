@@ -724,6 +724,7 @@ namespace PhotoTagsSynchronizer
                         #region Find best GPS location
                         if (dateTimeUTC != null) //UTC time found, guess location based on UTC time
                         {
+                            metadataCopy.LocationDateTime = dateTimeUTC;
                             Metadata metadataLocationBasedOnBestGuess = databaseGoogleLocationHistory.FindLocationBasedOnTime(
                                 cameraOwner, dateTimeUTC, 60 * LocationFindMinutes);
 
@@ -757,6 +758,14 @@ namespace PhotoTagsSynchronizer
                                 dateTimeUTC, metadataCopy?.MediaDateTaken, 
                                 UseSmartDate ? metadataCopy?.FileSmartDate(allowedDateFormats) : metadataCopy?.FileDate,
                                 60 * LocationFindMinutesNearByMedia);
+
+                            #region xx.00000 coordinate is a bug from Microsoft Photos, avoid them
+                            if (metadataLocationBasedOnBestGuess != null)
+                            {
+                                if ((int)metadataLocationBasedOnBestGuess.LocationLatitude == metadataLocationBasedOnBestGuess.LocationLatitude ||
+                                    (int)metadataLocationBasedOnBestGuess.LocationLongitude == metadataLocationBasedOnBestGuess.LocationLongitude) metadataLocationBasedOnBestGuess = null;
+                            }
+                            #endregion
 
                             if (metadataLocationBasedOnBestGuess != null && metadataLocationBasedOnBestGuess.LocationLatitude != null && metadataLocationBasedOnBestGuess.LocationLongitude != null)
                             {

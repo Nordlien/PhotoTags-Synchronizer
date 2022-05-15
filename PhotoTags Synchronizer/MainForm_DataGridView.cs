@@ -945,8 +945,9 @@ namespace PhotoTagsSynchronizer
                         case LinkTabAndDataGridViewNameDates:
                             DataGridViewHandlerTagsAndKeywords.PopulateFile(dataGridViewTagsAndKeywords, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, false);
                             DataGridViewHandlerPeople.PopulateFile(dataGridViewPeople, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, false);
-                            DataGridViewHandlerMap.PopulateFile(dataGridViewMap, dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, false);
                             DataGridViewHandlerDate.PopulateFile(dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, false);
+                            //Map need to be populated after Date
+                            DataGridViewHandlerMap.PopulateFile(dataGridViewMap, dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, false);
                             BeginInvoke(new Action<DataGridView, FileEntryAttribute>(DataGridViewHandlerDate.PopulateExiftoolData), dataGridViewDate, fileEntryAttribute);
 
                             if (DataGridViewHandlerExiftool.HasBeenInitialized) DataGridViewHandlerExiftool.PopulateFile(dataGridViewExiftool, fileEntryAttribute, showWhatColumns);
@@ -959,12 +960,14 @@ namespace PhotoTagsSynchronizer
 
                             if (DataGridViewHandlerTagsAndKeywords.HasBeenInitialized) DataGridViewHandlerTagsAndKeywords.PopulateFile(dataGridViewTagsAndKeywords, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
                             if (DataGridViewHandlerPeople.HasBeenInitialized) DataGridViewHandlerPeople.PopulateFile(dataGridViewPeople, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
-                            if (DataGridViewHandlerMap.HasBeenInitialized) DataGridViewHandlerMap.PopulateFile(dataGridViewMap, dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
                             if (DataGridViewHandlerDate.HasBeenInitialized)
                             {
                                 DataGridViewHandlerDate.PopulateFile(dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
                                 BeginInvoke(new Action<DataGridView, FileEntryAttribute>(DataGridViewHandlerDate.PopulateExiftoolData), dataGridViewDate, fileEntryAttribute);
                             }
+                            //Map need to be populated after Date
+                            if (DataGridViewHandlerMap.HasBeenInitialized) DataGridViewHandlerMap.PopulateFile(dataGridViewMap, dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true); 
+
                             //if (DataGridViewHandlerExiftool.HasBeenInitialized) DataGridViewHandlerExiftool.PopulateFile(dataGridViewExiftool, fileEntryAttribute, showWhatColumns);
                             if (DataGridViewHandlerExiftoolWarnings.HasBeenInitialized) DataGridViewHandlerExiftoolWarnings.PopulateFile(dataGridViewExiftoolWarning, fileEntryAttribute, showWhatColumns);
                             if (DataGridViewHandlerRename.HasBeenInitialized) DataGridViewHandlerRename.PopulateFile(dataGridViewRename, fileEntryAttribute, DataGridViewHandlerRename.ShowFullPath, metadataAutoCorrect);
@@ -975,12 +978,13 @@ namespace PhotoTagsSynchronizer
 
                             if (DataGridViewHandlerTagsAndKeywords.HasBeenInitialized) DataGridViewHandlerTagsAndKeywords.PopulateFile(dataGridViewTagsAndKeywords, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
                             if (DataGridViewHandlerPeople.HasBeenInitialized) DataGridViewHandlerPeople.PopulateFile(dataGridViewPeople, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
-                            if (DataGridViewHandlerMap.HasBeenInitialized) DataGridViewHandlerMap.PopulateFile(dataGridViewMap, dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
                             if (DataGridViewHandlerDate.HasBeenInitialized)
                             {
                                 DataGridViewHandlerDate.PopulateFile(dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
                                 BeginInvoke(new Action<DataGridView, FileEntryAttribute>(DataGridViewHandlerDate.PopulateExiftoolData), dataGridViewDate, fileEntryAttribute);
                             }
+                            //Map need to be populated after Date
+                            if (DataGridViewHandlerMap.HasBeenInitialized) DataGridViewHandlerMap.PopulateFile(dataGridViewMap, dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
 
                             if (DataGridViewHandlerExiftool.HasBeenInitialized) DataGridViewHandlerExiftool.PopulateFile(dataGridViewExiftool, fileEntryAttribute, showWhatColumns);
                             //if (DataGridViewHandlerExiftoolWarnings.HasBeenInitialized) DataGridViewHandlerExiftoolWarnings.PopulateFile(dataGridViewExiftoolWarning, fileEntryAttribute, showWhatColumns);
@@ -992,12 +996,13 @@ namespace PhotoTagsSynchronizer
 
                             if (DataGridViewHandlerTagsAndKeywords.HasBeenInitialized) DataGridViewHandlerTagsAndKeywords.PopulateFile(dataGridViewTagsAndKeywords, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
                             if (DataGridViewHandlerPeople.HasBeenInitialized) DataGridViewHandlerPeople.PopulateFile(dataGridViewPeople, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
-                            if (DataGridViewHandlerMap.HasBeenInitialized) DataGridViewHandlerMap.PopulateFile(dataGridViewMap, dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
                             if (DataGridViewHandlerDate.HasBeenInitialized)
                             {
                                 DataGridViewHandlerDate.PopulateFile(dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
                                 BeginInvoke(new Action<DataGridView, FileEntryAttribute>(DataGridViewHandlerDate.PopulateExiftoolData), dataGridViewDate, fileEntryAttribute);
                             }
+                            //Map need to be populated after Date
+                            if (DataGridViewHandlerMap.HasBeenInitialized) DataGridViewHandlerMap.PopulateFile(dataGridViewMap, dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
 
                             if (DataGridViewHandlerExiftool.HasBeenInitialized) DataGridViewHandlerExiftool.PopulateFile(dataGridViewExiftool, fileEntryAttribute, showWhatColumns);
                             if (DataGridViewHandlerExiftoolWarnings.HasBeenInitialized) DataGridViewHandlerExiftoolWarnings.PopulateFile(dataGridViewExiftoolWarning, fileEntryAttribute, showWhatColumns);
@@ -1009,12 +1014,14 @@ namespace PhotoTagsSynchronizer
 
                             if (DataGridViewHandlerTagsAndKeywords.HasBeenInitialized) DataGridViewHandlerTagsAndKeywords.PopulateFile(dataGridViewTagsAndKeywords, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
                             if (DataGridViewHandlerPeople.HasBeenInitialized) DataGridViewHandlerPeople.PopulateFile(dataGridViewPeople, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
-                            if (DataGridViewHandlerMap.HasBeenInitialized) DataGridViewHandlerMap.PopulateFile(dataGridViewMap, dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
                             if (DataGridViewHandlerDate.HasBeenInitialized)
                             {
                                 DataGridViewHandlerDate.PopulateFile(dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
                                 BeginInvoke(new Action<DataGridView, FileEntryAttribute>(DataGridViewHandlerDate.PopulateExiftoolData), dataGridViewDate, fileEntryAttribute);
                             }
+                            //Map need to be populated after Date
+                            if (DataGridViewHandlerMap.HasBeenInitialized) DataGridViewHandlerMap.PopulateFile(dataGridViewMap, dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
+
                             if (DataGridViewHandlerExiftool.HasBeenInitialized) DataGridViewHandlerExiftool.PopulateFile(dataGridViewExiftool, fileEntryAttribute, showWhatColumns);
                             if (DataGridViewHandlerExiftoolWarnings.HasBeenInitialized) DataGridViewHandlerExiftoolWarnings.PopulateFile(dataGridViewExiftoolWarning, fileEntryAttribute, showWhatColumns);
                             //if (DataGridViewHandlerRename.HasBeenInitialized) DataGridViewHandlerRename.PopulateFile(dataGridViewRename, fileEntryAttribute, DataGridViewHandlerRename.ShowFullPath, metadataAutoCorrect, true);
@@ -1025,12 +1032,13 @@ namespace PhotoTagsSynchronizer
 
                             if (DataGridViewHandlerTagsAndKeywords.HasBeenInitialized) DataGridViewHandlerTagsAndKeywords.PopulateFile(dataGridViewTagsAndKeywords, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
                             if (DataGridViewHandlerPeople.HasBeenInitialized) DataGridViewHandlerPeople.PopulateFile(dataGridViewPeople, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
-                            if (DataGridViewHandlerMap.HasBeenInitialized) DataGridViewHandlerMap.PopulateFile(dataGridViewMap, dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
                             if (DataGridViewHandlerDate.HasBeenInitialized)
                             {
                                 DataGridViewHandlerDate.PopulateFile(dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
                                 BeginInvoke(new Action<DataGridView, FileEntryAttribute>(DataGridViewHandlerDate.PopulateExiftoolData), dataGridViewDate, fileEntryAttribute);
                             }
+                            //Map need to be populated after Date
+                            if (DataGridViewHandlerMap.HasBeenInitialized) DataGridViewHandlerMap.PopulateFile(dataGridViewMap, dataGridViewDate, fileEntryAttribute, showWhatColumns, metadataAutoCorrect, true);
 
                             if (DataGridViewHandlerExiftool.HasBeenInitialized) DataGridViewHandlerExiftool.PopulateFile(dataGridViewExiftool, fileEntryAttribute, showWhatColumns);
                             if (DataGridViewHandlerExiftoolWarnings.HasBeenInitialized) DataGridViewHandlerExiftoolWarnings.PopulateFile(dataGridViewExiftoolWarning, fileEntryAttribute, showWhatColumns);
