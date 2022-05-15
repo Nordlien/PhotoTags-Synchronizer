@@ -9784,6 +9784,7 @@ namespace PhotoTagsSynchronizer
                         runCommand.ShowDialog();
                     }
 
+
                 }
             }
             catch (Exception ex)

@@ -53,11 +53,11 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="LibVLCSharp.WinForms" Version="3.6.6" />
-    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="11.1.0" />
-    <PackageReference Include="Magick.NET.SystemDrawing" Version="5.0.0" />
-    <PackageReference Include="Magick.NET.SystemWindowsMedia" Version="5.0.0" />
+    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="11.1.2" />
+    <PackageReference Include="Magick.NET.SystemDrawing" Version="5.0.2" />
+    <PackageReference Include="Magick.NET.SystemWindowsMedia" Version="5.0.2" />
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
-    <PackageReference Include="VideoLAN.LibVLC.Windows" Version="3.0.16" />
+    <PackageReference Include="VideoLAN.LibVLC.Windows" Version="3.0.17.4" />
   </ItemGroup>
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <Import Project="..\packages\VideoLAN.LibVLC.Windows.3.0.16\build\VideoLAN.LibVLC.Windows.targets" Condition="Exists('..\packages\VideoLAN.LibVLC.Windows.3.0.16\build\VideoLAN.LibVLC.Windows.targets')" />
