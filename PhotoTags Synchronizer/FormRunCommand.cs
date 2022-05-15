@@ -12,6 +12,7 @@ using System.Drawing.Text;
 using System.Windows.Forms;
 using FileHandeling;
 using Krypton.Toolkit;
+using System.Threading.Tasks;
 
 namespace PhotoTagsSynchronizer
 {
@@ -595,11 +596,15 @@ namespace PhotoTagsSynchronizer
                     {
                         if (kryptonWorkspaceCellRunBatchImage.SelectedPage.Tag.ToString() == "Command")
                         {
-
+                            Task task = Task.Factory.StartNew(() =>
+                            {
                             if (checkBoxRunBatchRedirectToTerminalWindows.Checked)
                                 ApplicationActivation.ProcessRun(formTerminalWindow, imageCommandWithArguments, checkBoxBatchRunImageWaitForCommandExit.Checked);
                             else
                                 ApplicationActivation.ProcessRun(imageCommandWithArguments, checkBoxBatchRunImageWaitForCommandExit.Checked);
+
+
+                            });
                         }
                         else ApplicationActivation.ActivateForFile(textBoxOpenImageWithAppId.Text, metadata.FileFullPath, comboBoxBatchRunImageVerb.Text, checkBoxBatchRunImageWaitForAppExit.Checked);
                     }
@@ -609,10 +614,13 @@ namespace PhotoTagsSynchronizer
 
                         if (kryptonWorkspaceCellRunBatchVideo.SelectedPage.Tag.ToString() == "Command")
                         {
-                            if (checkBoxRunBatchRedirectToTerminalWindows.Checked)
+                            Task task = Task.Factory.StartNew(() =>
+                            {
+                                if (checkBoxRunBatchRedirectToTerminalWindows.Checked)
                                 ApplicationActivation.ProcessRun(formTerminalWindow, videoCommandWithArguments, checkBoxBatchRunVideoWaitForCommandExit.Checked);
                             else
                                 ApplicationActivation.ProcessRun(videoCommandWithArguments, checkBoxBatchRunVideoWaitForCommandExit.Checked);
+                            });
                         }
                         else ApplicationActivation.ActivateForFile(textBoxOpenVideoWithAppId.Text, metadata.FileFullPath, comboBoxBatchRunImageVerb.Text, checkBoxBatchRunVideoWaitForAppExit.Checked);
                     }

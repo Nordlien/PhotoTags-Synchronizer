@@ -62,8 +62,6 @@ namespace PhotoTagsCommonComponets
             Log(text, warningStyle);
         }
 
-
-        int logCount = 0;
         public void Log(string text, Style style)
         {
             if (InvokeRequired)
@@ -88,15 +86,9 @@ namespace PhotoTagsCommonComponets
             }
             else
                 fastColoredTextBox1.GoEnd();//scroll to end of the text
-            //
             fastColoredTextBox1.Selection.EndUpdate();
-
-            fastColoredTextBox1.EndUpdate();
-            if (logCount++ > 20) {
-                logCount = 0;
-                fastColoredTextBox1.Refresh(); 
-                Application.DoEvents(); 
-            }
+            fastColoredTextBox1.EndUpdate();            
+            fastColoredTextBox1.Refresh();
         }
 
         public void GoEnd()
