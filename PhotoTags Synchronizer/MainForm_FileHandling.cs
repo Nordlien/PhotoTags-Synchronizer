@@ -765,7 +765,8 @@ namespace PhotoTagsSynchronizer
                 {
                     if (fileEntriesCopy.Contains(fileEntryMaybeHasMachineName)) //No need to check if it were already deleted
                     {
-                        
+                        bool machineNameFound = false;
+
                         string filenameWithoutExtension = Path.GetFileNameWithoutExtension(fileEntryMaybeHasMachineName.FileName);
                         int indexOfMachineName = filenameWithoutExtension.IndexOf(machineName, StringComparison.OrdinalIgnoreCase);
                         if (indexOfMachineName >= 0)
