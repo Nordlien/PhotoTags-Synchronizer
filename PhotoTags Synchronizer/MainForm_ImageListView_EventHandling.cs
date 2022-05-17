@@ -1300,27 +1300,17 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region ImageListView - Rename Item - Invoke
-        private void ImageListView_Rename_Invoke(string oldFullFilename, string newFullFilename)
+        private void ImageListView_Rename_Invoke(ImageListView imageListView, string oldFullFilename, string newFullFilename)
         {
             if (InvokeRequired)
             {
-                this.BeginInvoke(new Action<string, string>(ImageListView_Rename_Invoke), oldFullFilename, newFullFilename);
+                this.BeginInvoke(new Action<ImageListView, string, string>(ImageListView_Rename_Invoke), imageListView, oldFullFilename, newFullFilename);
                 return;
             }
-            ImageListViewItem imageListViewItem = ImageListViewHandler.FindItem(imageListView1.Items, oldFullFilename);
+            ImageListViewItem imageListViewItem = ImageListViewHandler.FindItem(imageListView.Items, oldFullFilename);
             if (imageListViewItem != null) imageListViewItem.FileFullPath = newFullFilename;
         }
         #endregion
-
-        #region ImageListView - Rename Item - UpdateImageViewListeAfterRename
-        private void ImageViewListeUpdateAfterRename(ImageListView imageListView, string oldFilename, string newFilename)
-        {
-            Dictionary<string, string> renameSuccess = new Dictionary<string, string>();
-            Dictionary<string, RenameToNameAndResult> renameFailed = new Dictionary<string, RenameToNameAndResult>();
-            renameSuccess.Add(oldFilename, newFilename);
-            ImageViewListeUpdateAfterRename(imageListView, renameSuccess, renameFailed, true);
-        }
-        #endregion 
 
         #region ImageListView - Rename Items - Aggregate 
         private void ImageViewListeUpdateAfterRename(ImageListView imageListView, Dictionary<string, string> renameSuccess, Dictionary<string, RenameToNameAndResult> renameFailed, bool onlyRenameAddbackToListView)

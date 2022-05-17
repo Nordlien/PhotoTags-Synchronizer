@@ -124,8 +124,14 @@ namespace PhotoTagsSynchronizer
         #region ImageListView - RemoveItem
         public static void ImageListViewRemoveItem(ImageListView imageListView, ImageListViewItem foundItem)
         {
-            imageListView.Items.Remove(foundItem);
-            ClearCacheFileEntries(imageListView);
+            try
+            {
+                imageListView.Items.Remove(foundItem);
+                ClearCacheFileEntries(imageListView);
+            }
+            catch { 
+                //DEBUG
+            }
         }
         #endregion
 

@@ -2001,7 +2001,7 @@ namespace PhotoTagsSynchronizer
                                                     string newFullFilename = metadataSupposedToBeSaved.FileFullPath;
 
                                                     DataGridView_Rename_Invoke(oldFullFilename, newFullFilename);
-                                                    ImageListView_Rename_Invoke(oldFullFilename, newFullFilename);
+                                                    ImageListView_Rename_Invoke(imageListView1, oldFullFilename, newFullFilename);
 
                                                     Database_Rename(
                                                         Path.GetDirectoryName(oldFullFilename), Path.GetFileName(oldFullFilename),

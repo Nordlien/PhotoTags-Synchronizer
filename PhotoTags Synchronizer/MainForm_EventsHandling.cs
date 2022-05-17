@@ -1489,9 +1489,9 @@ namespace PhotoTagsSynchronizer
                 selectMediaFiles = true;
             }
 
-            List<string> foundFiles = FixOneDriveIssuesUsingCreatedDate(fileEntries, out List<string> notFixed, fixError: false,
+            List<string> foundFiles = FixOneDriveIssuesUsingDateTaken(fileEntries, out List<string> notFixed, fixError: false,
                 moveToRecycleBin: Properties.Settings.Default.MoveToRecycleBin, metadataDatabaseCache: databaseAndCacheMetadataExiftool);
-
+            
             HashSet<FileEntry> filesFound = new HashSet<FileEntry>();
             foreach (FileEntry fileEntry in fileEntries)
             {
@@ -1666,10 +1666,9 @@ namespace PhotoTagsSynchronizer
             if (fileEntries.Count == 0) fileEntries = ImageListViewHandler.GetFileEntriesItems(imageListView1);
 
 
-            List<string> deletedFiles = FixOneDriveIssues(fileEntries, out List<string> notFixed, oneDriveNetworkNames, fixError: true,
-                moveToRecycleBin: Properties.Settings.Default.MoveToRecycleBin, databaseAndCacheMetadataExiftool);
-
-            #region Remove delete files form ImageListView
+            List<string> deletedFiles = new List<string>();
+            List<string> notFixed = new List<string>();
+            #region Remove duplicates files
             try
             {
                 GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
@@ -1677,11 +1676,8 @@ namespace PhotoTagsSynchronizer
 
                 using (new WaitCursor())
                 {
-                    foreach (string fullFileName in deletedFiles)
-                    {
-                        ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView1.Items, fullFileName);
-                        if (foundItem != null) ImageListViewHandler.ImageListViewRemoveItem(imageListView1, foundItem);
-                    }
+                    deletedFiles = FixOneDriveIssues(fileEntries, out notFixed, oneDriveNetworkNames, fixError: true,
+                        moveToRecycleBin: Properties.Settings.Default.MoveToRecycleBin, databaseAndCacheMetadataExiftool);
                 }
             }
             catch (Exception ex)
@@ -1695,7 +1691,7 @@ namespace PhotoTagsSynchronizer
                 ImageListViewHandler.ResumeLayout(imageListView1);
                 GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
 
-                ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false);
+                if (deletedFiles.Count > 0) ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false);
             }
             #endregion
 
@@ -1777,10 +1773,10 @@ namespace PhotoTagsSynchronizer
             HashSet<FileEntry> fileEntries = ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true);
             if (fileEntries.Count == 0) fileEntries = ImageListViewHandler.GetFileEntriesItems(imageListView1);
 
-            List<string> deletedFiles = FixOneDriveIssuesUsingCreatedDate(fileEntries, out List<string> notFixed, fixError: true,
-                moveToRecycleBin: Properties.Settings.Default.MoveToRecycleBin, metadataDatabaseCache: databaseAndCacheMetadataExiftool);
-
-            #region Remove delete files form ImageListView
+            
+            List<string> deletedFiles = new List<string>();
+            List<string> notFixed = new List<string>();
+            #region Remove duplicates files
             try
             {
                 GlobalData.DoNotTrigger_ImageListView_SelectionChanged = true;
@@ -1788,11 +1784,8 @@ namespace PhotoTagsSynchronizer
 
                 using (new WaitCursor())
                 {
-                    foreach (string fullFileName in deletedFiles)
-                    {
-                        ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView1.Items, fullFileName);
-                        if (foundItem != null) ImageListViewHandler.ImageListViewRemoveItem(imageListView1, foundItem);
-                    }
+                    deletedFiles = FixOneDriveIssuesUsingDateTaken(fileEntries, out notFixed, fixError: true,
+                        moveToRecycleBin: Properties.Settings.Default.MoveToRecycleBin, metadataDatabaseCache: databaseAndCacheMetadataExiftool);
                 }
             }
             catch (Exception ex)
@@ -1806,7 +1799,7 @@ namespace PhotoTagsSynchronizer
                 ImageListViewHandler.ResumeLayout(imageListView1);
                 GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
 
-                ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false);
+                if (deletedFiles.Count > 0) ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false);
             }
             #endregion
 
@@ -6871,7 +6864,7 @@ namespace PhotoTagsSynchronizer
 
                         metadataToSave.FileName = newFilename;
 
-                        ImageListView_Rename_Invoke(oldFullFilename, newFullFilename);
+                        ImageListView_Rename_Invoke(imageListView1, oldFullFilename, newFullFilename);
                         DataGridView_Rename_Invoke(oldFullFilename, newFullFilename);
                         Database_Rename(oldDirectory, oldFilename, newDirectory, newFullFilename);
                     }

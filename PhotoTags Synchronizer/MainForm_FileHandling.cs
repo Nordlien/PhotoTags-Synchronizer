@@ -453,38 +453,38 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region FixOneDriveIssuesDeleteLoser
-        private List<string> FixOneDriveIssuesDeleteLoser(HashSet<FileEntry> fileEntries, FileEntry fileEntryMaybeHasMachineName, FileEntry fileEntryWithoutMachineName, 
+        private List<string> FixOneDriveIssuesDeleteLoser(HashSet<FileEntry> fileEntriesSelectedFiles, FileEntry fileEntrySource, FileEntry fileEntryOther, 
             ref List<string> notFixed, bool moveToRecycleBin, MetadataDatabaseCache metadataDatabaseCache)
         {
             List<string> foundOrRemovedFiles = new List<string>();
 
-            FileEntry fileEntryFoundfileWithoutMachineName = FileEntry.FindFileEntryByFullFileName(fileEntries, fileEntryWithoutMachineName.FileFullPath);
-            if (fileEntryFoundfileWithoutMachineName != null)
+            FileEntry fileEntryFoundOther = FileEntry.FindFileEntryByFullFileName(fileEntriesSelectedFiles, fileEntryOther.FileFullPath);
+            if (fileEntryFoundOther != null)
             {
                 #region Create FileEntry Broker
-                FileEntryBroker fileEntryBrokerExiftoolWithoutMachineName = new FileEntryBroker(
-                    fileEntryFoundfileWithoutMachineName.FileFullPath, FileHandler.GetLastWriteTime(fileEntryFoundfileWithoutMachineName.FileFullPath, waitAndRetry: false), MetadataBrokerType.ExifTool);
-                FileEntryBroker fileEntryBrokerSavedWithoutMachineName = new FileEntryBroker(
-                    fileEntryFoundfileWithoutMachineName.FileFullPath, DateTime.MinValue, MetadataBrokerType.UserSavedData);
+                FileEntryBroker fileEntryBrokerExiftoolOther = new FileEntryBroker(
+                    fileEntryFoundOther.FileFullPath, FileHandler.GetLastWriteTime(fileEntryFoundOther.FileFullPath, waitAndRetry: false), MetadataBrokerType.ExifTool);
+                FileEntryBroker fileEntryBrokerSavedOther = new FileEntryBroker(
+                    fileEntryFoundOther.FileFullPath, DateTime.MinValue, MetadataBrokerType.UserSavedData);
 
-                FileEntryBroker fileEntryBrokerExiftoolHasMachineName = new FileEntryBroker(
-                    fileEntryMaybeHasMachineName.FileFullPath, FileHandler.GetLastWriteTime(fileEntryMaybeHasMachineName.FileFullPath, waitAndRetry: false), MetadataBrokerType.ExifTool);
-                FileEntryBroker fileEntryBrokerSavedHasMachineName = new FileEntryBroker(
-                    fileEntryMaybeHasMachineName.FileFullPath, DateTime.MinValue, MetadataBrokerType.UserSavedData);
+                FileEntryBroker fileEntryBrokerExiftoolSource = new FileEntryBroker(
+                    fileEntrySource.FileFullPath, FileHandler.GetLastWriteTime(fileEntrySource.FileFullPath, waitAndRetry: false), MetadataBrokerType.ExifTool);
+                FileEntryBroker fileEntryBrokerSavedSource = new FileEntryBroker(
+                    fileEntrySource.FileFullPath, DateTime.MinValue, MetadataBrokerType.UserSavedData);
                 #endregion
 
                 #region Read Metadata
-                Metadata metadataExiftoolWithoutMachineName = metadataDatabaseCache.ReadMetadataFromCacheOrDatabase(fileEntryBrokerExiftoolWithoutMachineName);
-                Metadata metadataSavedWithoutMachineName = metadataDatabaseCache.ReadMetadataFromCacheOrDatabase(fileEntryBrokerSavedWithoutMachineName);
+                Metadata metadataExiftoolOther = metadataDatabaseCache.ReadMetadataFromCacheOrDatabase(fileEntryBrokerExiftoolOther);
+                Metadata metadataSavedOther = metadataDatabaseCache.ReadMetadataFromCacheOrDatabase(fileEntryBrokerSavedOther);
 
-                Metadata metadataExiftoolHasMachineName = metadataDatabaseCache.ReadMetadataFromCacheOrDatabase(fileEntryBrokerExiftoolHasMachineName);
-                Metadata metadataSavedHasMachineName = metadataDatabaseCache.ReadMetadataFromCacheOrDatabase(fileEntryBrokerSavedHasMachineName);
+                Metadata metadataExiftoolSource = metadataDatabaseCache.ReadMetadataFromCacheOrDatabase(fileEntryBrokerExiftoolSource);
+                Metadata metadataSavedSource = metadataDatabaseCache.ReadMetadataFromCacheOrDatabase(fileEntryBrokerSavedSource);
                 #endregion
 
-                if (metadataExiftoolWithoutMachineName != null && metadataExiftoolHasMachineName != null)
+                if (metadataExiftoolOther != null && metadataExiftoolSource != null)
                 {
                     #region Adjust Metadata
-                    Metadata metadataExiftoolWithoutMachineNameCopy = new Metadata(metadataExiftoolWithoutMachineName);
+                    Metadata metadataExiftoolWithoutMachineNameCopy = new Metadata(metadataExiftoolOther);
                     metadataExiftoolWithoutMachineNameCopy.FileName = "";
                     metadataExiftoolWithoutMachineNameCopy.FileDirectory = "";
                     metadataExiftoolWithoutMachineNameCopy.Broker = MetadataBrokerType.Empty;
@@ -492,7 +492,7 @@ namespace PhotoTagsSynchronizer
                     metadataExiftoolWithoutMachineNameCopy.FileDateAccessed = DateTime.MinValue;
                     metadataExiftoolWithoutMachineNameCopy.FileSize = 0;
 
-                    Metadata metadataExiftoolHasMachineNameCopy = new Metadata(metadataExiftoolHasMachineName);
+                    Metadata metadataExiftoolHasMachineNameCopy = new Metadata(metadataExiftoolSource);
                     metadataExiftoolHasMachineNameCopy.FileName = "";
                     metadataExiftoolHasMachineNameCopy.FileDirectory = "";
                     metadataExiftoolHasMachineNameCopy.Broker = MetadataBrokerType.Empty;
@@ -501,9 +501,9 @@ namespace PhotoTagsSynchronizer
                     metadataExiftoolHasMachineNameCopy.FileSize = 0;
 
                     Metadata metadataSavedWithoutMachineNameCopy = null;
-                    if (metadataSavedWithoutMachineName != null)
+                    if (metadataSavedOther != null)
                     {
-                        metadataSavedWithoutMachineNameCopy = new Metadata(metadataSavedWithoutMachineName);
+                        metadataSavedWithoutMachineNameCopy = new Metadata(metadataSavedOther);
                         metadataSavedWithoutMachineNameCopy.FileName = "";
                         metadataSavedWithoutMachineNameCopy.FileDirectory = "";
                         metadataSavedWithoutMachineNameCopy.Broker = MetadataBrokerType.Empty;
@@ -513,9 +513,9 @@ namespace PhotoTagsSynchronizer
                     }
 
                     Metadata metadataSavedHasMachineNameCopy = null;
-                    if (metadataSavedHasMachineName != null)
+                    if (metadataSavedSource != null)
                     {
-                        metadataSavedHasMachineNameCopy = new Metadata(metadataSavedHasMachineName);
+                        metadataSavedHasMachineNameCopy = new Metadata(metadataSavedSource);
                         metadataSavedHasMachineNameCopy.FileName = "";
                         metadataSavedHasMachineNameCopy.FileDirectory = "";
                         metadataSavedHasMachineNameCopy.Broker = MetadataBrokerType.Empty;
@@ -567,31 +567,35 @@ namespace PhotoTagsSynchronizer
                     #endregion
 
                     #region Delete loser
-
                     if (winnerHasMachineName && winnerWithoutMachineName)
                     {
                         #region Both are Winner, Keep newest
                         try
                         {
-                            DateTime dateTimeWithoutMachineName = fileEntryWithoutMachineName.LastWriteDateTime;
-                            DateTime dateTimeHasMachineName = fileEntryMaybeHasMachineName.LastWriteDateTime;
+                            DateTime dateTimeWithoutMachineName = fileEntryOther.LastWriteDateTime;
+                            DateTime dateTimeHasMachineName = fileEntrySource.LastWriteDateTime;
 
                             if (dateTimeHasMachineName > dateTimeWithoutMachineName)
                             {
                                 try
                                 {
-                                    foundOrRemovedFiles.Add(fileEntryWithoutMachineName.FileFullPath);
+                                    foundOrRemovedFiles.Add(fileEntryOther.FileFullPath);
                                     
-                                    filesCutCopyPasteDrag.DeleteFile(fileEntryWithoutMachineName.FileFullPath);
-                                    ImageListViewHandler.ImageListViewRemoveItem(imageListView1, ImageListViewHandler.FindItem(imageListView1.Items, fileEntryWithoutMachineName.FileFullPath));
+                                    filesCutCopyPasteDrag.DeleteFile(fileEntryOther.FileFullPath);
 
-                                    filesCutCopyPasteDrag.MoveFile(fileEntryMaybeHasMachineName.FileFullPath, fileEntryWithoutMachineName.FileFullPath);
-                                    ImageViewListeUpdateAfterRename(imageListView1, fileEntryMaybeHasMachineName.FileFullPath, fileEntryWithoutMachineName.FileFullPath);
+                                    FileEntry removeFromSelectedFiles = FileEntry.FindFileEntryByFullFileName(fileEntriesSelectedFiles, fileEntryOther.FileFullPath);
+                                    if (removeFromSelectedFiles != null && fileEntriesSelectedFiles.Contains(removeFromSelectedFiles)) fileEntriesSelectedFiles.Remove(removeFromSelectedFiles);
+                                    
+                                    ImageListViewHandler.ImageListViewRemoveItem(imageListView1, ImageListViewHandler.FindItem(imageListView1.Items, fileEntryOther.FileFullPath));
+
+                                    filesCutCopyPasteDrag.MoveFile(fileEntrySource.FileFullPath, fileEntryOther.FileFullPath);
+                                    ImageListView_Rename_Invoke(imageListView1, fileEntrySource.FileFullPath, fileEntryOther.FileFullPath);
+
                                 }
                                 catch (Exception ex)
                                 {
                                     Logger.Error(ex);
-                                    KryptonMessageBox.Show(ex.Message + "\r\nWas trying to replace\r\n" + fileEntryWithoutMachineName.FileFullPath + "\r\n with\r\n" + fileEntryMaybeHasMachineName.FileFullPath,
+                                    KryptonMessageBox.Show(ex.Message + "\r\nWas trying to replace\r\n" + fileEntryOther.FileFullPath + "\r\n with\r\n" + fileEntrySource.FileFullPath,
                                         "Was not able to remove duplicated file.", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
                                 }
                             }
@@ -599,15 +603,19 @@ namespace PhotoTagsSynchronizer
                             {
                                 try
                                 {
-                                    foundOrRemovedFiles.Add(fileEntryMaybeHasMachineName.FileFullPath);
+                                    foundOrRemovedFiles.Add(fileEntrySource.FileFullPath);
 
-                                    filesCutCopyPasteDrag.DeleteFile(fileEntryMaybeHasMachineName.FileFullPath, moveToRecycleBin);
-                                    ImageListViewHandler.ImageListViewRemoveItem(imageListView1, ImageListViewHandler.FindItem(imageListView1.Items, fileEntryMaybeHasMachineName.FileFullPath));
+                                    filesCutCopyPasteDrag.DeleteFile(fileEntrySource.FileFullPath, moveToRecycleBin);
+
+                                    FileEntry removeFromSelectedFiles = FileEntry.FindFileEntryByFullFileName(fileEntriesSelectedFiles, fileEntrySource.FileFullPath);
+                                    if (removeFromSelectedFiles != null && fileEntriesSelectedFiles.Contains(removeFromSelectedFiles)) fileEntriesSelectedFiles.Remove(removeFromSelectedFiles);
+
+                                    ImageListViewHandler.ImageListViewRemoveItem(imageListView1, ImageListViewHandler.FindItem(imageListView1.Items, fileEntrySource.FileFullPath));
                                 }
                                 catch (Exception ex)
                                 {
                                     Logger.Error(ex);
-                                    KryptonMessageBox.Show(ex.Message + "\r\n" + fileEntryMaybeHasMachineName.FileFullPath,
+                                    KryptonMessageBox.Show(ex.Message + "\r\n" + fileEntrySource.FileFullPath,
                                         "Was not able to remove dubpliacted file.", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
                                 }
                             }
@@ -615,7 +623,7 @@ namespace PhotoTagsSynchronizer
                         catch (Exception ex)
                         {
                             Logger.Error(ex);
-                            KryptonMessageBox.Show(ex.Message + "\r\n" + fileEntryWithoutMachineName.FileFullPath + "\r\n" + fileEntryMaybeHasMachineName.FileFullPath,
+                            KryptonMessageBox.Show(ex.Message + "\r\n" + fileEntryOther.FileFullPath + "\r\n" + fileEntrySource.FileFullPath,
                                 "Was not able to remove the oldest of dubpliacted file.", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
                         }
                         #endregion
@@ -625,17 +633,21 @@ namespace PhotoTagsSynchronizer
                         #region HasMachineName wins, remove "original" fileEntryWithoutMachineName, replace with Other file
                         try
                         {
-                            foundOrRemovedFiles.Add(fileEntryWithoutMachineName.FileFullPath);
-                            filesCutCopyPasteDrag.DeleteFile(fileEntryWithoutMachineName.FileFullPath);
-                            ImageListViewHandler.ImageListViewRemoveItem(imageListView1, ImageListViewHandler.FindItem(imageListView1.Items, fileEntryWithoutMachineName.FileFullPath));
+                            foundOrRemovedFiles.Add(fileEntryOther.FileFullPath);
+                            filesCutCopyPasteDrag.DeleteFile(fileEntryOther.FileFullPath);
 
-                            filesCutCopyPasteDrag.MoveFile(fileEntryMaybeHasMachineName.FileFullPath, fileEntryWithoutMachineName.FileFullPath);
-                            ImageViewListeUpdateAfterRename(imageListView1, fileEntryMaybeHasMachineName.FileFullPath, fileEntryWithoutMachineName.FileFullPath);
+                            FileEntry removeFromSelectedFiles = FileEntry.FindFileEntryByFullFileName(fileEntriesSelectedFiles, fileEntryOther.FileFullPath);
+                            if (removeFromSelectedFiles != null && fileEntriesSelectedFiles.Contains(removeFromSelectedFiles)) fileEntriesSelectedFiles.Remove(removeFromSelectedFiles);
+
+                            ImageListViewHandler.ImageListViewRemoveItem(imageListView1, ImageListViewHandler.FindItem(imageListView1.Items, fileEntryOther.FileFullPath));
+
+                            filesCutCopyPasteDrag.MoveFile(fileEntrySource.FileFullPath, fileEntryOther.FileFullPath);
+                            ImageListView_Rename_Invoke(imageListView1, fileEntrySource.FileFullPath, fileEntryOther.FileFullPath);
                         }
                         catch (Exception ex)
                         {
                             Logger.Error(ex);
-                            KryptonMessageBox.Show(ex.Message + "\r\nWas trying to replace\r\n" + fileEntryWithoutMachineName.FileFullPath + "\r\n with\r\n" + fileEntryMaybeHasMachineName.FileFullPath,
+                            KryptonMessageBox.Show(ex.Message + "\r\nWas trying to replace\r\n" + fileEntryOther.FileFullPath + "\r\n with\r\n" + fileEntrySource.FileFullPath,
                                 "Was not able to remove duplicated file.", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
                         }
                         #endregion
@@ -645,14 +657,18 @@ namespace PhotoTagsSynchronizer
                         #region "Original" wins, delete "fileEntryMaybeHasMachineName"
                         try
                         {
-                            foundOrRemovedFiles.Add(fileEntryMaybeHasMachineName.FileFullPath);
-                            filesCutCopyPasteDrag.DeleteFile(fileEntryMaybeHasMachineName.FileFullPath, moveToRecycleBin);
-                            imageListView1.Items.Remove(ImageListViewHandler.FindItem(imageListView1.Items, fileEntryMaybeHasMachineName.FileFullPath));
+                            foundOrRemovedFiles.Add(fileEntrySource.FileFullPath);
+                            filesCutCopyPasteDrag.DeleteFile(fileEntrySource.FileFullPath, moveToRecycleBin);
+
+                            FileEntry removeFromSelectedFiles = FileEntry.FindFileEntryByFullFileName(fileEntriesSelectedFiles, fileEntrySource.FileFullPath);
+                            if (removeFromSelectedFiles != null && fileEntriesSelectedFiles.Contains(removeFromSelectedFiles)) fileEntriesSelectedFiles.Remove(removeFromSelectedFiles);
+
+                            ImageListViewHandler.ImageListViewRemoveItem(imageListView1, ImageListViewHandler.FindItem(imageListView1.Items, fileEntrySource.FileFullPath));
                         }
                         catch (Exception ex)
                         {
                             Logger.Error(ex);
-                            KryptonMessageBox.Show(ex.Message + "\r\n" + fileEntryMaybeHasMachineName.FileFullPath,
+                            KryptonMessageBox.Show(ex.Message + "\r\n" + fileEntrySource.FileFullPath,
                                 "Was not able to remove dubpliacted file.", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
                         }
                         #endregion
@@ -660,8 +676,8 @@ namespace PhotoTagsSynchronizer
                     else
                     {
                         #region Report Not fixed
-                        if (!notFixed.Contains(fileEntryBrokerExiftoolWithoutMachineName.FileFullPath)) notFixed.Add(fileEntryBrokerExiftoolWithoutMachineName.FileFullPath);
-                        if (!notFixed.Contains(fileEntryMaybeHasMachineName.FileFullPath)) notFixed.Add(fileEntryMaybeHasMachineName.FileFullPath);
+                        if (!notFixed.Contains(fileEntryBrokerExiftoolOther.FileFullPath)) notFixed.Add(fileEntryBrokerExiftoolOther.FileFullPath);
+                        if (!notFixed.Contains(fileEntrySource.FileFullPath)) notFixed.Add(fileEntrySource.FileFullPath);
                         #endregion
                     }
                     #endregion
@@ -675,17 +691,15 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region FixOneDriveIssuesUsingCreatedDate 
-        public List<string> FixOneDriveIssuesUsingCreatedDate(HashSet<FileEntry> fileEntries, out List<string> notFixed, bool fixError = false, bool moveToRecycleBin = true,
+        #region FixOneDriveIssuesUsingDateTaken 
+        public List<string> FixOneDriveIssuesUsingDateTaken(HashSet<FileEntry> fileEntriesSelectedFiles, out List<string> notFixed, bool fixError = false, bool moveToRecycleBin = true,
             MetadataDatabaseCache metadataDatabaseCache = null)
         {
             List<string> foundOrRemovedFiles = new List<string>();
             notFixed = new List<string>();
 
-            FileEntry[] fileEntriesArray = new FileEntry[fileEntries.Count];
-            fileEntries.CopyTo(fileEntriesArray);
-
-
+            FileEntry[] fileEntriesArray = new FileEntry[fileEntriesSelectedFiles.Count];
+            fileEntriesSelectedFiles.CopyTo(fileEntriesArray);
 
             for (int indexSource = 0; indexSource < fileEntriesArray.Length - 1; indexSource++)
             {
@@ -709,8 +723,11 @@ namespace PhotoTagsSynchronizer
                     {
                         if (fixError)
                         {
-                            foundOrRemovedFiles.AddRange(FixOneDriveIssuesDeleteLoser(
-                                    fileEntries, fileEntriesArray[indexSource], fileEntriesArray[indexOther], ref notFixed, moveToRecycleBin, metadataDatabaseCache));
+                            List<string> deletedFiles = FixOneDriveIssuesDeleteLoser(
+                                    fileEntriesSelectedFiles, fileEntriesArray[indexSource], fileEntriesArray[indexOther], ref notFixed, moveToRecycleBin, metadataDatabaseCache);
+                            
+                            foreach (string deletedFile in deletedFiles) if (!foundOrRemovedFiles.Contains(deletedFile)) foundOrRemovedFiles.Add(deletedFile);
+                            
                         }
                         else
                         {
@@ -722,6 +739,10 @@ namespace PhotoTagsSynchronizer
                 }
 
             }
+
+            //Remove files that was removed later on
+            foreach (string deletedFile in foundOrRemovedFiles) if (notFixed.Contains(deletedFile)) notFixed.Remove(deletedFile);
+
             return foundOrRemovedFiles;
         }
         #endregion
@@ -739,7 +760,8 @@ namespace PhotoTagsSynchronizer
                 string machineName = "-" + networkName;
                 int machineNameLength = machineName.Length;
 
-                foreach (FileEntry fileEntryMaybeHasMachineName in fileEntries)
+                HashSet<FileEntry> fileEntriesCopy = new HashSet<FileEntry>(fileEntries);
+                foreach (FileEntry fileEntryMaybeHasMachineName in fileEntriesCopy)
                 {
                     bool machineNameFound = false;
 
@@ -773,7 +795,7 @@ namespace PhotoTagsSynchronizer
                         }
                         #endregion
 
-                        #region pathWithoutMachineName
+                        #region PathWithoutMachineName
                         string pathWithoutMachineName = filenameWithoutExtension.Substring(0, indexOfMachineName);
                         FileEntry fileEntryWithoutMachineName = new FileEntry(
                             Path.Combine(
@@ -795,13 +817,18 @@ namespace PhotoTagsSynchronizer
                         else
                         if (fixError)
                         {
-                            foundOrRemovedFiles.AddRange(FixOneDriveIssuesDeleteLoser(
-                                fileEntries, fileEntryMaybeHasMachineName, fileEntryWithoutMachineName, ref notFixed, moveToRecycleBin, metadataDatabaseCache)); 
+                            List<string> deletedFiles = FixOneDriveIssuesDeleteLoser(
+                                    fileEntries, fileEntryMaybeHasMachineName, fileEntryWithoutMachineName, ref notFixed, moveToRecycleBin, metadataDatabaseCache);
+                            foreach (string deletedFile in deletedFiles) if (!foundOrRemovedFiles.Contains(deletedFile)) foundOrRemovedFiles.Add(deletedFile);
                         }
                     }
 
                 }
             }
+
+            //Remove files that was removed later on
+            foreach (string deletedFile in foundOrRemovedFiles) if (notFixed.Contains(deletedFile)) notFixed.Remove(deletedFile);
+
             return foundOrRemovedFiles;
         }
         #endregion
