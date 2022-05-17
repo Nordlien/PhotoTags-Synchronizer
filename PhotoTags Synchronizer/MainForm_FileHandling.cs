@@ -763,66 +763,67 @@ namespace PhotoTagsSynchronizer
                 HashSet<FileEntry> fileEntriesCopy = new HashSet<FileEntry>(fileEntries);
                 foreach (FileEntry fileEntryMaybeHasMachineName in fileEntriesCopy)
                 {
-                    bool machineNameFound = false;
-
-                    string filenameWithoutExtension = Path.GetFileNameWithoutExtension(fileEntryMaybeHasMachineName.FileName);
-                    int indexOfMachineName = filenameWithoutExtension.IndexOf(machineName, StringComparison.OrdinalIgnoreCase);
-                    if (indexOfMachineName >= 0)
+                    if (fileEntriesCopy.Contains(fileEntryMaybeHasMachineName)) //No need to check if it were already deleted
                     {
-                        #region Get Filename without <-MachineName-xx>
-                        int charsBehindMachineName = filenameWithoutExtension.Length - indexOfMachineName - machineNameLength;
-
-                        if (charsBehindMachineName == 0) machineNameFound = true;
-                        else if (charsBehindMachineName == 1) machineNameFound = false;
-                        else if (charsBehindMachineName == 2)
+                        
+                        string filenameWithoutExtension = Path.GetFileNameWithoutExtension(fileEntryMaybeHasMachineName.FileName);
+                        int indexOfMachineName = filenameWithoutExtension.IndexOf(machineName, StringComparison.OrdinalIgnoreCase);
+                        if (indexOfMachineName >= 0)
                         {
-                            if (filenameWithoutExtension[indexOfMachineName + machineNameLength] == '-' &&
-                                char.IsDigit(filenameWithoutExtension[indexOfMachineName + machineNameLength + 1])) machineNameFound = true; //numberExtraCharBehind = 2;
+                            #region Get Filename without <-MachineName-xx>
+                            int charsBehindMachineName = filenameWithoutExtension.Length - indexOfMachineName - machineNameLength;
 
-                        }
-                        else if (charsBehindMachineName == 3)
-                        {
-                            if (fileEntryMaybeHasMachineName.FileFullPath[indexOfMachineName + machineNameLength] == '-' &&
-                                char.IsDigit(filenameWithoutExtension[indexOfMachineName + machineNameLength + 1]) &&
-                                char.IsDigit(filenameWithoutExtension[indexOfMachineName + machineNameLength + 2])) machineNameFound = true; //numberExtraCharBehind = 3;
-                        }
-                        else
-                        {
-                            if (filenameWithoutExtension.IndexOf(machineName, indexOfMachineName, StringComparison.OrdinalIgnoreCase) != -1)
-                                machineNameFound = true;
-                            else
-                                machineNameFound = false;
-                        }
-                        #endregion
-
-                        #region PathWithoutMachineName
-                        string pathWithoutMachineName = filenameWithoutExtension.Substring(0, indexOfMachineName);
-                        FileEntry fileEntryWithoutMachineName = new FileEntry(
-                            Path.Combine(
-                                Path.GetDirectoryName(fileEntryMaybeHasMachineName.FileFullPath),
-                            pathWithoutMachineName + Path.GetExtension(fileEntryMaybeHasMachineName.FileFullPath)),
-                            fileEntryMaybeHasMachineName.LastWriteDateTime);
-                        #endregion
-
-                        if (machineNameFound && !fixError)
-                        {
-                            #region Add to Found files list
-                            if (FileEntry.FullFileNameExist(fileEntries, fileEntryWithoutMachineName.FileFullPath))
+                            if (charsBehindMachineName == 0) machineNameFound = true;
+                            else if (charsBehindMachineName == 1) machineNameFound = false;
+                            else if (charsBehindMachineName == 2)
                             {
-                                if (!foundOrRemovedFiles.Contains(fileEntryWithoutMachineName.FileFullPath)) foundOrRemovedFiles.Add(fileEntryWithoutMachineName.FileFullPath);
-                                if (!foundOrRemovedFiles.Contains(fileEntryMaybeHasMachineName.FileFullPath)) foundOrRemovedFiles.Add(fileEntryMaybeHasMachineName.FileFullPath);
+                                if (filenameWithoutExtension[indexOfMachineName + machineNameLength] == '-' &&
+                                    char.IsDigit(filenameWithoutExtension[indexOfMachineName + machineNameLength + 1])) machineNameFound = true; //numberExtraCharBehind = 2;
+
+                            }
+                            else if (charsBehindMachineName == 3)
+                            {
+                                if (fileEntryMaybeHasMachineName.FileFullPath[indexOfMachineName + machineNameLength] == '-' &&
+                                    char.IsDigit(filenameWithoutExtension[indexOfMachineName + machineNameLength + 1]) &&
+                                    char.IsDigit(filenameWithoutExtension[indexOfMachineName + machineNameLength + 2])) machineNameFound = true; //numberExtraCharBehind = 3;
+                            }
+                            else
+                            {
+                                if (filenameWithoutExtension.IndexOf(machineName, indexOfMachineName, StringComparison.OrdinalIgnoreCase) != -1)
+                                    machineNameFound = true;
+                                else
+                                    machineNameFound = false;
                             }
                             #endregion
-                        }
-                        else
-                        if (fixError)
-                        {
-                            List<string> deletedFiles = FixOneDriveIssuesDeleteLoser(
-                                    fileEntries, fileEntryMaybeHasMachineName, fileEntryWithoutMachineName, ref notFixed, moveToRecycleBin, metadataDatabaseCache);
-                            foreach (string deletedFile in deletedFiles) if (!foundOrRemovedFiles.Contains(deletedFile)) foundOrRemovedFiles.Add(deletedFile);
+
+                            #region PathWithoutMachineName
+                            string pathWithoutMachineName = filenameWithoutExtension.Substring(0, indexOfMachineName);
+                            FileEntry fileEntryWithoutMachineName = new FileEntry(
+                                Path.Combine(
+                                    Path.GetDirectoryName(fileEntryMaybeHasMachineName.FileFullPath),
+                                pathWithoutMachineName + Path.GetExtension(fileEntryMaybeHasMachineName.FileFullPath)),
+                                fileEntryMaybeHasMachineName.LastWriteDateTime);
+                            #endregion
+
+                            if (machineNameFound && !fixError)
+                            {
+                                #region Add to Found files list
+                                if (FileEntry.FullFileNameExist(fileEntries, fileEntryWithoutMachineName.FileFullPath))
+                                {
+                                    if (!foundOrRemovedFiles.Contains(fileEntryWithoutMachineName.FileFullPath)) foundOrRemovedFiles.Add(fileEntryWithoutMachineName.FileFullPath);
+                                    if (!foundOrRemovedFiles.Contains(fileEntryMaybeHasMachineName.FileFullPath)) foundOrRemovedFiles.Add(fileEntryMaybeHasMachineName.FileFullPath);
+                                }
+                                #endregion
+                            }
+                            else
+                            if (fixError)
+                            {
+                                List<string> deletedFiles = FixOneDriveIssuesDeleteLoser(
+                                        fileEntries, fileEntryMaybeHasMachineName, fileEntryWithoutMachineName, ref notFixed, moveToRecycleBin, metadataDatabaseCache);
+                                foreach (string deletedFile in deletedFiles) if (!foundOrRemovedFiles.Contains(deletedFile)) foundOrRemovedFiles.Add(deletedFile);
+                            }
                         }
                     }
-
                 }
             }
 
