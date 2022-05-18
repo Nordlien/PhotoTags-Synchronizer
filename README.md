@@ -7,7 +7,7 @@ PhotoTags-Synchronizer
 
 Download the zip file and unzip and run exe file. 
 - [Download application](https://nordlien.github.io/PhotoTags-Synchronizer/download/)
-- [Download source code](https://github.com/Nordlien/PhotoTags-Synchronizer/releases/latest)
+- [Download source code](https://github.com/Nordlien/PhotoTags-Synchronizer/releases)
 
 ## Usage
 [User guide](https://nordlien.github.io/PhotoTags-Synchronizer/userguide/)
