@@ -5,7 +5,9 @@ PhotoTags-Synchronizer
 
 ## Installation
 
-Download the zip file and unzip and run exe file. [pip](https://github.com/Nordlien/PhotoTags-Synchronizer/releases/latest) to install foobar.
+Download the zip file and unzip and run exe file. 
+[Download page application](https://nordlien.github.io/PhotoTags-Synchronizer/download/)
+[Download source code](https://github.com/Nordlien/PhotoTags-Synchronizer/releases/latest)
 
 ## Usage
 [User guide](https://nordlien.github.io/PhotoTags-Synchronizer/userguide/)
