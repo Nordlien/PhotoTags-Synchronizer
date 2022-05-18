@@ -22,6 +22,12 @@ Looks as all meta information for 'Captions' is saved properly on PC 1 ![Microso
 1. The meta information is saved where you want it. Yes, where you want, if you want it differently, just change in the [Config](../userguide/config/).
 2. Meta information is kept in sync how you like it. Also, how you want it in the [Config](../userguide/config/).
 
+## Microsoft Photos
+
+### Microsoft Photos Location issues
+1. In the past Longditude was truncated with zero's xx.12345 into xx.000000
+2. When trying to change the coordinates on the media file, the metadata was changed correctly into the metadata in the file. However Microsoft Photos changes back to the old coordinates after uploading the photo to the clode and when sync back to the computer. 
+
 ## Microsoft Xtra Atoms
 Microsoft Xtra Atoms is Microsoft's own standard to write additional information to the media file. Some applications are able to read it, but almost none are able to write it back to Microsoft Xtra Atoms. It’s almost only Microsoft own Windows Live Photo Gallery and File Explorer that are able to so.
 

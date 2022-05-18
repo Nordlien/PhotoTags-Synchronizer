@@ -79,6 +79,9 @@ Keep the tags where it belongs.
   - Microsoft Photos
     - Problem 1: Store some information only in a local database and some information in the cloud.
     - Problem 2: There are no synchronization between data store locally and between other computers
+    - Problem 3: In the past Longditude was truncated with zero's xx.12345 into xx.000000
+    - Problem 4: When trying to change the coordinates on the media file, the metadata was changed correctly into the metadata in the file. However Microsoft Photos changes back to the old coordinates after uploading the photo to the clode and when sync back to the computer. 
+
   - Google Photos and most likely all other cloud storage providers
     - Problem 1: All data is stored in the cloud. If you want to move to another provider, all your tags are gone. According to GDPR this data is yours, but you are not able to download it.
 
