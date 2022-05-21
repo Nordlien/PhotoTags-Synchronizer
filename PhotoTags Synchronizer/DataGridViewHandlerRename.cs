@@ -96,39 +96,38 @@ namespace PhotoTagsSynchronizer
         
 
         #region CreateNewFilename
-        public static string CreateNewFilename(string newFilenameVariable, string oldFilename, Metadata metadata)
+        public static string CreateNewFilename(string newFilenameVariable, string oldFilenameOrFullFilename, Metadata metadata)
         {
-            #region List of vaiables - that can be used in Rename tool
-            
-            #endregion
+            string oldFilenameWithoutExtension = Path.GetFileNameWithoutExtension(oldFilenameOrFullFilename);
+            string oldFilename = Path.GetFileName(oldFilenameOrFullFilename); 
 
             #region Filename
             string newFilename = newFilenameVariable;
-            newFilename = newFilename.Replace("%FileName%", Path.GetFileNameWithoutExtension(oldFilename));
+            newFilename = newFilename.Replace("%FileName%", oldFilename);
 
             #region Without Extension
-            newFilename = newFilename.Replace("%FileNameWithoutExtension%", Path.GetFileNameWithoutExtension(oldFilename));
+            newFilename = newFilename.Replace("%FileNameWithoutExtension%", oldFilenameWithoutExtension);
 
             newFilename = newFilename.Replace("%FileNameWithoutExtensionDateTime%", 
-                FileDateTimeFormats.RemoveAllDateTimes(Path.GetFileNameWithoutExtension(oldFilename)));
+                FileDateTimeFormats.RemoveAllDateTimes(oldFilenameWithoutExtension));
 
             newFilename = newFilename.Replace("%FileNameWithoutExtensionDateTimeComputerName%",
-                FileDateTimeFormats.RemoveAllDateTimes(RemoveComputerNames(RemoveGPStag(Path.GetFileNameWithoutExtension(oldFilename), GPStag: GPStag), computerNames: ComputerNames)));
+                FileDateTimeFormats.RemoveAllDateTimes(RemoveComputerNames(RemoveGPStag(oldFilenameWithoutExtension, GPStag: GPStag), computerNames: ComputerNames)));
             
             newFilename = newFilename.Replace("%FileNameWithoutExtensionDateTimeGPStag%",
-                FileDateTimeFormats.RemoveAllDateTimes(RemoveGPStag(Path.GetFileNameWithoutExtension(oldFilename), GPStag: GPStag)));
+                FileDateTimeFormats.RemoveAllDateTimes(RemoveGPStag(oldFilenameWithoutExtension, GPStag: GPStag)));
             
             newFilename = newFilename.Replace("%FileNameWithoutExtensionDateTimeComputerNameGPStag%",
-                FileDateTimeFormats.RemoveAllDateTimes(RemoveComputerNames(RemoveGPStag(Path.GetFileNameWithoutExtension(oldFilename), GPStag: GPStag), computerNames: ComputerNames)));
+                FileDateTimeFormats.RemoveAllDateTimes(RemoveComputerNames(RemoveGPStag(oldFilenameWithoutExtension, GPStag: GPStag), computerNames: ComputerNames)));
             
             newFilename = newFilename.Replace("%FileNameWithoutExtensionComputerName%",
-                FileDateTimeFormats.RemoveAllDateTimes(RemoveComputerNames(Path.GetFileNameWithoutExtension(oldFilename), computerNames: ComputerNames)));
+                FileDateTimeFormats.RemoveAllDateTimes(RemoveComputerNames(oldFilenameWithoutExtension, computerNames: ComputerNames)));
             
             newFilename = newFilename.Replace("%FileNameWithoutExtensionComputerNameGPStag%",
-                RemoveComputerNames(RemoveGPStag(Path.GetFileNameWithoutExtension(oldFilename), GPStag: GPStag), computerNames: ComputerNames));
+                RemoveComputerNames(RemoveGPStag(oldFilenameWithoutExtension, GPStag: GPStag), computerNames: ComputerNames));
             
             newFilename = newFilename.Replace("%FileNameWithoutExtensionGPStag%",
-                RemoveGPStag(Path.GetFileNameWithoutExtension(oldFilename), GPStag: GPStag));
+                RemoveGPStag(Path.GetFileNameWithoutExtension(oldFilenameOrFullFilename), GPStag: GPStag));
             #endregion
 
             #region DateTime
@@ -156,7 +155,7 @@ namespace PhotoTagsSynchronizer
                 RemoveGPStag(oldFilename, GPStag: GPStag));
             #endregion
 
-            newFilename = newFilename.Replace("%Extension%", Path.GetExtension(oldFilename));
+            newFilename = newFilename.Replace("%Extension%", Path.GetExtension(oldFilenameOrFullFilename));
             #endregion
 
             #region DataTime

@@ -10927,8 +10927,6 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.IsApplicationClosing) return;
             if (IsPerforminAButtonAction("MetadataRefreshLast")) return;
             if (IsPopulatingAnything("MetadataRefreshLast")) return;
-            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
-
             try
             {
                 GlobalData.IsPerformingAButtonAction = true;
@@ -10967,6 +10965,8 @@ namespace PhotoTagsSynchronizer
                     }
                     if (config.ShowDialog() != DialogResult.Cancel)
                     {
+                        
+
                         //Thumbnail
                         ThumbnailSaveSize = Properties.Settings.Default.ApplicationThumbnail;
                         ThumbnailRegionHandler.FaceThumbnailSize = Properties.Settings.Default.ApplicationRegionThumbnail;
@@ -10986,13 +10986,18 @@ namespace PhotoTagsSynchronizer
                         cacheFolderWebScraperDataSets = Properties.Settings.Default.CacheFolderWebScraperDataSets;
 
                         //
-                        TreeViewFolderBrowserHandler.Enabled(treeViewFolderBrowser1, false);
-                        ImageListViewHandler.Enable(imageListView1, false);
-                        
-                        ImageListView_SelectionChanged_Action_ImageListView_DataGridView(true);
+                        if (SaveBeforeContinue(true, reason: 
+                            "Config updates has been saved. The DataGridView will be refreshed using latest values in config.\r\n" + 
+                            "If you cancel the values in the DataGridView will be keep intact with values before updated the config.") != DialogResult.Cancel)
+                        {
+                            TreeViewFolderBrowserHandler.Enabled(treeViewFolderBrowser1, false);
+                            ImageListViewHandler.Enable(imageListView1, false);
 
-                        ImageListViewHandler.Enable(imageListView1, true);
-                        TreeViewFolderBrowserHandler.Enabled(treeViewFolderBrowser1, true);
+                            ImageListView_SelectionChanged_Action_ImageListView_DataGridView(true);
+
+                            ImageListViewHandler.Enable(imageListView1, true);
+                            TreeViewFolderBrowserHandler.Enabled(treeViewFolderBrowser1, true);
+                        }
                         imageListView1.Focus();
 
                         databaseAndCacheMetadataExiftool.AllowedDateFormats = Properties.Settings.Default.RenameDateFormats;

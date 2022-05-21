@@ -1433,7 +1433,7 @@ namespace PhotoTagsSynchronizer
                                                             #endregion
 
                                                             DataGridViewSetMetadataOnAllDataGridView(metadataRead);
-                                                            DataGridViewSetDirtyFlagAfterSave(metadataRead, true);
+                                                            DataGridViewSetDirtyFlagAfterSave(metadataRead, true, FileEntryVersion.MetadataToSave);
 
                                                             #region Populate - Current ImageListView Item - With erros info
                                                             FileStatus fileStatusVerify = FileHandler.GetFileStatus(
@@ -2102,7 +2102,7 @@ namespace PhotoTagsSynchronizer
 
                                                 #region Save the metatdata into DataGridView(s) - saved metadata should also be readed back, if not, verify will tell save failed
                                                 DataGridViewSetMetadataOnAllDataGridView(currentMetadata); //PS: Sets only Metadata, not updates the content
-                                                DataGridViewSetDirtyFlagAfterSave(currentMetadata, false); //Not set Dirty flag is false, not edit by user (yet)
+                                                DataGridViewSetDirtyFlagAfterSave(currentMetadata, false, FileEntryVersion.MetadataToSave); //Not set Dirty flag is false, not edit by user (yet)
                                                 #endregion
 
                                                 #region If file was updated - Add to Verify queue

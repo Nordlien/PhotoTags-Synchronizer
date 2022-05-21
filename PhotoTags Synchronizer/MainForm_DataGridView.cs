@@ -954,6 +954,14 @@ namespace PhotoTagsSynchronizer
                             if (DataGridViewHandlerExiftoolWarnings.HasBeenInitialized) DataGridViewHandlerExiftoolWarnings.PopulateFile(dataGridViewExiftoolWarning, fileEntryAttribute, showWhatColumns);
                             if (DataGridViewHandlerRename.HasBeenInitialized) DataGridViewHandlerRename.PopulateFile(dataGridViewRename, fileEntryAttribute, DataGridViewHandlerRename.ShowFullPath, metadataAutoCorrect);
                             if (DataGridViewHandlerConvertAndMerge.HasBeenInitialized) DataGridViewHandlerConvertAndMerge.PopulateFile(dataGridViewConvertAndMerge, fileEntryAttribute);
+
+                            //IsDataGridViewColumnDirty
+                            if (metadataAutoCorrect != null) 
+                            {
+                                int columnIndexDirtyFlagToFix = DataGridViewHandler.GetColumnIndexWhenAddColumn(GetAnyAgregatedDataGridView(), fileEntryAttribute, out FileEntryVersionCompare fileEntryVersionCompare);
+                                if (columnIndexDirtyFlagToFix != -1) DataGridViewHandler.SetColumnDirtyFlag(dataGridView, columnIndexDirtyFlagToFix, IsDataGridViewColumnDirty(dataGridView, columnIndexDirtyFlagToFix, out string diffrences), diffrences);
+                                //DataGridViewSetDirtyFlagAfterSave(metadataAutoCorrect, true, FileEntryVersion.CurrentVersionInDatabase);
+                            }
                             break;
                         case LinkTabAndDataGridViewNameExiftool:
                             DataGridViewHandlerExiftool.PopulateFile(dataGridViewExiftool, fileEntryAttribute, showWhatColumns);
@@ -1455,7 +1463,7 @@ namespace PhotoTagsSynchronizer
         #endregion 
 
         #region DataGridView - SaveBeforeContinue
-        private DialogResult SaveBeforeContinue(bool canCancel, bool useAutoSave = false)
+        private DialogResult SaveBeforeContinue(bool canCancel, bool useAutoSave = false, string reason = null)
         {
             this.Activate();
             this.Validate(); //Get the latest changes, that are text in edit mode
@@ -1467,7 +1475,8 @@ namespace PhotoTagsSynchronizer
                 {
 
                     dialogResult = KryptonMessageBox.Show(
-                        "Do you want to save before continue?\r\n" +
+                        "Do you want to save before continue?\r\n\r\n" +
+                        (string.IsNullOrEmpty(reason) ? "" : reason + "\r\n\r\n") +
                         "Yes - Save using " + (useAutoSave ? "" : "without ") +  "AutoCorrect and continue\r\n" +
                         "No - Don't save and continue without save." +
                         (canCancel ? "\r\nCancel - Cancel the opeation and continue where you left." : ""),
@@ -1842,11 +1851,11 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region DataGridView - DataGridViewSetDirtyFlagAfterSave - Metadata
-        private void DataGridViewSetDirtyFlagAfterSave(Metadata metadataFixedAndCorrected, bool isDirty)
+        private void DataGridViewSetDirtyFlagAfterSave(Metadata metadataFixedAndCorrected, bool isDirty, FileEntryVersion fileEntryVersion)
         {
             try
             {
-                FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(metadataFixedAndCorrected.FileEntry, FileEntryVersion.MetadataToSave);
+                FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(metadataFixedAndCorrected.FileEntry, fileEntryVersion);
                 int columnIndex = DataGridViewHandler.GetColumnIndexWhenAddColumn(GetAnyAgregatedDataGridView(), fileEntryAttribute, out FileEntryVersionCompare fileEntryVersionCompare);
                 if (DataGridViewHandler.IsColumnPopulated(dataGridViewTagsAndKeywords, columnIndex))
                     DataGridViewHandler.SetColumnDirtyFlag(dataGridViewTagsAndKeywords, columnIndex, isDirty);
