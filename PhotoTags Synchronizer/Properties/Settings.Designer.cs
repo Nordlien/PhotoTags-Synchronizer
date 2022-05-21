@@ -727,23 +727,6 @@ namespace PhotoTagsSynchronizer.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(@"exiftool -t -a -G0:1 -s -n -P -struct ""{FileFullPath}""
-magick.exe ""{OriginalFileFullPath}"" ""{OriginalFileDirectory}\{OriginalFileNameWithoutExtension}.jpg""
-""C:\Program files\Exiftool\exiftool"" -t -a -G0:1 -s -n -P -struct ""{FileFullPath}""
-cmd.exe /K exiftool -t -a -G0:1 -s -n -P -struct ""{FileFullPath}""       
-cmd.exe /K /C exiftool -t -a -G0:1 -s -n -P -struct ""{FileFullPath}""
-explorer ms-photos?filename=""{FileFullPath}""")]
-        public string RunBatchImageCommandList {
-            get {
-                return ((string)(this["RunBatchImageCommandList"]));
-            }
-            set {
-                this["RunBatchImageCommandList"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool RunBatchImageWaitForCommand {
             get {
@@ -2804,6 +2787,23 @@ explorer ms-photos?filename=""{FileFullPath}""")]
             }
             set {
                 this["ToolsLastImageListViewWildcardsSelectMatch"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"exiftool -t -a -G0:1 -s -n -P -struct ""{FileFullPath}""
+magick.exe convert ""{OriginalFileFullPath}"" -strip ""{OriginalFileDirectory}\{OriginalFileNameWithoutExtension}.jpg""
+""C:\Program files\Exiftool\exiftool"" -t -a -G0:1 -s -n -P -struct ""{FileFullPath}""
+cmd.exe /K exiftool -t -a -G0:1 -s -n -P -struct ""{FileFullPath}""
+cmd.exe /K /C exiftool -t -a -G0:1 -s -n -P -struct ""{FileFullPath}""
+explorer ms-photos?filename=""{FileFullPath}""")]
+        public string RunBatchImageCommandList {
+            get {
+                return ((string)(this["RunBatchImageCommandList"]));
+            }
+            set {
+                this["RunBatchImageCommandList"] = value;
             }
         }
     }

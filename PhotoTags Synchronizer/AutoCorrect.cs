@@ -34,6 +34,10 @@ namespace PhotoTagsSynchronizer
                 if (!string.IsNullOrWhiteSpace(addThisItem)) 
                 {
                     string itemToUpper = addThisItem.ToUpper();
+                    if (itemToUpper.Contains ("\r") || itemToUpper.Contains("\n"))
+                    {
+                        //DEBUG
+                    }
                     if (!list.Contains(itemToUpper)) list.Add(itemToUpper);
                 } 
             }
@@ -219,7 +223,7 @@ namespace PhotoTagsSynchronizer
                         {
                             if (dataItems[columnIndex] is string)
                             {
-                                string[] items = ((string)dataItems[columnIndex]).Replace("\r\n","\n").Split('\n');
+                                string[] items = ((string)dataItems[columnIndex]).Replace("\r\n","\n").Replace("\r","\n").Split('\n');
                                 switch (columnIndex)
                                 {
                                     case 0:

@@ -3086,7 +3086,13 @@ namespace MetadataLibrary
                         {
                             string regionName = dbTools.ConvertFromDBValString(reader["Name"]);
                             int countNames = (int)dbTools.ConvertFromDBValInt(reader["CountNames"]);
-                            if (!leaveOutNullOrWhiteSpace || (leaveOutNullOrWhiteSpace && !string.IsNullOrWhiteSpace(regionName))) listing.Add(new StringNullable(regionName), countNames);
+                            if (!leaveOutNullOrWhiteSpace || (leaveOutNullOrWhiteSpace && !string.IsNullOrWhiteSpace(regionName)))
+                            {
+                                if (!listing.ContainsKey(new StringNullable(regionName)))
+                                    listing.Add(new StringNullable(regionName), countNames);
+                                else
+                                    listing[new StringNullable(regionName)] = countNames;
+                            }
                         }
                     }
                 }
