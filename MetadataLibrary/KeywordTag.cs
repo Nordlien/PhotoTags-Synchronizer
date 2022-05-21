@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace MetadataLibrary
@@ -7,12 +8,11 @@ namespace MetadataLibrary
     [Serializable]
     public struct KeywordTag
     {
-        
-
+        [JsonProperty("Keyword")]
         public string Keyword { get; set; }
 
         private float confidence;
-
+        [JsonProperty("Confidence")]
         public float Confidence 
         {
             get { return confidence; }

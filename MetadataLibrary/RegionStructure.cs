@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 //using System.Runtime.InteropServices.WindowsRuntime;
@@ -437,30 +438,43 @@ namespace MetadataLibrary
         private Image thumbnail;
         private static float acceptRegionMissmatchProcent = 0.3F;
 
-
+        [JsonProperty("Type")]
         public string Type { get => type; set => type = value; }
+
+        [JsonProperty("AreaX")]
         public float AreaX
         {
             get => areaX;
             set => areaX = (float)Math.Round((float)value, SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals);
         }
+        [JsonProperty("AreaY")]
         public float AreaY 
         {
             get => areaY;
             set => areaY = (float)Math.Round((float)value, SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals);
         }
+
+        [JsonProperty("AreaWidth")]
         public float AreaWidth 
         { 
             get => areaWidth; 
             set => areaWidth = (float)Math.Round((float)value, SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals);
         }
+
+        [JsonProperty("AreaHeight")]
         public float AreaHeight 
         { 
             get => areaHeight; 
             set => areaHeight = (float)Math.Round((float)value, SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals);
         }
+
+        [JsonProperty("Name")]
         public string Name { get => name; set => name = value; }
+
+        [JsonProperty("RegionStructureTypes")]
         public RegionStructureTypes RegionStructureType { get => regionStructureType; set => regionStructureType = value; }
+
+        [JsonIgnore]
         public Image Thumbnail { get => thumbnail; set => thumbnail = value; }
 
         public override int GetHashCode()

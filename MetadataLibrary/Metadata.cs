@@ -8,6 +8,7 @@ using LocationNames;
 using FileDateTime;
 using ApplicationAssociations;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace MetadataLibrary
 {
@@ -17,7 +18,14 @@ namespace MetadataLibrary
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
+        [JsonConstructor]
+        public Metadata()
+        {
+            Broker = MetadataBrokerType.Empty;
+        }
+
         #region Local variables
+        [JsonIgnore]
         public String errors = "";
         private String fileDirectory;
         private Byte? personalRating;
@@ -35,6 +43,7 @@ namespace MetadataLibrary
         private String locationCity;
         private String locationState;
 
+        [JsonIgnore]
         public bool Readonly { get; set; } //Used to debug, changes of original Metadata
         #endregion
 
@@ -347,6 +356,7 @@ namespace MetadataLibrary
         #endregion
 
         #region Properties Helper - FileDate
+        [JsonIgnore]
         public DateTime? FileDate
         {
             get
@@ -368,6 +378,7 @@ namespace MetadataLibrary
         #endregion
 
         #region Properties Helper - LocationCoordinates
+        [JsonIgnore]
         public LocationCoordinate LocationCoordinate
         {
             get
@@ -396,6 +407,7 @@ namespace MetadataLibrary
 
         #region Properties Helper - FileEntryBroker
         private FileEntryBroker fileEntryBroker = null;
+        [JsonIgnore]
         public FileEntryBroker FileEntryBroker
         {
             get
@@ -410,6 +422,7 @@ namespace MetadataLibrary
 
         #region Properties Helper - FileEntry
         private FileEntry fileEntry = null;
+        [JsonIgnore]
         public FileEntry FileEntry
         {
             get
@@ -467,11 +480,15 @@ namespace MetadataLibrary
         #endregion 
 
         #region Properties - MetadataBrokerTypes
+        [JsonProperty("Broker")]
         public MetadataBrokerType Broker { get; set; }
         #endregion
 
         #region Properties - File
+        [JsonProperty("FileName")]
         public String FileName { get; set; }
+
+        [JsonProperty("FileDirectory")]
         public String FileDirectory
         {
             get { return fileDirectory; }
@@ -482,6 +499,7 @@ namespace MetadataLibrary
             }
         }
 
+        [JsonIgnore]
         public string FileFullPath 
         { get 
             {
@@ -493,16 +511,30 @@ namespace MetadataLibrary
                 return Path.Combine(fileDirectory, FileName); 
             }
         }
+        [JsonProperty("FileSize")]
         public Int64? FileSize { get; set; }
+
+        [JsonProperty("FileDateCreated")]
         public DateTime? FileDateCreated { get; set; }
+
+        [JsonProperty("FileDateModified")]
         public DateTime? FileDateModified { get; set; }
+
+        [JsonProperty("FileDateAccessed")]
         public DateTime? FileDateAccessed { get; set; }
+
+        [JsonProperty("FileMimeType")]
         public string FileMimeType { get; set; }
         #endregion
 
         #region Properties - Personal
+        [JsonProperty("PersonalTitle")]
         public String PersonalTitle { get; set; }
+
+        [JsonProperty("PersonalDescription")]
         public String PersonalDescription { get; set; }
+
+        [JsonProperty("PersonalComments")]
         public string PersonalComments { get; set; }
 
         static public byte ConvertRatingStarsToRatingPercent(byte personalRating)
@@ -524,6 +556,7 @@ namespace MetadataLibrary
             }
         }
 
+        [JsonIgnore]
         public byte? PersonalRating
         {
             get { return personalRating; }
@@ -574,6 +607,7 @@ namespace MetadataLibrary
             }
         }
 
+        [JsonProperty("PersonalRatingPercent")]
         public byte? PersonalRatingPercent
         {
             get
@@ -592,8 +626,13 @@ namespace MetadataLibrary
             }
         }
 
+        [JsonProperty("PersonalAuthor")]
         public String PersonalAuthor { get; set; }
+
+        [JsonProperty("PersonalAlbum")]
         public string PersonalAlbum { get; set; }
+
+        [JsonProperty("PersonalRegionList")]
         public List<RegionStructure> PersonalRegionList
         {
             get => personalRegionList;
@@ -810,6 +849,7 @@ namespace MetadataLibrary
             if (!regionStructure.DoesThisNameExistInList(personalRegionList)) personalRegionList.Add(regionStructure);
         }
 
+        [JsonProperty("PersonalKeywordTags")]
         public List<KeywordTag> PersonalKeywordTags
         {
             get => personalTagList;
@@ -842,33 +882,13 @@ namespace MetadataLibrary
             return keywordWasAdded;
         }
 
-        //public void PersonalTagListUpdateImage(RegionStructure updateRegion, Image thumbnail)
-        //{
-        //    for (int i = 0; i < personalRegionList.Count; i++)
-        //    {
-        //        if (personalRegionList[i] == updateRegion)
-        //        {
-        //            RegionStructure region = personalRegionList[i];
-        //            region.Thumbnail = thumbnail;
-        //            personalRegionList.RemoveAt(i);
-        //            personalRegionList.Insert(i, region);
-        //            break;
-        //        }
-        //    }
-        //}
-
-        //public Image PersonalTagListGetThumbnail(RegionStructure region)
-        //{
-        //    if (personalRegionList.Contains(region))
-        //    {
-        //        return personalRegionList[personalRegionList.IndexOf(region)].Thumbnail;
-        //    }
-        //    return null;
-        //}
         #endregion
 
         #region Properties - Camera
+        [JsonProperty("CameraMake")]
         public String CameraMake { get; set; }
+
+        [JsonProperty("CameraModel")]
         public String CameraModel { get; set; }
         #endregion
 
@@ -916,6 +936,7 @@ namespace MetadataLibrary
         #endregion
 
         #region Properties Helper - LocationTimeZone 
+        [JsonIgnore]
         public string LocationTimeZoneDescription
         {
             get
@@ -953,15 +974,19 @@ namespace MetadataLibrary
         }
         #endregion
 
-        #region Properties - Media
+        #region Properties - Media        
         private DateTime? mediaDateTaken;
+        [JsonProperty("MediaDateTaken")]
         public DateTime? MediaDateTaken { get => mediaDateTaken; set => mediaDateTaken = value; }
         
-        private Int32? mediaWidth;        
+        private Int32? mediaWidth;
+        [JsonProperty("MediaWidth")]
         public Int32? MediaWidth { get => mediaWidth; set => mediaWidth = value; }
 
-        private Int32? mediaHeight;        
+        private Int32? mediaHeight;
+        [JsonProperty("MediaHeight")]
         public Int32? MediaHeight { get => mediaHeight; set => mediaHeight = value; }
+        [JsonIgnore]
         public Size MediaSize { get => new Size(mediaWidth == null ? 0 : (int)mediaWidth, mediaWidth == null ? 0 : (int)mediaHeight);
             set {
                 MediaWidth = value.Width;
@@ -970,38 +995,56 @@ namespace MetadataLibrary
         }
 
         private Int32? mediaOrientation;
+        [JsonProperty("MediaOrientation")]
         public int? MediaOrientation { get => mediaOrientation; set => mediaOrientation = value; }
 
         private Int32? mediaVideoLength;
+        [JsonProperty("MediaVideoLength")]
         public int? MediaVideoLength { get => mediaVideoLength; set => mediaVideoLength = value; }
         #endregion 
 
         #region Properties - Location
+        [JsonProperty("LocationAltitude")]
         public float? LocationAltitude
         {
             get => locationAltitude;
             set => locationAltitude = (value == null ? (float?)null : (float?)Math.Round((float)value, SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimalsShort));
         }
+
+        [JsonProperty("LocationLatitude")]
         public float? LocationLatitude
         {
             get => locationLatitude;
             set => locationLatitude = (value == null ? (float?)null : (float?)Math.Round((float)value, SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals));
         }
+
+        [JsonProperty("LocationLongitude")]
         public float? LocationLongitude
         {
             get => locationLongitude;
             set => locationLongitude = (value == null ? (float?)null : (float?)Math.Round((float)value, SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals));
         }
+
+        [JsonProperty("LocationDateTime")]
         public DateTime? LocationDateTime { get => locationDateTime; set => locationDateTime = value; }
+
+        [JsonProperty("LocationName")]
         public String LocationName { get => locationName; set => locationName = value; }
+
+        [JsonProperty("LocationCountry")]
         public string LocationCountry { get => locationCountry; set => locationCountry = value; }
+
+        [JsonProperty("LocationCity")]
         public string LocationCity { get => locationCity; set => locationCity = value; }
+
+        [JsonProperty("LocationState")]
         public string LocationState { get => locationState; set => locationState = value; }
         #endregion
 
         #region Errors handler
 
         #region Errors handler - Property
+        [JsonIgnore]
         public string Errors { get => errors; set => errors = value; }
         #endregion
 

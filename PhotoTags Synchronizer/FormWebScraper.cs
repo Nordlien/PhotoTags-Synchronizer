@@ -13,6 +13,8 @@ using Newtonsoft.Json;
 using Krypton.Toolkit;
 using FileHandeling;
 using System.Web;
+using System.Text;
+using TimeZone;
 
 namespace PhotoTagsSynchronizer
 {
@@ -354,6 +356,8 @@ namespace PhotoTagsSynchronizer
             buttonWebScrapingSave.Enabled = enabled;
             buttonWebScrapingClearDataSet.Enabled = enabled;
             kryptonButtonWebScrapingAddUserTags.Enabled = enabled;
+            buttonWebScrapingExportDataSet.Enabled = enabled;
+            buttonWebScrapingImportDataSet.Enabled = enabled;
 
             buttonWebScrapingLoadPackage.Enabled = enabled && (listViewDataSetDates.Items.Count > 0);
             listViewDataSetDates.Enabled = enabled && (listViewDataSetDates.Items.Count > 0);            
@@ -1598,6 +1602,97 @@ namespace PhotoTagsSynchronizer
             CategoryLinksAddUpdate(_linkCatergories, scrapingResult.LinksTags, "Search");
             UpdatedWebScrapingDataSetList(_webScrapingDataSet);
             CategryLinksShowInListView(_linkCatergories);
+        }
+        #endregion
+
+        #region Export
+        private void buttonWebScrapingExportDataSet_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+                //saveFileDialog1.InitialDirectory = @ "C:\";
+                saveFileDialog1.FileName = TimeZoneLibrary.ToStringFilename(DateTime.Now) + " WebScraper Metadatas.json";
+                saveFileDialog1.Title = "Save locations as JSON";
+                saveFileDialog1.CheckFileExists = false;
+                saveFileDialog1.CheckPathExists = false;
+                saveFileDialog1.DefaultExt = "json";
+                saveFileDialog1.Filter = "JSON files (*.json)|*.json";
+                saveFileDialog1.FilterIndex = 1;
+                saveFileDialog1.RestoreDirectory = true;
+                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    buttonWebScrapingExportDataSet.Enabled = false;
+                    buttonWebScrapingImportDataSet.Enabled = false;
+
+                    var output = JsonConvert.SerializeObject(_metadataDataTotalMerged, Formatting.Indented);
+                    System.IO.File.WriteAllText(saveFileDialog1.FileName, output, Encoding.UTF8);
+                    KryptonMessageBox.Show(_metadataDataTotalMerged.Count.ToString() + " metadata exported", "Metadata exported", MessageBoxButtons.OK, MessageBoxIcon.Information, showCtrlCopy: true);
+
+                    buttonWebScrapingExportDataSet.Enabled = true;
+                    buttonWebScrapingImportDataSet.Enabled = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Error saving JSON file!\r\n\r\n" + ex.Message, "Was not able to save JSON file", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+        }
+        #endregion
+
+        #region Import
+        private void buttonWebScrapingImportDataSet_Click(object sender, EventArgs e)
+        {
+            //DataGridView dataGridView = dataGridViewLocationNames;
+
+            try
+            {
+                OpenFileDialog openFileDialog1 = new OpenFileDialog
+                {
+                    Title = "Browse JSON Files",
+                    CheckFileExists = true,
+                    CheckPathExists = true,
+
+                    DefaultExt = "json",
+                    Filter = "json files (*.json)|*.json",
+                    FilterIndex = 1,
+                    RestoreDirectory = true,
+                    ReadOnlyChecked = false,
+                    ShowReadOnly = true
+                };
+
+                if (openFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    buttonWebScrapingExportDataSet.Enabled = false;
+                    buttonWebScrapingImportDataSet.Enabled = false;
+
+                    fastColoredTextBoxJavaScriptResult.Text = "Import and merge dataset...\r\n";
+                    fastColoredTextBoxJavaScriptResult.Text += "Counts before import and merge:\r\n";
+                    
+                    string input = System.IO.File.ReadAllText(openFileDialog1.FileName, Encoding.UTF8);
+
+                    MetadataDataSetCount metadataDataSetCountBeforeMerge = MetadataDataSetCount.CountMetadataDataSet(_metadataDataTotalMerged);
+                    fastColoredTextBoxJavaScriptResult.Text += metadataDataSetCountBeforeMerge.ToString();
+
+
+                    Dictionary<string, Metadata> readResultSet = JsonConvert.DeserializeObject<Dictionary<string, Metadata>>(input);
+                    MetadataDictionaryMerge(_metadataDataTotalMerged, readResultSet);
+
+                    MetadataDataSetCount metadataDataSetCountLoaded = MetadataDataSetCount.CountMetadataDataSet(readResultSet);
+
+                    fastColoredTextBoxJavaScriptResult.Text = "DataSet imported...\r\n";
+                    fastColoredTextBoxJavaScriptResult.Text += metadataDataSetCountLoaded.ToString();
+
+                    buttonWebScrapingExportDataSet.Enabled = true;
+                    buttonWebScrapingImportDataSet.Enabled = true;
+
+                    KryptonMessageBox.Show(readResultSet.Count.ToString() + " locations imported", "Location file imported", MessageBoxButtons.OK, MessageBoxIcon.Information, showCtrlCopy: true);
+                }
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Error loading JSON file!\r\n\r\n" + ex.Message, "Was not able to load JSON file", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
         }
         #endregion
     }
