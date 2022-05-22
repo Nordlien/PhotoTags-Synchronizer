@@ -593,9 +593,6 @@ namespace Manina.Windows.Forms
             itemCacheManager = new ImageListViewItemCacheManager(this);
 
             disposed = false;
-
-            timerDelayRefresh.Elapsed += delayRefreshTimer_Tick;
-            timerDelayRefresh.Interval = timerDelayRefreshInterval;
         }
         #endregion
 
@@ -918,60 +915,15 @@ namespace Manina.Windows.Forms
         #endregion
 
         #region Refresh delay
-        private System.Timers.Timer timerDelayRefresh = new System.Timers.Timer();
-        private bool isTimerDelayRefreshStarted = false;
-        private DateTime startTimeDelayRefresh = DateTime.Now;
-
-
-        private const int timerDelayRefreshInterval = 50;
-        private const int timerDelayTimeSpanTotalMilliseconds = 100;
-        private const int timerDelayTimeSpanTotalMillisecondsLong = 500;
-
-        private void delayRefreshTimer_Tick(object sender, System.Timers.ElapsedEventArgs e)
-        {        
+        
+        public override void Refresh()
+        {
             if (InvokeRequired)
             {
-                this.BeginInvoke(new Action<object, System.Timers.ElapsedEventArgs>(delayRefreshTimer_Tick), sender, e);
+                this.BeginInvoke(new Action(Refresh));
                 return;
             }
-
-            try
-            {
-                if (((TimeSpan)(DateTime.Now - startTimeDelayRefresh)).TotalMilliseconds > timerDelayTimeSpanTotalMilliseconds)
-                {
-                    timerDelayRefresh.Stop();
-                    isTimerDelayRefreshStarted = false;
-                    base.Refresh();
-                }
-            } catch
-            {
-                //Debug
-            }
-        }
-        public override void Refresh()
-        {            
-            if (!isTimerDelayRefreshStarted)
-            {
-                startTimeDelayRefresh = DateTime.Now;
-                isTimerDelayRefreshStarted = true;
-                
-                timerDelayRefresh.Enabled = true;                                   // Enable the timer
-                timerDelayRefresh.Start();
-            } else
-            {
-                if (((TimeSpan)(DateTime.Now - startTimeDelayRefresh)).TotalMilliseconds < 0) startTimeDelayRefresh = DateTime.Now;
-            }
-        }
-
-        public void RefreshDelay()
-        {
-            if (!isTimerDelayRefreshStarted)
-            {
-                startTimeDelayRefresh = DateTime.Now.AddMilliseconds(timerDelayTimeSpanTotalMillisecondsLong);
-                isTimerDelayRefreshStarted = true;
-                timerDelayRefresh.Enabled = true;                                   // Enable the timer
-                timerDelayRefresh.Start();
-            }
+            base.Refresh();
         }
         #endregion
 
