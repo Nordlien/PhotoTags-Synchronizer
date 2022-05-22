@@ -351,11 +351,7 @@ namespace PhotoTagsSynchronizer
         /// <param name="e"></param>
         private void timerStartThread_Tick(object sender, EventArgs e)
         {
-            if (!GlobalData.IsApplicationClosing)
-            {
-                StartThreads();
-                TriggerAutoResetEventQueueEmpty();
-            }
+            if (!GlobalData.IsApplicationClosing) StartThreads();
         }
         #endregion
 
@@ -415,26 +411,6 @@ namespace PhotoTagsSynchronizer
                 CommonQueueReadMetadataFromSourceMicrosoftPhotosCountDirty() > 0 ||
                 //queueThumbnailRegion.Count > 0 ||
                 CommonQueueSaveUsingExiftoolMetadataUpdatedByUserCountDirty() > 0;
-        }
-        #endregion
-
-        #region TriggerAutoResetEventQueueEmpty()
-        /// <summary>
-        /// On 32bit version, out of meomory occures oftem, was needed to wait until qeue was ended to free up reasources
-        /// </summary>
-        private void TriggerAutoResetEventQueueEmpty()
-        {
-            if (CommonQueueSaveToDatabaseMediaThumbnailCountDirty() == 0 &&
-                CommonQueueReadMetadataFromSourceExiftoolCountDirty() == 0 &&
-                CommonQueueReadMetadataFromSourceWindowsLivePhotoGalleryCountDirty() == 0 &&
-                CommonQueueReadMetadataFromSourceMicrosoftPhotosCountDirty() == 0 &&
-                CommonQueueSaveToDatabaseRegionAndThumbnailCountDirty() == 0 &&
-                CommonQueueSaveUsingExiftoolMetadataUpdatedByUserCountDirty() == 0
-                )
-            {
-                //When out of memory, then wait for cache to empty
-                if (ReadImageOutOfMemoryWillWaitCacheEmpty != null) ReadImageOutOfMemoryWillWaitCacheEmpty.Set();
-            }
         }
         #endregion
 
@@ -549,7 +525,6 @@ namespace PhotoTagsSynchronizer
             List<FileEntryAttribute> fileEntryAttributes = new List<FileEntryAttribute>();
             fileEntryAttributes.Add(fileEntryAttribute);
             AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(fileEntryAttributes);
-            TriggerAutoResetEventQueueEmpty();
         }
         #endregion
 
@@ -573,7 +548,6 @@ namespace PhotoTagsSynchronizer
                 #endregion 
             }
             AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(fileEntryAttributes);
-            TriggerAutoResetEventQueueEmpty();
         }
         #endregion
 
@@ -844,7 +818,6 @@ namespace PhotoTagsSynchronizer
                                 #endregion
 
                                 if (GlobalData.IsApplicationClosing) lock (commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnailsLock) commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnails.Clear();
-                                TriggerAutoResetEventQueueEmpty();
                             }
                         }
                         catch (Exception ex)
@@ -947,8 +920,6 @@ namespace PhotoTagsSynchronizer
                                 if (GlobalData.IsApplicationClosing || GlobalData.IsStopAndEmptyThumbnailQueueRequest)
                                     lock (commonQueueLazyLoadingMediaThumbnailLock) commonQueueLazyLoadingMediaThumbnail.Clear();
                             }
-                            
-                            TriggerAutoResetEventQueueEmpty();
                         }
                         catch (Exception ex)
                         {
@@ -1550,8 +1521,6 @@ namespace PhotoTagsSynchronizer
 
                             if (GlobalData.IsApplicationClosing || GlobalData.IsStopAndEmptyExiftoolReadQueueRequest)
                                 lock (commonQueueReadMetadataFromSourceExiftoolLock) commonQueueReadMetadataFromSourceExiftool.Clear();
-
-                            TriggerAutoResetEventQueueEmpty();
                         }
                         catch (Exception ex)
                         {
@@ -2153,8 +2122,6 @@ namespace PhotoTagsSynchronizer
                                 lock (exiftoolSave_QueueSaveUsingExiftool_MetadataUpdatedByUserLock) exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUser.Clear();
                                 lock (exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUserLock) exiftoolSave_QueueSaveUsingExiftool_MetadataOrigialBeforeUserUpdate.Clear();
                             }
-
-                            TriggerAutoResetEventQueueEmpty();
                         }
                         catch (Exception ex)
                         {
@@ -2309,8 +2276,6 @@ namespace PhotoTagsSynchronizer
                                     Logger.Error(ex, "ThreadSaveThumbnail");
                                 }
                             }
-
-                            TriggerAutoResetEventQueueEmpty();
                         }
                         catch (Exception ex)
                         {
@@ -2385,7 +2350,6 @@ namespace PhotoTagsSynchronizer
                             while (CommonQueueReadMetadataFromMicrosoftPhotosCountLock() > 0 && !GlobalData.IsApplicationClosing)
                             {
                                 count--;
-
                                 #region Common for ThreadCollectMetadataWindowsLiveGallery and ThreadCollectMetadataMicrosoftPhotos
                                 MetadataDatabaseCache database = databaseAndCacheMetadataMicrosoftPhotos;
                                 ImetadataReader databaseSourceReader = databaseMicrosoftPhotos;
@@ -2425,8 +2389,6 @@ namespace PhotoTagsSynchronizer
                             #endregion
 
                             if (GlobalData.IsApplicationClosing) lock (commonQueueReadMetadataFromSourceMicrosoftPhotosLock) commonQueueReadMetadataFromSourceMicrosoftPhotos.Clear();
-
-                            TriggerAutoResetEventQueueEmpty();
                         }
                         catch (Exception ex)
                         {
@@ -2545,8 +2507,6 @@ namespace PhotoTagsSynchronizer
                             }
 
                             if (GlobalData.IsApplicationClosing) lock (commonQueueReadMetadataFromSourceWindowsLivePhotoGalleryLock) commonQueueReadMetadataFromSourceWindowsLivePhotoGallery.Clear();
-
-                            TriggerAutoResetEventQueueEmpty();
                         }
                         catch (Exception ex)
                         {
@@ -2957,8 +2917,6 @@ namespace PhotoTagsSynchronizer
                             } //while (indexSource < curentCommonQueueReadPosterAndSaveFaceThumbnailsCount);
 
                             if (GlobalData.IsApplicationClosing) lock (commonQueueSaveToDatabaseRegionAndThumbnailLock) commonQueueSaveToDatabaseRegionAndThumbnail.Clear();
-
-                            TriggerAutoResetEventQueueEmpty();
                         }
                         catch (Exception ex)
                         {
@@ -3924,8 +3882,6 @@ namespace PhotoTagsSynchronizer
                             }
 
                             if (GlobalData.IsApplicationClosing) lock (commonQueueReadMetadataFromSourceMicrosoftPhotosLock) commonQueueReadMetadataFromSourceMicrosoftPhotos.Clear();
-
-                            TriggerAutoResetEventQueueEmpty();
                         }
                         catch (Exception ex)
                         {

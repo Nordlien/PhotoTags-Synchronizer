@@ -16,8 +16,6 @@ namespace PhotoTagsSynchronizer
 
     public partial class MainForm : KryptonForm
     {
-        private AutoResetEvent ReadImageOutOfMemoryWillWaitCacheEmpty = null; //When out of memory, then wait for all data ready = new AutoResetEvent(false);
-
         #region ImageListView - Item updates
 
         #region ImageListView - Update Thumbnail - UpdateAll - Invoke (ImageListViewItem.Update)
@@ -520,68 +518,38 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.IsApplicationClosing) return;
             if (imageListView1.IsDisposed) return;
 
-            bool retry = false;
-            int retryCount = 3; //In case of waiting for OneDrive to load and timeout 
-
-            #region For 32-bit OS, where very little memory, and need to clean up
-            do
+            try
             {
-                try
+                Image fullSizeImage = LoadMediaCoverArtPosterWithCache(e.FullFilePath);
+                e.LoadedImage = fullSizeImage;
+            }
+            #region Error Handling
+            catch (IOException ioex) //Set an error picture, OneDrive problems
+            {
+                if (!string.IsNullOrWhiteSpace(e.FullFilePath))
                 {
-                    Image fullSizeImage = LoadMediaCoverArtPosterWithCache(e.FullFilePath);
-                    e.LoadedImage = fullSizeImage;
-                }
-                #region OutOfMemory, IOException (OneDrive issues) - Error handling
-                //This is only error handling
-                //1. When I was using 32bit version, I got lot of our of memory
-                //2. When OneDrive had chrased, lot of stranger errors occured
-                catch (OutOfMemoryException)
-                {
-                    e.LoadedImage = (Image)Properties.Resources.ImageListViewLoadErrorOutOfMemory;
-                    
-                    ReadImageOutOfMemoryWillWaitCacheEmpty = new AutoResetEvent(false);
-                    ReadImageOutOfMemoryWillWaitCacheEmpty.WaitOne(10000);
-                    lock (ReadImageOutOfMemoryWillWaitCacheEmpty)
-                    {
-                        ReadImageOutOfMemoryWillWaitCacheEmpty = null;
-                    }
-                    GC.Collect();
-                    GC.WaitForPendingFinalizers();
-                    
-                    if (retryCount-- > 0) 
-                        retry = true; 
-                    else 
-                        retry = false;
-                }
-                catch (IOException ioex) //Set an error picture, OneDrive problems
-                {
-                    if (!string.IsNullOrWhiteSpace(e.FullFilePath))
-                    {
-                        FileStatus fileStatusError = FileHandler.GetFileStatus(
-                            e.FullFilePath, checkLockedStatus: true, hasErrorOccured: true, errorMessage: ioex.Message);
-                        ImageListView_UpdateItemFileStatusInvoke(e.FullFilePath, fileStatusError);
-                    }
-
-                    e.LoadedImage = (Image)Properties.Resources.ImageListViewLoadErrorOneDriveNotRunning;
-                }
-                catch (Exception ex)
-                {
-                    FileStatus fileStatus = FileHandler.GetFileStatus(
-                            e.FullFilePath, checkLockedStatus: true, hasErrorOccured: true, errorMessage: ex.Message);
-                    ImageListView_UpdateItemFileStatusInvoke(e.FullFilePath, fileStatus);
-                    e.LoadedImage = GetFileStatusIcon(fileStatus);
+                    FileStatus fileStatusError = FileHandler.GetFileStatus(
+                        e.FullFilePath, checkLockedStatus: true, hasErrorOccured: true, errorMessage: ioex.Message);
+                    ImageListView_UpdateItemFileStatusInvoke(e.FullFilePath, fileStatusError);
                 }
 
-                
-                if (e.LoadedImage == null)
-                {
-                    FileStatus fileStatus = FileHandler.GetFileStatus(
-                        e.FullFilePath, checkLockedStatus: true, hasErrorOccured: true, errorMessage: "Failed to load poster");
-                    ImageListView_UpdateItemFileStatusInvoke(e.FullFilePath, fileStatus);
-                    e.LoadedImage = GetFileStatusIcon(fileStatus);
-                }
-                #endregion
-            } while (retry);
+                e.LoadedImage = (Image)Properties.Resources.ImageListViewLoadErrorOneDriveNotRunning;
+            }
+            catch (Exception ex)
+            {
+                FileStatus fileStatus = FileHandler.GetFileStatus(
+                        e.FullFilePath, checkLockedStatus: true, hasErrorOccured: true, errorMessage: ex.Message);
+                ImageListView_UpdateItemFileStatusInvoke(e.FullFilePath, fileStatus);
+                e.LoadedImage = GetFileStatusIcon(fileStatus);
+            }
+
+            if (e.LoadedImage == null)
+            {
+                FileStatus fileStatus = FileHandler.GetFileStatus(
+                    e.FullFilePath, checkLockedStatus: true, hasErrorOccured: true, errorMessage: "Failed to load poster");
+                ImageListView_UpdateItemFileStatusInvoke(e.FullFilePath, fileStatus);
+                e.LoadedImage = GetFileStatusIcon(fileStatus);
+            }
             #endregion 
         }
         #endregion
