@@ -1087,11 +1087,49 @@ namespace PhotoTagsSynchronizer
             string filename = WebScrapingFilename("Status.WebScraping.DataSet.json");
             try
             {
+                SetButtonState(enabled: false);
                 File.WriteAllText(filename, JsonConvert.SerializeObject(webScrapingDataSet, Formatting.Indented));
             }
             catch (Exception ex)
             {
                 KryptonMessageBox.Show(ex.Message, "SerializeObject and save failed...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+            finally
+            {
+                SetButtonState(enabled: true);
+            }
+        }
+        #endregion
+
+        #region Delete Link Categories
+        private void buttonSpecNavigatorCategoriesDeleteSelected_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                SetButtonState(enabled: false);
+                List<ListViewItem> listViewItemsToDelete = new List<ListViewItem>();
+                foreach (ListViewItem listViewItem in listViewLinks.Items)
+                {
+                    if (listViewItem.Checked) listViewItemsToDelete.Add(listViewItem);
+                }
+                foreach (ListViewItem listViewItem in listViewItemsToDelete)
+                {
+                    if (_linkCatergories.ContainsKey(listViewItem.SubItems[itemViewSubItemLinksLink].Text))
+                    {
+                        _linkCatergories.Remove(listViewItem.SubItems[itemViewSubItemLinksLink].Text);
+                    }
+                    listViewLinks.Items.Remove(listViewItem);
+                }
+
+                WebScrapingLinksStatusWrites(_linkCatergories); //Updated LastRead field
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Error occured!\r\n\r\n" + ex.Message, "Error occured", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+            finally
+            {
+                SetButtonState(enabled: true);
             }
         }
         #endregion
@@ -1105,7 +1143,6 @@ namespace PhotoTagsSynchronizer
             {
                 string script = fastColoredTextBoxJavaScript.Text;
 
-                
                 _urlLoadingFailed.Clear();
                 MetadataDataSetCount metadataDataSetCountBefore = MetadataDataSetCount.CountMetadataDataSet(_metadataDataTotalMerged);
                 fastColoredTextBoxJavaScriptResult.Text = "WebScarping stareted...\r\n" + metadataDataSetCountBefore.ToString() + "\r\n--------------------------------------\r\n\r\n";
@@ -1336,6 +1373,7 @@ namespace PhotoTagsSynchronizer
         {            
             try
             {
+                SetButtonState(enabled: false);
                 int writedCount = 0;
                 fastColoredTextBoxJavaScriptResult.Text = "Saving:\r\n";
                 buttonWebScrapingSave.Enabled = false;
@@ -1351,8 +1389,6 @@ namespace PhotoTagsSynchronizer
                         metadata.FileSize = -1;
                         DatabaseAndCacheMetadataExiftool.WebScrapingWrite(metadata);
                     }
-                    
-                    
 
                     WebScrapingDataSet webScrapingDataSet = new WebScrapingDataSet();
                     webScrapingDataSet.WrittenDate = dateTimeSaveDate;
@@ -1366,10 +1402,13 @@ namespace PhotoTagsSynchronizer
                         + webScrapingDataSet.MetadataDataSetCount.ToString();
                 }
                 isDataUnsaved = false;
-                buttonWebScrapingSave.Enabled = false;
+                buttonWebScrapingSave.Enabled = false;                
             } catch (Exception ex)
             {
                 KryptonMessageBox.Show(ex.Message, "Saveing WebScraping failed...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            } finally
+            {
+                SetButtonState(enabled: true);
             }
         }
 
@@ -1472,42 +1511,49 @@ namespace PhotoTagsSynchronizer
 
         private void buttonWebScrapingLoadPackage_Click(object sender, EventArgs e)
         {
-            buttonWebScrapingLoadPackage.Enabled = false;
-            buttonWebScrapingSave.Enabled = false;
-
-            fastColoredTextBoxJavaScriptResult.Text = "Load and merge dataset...\r\n";
-
-            fastColoredTextBoxJavaScriptResult.Text += "Counts before merge:\r\n";
-            MetadataDataSetCount metadataDataSetCountBeforeMerge = MetadataDataSetCount.CountMetadataDataSet(_metadataDataTotalMerged);
-            fastColoredTextBoxJavaScriptResult.Text += metadataDataSetCountBeforeMerge.ToString();
-
-            readCount = 0;
-            foreach (ListViewItem listViewItem in listViewDataSetDates.Items)
+            try
             {
-                if (listViewItem.Checked && listViewItem.Tag is DateTime)
+                SetButtonState(enabled: false);
+
+                fastColoredTextBoxJavaScriptResult.Text = "Load and merge dataset...\r\n";
+
+                fastColoredTextBoxJavaScriptResult.Text += "Counts before merge:\r\n";
+                MetadataDataSetCount metadataDataSetCountBeforeMerge = MetadataDataSetCount.CountMetadataDataSet(_metadataDataTotalMerged);
+                fastColoredTextBoxJavaScriptResult.Text += metadataDataSetCountBeforeMerge.ToString();
+
+                readCount = 0;
+                foreach (ListViewItem listViewItem in listViewDataSetDates.Items)
                 {
-                    DateTime dataSetDateTime = (DateTime)listViewItem.Tag;
-                    
-                    Dictionary<string, Metadata> metadataDictionaryLoaded = LoadDataSetFromDatabase(dataSetDateTime);
-                    MetadataDictionaryMerge(_metadataDataTotalMerged, metadataDictionaryLoaded);
+                    if (listViewItem.Checked && listViewItem.Tag is DateTime)
+                    {
+                        DateTime dataSetDateTime = (DateTime)listViewItem.Tag;
 
-                    MetadataDataSetCount metadataDataSetCountLoaded = MetadataDataSetCount.CountMetadataDataSet(metadataDictionaryLoaded);
+                        Dictionary<string, Metadata> metadataDictionaryLoaded = LoadDataSetFromDatabase(dataSetDateTime);
+                        MetadataDictionaryMerge(_metadataDataTotalMerged, metadataDictionaryLoaded);
 
-                    fastColoredTextBoxJavaScriptResult.Text += "Count for this DataSet: " + dataSetDateTime.ToString() + "\r\n";
-                    fastColoredTextBoxJavaScriptResult.Text += metadataDataSetCountLoaded.ToString();
+                        MetadataDataSetCount metadataDataSetCountLoaded = MetadataDataSetCount.CountMetadataDataSet(metadataDictionaryLoaded);
 
-                    AddDataSetDesciption("Database");
+                        fastColoredTextBoxJavaScriptResult.Text += "Count for this DataSet: " + dataSetDateTime.ToString() + "\r\n";
+                        fastColoredTextBoxJavaScriptResult.Text += metadataDataSetCountLoaded.ToString();
+
+                        AddDataSetDesciption("Database");
+                    }
                 }
+
+                MetadataDataSetCount metadataDataSetCountAll = MetadataDataSetCount.CountMetadataDataSet(_metadataDataTotalMerged);
+                fastColoredTextBoxJavaScriptResult.Text =
+                    "DataSet loaded...\r\n" +
+                    "Count after loaded and merge all DataSet\r\n" + metadataDataSetCountAll.ToString() + "\r\n-------------------------------\r\n" +
+                    fastColoredTextBoxJavaScriptResult.Text;
             }
-
-            MetadataDataSetCount metadataDataSetCountAll = MetadataDataSetCount.CountMetadataDataSet(_metadataDataTotalMerged);
-            fastColoredTextBoxJavaScriptResult.Text =
-                "DataSet loaded...\r\n" +
-                "Count after loaded and merge all DataSet\r\n" + metadataDataSetCountAll.ToString() + "\r\n-------------------------------\r\n" + 
-                fastColoredTextBoxJavaScriptResult.Text;
-
-            buttonWebScrapingLoadPackage.Enabled = true;
-            buttonWebScrapingSave.Enabled = true;
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Error occured!\r\n\r\n" + ex.Message, "Error occured", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+            finally
+            {
+                SetButtonState(enabled: true);
+            }
         }
 
 
@@ -1516,26 +1562,36 @@ namespace PhotoTagsSynchronizer
         #region GUI - Delete WebScraping DataSet
         private void buttonSpecNavigatorDataSetSelectDelete_Click(object sender, EventArgs e)
         {
-            buttonSpecNavigatorDataSetSelectDelete.Enabled = ButtonEnabled.False;
-
-            fastColoredTextBoxJavaScriptResult.Text = "Deleteing DataSet\r\n";
-
-            foreach (ListViewItem listViewItem in listViewDataSetDates.Items)
+            try
             {
-                if (listViewItem.Checked && listViewItem.Tag is DateTime)
+                SetButtonState(enabled: false);
+
+                fastColoredTextBoxJavaScriptResult.Text = "Deleteing DataSet\r\n";
+
+                foreach (ListViewItem listViewItem in listViewDataSetDates.Items)
                 {
-                    DateTime packageDateTime = (DateTime)listViewItem.Tag;
+                    if (listViewItem.Checked && listViewItem.Tag is DateTime)
+                    {
+                        DateTime packageDateTime = (DateTime)listViewItem.Tag;
 
-                    int rowsAffected = DatabaseAndCacheMetadataExiftool.DeleteDirectoryAndHistory(MetadataBrokerType.WebScraping, webScrapingName, packageDateTime);
-                    fastColoredTextBoxJavaScriptResult.Text += rowsAffected.ToString() + " rows deleted for date: " + packageDateTime.ToString() + "\r\n";
+                        int rowsAffected = DatabaseAndCacheMetadataExiftool.DeleteDirectoryAndHistory(MetadataBrokerType.WebScraping, webScrapingName, packageDateTime);
+                        fastColoredTextBoxJavaScriptResult.Text += rowsAffected.ToString() + " rows deleted for date: " + packageDateTime.ToString() + "\r\n";
+                    }
                 }
-            }
-            
-            List<DateTime> webScrapingDataSetDates = DatabaseAndCacheMetadataExiftool.ListWebScraperDataSet(MetadataBrokerType.WebScraping, webScrapingName);
-            _webScrapingDataSet = WebScrapingDataSetStatusRead(webScrapingDataSetDates);
-            UpdatedWebScrapingDataSetList(_webScrapingDataSet);
 
-            buttonSpecNavigatorDataSetSelectDelete.Enabled = ButtonEnabled.True; 
+                List<DateTime> webScrapingDataSetDates = DatabaseAndCacheMetadataExiftool.ListWebScraperDataSet(MetadataBrokerType.WebScraping, webScrapingName);
+                _webScrapingDataSet = WebScrapingDataSetStatusRead(webScrapingDataSetDates);
+                UpdatedWebScrapingDataSetList(_webScrapingDataSet);
+
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Error occured!\r\n\r\n" + ex.Message, "Error occured", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+            finally
+            {
+                SetButtonState(enabled: true);
+            }
         }
         #endregion
 
@@ -1555,72 +1611,69 @@ namespace PhotoTagsSynchronizer
         {
             foreach (ListViewItem listViewItem in listViewDataSetDates.Items) listViewItem.Checked = false;
         }
-
-        private void buttonSpecNavigatorCategoriesDeleteSelected_Click(object sender, EventArgs e)
-        {
-            List<ListViewItem> listViewItemsToDelete = new List<ListViewItem>();
-            foreach (ListViewItem listViewItem in listViewLinks.Items)
-            {
-                if (listViewItem.Checked) listViewItemsToDelete.Add(listViewItem);
-            }
-            foreach (ListViewItem listViewItem in listViewItemsToDelete)
-            {
-                if (_linkCatergories.ContainsKey(listViewItem.SubItems[itemViewSubItemLinksLink].Text))
-                {
-                    _linkCatergories.Remove(listViewItem.SubItems[itemViewSubItemLinksLink].Text);
-                }
-                listViewLinks.Items.Remove(listViewItem);
-            }
-
-            WebScrapingLinksStatusWrites(_linkCatergories); //Updated LastRead field
-        }
         #endregion
 
         #region GUI - Clear Active DataSet
         private void buttonWebScrapingClearDataSet_Click(object sender, EventArgs e)
         {
-            _metadataDataTotalMerged.Clear();
-            ClearDataSetDescription();
-            fastColoredTextBoxJavaScriptResult.Text = "Metadata DataSet cleared\r\n";
-            
-            MetadataDataSetCount metadataDataSetCountAll = MetadataDataSetCount.CountMetadataDataSet(_metadataDataTotalMerged);
-            fastColoredTextBoxJavaScriptResult.Text +=
-                "Current count for DataSet\r\n" +
-                metadataDataSetCountAll.ToString() +
-                fastColoredTextBoxJavaScriptResult.Text;
+            try
+            {
+                SetButtonState(enabled: false);
+                _metadataDataTotalMerged.Clear();
+                ClearDataSetDescription();
+                fastColoredTextBoxJavaScriptResult.Text = "Metadata DataSet cleared\r\n";
+
+                MetadataDataSetCount metadataDataSetCountAll = MetadataDataSetCount.CountMetadataDataSet(_metadataDataTotalMerged);
+                fastColoredTextBoxJavaScriptResult.Text +=
+                    "Current count for DataSet\r\n" +
+                    metadataDataSetCountAll.ToString() +
+                    fastColoredTextBoxJavaScriptResult.Text;
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Error occured!\r\n\r\n" + ex.Message, "Error occured", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+            finally
+            {
+                SetButtonState(enabled: true);
+            }
         }
-
-
-
-
-
-
-
-
-
         #endregion
 
         #region GUI - WebScrapingAddUserTags_Click
         private void kryptonButtonWebScrapingAddUserTags_Click(object sender, EventArgs e)
         {
-            string result = KryptonInputBox.Show("Enter new tags you like to do web scraping for. You can add multimple tags that are sepearted", "User tags", "examples; portrait photography; football");
-
-            string[] newTags = result.Split(new string[] { System.Globalization.CultureInfo.CurrentCulture.TextInfo.ListSeparator, "\r\n", ";", ",", "\n", "\r", "\t" }, StringSplitOptions.RemoveEmptyEntries);
-
-            string prefixUrl = Properties.Settings.Default.WebScraperSearchTagUrlPrefix;
-            if (!prefixUrl.EndsWith("/") && !prefixUrl.EndsWith("\\")) prefixUrl = prefixUrl + "/";
-
-            ScrapingResult scrapingResult = new ScrapingResult();
-            foreach (string newTag in newTags)
+            try
             {
-                string newTagTrim = newTag.Trim();
-                string newLink = prefixUrl + HttpUtility.UrlPathEncode(newTagTrim);
-                if (!scrapingResult.LinksTags.ContainsKey(newLink)) scrapingResult.LinksTags.Add(newLink, newTagTrim);
-            }
+                SetButtonState(enabled: false);
 
-            CategoryLinksAddUpdate(_linkCatergories, scrapingResult.LinksTags, "Search");
-            UpdatedWebScrapingDataSetList(_webScrapingDataSet);
-            CategryLinksShowInListView(_linkCatergories);
+                string result = KryptonInputBox.Show("Enter new tags you like to do web scraping for. You can add multimple tags that are sepearted", "User tags", "examples; portrait photography; football");
+
+                string[] newTags = result.Split(new string[] { System.Globalization.CultureInfo.CurrentCulture.TextInfo.ListSeparator, "\r\n", ";", ",", "\n", "\r", "\t" }, StringSplitOptions.RemoveEmptyEntries);
+
+                string prefixUrl = Properties.Settings.Default.WebScraperSearchTagUrlPrefix;
+                if (!prefixUrl.EndsWith("/") && !prefixUrl.EndsWith("\\")) prefixUrl = prefixUrl + "/";
+
+                ScrapingResult scrapingResult = new ScrapingResult();
+                foreach (string newTag in newTags)
+                {
+                    string newTagTrim = newTag.Trim();
+                    string newLink = prefixUrl + HttpUtility.UrlPathEncode(newTagTrim);
+                    if (!scrapingResult.LinksTags.ContainsKey(newLink)) scrapingResult.LinksTags.Add(newLink, newTagTrim);
+                }
+
+                CategoryLinksAddUpdate(_linkCatergories, scrapingResult.LinksTags, "Search");
+                UpdatedWebScrapingDataSetList(_webScrapingDataSet);
+                CategryLinksShowInListView(_linkCatergories);
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Error occured!\r\n\r\n" + ex.Message, "Error occured", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+            finally
+            {
+                SetButtonState(enabled: true);
+            }
         }
         #endregion
 
@@ -1630,7 +1683,7 @@ namespace PhotoTagsSynchronizer
             try
             {
                 SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-                //saveFileDialog1.InitialDirectory = @ "C:\";
+
                 saveFileDialog1.FileName = TimeZoneLibrary.ToStringFilename(DateTime.Now) + " WebScraper Metadatas.json";
                 saveFileDialog1.Title = "Save locations as JSON";
                 saveFileDialog1.CheckFileExists = false;
@@ -1641,20 +1694,21 @@ namespace PhotoTagsSynchronizer
                 saveFileDialog1.RestoreDirectory = true;
                 if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
-                    buttonWebScrapingExportDataSet.Enabled = false;
-                    buttonWebScrapingImportDataSet.Enabled = false;
+                    SetButtonState(enabled: false);
 
                     var output = JsonConvert.SerializeObject(_metadataDataTotalMerged, Formatting.Indented);
                     System.IO.File.WriteAllText(saveFileDialog1.FileName, output, Encoding.UTF8);
                     KryptonMessageBox.Show(_metadataDataTotalMerged.Count.ToString() + " metadata exported", "Metadata exported", MessageBoxButtons.OK, MessageBoxIcon.Information, showCtrlCopy: true);
 
-                    buttonWebScrapingExportDataSet.Enabled = true;
-                    buttonWebScrapingImportDataSet.Enabled = true;
+                    SetButtonState(enabled: true);
                 }
             }
             catch (Exception ex)
             {
                 KryptonMessageBox.Show("Error saving JSON file!\r\n\r\n" + ex.Message, "Was not able to save JSON file", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            } finally
+            {
+                SetButtonState(enabled: true);
             }
         }
         #endregion
@@ -1664,6 +1718,8 @@ namespace PhotoTagsSynchronizer
         {
             try
             {
+                SetButtonState(enabled: false);
+
                 OpenFileDialog openFileDialog1 = new OpenFileDialog
                 {
                     Title = "Browse JSON Files",
@@ -1709,11 +1765,12 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 KryptonMessageBox.Show("Error loading JSON file!\r\n\r\n" + ex.Message, "Was not able to load JSON file", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            } finally
+            {
+                SetButtonState(enabled: true);
             }
         }
         #endregion
-
-        
     }
 
 

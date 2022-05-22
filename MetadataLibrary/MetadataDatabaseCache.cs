@@ -909,10 +909,14 @@ namespace MetadataLibrary
                         }
                     }
                 }
+                if (resultRowsAffected == -1)
+                {
+                    //DEBUG
+                }
                 #endregion
 
                 #region INSERT INTO MediaPersonalRegions
-                if (resultRowsAffected == -1)
+                if (resultRowsAffected != -1)
                 {
                     sqlCommand =
                     "INSERT INTO MediaPersonalRegions (" +
@@ -951,6 +955,10 @@ namespace MetadataLibrary
                                 RandomThumbnailCacheUpdate(region.Name, region.Thumbnail);
                             }
                         }
+                    }
+                    if (resultRowsAffected == -1)
+                    {
+                        //DEBUG
                     }
                 }
                 #endregion
