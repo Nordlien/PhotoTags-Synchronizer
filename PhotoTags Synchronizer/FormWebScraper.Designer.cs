@@ -124,6 +124,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonPage18 = new Krypton.Navigator.KryptonPage();
             this.kryptonPage5 = new Krypton.Navigator.KryptonPage();
             this.kryptonPage10 = new Krypton.Navigator.KryptonPage();
+            this.buttonSpecNavigatorCategoriesDeleteSelected = new Krypton.Navigator.ButtonSpecNavigator();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxJavaScript)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxJavaScriptResult)).BeginInit();
             this.statusStrip1.SuspendLayout();
@@ -229,6 +230,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxJavaScript.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxJavaScript.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fastColoredTextBoxJavaScript.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fastColoredTextBoxJavaScript.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxJavaScript.IsReplaceMode = false;
             this.fastColoredTextBoxJavaScript.Language = FastColoredTextBoxNS.Language.JS;
             this.fastColoredTextBoxJavaScript.LeftBracket = '(';
@@ -267,6 +269,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxJavaScriptResult.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxJavaScriptResult.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fastColoredTextBoxJavaScriptResult.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fastColoredTextBoxJavaScriptResult.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxJavaScriptResult.IsReplaceMode = false;
             this.fastColoredTextBoxJavaScriptResult.Language = FastColoredTextBoxNS.Language.XML;
             this.fastColoredTextBoxJavaScriptResult.LeftBracket = '<';
@@ -910,7 +913,9 @@ namespace PhotoTagsSynchronizer
             // buttonSpecNavigatorDataSetSelectDelete
             // 
             this.buttonSpecNavigatorDataSetSelectDelete.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckDelete16x16;
-            this.buttonSpecNavigatorDataSetSelectDelete.ToolTipBody = "Delete dataset";
+            this.buttonSpecNavigatorDataSetSelectDelete.ToolTipBody = "Delete all selected DataSet";
+            this.buttonSpecNavigatorDataSetSelectDelete.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.CheckDelete16x16;
+            this.buttonSpecNavigatorDataSetSelectDelete.ToolTipTitle = "Delete DataSet";
             this.buttonSpecNavigatorDataSetSelectDelete.UniqueName = "0598199c66394fc799af5c8f3e7a64b1";
             this.buttonSpecNavigatorDataSetSelectDelete.Click += new System.EventHandler(this.buttonSpecNavigatorDataSetSelectDelete_Click);
             // 
@@ -918,6 +923,8 @@ namespace PhotoTagsSynchronizer
             // 
             this.buttonSpecNavigatorDataSetSelectAll.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckAll16x16;
             this.buttonSpecNavigatorDataSetSelectAll.ToolTipBody = "Select all DataSet";
+            this.buttonSpecNavigatorDataSetSelectAll.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.CheckAll16x16;
+            this.buttonSpecNavigatorDataSetSelectAll.ToolTipTitle = "Select All";
             this.buttonSpecNavigatorDataSetSelectAll.UniqueName = "3dbc37b9ca3c4bf9b9d85c076f5ea9bd";
             this.buttonSpecNavigatorDataSetSelectAll.Click += new System.EventHandler(this.buttonSpecNavigatorDataSetSelectAll_Click);
             // 
@@ -925,6 +932,8 @@ namespace PhotoTagsSynchronizer
             // 
             this.buttonSpecNavigatorDataSetSelectToggle.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckToggle16x16;
             this.buttonSpecNavigatorDataSetSelectToggle.ToolTipBody = "Toogle select of DataSet";
+            this.buttonSpecNavigatorDataSetSelectToggle.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.CheckToggle16x16;
+            this.buttonSpecNavigatorDataSetSelectToggle.ToolTipTitle = "Invert Selection";
             this.buttonSpecNavigatorDataSetSelectToggle.UniqueName = "d4d65cef436c405c85bfee678cefb27d";
             this.buttonSpecNavigatorDataSetSelectToggle.Click += new System.EventHandler(this.buttonSpecNavigatorDataSetSelectToggle_Click);
             // 
@@ -932,6 +941,8 @@ namespace PhotoTagsSynchronizer
             // 
             this.buttonSpecNavigatorDataSetSelectNone.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckNone16x16;
             this.buttonSpecNavigatorDataSetSelectNone.ToolTipBody = "Select None DataSet";
+            this.buttonSpecNavigatorDataSetSelectNone.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.CheckNone16x16;
+            this.buttonSpecNavigatorDataSetSelectNone.ToolTipTitle = "Select None";
             this.buttonSpecNavigatorDataSetSelectNone.UniqueName = "1a4019c476b546b2a2dc25f98136af59";
             this.buttonSpecNavigatorDataSetSelectNone.Click += new System.EventHandler(this.buttonSpecNavigatorDataSetSelectNone_Click);
             // 
@@ -1040,6 +1051,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonWorkspaceCellCategories.AllowPageDrag = true;
             this.kryptonWorkspaceCellCategories.AllowTabFocus = false;
             this.kryptonWorkspaceCellCategories.Button.ButtonSpecs.AddRange(new Krypton.Navigator.ButtonSpecNavigator[] {
+            this.buttonSpecNavigatorCategoriesDeleteSelected,
             this.buttonSpecNavigatorCategoriesSelectEmpty,
             this.buttonSpecNavigatorCategoriesSelectAll,
             this.buttonSpecNavigatorCategoriesSelectToggle,
@@ -1059,6 +1071,8 @@ namespace PhotoTagsSynchronizer
             // 
             this.buttonSpecNavigatorCategoriesSelectEmpty.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckEmpty16x16;
             this.buttonSpecNavigatorCategoriesSelectEmpty.ToolTipBody = "Select categories that has never been updated";
+            this.buttonSpecNavigatorCategoriesSelectEmpty.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.CheckEmpty16x16;
+            this.buttonSpecNavigatorCategoriesSelectEmpty.ToolTipTitle = "Select Empty";
             this.buttonSpecNavigatorCategoriesSelectEmpty.UniqueName = "94d99ef48ad14ba48fee1a0fd49253ce";
             this.buttonSpecNavigatorCategoriesSelectEmpty.Click += new System.EventHandler(this.buttonSpecNavigatorCategoriesSelectEmpty_Click);
             // 
@@ -1066,13 +1080,17 @@ namespace PhotoTagsSynchronizer
             // 
             this.buttonSpecNavigatorCategoriesSelectAll.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckAll16x16;
             this.buttonSpecNavigatorCategoriesSelectAll.ToolTipBody = "Select all categories";
+            this.buttonSpecNavigatorCategoriesSelectAll.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.CheckAll16x16;
+            this.buttonSpecNavigatorCategoriesSelectAll.ToolTipTitle = "Select All";
             this.buttonSpecNavigatorCategoriesSelectAll.UniqueName = "cb43b9f1b40947e29fb0d7fed70dd009";
             this.buttonSpecNavigatorCategoriesSelectAll.Click += new System.EventHandler(this.buttonSpecNavigatorCategoriesSelectAll_Click);
             // 
             // buttonSpecNavigatorCategoriesSelectToggle
             // 
             this.buttonSpecNavigatorCategoriesSelectToggle.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckToggle16x16;
-            this.buttonSpecNavigatorCategoriesSelectToggle.ToolTipBody = "Toogle select categories";
+            this.buttonSpecNavigatorCategoriesSelectToggle.ToolTipBody = "Toogle selected categories";
+            this.buttonSpecNavigatorCategoriesSelectToggle.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.CheckToggle16x16;
+            this.buttonSpecNavigatorCategoriesSelectToggle.ToolTipTitle = "Invert Selection";
             this.buttonSpecNavigatorCategoriesSelectToggle.UniqueName = "6bf50bdffe4448bdb4a0c3bcb3efb436";
             this.buttonSpecNavigatorCategoriesSelectToggle.Click += new System.EventHandler(this.buttonSpecNavigatorCategoriesSelectToggle_Click);
             // 
@@ -1080,6 +1098,8 @@ namespace PhotoTagsSynchronizer
             // 
             this.buttonSpecNavigatorCategoriesSelectNone.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckNone16x16;
             this.buttonSpecNavigatorCategoriesSelectNone.ToolTipBody = "Select none categories";
+            this.buttonSpecNavigatorCategoriesSelectNone.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.CheckNone16x16;
+            this.buttonSpecNavigatorCategoriesSelectNone.ToolTipTitle = "Select None";
             this.buttonSpecNavigatorCategoriesSelectNone.UniqueName = "bfa24b2e4542487cafa48a770d457ac2";
             this.buttonSpecNavigatorCategoriesSelectNone.Click += new System.EventHandler(this.buttonSpecNavigatorCategoriesSelectNone_Click);
             // 
@@ -1269,6 +1289,16 @@ namespace PhotoTagsSynchronizer
             this.kryptonPage10.ToolTipTitle = "Page ToolTip";
             this.kryptonPage10.UniqueName = "3d0928b650a04ca58fb37c9da3c97546";
             // 
+            // buttonSpecNavigatorCategoriesDeleteSelected
+            // 
+            this.buttonSpecNavigatorCategoriesDeleteSelected.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckDelete16x16;
+            this.buttonSpecNavigatorCategoriesDeleteSelected.ToolTipBody = "Delete selected categories. \r\nDeleting categories doesn\'t delete data from media " +
+    "files, only from this list.";
+            this.buttonSpecNavigatorCategoriesDeleteSelected.ToolTipImage = global::PhotoTagsSynchronizer.Properties.Resources.CheckDelete16x16;
+            this.buttonSpecNavigatorCategoriesDeleteSelected.ToolTipTitle = "Delete Category";
+            this.buttonSpecNavigatorCategoriesDeleteSelected.UniqueName = "a8d3b78579904a2e8f06b5bad6163f13";
+            this.buttonSpecNavigatorCategoriesDeleteSelected.Click += new System.EventHandler(this.buttonSpecNavigatorCategoriesDeleteSelected_Click);
+            // 
             // FormWebScraper
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1450,5 +1480,6 @@ namespace PhotoTagsSynchronizer
         private Krypton.Toolkit.KryptonButton buttonWebScrapingExportDataSet;
         private Krypton.Toolkit.KryptonButton buttonWebScrapingImportDataSet;
         private Krypton.Toolkit.KryptonLabel label3;
+        private Krypton.Navigator.ButtonSpecNavigator buttonSpecNavigatorCategoriesDeleteSelected;
     }
 }

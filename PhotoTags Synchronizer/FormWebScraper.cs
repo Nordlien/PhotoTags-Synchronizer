@@ -1555,6 +1555,25 @@ namespace PhotoTagsSynchronizer
         {
             foreach (ListViewItem listViewItem in listViewDataSetDates.Items) listViewItem.Checked = false;
         }
+
+        private void buttonSpecNavigatorCategoriesDeleteSelected_Click(object sender, EventArgs e)
+        {
+            List<ListViewItem> listViewItemsToDelete = new List<ListViewItem>();
+            foreach (ListViewItem listViewItem in listViewLinks.Items)
+            {
+                if (listViewItem.Checked) listViewItemsToDelete.Add(listViewItem);
+            }
+            foreach (ListViewItem listViewItem in listViewItemsToDelete)
+            {
+                if (_linkCatergories.ContainsKey(listViewItem.SubItems[itemViewSubItemLinksLink].Text))
+                {
+                    _linkCatergories.Remove(listViewItem.SubItems[itemViewSubItemLinksLink].Text);
+                }
+                listViewLinks.Items.Remove(listViewItem);
+            }
+
+            WebScrapingLinksStatusWrites(_linkCatergories); //Updated LastRead field
+        }
         #endregion
 
         #region GUI - Clear Active DataSet
@@ -1643,8 +1662,6 @@ namespace PhotoTagsSynchronizer
         #region Import
         private void buttonWebScrapingImportDataSet_Click(object sender, EventArgs e)
         {
-            //DataGridView dataGridView = dataGridViewLocationNames;
-
             try
             {
                 OpenFileDialog openFileDialog1 = new OpenFileDialog
@@ -1695,6 +1712,8 @@ namespace PhotoTagsSynchronizer
             }
         }
         #endregion
+
+        
     }
 
 
