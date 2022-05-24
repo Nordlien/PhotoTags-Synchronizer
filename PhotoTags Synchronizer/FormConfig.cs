@@ -2448,6 +2448,8 @@ namespace PhotoTagsSynchronizer
             textBoxWriteXtraAtomSubject.Text = Properties.Settings.Default.XtraAtomSubjectVariable;
             textBoxWriteXtraAtomSubtitle.Text = Properties.Settings.Default.XtraAtomSubtitleVariable;
 
+            SetWriteXtraAtomEnabled(checkBoxWriteXtraAtomOnMediaFile.Checked);
+
             kryptonCheckBoxMicrosoftPhotosLocationHack.Checked = Properties.Settings.Default.MicosoftOneDriveLocationHackUse;
             kryptonTextBoxMicrosoftPhotosLocationHackPostfix.Text = Properties.Settings.Default.MicosoftOneDriveLocationHackPostfix;
         }
@@ -3321,11 +3323,44 @@ namespace PhotoTagsSynchronizer
             AddDummyDataPaletteDataGridView();
             KryptonPaletteHandler.SetImageListViewPalettes(kryptonManager1, imageListView1);
         }
-        #endregion
 
         #endregion
 
-        
+        #endregion
+
+        #region SetWriteXtraAtomEnabled
+        private void SetWriteXtraAtomEnabled(bool endabled)
+        {
+            //checkBoxWriteXtraAtomOnMediaFile.Enabled = endabled;
+
+            checkBoxWriteXtraAtomKeywordsVideo.Enabled = endabled;
+            checkBoxWriteXtraAtomAlbumVideo.Enabled = endabled;
+            checkBoxWriteXtraAtomCategoriesVideo.Enabled = endabled;
+            checkBoxWriteXtraAtomCommentPicture.Enabled = endabled;
+            checkBoxWriteXtraAtomCommentVideo.Enabled = endabled;
+            checkBoxWriteXtraAtomKeywordsPicture.Enabled = endabled;
+            checkBoxWriteXtraAtomKeywordsVideo.Enabled = endabled;
+            checkBoxWriteXtraAtomRatingPicture.Enabled = endabled;
+            checkBoxWriteXtraAtomRatingVideo.Enabled = endabled;
+
+            checkBoxWriteXtraAtomSubjectPicture.Enabled = endabled;
+            checkBoxWriteXtraAtomSubjectVideo.Enabled = endabled;
+            checkBoxWriteXtraAtomSubtitleVideo.Enabled = endabled;
+            checkBoxWriteXtraAtomArtistVideo.Enabled = endabled;
+
+            textBoxWriteXtraAtomArtist.Enabled = endabled;
+            textBoxWriteXtraAtomAlbum.Enabled = endabled;
+            textBoxWriteXtraAtomCategories.Enabled = endabled;
+            textBoxWriteXtraAtomComment.Enabled = endabled;
+            textBoxWriteXtraAtomKeywords.Enabled = endabled;
+            textBoxWriteXtraAtomSubject.Enabled = endabled;
+            textBoxWriteXtraAtomSubtitle.Enabled = endabled;
+        }
+        private void checkBoxWriteXtraAtomOnMediaFile_CheckedChanged(object sender, EventArgs e)
+        {
+            SetWriteXtraAtomEnabled(checkBoxWriteXtraAtomOnMediaFile.Checked);
+        }
+        #endregion
     }
 }
 

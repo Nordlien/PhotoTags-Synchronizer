@@ -189,6 +189,16 @@
         CgAAAAAAAAAAjQABAAH4/////P///woAAAAAAAAAAKQAAQAB9/////z///8KAAAAAAAAAACWAAEACw==
 </value>
   </data>
+  <data name="labelMetadataWriteOnVideoAndPictureFiles.Values.Text" xml:space="preserve">
+    <value>Windows Xtra Atoms use semicolon ';' as a separator.  
+When keywords contain semicolons ';' the keywords will become split and added as separated keywords.
+
+NB. Please note that if you are using Microsoft OneDrive. 
+Writing Xtra Atoms data will perform a 2nd write operation to the file.
+Because the Media file will be uploaded by OneDrive, and often changed by Microsoft Photos. This means OneDrive will often create a duplicate file, when Microsoft Photos did changes to the Media File between 1st and 2nd writing to the Media file.
+
+Yes, Microsoft Photos do change your Media File, as Example. Location Informations, Tags, Title etc.. Please also note a bug in Microsoft Photo Location can write wrong Longitude back to the media file. xx.12345 can become xx.00000</value>
+  </data>
   <data name="fastColoredTextBoxMetadataWriteTags.ServiceColors" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdGYXN0Q29sb3JlZFRleHRCb3gsIFZlcnNpb249Mi4xNi4yNC4w
