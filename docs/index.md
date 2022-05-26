@@ -32,7 +32,7 @@ Keep the tags where it belongs.
   - Copy and Paste from every Gridview into Clipboard and paste where you want (E.g. Microsoft Excel or Google Spreadsheets)
   - Unlimited Redo and Undo
   - Keep track of changes. Store full history of all changes for all meta information
-- Synchronizer
+- Synchronizer metadata
   - From Windows Live Photo Gallery
   - From Microsoft Photos
   - From Google Photo (where allowed)
@@ -84,7 +84,9 @@ Keep the tags where it belongs.
 
   - Google Photos and most likely all other cloud storage providers
     - Problem 1: All data is stored in the cloud. If you want to move to another provider, all your tags are gone. According to GDPR this data is yours, but you are not able to download it.
-
+  - Google Photos duplicatemedia files
+    - Problem 1: WHen changing media files, Google Photos will do a new backup a file. Google Photos will keep the old version and a duplicate file be created.
+    - See [Google Photos Duplicate Hack](google_photos_duplicate_hack.html)
 [fbe6f277]: problems "More details"
 [750832c4]: https://exiftool.org/#supported "Media File formats using Exiftool"
 [c491c138]: https://imagemagick.org/script/formats.php "Image File Formats using ImageMagick"
