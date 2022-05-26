@@ -1663,7 +1663,7 @@ namespace PhotoTagsSynchronizer
             if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
 
             HashSet<FileEntry> fileEntries = ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true);
-            if (fileEntries.Count == 0) fileEntries = ImageListViewHandler.GetFileEntriesItems(imageListView1);
+            if (fileEntries.Count <= 1) fileEntries = ImageListViewHandler.GetFileEntriesItems(imageListView1);
 
 
             List<string> deletedFiles = new List<string>();
@@ -1771,7 +1771,7 @@ namespace PhotoTagsSynchronizer
             if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
 
             HashSet<FileEntry> fileEntries = ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true);
-            if (fileEntries.Count == 0) fileEntries = ImageListViewHandler.GetFileEntriesItems(imageListView1);
+            if (fileEntries.Count <= 1) fileEntries = ImageListViewHandler.GetFileEntriesItems(imageListView1);
 
             
             List<string> deletedFiles = new List<string>();
