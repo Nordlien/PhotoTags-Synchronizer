@@ -459,7 +459,7 @@ namespace PhotoTagsSynchronizer
                 {
                     if (FileHandler.CloundFileTouchedAndWhen.Count > 0)
                         progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") +
-                            string.Format("In clound: {0}", FileHandler.CloundFileTouchedAndWhen.Count);
+                            string.Format("In cloud: {0}", FileHandler.CloundFileTouchedAndWhen.Count);
                 }
             }
             catch { }
@@ -473,8 +473,7 @@ namespace PhotoTagsSynchronizer
                         int countTimeouts = 0;
                         foreach (DateTime dateTime in FileHandler.CloundFileTouchedFailedAndWhen.Values) if (DateTime.Now > dateTime) countTimeouts++;
 
-                        progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") +
-                            string.Format("Failed: {0}", countTimeouts);
+                        if (countTimeouts > 0) progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") + string.Format("Timeouts: {0}", countTimeouts);
                     }
                 }
             }
