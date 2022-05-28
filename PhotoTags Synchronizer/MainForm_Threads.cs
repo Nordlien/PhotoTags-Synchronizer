@@ -538,9 +538,16 @@ namespace PhotoTagsSynchronizer
                 DateTime dateTime = FileHandler.GetLastWriteTime(fileEntry.FileFullPath, waitAndRetry: IsFileInTemporaryUnavailableLock(fileEntry.FileFullPath));
                 if (dateTime > FileHandler.MinimumFileSystemDateTime) //If file not exist, written date becomes MinimumFileSystemDateTime
                 {
-                    FileEntry fileEntryCurrent = new FileEntry(fileEntry.FileFullPath, dateTime);
-                    if (fileEntry.LastWriteDateTime != dateTime) ImageListView_UpdateItemThumbnailUpdateAllInvoke(fileEntryCurrent);
-                    fileEntryAttributes.Add(new FileEntryAttribute(fileEntryCurrent, fileEntryVersion));
+                    if (!FileHandler.DidTouchedFileTimeoutDuringDownload(fileEntry.FileFullPath))
+                    {
+                        FileEntry fileEntryCurrent = new FileEntry(fileEntry.FileFullPath, dateTime);
+                        if (fileEntry.LastWriteDateTime != dateTime) ImageListView_UpdateItemThumbnailUpdateAllInvoke(fileEntryCurrent);
+                        fileEntryAttributes.Add(new FileEntryAttribute(fileEntryCurrent, fileEntryVersion));
+                    }
+                    else
+                    {
+                        //DEBUG
+                    }
                 } else
                 {
                     //DEBUG - FIle not exist anymore
@@ -660,9 +667,9 @@ namespace PhotoTagsSynchronizer
                                             Metadata metadataExiftoolError = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(fileEntryBrokerExiftoolError);
                                             if (metadataExiftoolError == null)
                                             {
-//RemoveQueueLazyLoadningSelectedFilesLock(fileEntryBrokerExiftool);
-
-                                                AddQueueReadFromSourceExiftoolLock(fileEntryAttribute); //Didn't exists in Database, need read from source
+                                                //RemoveQueueLazyLoadningSelectedFilesLock(fileEntryBrokerExiftool);
+                                                if (!FileHandler.DidTouchedFileTimeoutDuringDownload(fileEntryAttribute.FileFullPath))
+                                                    AddQueueReadFromSourceExiftoolLock(fileEntryAttribute); //Didn't exists in Database, need read from source
                                             }
                                             else
                                             {
@@ -968,6 +975,11 @@ namespace PhotoTagsSynchronizer
         /// <param name="fileEntry"></param>
         public void AddQueueReadFromSourceExiftoolLock(FileEntry fileEntry, bool alsoAddToTheEnd = false)
         {
+            if (FileHandler.DidTouchedFileTimeoutDuringDownload(fileEntry.FileFullPath))
+            {
+                //DEBUG
+                return; 
+            }
             lock (commonQueueReadMetadataFromSourceExiftoolLock)
             {
                 AddQueueLazyLoadningSelectedFilesLock(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
@@ -1571,6 +1583,8 @@ namespace PhotoTagsSynchronizer
         {
             lock (exiftoolSave_QueueSaveUsingExiftool_MetadataUpdatedByUserLock) exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUser.Add(metadataToSave);
             lock (exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUserLock) exiftoolSave_QueueSaveUsingExiftool_MetadataOrigialBeforeUserUpdate.Add(metadataOriginal);
+            DeleteError(metadataToSave.FileFullPath);
+            DeleteError(metadataOriginal.FileFullPath);
         }
         #endregion
 
@@ -3494,9 +3508,14 @@ namespace PhotoTagsSynchronizer
                                                 Metadata metadataError = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(fileEntryBrokerError);
 
                                                 if (metadataError != null) break; //Metadata found -> contine to rename
-                                                FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(fileEntry, FileEntryVersion.CurrentVersionInDatabase);
-                                                AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(fileEntryAttribute);
-                                                fileInUse = true;
+
+                                                if (!FileHandler.DidTouchedFileTimeoutDuringDownload(fileEntry.FileFullPath))
+                                                {
+                                                    FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(fileEntry, FileEntryVersion.CurrentVersionInDatabase);
+                                                    AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(fileEntryAttribute);
+                                                    fileInUse = true;
+                                                } else fileInUse = false; //Remove from queue, due to timeout, if rename fails it will give an error
+
                                             }
                                             break; //File not in use found, start rename it
                                         }

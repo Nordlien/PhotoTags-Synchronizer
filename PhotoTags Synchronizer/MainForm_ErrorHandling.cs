@@ -48,7 +48,13 @@ namespace PhotoTagsSynchronizer
         const string AddErrorExiftooParameterRead = "Read";
         const string AddErrorParameterNone = "Error";
 
-        
+        private void DeleteError(string fullFilePath)
+        {
+            lock (queueErrorQueueLock)
+            {
+                if (queueErrorQueue.ContainsKey(fullFilePath)) queueErrorQueue.Remove(fullFilePath);
+            } 
+        }
 
         public void AddError(
             string fileDirectory, string fileName, DateTime fileDateModified,
@@ -75,7 +81,6 @@ namespace PhotoTagsSynchronizer
             region, command, newValue,
             warning, false);
         }
-
 
         public void AddError(
             string fileDirectory, string fileName, DateTime fileDateModified,
