@@ -1060,8 +1060,11 @@ namespace PhotoTagsSynchronizer
 
                     #region Check if got thumbnail, if not, push to read queue
                     int columnIndex = DataGridViewHandler.GetColumnIndexWhenAddColumn(dataGridView, fileEntryAttribute, out FileEntryVersionCompare _);
-                    DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-                    if (dataGridViewGenericColumn?.Thumbnail == null) AddQueueLazyLoadningMediaThumbnailLock(fileEntryAttribute);
+                    if (columnIndex != -1)
+                    {
+                        DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+                        if (dataGridViewGenericColumn?.Thumbnail == null) AddQueueLazyLoadningMediaThumbnailLock(fileEntryAttribute);
+                    }
                     #endregion
 
                     LazyLoadingDataGridViewProgressUpdateStatus(DataGridView_GetCountQueueLazyLoadningSelectedFilesLock());
