@@ -840,6 +840,7 @@ namespace PhotoTagsSynchronizer
 
             if (InvokeRequired)
             {
+                #region Invoke - Invoke counter 
                 countInvokeCalls++;
                 bool isAlreadyInvoked = false;
 
@@ -855,6 +856,7 @@ namespace PhotoTagsSynchronizer
                 this.BeginInvoke(new Action<FileEntryAttribute, MetadataBrokerType, bool, bool>(DataGridView_Populate_FileEntryAttributeInvoke),
                     fileEntryAttribute, metadataBrokerType, true, isAlreadyInvoked);
                 return;
+                #endregion 
             }
 
             try
@@ -883,13 +885,15 @@ namespace PhotoTagsSynchronizer
                 FileEntryBroker fileEntryBroker = new FileEntryBroker(fileEntryAttribute.FileEntry, metadataBrokerType);
                 RemoveQueueLazyLoadningSelectedFilesLock(fileEntryBroker);
 
-                LazyLoadingDataGridViewProgressUpdateStatus(DataGridView_GetCountQueueLazyLoadningSelectedFilesLock());
-
-                if (countInvokeCalls == 0)
+                if (DataGridViewHandler.GetColumnCount(GetActiveTabDataGridView()) > 0) //No updated need if Nothing in DataGridView
                 {
-                    int queueCount = CountQueueLazyLoadningSelectedFilesLock();
-                    if (queueCount == 0 && countInvokeCalls == 0)
-                        DataGridView_Populate_ExtrasAsDropdownAndColumnSizesInvoke();
+                    LazyLoadingDataGridViewProgressUpdateStatus(DataGridView_GetCountQueueLazyLoadningSelectedFilesLock());
+
+                    if (countInvokeCalls == 0)
+                    {
+                        int queueCount = CountQueueLazyLoadningSelectedFilesLock();
+                        if (queueCount == 0 && countInvokeCalls == 0) DataGridView_Populate_ExtrasAsDropdownAndColumnSizesInvoke();
+                    }
                 }
             }
             catch (Exception ex)
@@ -1067,7 +1071,7 @@ namespace PhotoTagsSynchronizer
                     }
                     #endregion
 
-                    LazyLoadingDataGridViewProgressUpdateStatus(DataGridView_GetCountQueueLazyLoadningSelectedFilesLock());
+                    //LazyLoadingDataGridViewProgressUpdateStatus(DataGridView_GetCountQueueLazyLoadningSelectedFilesLock());
                     DataGridViewHandler.ResumeLayoutDelayed(dataGridView); //Will resume when counter reach 0
                 }
             }

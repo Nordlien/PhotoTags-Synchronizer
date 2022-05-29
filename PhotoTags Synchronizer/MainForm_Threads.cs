@@ -3325,26 +3325,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Check ThreadQueues - IsFilesInQueueLazyloadingAllSourcesOrReadMetadataFromSourceExiftool
-        public bool IsFileInQueueLazyloadingAllSourcesOrReadMetadataFromSourceExiftoolLock(FileEntryAttribute fileEntryAttribute)
-        {
-            try
-            {
-                lock (commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnailsLock)
-                    if (commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnails.Contains(fileEntryAttribute)) return true;
-
-                lock (commonQueueReadMetadataFromSourceExiftoolLock)
-                    if (commonQueueReadMetadataFromSourceExiftool.Contains(fileEntryAttribute.FileEntry)) return true;
-
-                return IsFileInQueueLazyloadingAllSourcesOrReadMetadataFromSourceExiftoolLock(fileEntryAttribute.FileFullPath);
-            }
-            catch
-            {
-            }
-            return false;
-        }
-        #endregion
-
         #region Check ThreadQueues - IsFileInAnyQueue - HashSet<string> listOfFiles
         /// <summary>
         /// Check if given files is in one of queue and wait to be processed
@@ -3828,7 +3808,8 @@ namespace PhotoTagsSynchronizer
             {
                 foreach (FileEntryAttribute fileEntryAttribute in fileEntryAttributes)
                 {
-                    if (!commonLazyLoadingMapNomnatatim.ContainsKey(fileEntryAttribute)) commonLazyLoadingMapNomnatatim.Add(fileEntryAttribute, forceReloadUsingReverseGeocoder);
+                    if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.CurrentVersionInDatabase && !commonLazyLoadingMapNomnatatim.ContainsKey(fileEntryAttribute)) 
+                        commonLazyLoadingMapNomnatatim.Add(fileEntryAttribute, forceReloadUsingReverseGeocoder);
                 }
             }
         }
@@ -3880,23 +3861,22 @@ namespace PhotoTagsSynchronizer
                                     lock (commonLazyLoadingMapNomnatatimLock)
                                         if (commonLazyLoadingMapNomnatatim.Count > 0)
                                             commonLazyLoadingMapNomnatatim.Remove(fileEntryAttributeAndAllowUseMetadataLocationInfo.Key); //Remove from queue after read. Otherwise wrong text in status bar
-
-                                    FileStatus fileStatus = FileHandler.GetFileStatus(fileEntryAttributeAndAllowUseMetadataLocationInfo.Key.FileFullPath);
-                                    if (fileStatus.FileExists)
-                                    {
-                                        if (!isPopulated && fileEntryVersionCompare != FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch_Update_Nothing)
-                                        {
-                                            AddQueueLazyLoadingMapNomnatatimLock(
-                                                fileEntryAttributeAndAllowUseMetadataLocationInfo.Key,
-                                                fileEntryAttributeAndAllowUseMetadataLocationInfo.Value);
-                                        }
-                                    }
-                                    else
-                                    {
-                                        //DEBUG
-                                    }
+/*
+if (FileHandler.DoesFileExists(fileEntryAttributeAndAllowUseMetadataLocationInfo.Key.FileFullPath))
+{
+    if (!isPopulated && fileEntryVersionCompare != FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch_Update_Nothing)
+    {
+        AddQueueLazyLoadingMapNomnatatimLock(
+            fileEntryAttributeAndAllowUseMetadataLocationInfo.Key,
+            fileEntryAttributeAndAllowUseMetadataLocationInfo.Value);
+    }
+}
+else
+{
+    //DEBUG
+}*/
                                 }
-                                Thread.Sleep(10);
+                                Thread.Sleep(3);
                                 #endregion
                             }
 

@@ -129,6 +129,7 @@ namespace PhotoTagsSynchronizer
         }
         public static DataSet ReadDataSetFromXML()
         {
+            ClearCache();
             string path = FileHandler.GetLocalApplicationDataPath(Filename, false, null);
             return ReadDataSetFromXML(path);
         }
@@ -261,9 +262,92 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region NewKeywords
+        private static HashSet<string> NotExistLocationNames = new HashSet<string>();
+        private static HashSet<string> NotExistTitles = new HashSet<string>();
+        private static HashSet<string> NotExistDescriptions = new HashSet<string>();
+        private static HashSet<string> NotExistComments = new HashSet<string>();
+        private static HashSet<string> NotExistAlbums = new HashSet<string>();
+        private static HashSet<string> NotExistKeywords = new HashSet<string>();
+
+        #region ClearCache
+        public static void ClearCache()
+        {
+            try
+            {
+                NotExistLocationNames = new HashSet<string>();
+            }
+            catch { }
+
+            try
+            {
+                NotExistTitles = new HashSet<string>();
+            }
+            catch { }
+
+            try
+            {
+                NotExistDescriptions = new HashSet<string>();
+            }
+            catch { }
+
+            try
+            {
+                NotExistComments = new HashSet<string>();
+            }
+            catch { }
+
+            try
+            {
+                NotExistAlbums = new HashSet<string>();
+            }
+            catch { }
+
+            try
+            {
+                NotExistKeywords = new HashSet<string>();
+            }
+            catch { }
+
+        }
+        #endregion
+
         public static List<string> NewKeywords(List<AutoKeywordConvertion> autoKeywordConvertions, string locationName, string title, string album, string description, string comment, List<KeywordTag> keywordTags)
         {
+            
             List<string> newKeywords = new List<string>();
+
+            if (string.IsNullOrEmpty(locationName) &&
+                string.IsNullOrEmpty(title) &&
+                string.IsNullOrEmpty(album) &&
+                string.IsNullOrEmpty(description) &&
+                string.IsNullOrEmpty(comment) &&
+                (keywordTags == null || keywordTags.Count == 0)
+                ) 
+                return newKeywords;
+
+            bool keywordExist = false;
+            if (keywordTags != null)
+            {
+                foreach (KeywordTag newKeyword in keywordTags)
+                {
+                    if (NotExistKeywords.Contains(newKeyword.Keyword))
+                    {
+                        keywordExist = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!keywordExist &&
+            NotExistLocationNames.Contains(locationName) &&
+            NotExistTitles.Contains(title) &&
+            NotExistAlbums.Contains(album) &&
+            NotExistDescriptions.Contains(description) &&
+            NotExistComments.Contains(comment) )
+                return newKeywords;
+            
+            //private static HashSet<string> NotExistNewKeywords = new HashSet<string>();
+
             foreach (AutoKeywordConvertion autoKeywordConvertion in autoKeywordConvertions)
             {
                 if (autoKeywordConvertion.DoesWordExistInAnyList(locationName, title, album, description, comment, keywordTags))
@@ -271,6 +355,21 @@ namespace PhotoTagsSynchronizer
                     foreach (string newKeyword in autoKeywordConvertion.NewKeywords)
                     {
                         if (!string.IsNullOrWhiteSpace(newKeyword) && !newKeywords.Contains(newKeyword)) newKeywords.Add(newKeyword);
+                    }
+                }
+            }
+            if (newKeywords.Count == 0)
+            {
+                if (!NotExistLocationNames.Contains(locationName)) NotExistLocationNames.Add(locationName);
+                if (!NotExistTitles.Contains(title)) NotExistTitles.Add(title);
+                if (!NotExistDescriptions.Contains(description)) NotExistDescriptions.Add(description);
+                if (!NotExistComments.Contains(comment)) NotExistComments.Add(comment);
+                if (!NotExistAlbums.Contains(album)) NotExistAlbums.Add(album);
+                if (keywordTags != null)
+                {
+                    foreach (KeywordTag newKeyword in keywordTags)
+                    {
+                        if (!NotExistKeywords.Contains(newKeyword.Keyword)) NotExistKeywords.Add(newKeyword.Keyword);
                     }
                 }
             }

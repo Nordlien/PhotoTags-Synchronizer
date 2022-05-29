@@ -1525,7 +1525,7 @@ namespace DataGridViewGeneric
 
         public static void SetColumnVisibleStatus(DataGridView dataGridView, int columnIndex, bool visible)
         {
-            dataGridView.Columns[columnIndex].Visible = visible;
+            if (dataGridView.Columns[columnIndex].Visible != visible) dataGridView.Columns[columnIndex].Visible = visible;
         }
         #endregion 
 
@@ -1865,14 +1865,8 @@ namespace DataGridViewGeneric
                     SetRowHeaderNameAndFontStyle(dataGridView, rowIndex, dataGridViewGenericRow);
                     SetCellStatusDefaultWhenRowAdded(dataGridView, rowIndex, dataGridViewGenericCellStatusDefault);
                 }
-                else
-                {
-                    //DEBUG, is fixed can be removed 
-                    //When dataGridView is still empty, or got cleaned: Why does thus occure
-                }
-
             }
-            #endregion 
+            #endregion
 
             bool isValueUpdated = false;
             //If a value row, set the value
@@ -1900,7 +1894,8 @@ namespace DataGridViewGeneric
             }
             else dataGridViewGenericCellStatusDefault.CellReadOnly = true;
 
-            SetRowFavoriteFlag(dataGridView, rowIndex, dataGridFavorites);
+            bool isRowCreated = !rowFound;
+            if (isRowCreated) SetRowFavoriteFlag(dataGridView, rowIndex, dataGridFavorites);
             if (columnIndex != -1) //When adding empty row without value in a given column
             {
                 //It's only possible to update ReadOnly field
@@ -2601,13 +2596,12 @@ namespace DataGridViewGeneric
         #region Cell Handling - SetCellReadOnlyDependingOfStatus -  int columnIndex, int rowIndex, DataGridViewGenericCellStatus dataGridViewGenericCellStatus
         public static void SetCellReadOnlyDependingOfStatus(DataGridView dataGridView, int columnIndex, int rowIndex, DataGridViewGenericCellStatus dataGridViewGenericCellStatus)
         {
-
             if (dataGridViewGenericCellStatus != null &&
                 dataGridView.Rows[rowIndex].Cells[columnIndex].ReadOnly != dataGridViewGenericCellStatus.CellReadOnly) //Why check, because changing takes lot of CPU time
-                dataGridView.Rows[rowIndex].Cells[columnIndex].ReadOnly = dataGridViewGenericCellStatus.CellReadOnly; 
+                dataGridView.Rows[rowIndex].Cells[columnIndex].ReadOnly = dataGridViewGenericCellStatus.CellReadOnly;
 
             DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-            
+
             if (dataGridViewGenericColumn.ReadWriteAccess == ReadWriteAccess.ForceCellToReadOnly &&
                 dataGridView.Rows[rowIndex].Cells[columnIndex].ReadOnly != true)
                 dataGridView.Rows[rowIndex].Cells[columnIndex].ReadOnly = true;
@@ -2625,7 +2619,7 @@ namespace DataGridViewGeneric
         {
             DataGridViewGenericRow dataGridViewGenericRow = GetRowDataGridViewGenericRow(dataGridView, rowIndex);
             DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-
+            
             Color backColor = Color.Empty;
             Color textColor = Color.Empty;
 
