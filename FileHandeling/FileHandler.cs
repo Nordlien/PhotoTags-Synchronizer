@@ -75,6 +75,51 @@ namespace FileHandeling
         }
         #endregion
 
+        #region DoesFileExist
+        private struct FileExistsCache
+        {
+            public DateTime ValidUntil;
+            public bool Exists;
+        }
+
+        private static Dictionary<string, FileExistsCache> fileExistsListCache = new Dictionary<string, FileExistsCache>();
+        private static readonly Object fileExistsListCacheLock = new Object();
+        public static bool DoesFileExists(string fullFileName, bool allowUseCache = true)
+        {
+            bool fileExists = false;
+
+            lock (fileExistsListCacheLock)
+            {
+                if (allowUseCache) 
+                {
+                    if (fileExistsListCache.TryGetValue(fullFileName, out FileExistsCache fileExistsCacheCheck))
+                    {
+                        if (fileExistsCacheCheck.ValidUntil > DateTime.Now)
+                        {
+                            fileExists = fileExistsCacheCheck.Exists;
+                        }
+                        else
+                        {
+                            fileExistsListCache.Remove(fullFileName); //Timeout / create new
+                            fileExists = File.Exists(fullFileName);
+                        }
+                    } else fileExists = File.Exists(fullFileName);
+                }
+                else fileExists = File.Exists(fullFileName);
+
+                if (!fileExistsListCache.ContainsKey(fullFileName))
+                {
+                    FileExistsCache fileExistsCache = new FileExistsCache();
+                    fileExistsCache.ValidUntil = DateTime.Now.AddMilliseconds(200);
+                    fileExistsCache.Exists = fileExists;
+                    fileExistsListCache.Add(fullFileName, fileExistsCache);
+                }
+                
+            }
+            return fileExists;
+        }
+        #endregion
+
         #region GetItemFileStatus
         public static FileStatus GetFileStatus(string fullFileName,
             bool hasErrorOccured = false,
@@ -88,7 +133,7 @@ namespace FileHandeling
             {
                 #region File - Exists, Dirty or has Error
                 fileStatus.IsDirty = false;
-                fileStatus.FileExists = File.Exists(fullFileName);
+                fileStatus.FileExists = DoesFileExists(fullFileName);
                 FileInfo fileInfo = null;
                 if (fileStatus.FileExists) fileInfo = new FileInfo(fullFileName);
                 fileStatus.HasErrorOccured = hasErrorOccured;
@@ -201,7 +246,7 @@ namespace FileHandeling
             try
             {
                 FileAttributes fileAttributes = (FileAttributes)0;
-                if (File.Exists(fullFileName)) fileAttributes = File.GetAttributes(fullFileName);
+                if (DoesFileExists(fullFileName)) fileAttributes = File.GetAttributes(fullFileName);
                 if ((((int)fileAttributes) & 0x000400000) == 0x000400000) return true;
             }
             catch
@@ -219,7 +264,7 @@ namespace FileHandeling
             try
             {
                 FileAttributes fileAttributes = (FileAttributes)0;
-                if (File.Exists(fullFileName)) fileAttributes = File.GetAttributes(fullFileName);
+                if (DoesFileExists(fullFileName)) fileAttributes = File.GetAttributes(fullFileName);
                 if ((((int)fileAttributes) & 0x000500000) == 0x000500000) return true;
             }
             catch { return true; }
