@@ -659,7 +659,7 @@ namespace PhotoTagsSynchronizer
                     using (new WaitCursor())
                     {
                         foreach (FileEntry fileEntry in filesDoesNotExist) fileEntries.Remove(fileEntry);
-                        UpdateStatusAction("Deleing files and all record about files in database....");
+                        UpdateStatusAction("Deleting files and all record about files in database....");
                         filesCutCopyPasteDrag.DeleteSelectedFiles(imageListView1, filesDoesNotExist, false);
                         ImageListViewHandler.ClearCacheFileEntries(imageListView1);
                     }

@@ -3825,6 +3825,9 @@ namespace PhotoTagsSynchronizer
                 lock (_ThreadLazyLoadingMapNomnatatimLock) if (_ThreadLazyLoadingMapNomnatatim != null ||
                         CommonQueueLazyLoadingMapNomnatatimDirty() <= 0) return;
 
+                if (DataGridView_GetCountQueueLazyLoadningSelectedFilesLock() > 0) 
+                    return;
+
                 lock (_ThreadLazyLoadingMapNomnatatimLock)
                 {
                     _ThreadLazyLoadingMapNomnatatim = new Thread(() =>
@@ -3834,13 +3837,20 @@ namespace PhotoTagsSynchronizer
                         {
                             Logger.Trace("ThreadQueueLazyLoadingMapNomnatatim - started");
                             int count = CommonQueueLazyLoadingMapNomnatatimLock();
+                            int maksCount = count;
                             while (count > 0 && !GlobalData.IsApplicationClosing)
                             {
+                                if (DataGridView_GetCountQueueLazyLoadningSelectedFilesLock() > 0) return;
+
+                                UpdateStatusActionDelayedRefresh("Loading MapNomnatatim to DataGridView: " + count + " / " + maksCount);
+                                
                                 count--;
 
                                 #region Do the work
                                 while (!GlobalData.IsApplicationClosing && CommonQueueLazyLoadingMapNomnatatimLock() > 0) //In case some more added to the queue
                                 {
+                                    if (DataGridView_GetCountQueueLazyLoadningSelectedFilesLock() > 0) 
+                                        return;
                                     bool isPopulated = false;
                                     KeyValuePair<FileEntryAttribute, bool> fileEntryAttributeAndAllowUseMetadataLocationInfo;
 
