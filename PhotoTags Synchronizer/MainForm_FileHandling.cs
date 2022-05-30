@@ -104,18 +104,24 @@ namespace PhotoTagsSynchronizer
                         ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView.Items, sourceFullFilename);
                         if (foundItem != null)
                         {
+                            bool isSelected = foundItem.Selected;
+
                             ImageListViewHandler.ImageListViewRemoveItem(imageListView, foundItem);
 
                             #region Add new renames back to list
                             lock (keepTrackOfLoadedMetadataLock)
                             {
                                 ImageListViewHandler.ImageListViewAddItem(imageListView1, targetFullFilename, ref hasTriggerLoadAllMetadataActions, ref keepTrackOfLoadedMetadata);
+                                hasTriggerLoadAllMetadataActions = CommonQueueRenameCountDirty() == 0; //Don't trigger when more in rename queue
                             }
                             #endregion
 
-                            #region Select back all Items renamed
-                            foundItem = ImageListViewHandler.FindItem(imageListView.Items, targetFullFilename);
-                            if (foundItem != null) foundItem.Selected = true;
+                            #region Select back all previous selected Items
+                            if (isSelected)
+                            {
+                                foundItem = ImageListViewHandler.FindItem(imageListView.Items, targetFullFilename);
+                                if (foundItem != null) foundItem.Selected = true;
+                            }
                             #endregion
                         }
                     }
