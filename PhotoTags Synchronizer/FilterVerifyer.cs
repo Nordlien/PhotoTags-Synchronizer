@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using MetadataLibrary;
 using Krypton.Toolkit;
 using System.Diagnostics;
+using System.Linq;
 
 namespace PhotoTagsSynchronizer
 {
@@ -414,7 +415,8 @@ namespace PhotoTagsSynchronizer
             
             try
             {
-                foreach (string node in nodes)
+                var sortedNodes = nodes.OrderBy(v => v).ToArray();
+                foreach (string node in sortedNodes)
                 {
                     if (StopPopulate) break;
                     treeView.Nodes[keyRoot].Nodes[key].Nodes.Add(node, FilterVerifyer.GetTreeNodeText(GlobalData.SearchFolder, node, false));
