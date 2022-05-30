@@ -123,6 +123,8 @@ namespace PhotoTagsSynchronizer
                                 if (foundItem != null) foundItem.Selected = true;
                             }
                             #endregion
+
+                            AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(new FileEntryAttribute(foundItem.FileFullPath, foundItem.DateModified, FileEntryVersion.CurrentVersionInDatabase));
                         }
                     }
                     catch (Exception ex)
