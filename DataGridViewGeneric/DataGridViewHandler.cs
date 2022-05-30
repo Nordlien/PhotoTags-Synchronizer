@@ -2669,21 +2669,21 @@ namespace DataGridViewGeneric
             }
 
             if (backColor != Color.Empty &&
-                backColor.A != dataGridView.Rows[rowIndex].Cells[columnIndex].Style.BackColor.A &&
-                backColor.B != dataGridView.Rows[rowIndex].Cells[columnIndex].Style.BackColor.B &&
-                backColor.G != dataGridView.Rows[rowIndex].Cells[columnIndex].Style.BackColor.G &&
-                backColor.R != dataGridView.Rows[rowIndex].Cells[columnIndex].Style.BackColor.R)
+                (backColor.A != dataGridView.Rows[rowIndex].Cells[columnIndex].Style.BackColor.A ||
+                backColor.B != dataGridView.Rows[rowIndex].Cells[columnIndex].Style.BackColor.B ||
+                backColor.G != dataGridView.Rows[rowIndex].Cells[columnIndex].Style.BackColor.G ||
+                backColor.R != dataGridView.Rows[rowIndex].Cells[columnIndex].Style.BackColor.R))
             {
-                if (dataGridView.Rows[rowIndex].Cells[columnIndex].Style.BackColor.A != backColor.A &&
-                    dataGridView.Rows[rowIndex].Cells[columnIndex].Style.BackColor.B != backColor.B &&
-                    dataGridView.Rows[rowIndex].Cells[columnIndex].Style.BackColor.G != backColor.G &&
+                if (dataGridView.Rows[rowIndex].Cells[columnIndex].Style.BackColor.A != backColor.A ||
+                    dataGridView.Rows[rowIndex].Cells[columnIndex].Style.BackColor.B != backColor.B ||
+                    dataGridView.Rows[rowIndex].Cells[columnIndex].Style.BackColor.G != backColor.G ||
                     dataGridView.Rows[rowIndex].Cells[columnIndex].Style.BackColor.R != backColor.R
                     ) //Why check? Update DataGridView takes time
                     dataGridView.Rows[rowIndex].Cells[columnIndex].Style.BackColor = backColor;
 
-                if (dataGridView.Rows[rowIndex].Cells[columnIndex].Style.ForeColor.A != textColor.A &&
-                    dataGridView.Rows[rowIndex].Cells[columnIndex].Style.ForeColor.B != textColor.B &&
-                    dataGridView.Rows[rowIndex].Cells[columnIndex].Style.ForeColor.G != textColor.G &&
+                if (dataGridView.Rows[rowIndex].Cells[columnIndex].Style.ForeColor.A != textColor.A ||
+                    dataGridView.Rows[rowIndex].Cells[columnIndex].Style.ForeColor.B != textColor.B ||
+                    dataGridView.Rows[rowIndex].Cells[columnIndex].Style.ForeColor.G != textColor.G ||
                     dataGridView.Rows[rowIndex].Cells[columnIndex].Style.ForeColor.R != textColor.R
 
                     ) //Why check? Update DataGridView takes time
