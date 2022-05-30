@@ -3541,7 +3541,7 @@ namespace PhotoTagsSynchronizer
                                             string newFullFilename = FileHandler.CombinePathAndName(oldDirectory, newFilename);
                                             #endregion
 
-                                            RenameFile_Thread_UpdateTreeViewFolderBrowser(treeViewFolderBrowser1, imageListView1, CommonQueueRenameCountLock(), fullFilename, newFullFilename);
+                                            if (fullFilename.ToUpper() != newFullFilename.ToUpper()) RenameFile_Thread_UpdateTreeViewFolderBrowser(treeViewFolderBrowser1, imageListView1, CommonQueueRenameCountLock(), fullFilename, newFullFilename);
                                         }
                                         else
                                         {
