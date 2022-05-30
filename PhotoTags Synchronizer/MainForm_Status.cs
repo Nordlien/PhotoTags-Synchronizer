@@ -26,20 +26,39 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region UpdateStatusAction - (+Timer start)
-        public void UpdateStatusAction(string text)
+        public void UpdateStatusAction(string text, bool forceRefresh = false)
         {
             if (InvokeRequired)
             {
-                this.BeginInvoke(new Action<string>(UpdateStatusAction), text);
+                this.BeginInvoke(new Action<string, bool>(UpdateStatusAction), text, forceRefresh);
                 return;
             }
 
             StatusActionText = text;
+            if (forceRefresh) kryptonStatusStrip1.Refresh();
 
             timerShowStatusText_RemoveTimer.Stop(); //Restart
             timerShowStatusText_RemoveTimer.Start();
         }
         #endregion 
+
+        #region UpdateStatusActionDelayed 
+        private DateTime whenNeedUpdatedDataGridViewLazyLoadingCounter = DateTime.Now;
+        public void UpdateStatusActionDelayedRefresh(string text)
+        {
+            if (DateTime.Now < whenNeedUpdatedDataGridViewLazyLoadingCounter) return;
+            
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new Action<string>(UpdateStatusActionDelayedRefresh), text);
+                return;
+            }
+            
+            UpdateStatusAction(text, forceRefresh: true);
+            whenNeedUpdatedDataGridViewLazyLoadingCounter = DateTime.Now.AddMilliseconds(300);
+        }
+        #endregion 
+
 
         #region UpdateStatusImageListView
         public void UpdateStatusImageListView(string text)
@@ -778,7 +797,7 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-        #region LazyLoadingDataGridViewProgress
+        #region LazyLoadingDataGridViewProgress - ProgressCircle
 
         #region GetProgressCircle(int procentage)
         private Bitmap GetProgressCircle(int procentage, out int imageIndex)
@@ -920,7 +939,8 @@ namespace PhotoTagsSynchronizer
                 queueRemainding = 0;
             }
             progressBarLazyLoading.Value = progressBarLazyLoading.Maximum - queueRemainding;
-            UpdateStatusAction("Loading DataGridView: " + queueRemainding + " / " + progressBarLazyLoading.Maximum);
+
+            UpdateStatusActionDelayedRefresh("Loading DataGridView: " + queueRemainding + " / " + progressBarLazyLoading.Maximum);
             SetButtonSpecNavigator(buttonSpecNavigatorDataGridViewProgressCircle, progressBarLazyLoading.Value, progressBarLazyLoading.Maximum);
         }
         #endregion
