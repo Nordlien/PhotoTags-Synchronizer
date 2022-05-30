@@ -3861,20 +3861,20 @@ namespace PhotoTagsSynchronizer
                                     lock (commonLazyLoadingMapNomnatatimLock)
                                         if (commonLazyLoadingMapNomnatatim.Count > 0)
                                             commonLazyLoadingMapNomnatatim.Remove(fileEntryAttributeAndAllowUseMetadataLocationInfo.Key); //Remove from queue after read. Otherwise wrong text in status bar
-/*
-if (FileHandler.DoesFileExists(fileEntryAttributeAndAllowUseMetadataLocationInfo.Key.FileFullPath))
-{
-    if (!isPopulated && fileEntryVersionCompare != FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch_Update_Nothing)
-    {
-        AddQueueLazyLoadingMapNomnatatimLock(
-            fileEntryAttributeAndAllowUseMetadataLocationInfo.Key,
-            fileEntryAttributeAndAllowUseMetadataLocationInfo.Value);
-    }
-}
-else
-{
-    //DEBUG
-}*/
+
+                                    if (FileHandler.DoesFileExists(fileEntryAttributeAndAllowUseMetadataLocationInfo.Key.FileFullPath))
+                                    {
+                                        if (!isPopulated && fileEntryVersionCompare != FileEntryVersionCompare.LostNoneEqualFound_ContinueSearch_Update_Nothing)
+                                        {
+                                            AddQueueLazyLoadingMapNomnatatimLock(
+                                                fileEntryAttributeAndAllowUseMetadataLocationInfo.Key,
+                                                fileEntryAttributeAndAllowUseMetadataLocationInfo.Value);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        //DEBUG
+                                    }
                                 }
                                 Thread.Sleep(3);
                                 #endregion
