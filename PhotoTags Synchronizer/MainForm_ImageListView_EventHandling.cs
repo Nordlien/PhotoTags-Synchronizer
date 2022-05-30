@@ -119,7 +119,7 @@ namespace PhotoTagsSynchronizer
                             fileMetadata.FileStatus.ExiftoolProcessStatus = ExiftoolProcessStatus.FileInaccessibleOrError; //Error Metadata found
 
                         foundItem.UpdateDetails(fileMetadata);
-                        KeepTrackOfMetadataLoadedRemoveFromList(fileEntryAttribute.FileFullPath);
+                        KeepTrackOfMetadataLoadedRemoveFromList_TiggerActionWhenEmpty(fileEntryAttribute.FileFullPath);
                     }
                 }
                 else
@@ -135,7 +135,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region ImageListView - MetadataLoadedRemoveFromList - Trigger Action when all metadata Loaded
-        private HashSet<string> keepTrackOfLoadedMetadata = new HashSet<string>();
+        private HashSet<string> keepTrackOfLoadedMetadata = new HashSet<string>(); 
         private readonly object keepTrackOfLoadedMetadataLock = new object();
         private bool hasTriggerLoadAllMetadataActions = false;
 
@@ -149,7 +149,7 @@ namespace PhotoTagsSynchronizer
         }
 
         private Thread threadFilter = null;
-        private void KeepTrackOfMetadataLoadedRemoveFromList(string fullFileName)
+        private void KeepTrackOfMetadataLoadedRemoveFromList_TiggerActionWhenEmpty(string fullFileName)
         {
             if (!hasTriggerLoadAllMetadataActions)
             {
@@ -159,6 +159,7 @@ namespace PhotoTagsSynchronizer
                     if (keepTrackOfLoadedMetadata.Contains(fullFileName)) keepTrackOfLoadedMetadata.Remove(fullFileName);
                     isAllMetadataLoaded = keepTrackOfLoadedMetadata.Count == 0;
                 }
+
                 if (isAllMetadataLoaded)
                 {
                     hasTriggerLoadAllMetadataActions = true;
@@ -373,7 +374,7 @@ namespace PhotoTagsSynchronizer
                 {
                     #region Return Metadata found
                     PopulateTreeViewFolderFilterAdd(metadata);
-                    KeepTrackOfMetadataLoadedRemoveFromList(metadata.FileFullPath);
+                    KeepTrackOfMetadataLoadedRemoveFromList_TiggerActionWhenEmpty(metadata.FileFullPath);
                     Utility.ShellImageFileInfo fileMetadata = new Utility.ShellImageFileInfo();
                     ConvertMetadataToShellImageFileInfo(ref fileMetadata, metadata);
                     e.FileMetadata = fileMetadata;
