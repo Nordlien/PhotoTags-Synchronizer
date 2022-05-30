@@ -414,6 +414,10 @@ namespace DataGridViewGeneric
             DataGridViewGenericData dataGridViewGenricData = (DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag;
 
             ClipboardUtility.Clear(dataGridView);
+
+            dataGridView.DefaultCellStyle.BackColor = ColorBackCellNormal(dataGridView);
+            dataGridView.DefaultCellStyle.ForeColor = ColorTextCellNormal(dataGridView);
+
             dataGridView.Rows.Clear();
             dataGridView.Columns.Clear();
 
@@ -1486,7 +1490,8 @@ namespace DataGridViewGeneric
                         currentDataGridViewGenericColumn.Thumbnail = (thumbnail == null ? null : new Bitmap(thumbnail)); //Avoid thread issues
                         currentDataGridViewGenericColumn.ReadWriteAccess = readWriteAccessForColumn;
                         dataGridView.Columns[columnIndex].Tag = currentDataGridViewGenericColumn;
-                        SetCellBackgroundColorForColumn(dataGridView, columnIndex);
+                        //If this needed, updated what's already updated...
+//SetCellBackgroundColorForColumn(dataGridView, columnIndex);
                         break;
                     case FileEntryVersionCompare.LostOverUserInput_Update_Status:
                     case FileEntryVersionCompare.LostWasOlder_Updated_Nothing:
@@ -1895,15 +1900,27 @@ namespace DataGridViewGeneric
             else dataGridViewGenericCellStatusDefault.CellReadOnly = true;
 
             bool isRowCreated = !rowFound;
-            if (isRowCreated) SetRowFavoriteFlag(dataGridView, rowIndex, dataGridFavorites);
+            
             if (columnIndex != -1) //When adding empty row without value in a given column
             {
-                //It's only possible to update ReadOnly field
+                //It's only{possible to update ReadOnly field
                 DataGridViewGenericCellStatus dataGridViewGenericCellStatus = GetCellStatus(dataGridView, columnIndex, rowIndex);
-                if (dataGridViewGenericCellStatus != null) dataGridViewGenericCellStatus.CellReadOnly = dataGridViewGenericCellStatusDefault.CellReadOnly;
-                SetCellReadOnlyDependingOfStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatus);
+                if (dataGridViewGenericCellStatus != null)
+                {
+                    //if (dataGridViewGenericCellStatus.CellReadOnly != dataGridViewGenericCellStatusDefault.CellReadOnly)
+                    {                    
+                        dataGridViewGenericCellStatus.CellReadOnly = dataGridViewGenericCellStatusDefault.CellReadOnly;
+                        SetCellReadOnlyDependingOfStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatus);
+                        SetCellBackGroundColor(dataGridView, columnIndex, rowIndex);
+                    }
+                }
+
             }
-            SetCellBackGroundColorForRow(dataGridView, rowIndex);
+            if (isRowCreated)
+            {
+                SetRowFavoriteFlag(dataGridView, rowIndex, dataGridFavorites);
+                SetCellBackGroundColorForRow(dataGridView, rowIndex);
+            }
 
             return rowIndex;
         }
