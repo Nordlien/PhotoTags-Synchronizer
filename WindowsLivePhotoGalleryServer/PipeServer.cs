@@ -37,6 +37,8 @@ namespace WindowsLivePhotoGalleryServer
             }
             #endregion 
 
+            if (!File.Exists(sourceFile)) return;
+
             #region Copy Windows Live Photo Gallery database
             try
             {
