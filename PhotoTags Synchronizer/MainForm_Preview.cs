@@ -57,7 +57,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Preview Media -- Click  ---
+        #region Preview Media -- Click  ---GooglecastFindReceiversAsync
         private void MediaPreviewInit(List<string> listOfMediaFiles, string imageListViewLastHoverFullfilename)
         {
             if (kryptonRibbonMain.SelectedTab != kryptonRibbonTabPreview) kryptonRibbonMain.SelectedTab = kryptonRibbonTabPreview;
@@ -91,6 +91,8 @@ namespace PhotoTagsSynchronizer
         #region Vlc Chromecast - Init Thread - Find Chromecast devices
         private void VlcChromecastRenderDiscover()
         {
+            if (_libVLC == null) return; 
+            
             RendererDescription vlcRendererDescription;
             vlcRendererDescription = _libVLC.RendererList.FirstOrDefault(r => r.Name.Equals("microdns_renderer"));
 
@@ -138,7 +140,7 @@ namespace PhotoTagsSynchronizer
                     if (rendererItem.IconUri.Contains(googleCast_SelectedReceiver?.IPEndPoint.Address.ToString()))
                     {
                         renderFound = true;
-                        videoView1.MediaPlayer.SetRenderer(rendererItem);
+                        if (videoView1 != null && videoView1.MediaPlayer != null) videoView1.MediaPlayer.SetRenderer(rendererItem);
                     }
                 }
             }
@@ -151,30 +153,32 @@ namespace PhotoTagsSynchronizer
         #region Preview - Init - Vlc MediaPlayer
         private void VlcMediaPlayerInit()
         {
-            videoView1.MediaPlayer.EnableKeyInput = true;
-            videoView1.MediaPlayer.EnableHardwareDecoding = true;
-            videoView1.MediaPlayer.EnableKeyInput = true;
+            if (videoView1 != null && videoView1.MediaPlayer != null)
+            {
+                videoView1.MediaPlayer.EnableKeyInput = true;
+                videoView1.MediaPlayer.EnableHardwareDecoding = true;
+                videoView1.MediaPlayer.EnableKeyInput = true;
 
-            videoView1.MediaPlayer.Backward += VlcMediaPlayerVideoView_Backward;
-            videoView1.MediaPlayer.Forward += VlcMediaPlayerVideoView_Forward;
-            videoView1.MediaPlayer.Buffering += VlcMediaPlayerVideoView_Buffering;
-            videoView1.MediaPlayer.EncounteredError += VlcMediaPlayerVideoView_EncounteredError;
+                videoView1.MediaPlayer.Backward += VlcMediaPlayerVideoView_Backward;
+                videoView1.MediaPlayer.Forward += VlcMediaPlayerVideoView_Forward;
+                videoView1.MediaPlayer.Buffering += VlcMediaPlayerVideoView_Buffering;
+                videoView1.MediaPlayer.EncounteredError += VlcMediaPlayerVideoView_EncounteredError;
 
-            videoView1.MediaPlayer.Muted += VlcMediaPlayerVideoView_Muted;
-            videoView1.MediaPlayer.Opening += VlcMediaPlayerVideoView_Opening;
+                videoView1.MediaPlayer.Muted += VlcMediaPlayerVideoView_Muted;
+                videoView1.MediaPlayer.Opening += VlcMediaPlayerVideoView_Opening;
 
-            videoView1.MediaPlayer.Paused += VlcMediaPlayerVideoView_Paused;
-            videoView1.MediaPlayer.PositionChanged += VlcMediaPlayerVideoView_PositionChanged;
+                videoView1.MediaPlayer.Paused += VlcMediaPlayerVideoView_Paused;
+                videoView1.MediaPlayer.PositionChanged += VlcMediaPlayerVideoView_PositionChanged;
 
-            videoView1.MediaPlayer.EndReached += VlcMediaPlayerVideoView_EndReached;
-            videoView1.MediaPlayer.Playing += VlcMediaPlayerVideoView_Playing;
+                videoView1.MediaPlayer.EndReached += VlcMediaPlayerVideoView_EndReached;
+                videoView1.MediaPlayer.Playing += VlcMediaPlayerVideoView_Playing;
 
-            videoView1.MediaPlayer.Stopped += VlcMediaPlayerVideoView_Stopped;
+                videoView1.MediaPlayer.Stopped += VlcMediaPlayerVideoView_Stopped;
 
-            videoView1.MediaPlayer.TimeChanged += VlcMediaPlayerVideoView_TimeChanged;
-            videoView1.MediaPlayer.Unmuted += VlcMediaPlayerVideoView_Unmuted;
-            videoView1.MediaPlayer.VolumeChanged += VlcMediaPlayerVideoView_VolumeChanged;
-
+                videoView1.MediaPlayer.TimeChanged += VlcMediaPlayerVideoView_TimeChanged;
+                videoView1.MediaPlayer.Unmuted += VlcMediaPlayerVideoView_Unmuted;
+                videoView1.MediaPlayer.VolumeChanged += VlcMediaPlayerVideoView_VolumeChanged;
+            }
         }
         #endregion
 
@@ -187,7 +191,6 @@ namespace PhotoTagsSynchronizer
             kryptonContextMenuChromecast.Items.Add(kryptonContextMenuItemsChromecast);
             kryptonRibbonGroupButtonPreviewChromecast.Enabled = false;
             kryptonRibbonGroupButtonPreviewChromecast.KryptonContextMenu = kryptonContextMenuChromecast;
-
 
             stopwachVlcMediaPositionChanged.Restart();
             stopwachMediaTimeChanged.Restart();
@@ -202,8 +205,11 @@ namespace PhotoTagsSynchronizer
             imageBoxPreview.Visible = false;
             imageBoxPreview.Dock = DockStyle.Fill;
 
-            videoView1.Visible = false;
-            videoView1.Dock = DockStyle.Fill;
+            if (videoView1 != null && videoView1.MediaPlayer != null)
+            {
+                videoView1.Visible = false;
+                videoView1.Dock = DockStyle.Fill;
+            }
 
             previewMediaShowItemIndex = 0;
             previewMediaItemFilenames.Clear();
@@ -232,8 +238,6 @@ namespace PhotoTagsSynchronizer
             }
         }
 
-        
-
         #endregion
 
         #region Preview - GoogleCast - Init sender vaiables
@@ -260,11 +264,10 @@ namespace PhotoTagsSynchronizer
         {
             timerFindGoogleCast.Stop();
 
-            // Use the DeviceLocator to find a Chromecast
-            googleCast_DeviceLocator = new GoogleCast.DeviceLocator();
-
             try
             {
+                // Use the DeviceLocator to find a Chromecast
+                googleCast_DeviceLocator = new GoogleCast.DeviceLocator();
                 googleCast_receivers = await googleCast_DeviceLocator.FindReceiversAsync();
             } catch (Exception ex)
             {
@@ -274,37 +277,41 @@ namespace PhotoTagsSynchronizer
             kryptonRibbonGroupButtonPreviewChromecast.Enabled = false;
             KryptonContextMenuItems kryptonContextMenuItemsChromecastList = (KryptonContextMenuItems)kryptonRibbonGroupButtonPreviewChromecast.KryptonContextMenu.Items[0];
             kryptonContextMenuItemsChromecastList.Items.Clear();
-            
-            //toolStripDropDownButtonChromecastList.Enabled = false;
-            //toolStripDropDownButtonChromecastList.DropDownItems.Clear();
-            //foreach (ToolStripItem toolStripItem in toolStripDropDownButtonChromecastList.DropDownItems) toolStripItem.Enabled = false;
 
-            foreach (GoogleCast.IReceiver googleCast_receiver in googleCast_receivers)
+            if (googleCast_receivers != null)
             {
-                bool itemFound = false;
-                foreach (KryptonContextMenuItem toolStripItem in kryptonContextMenuItemsChromecastList.Items)
+                foreach (GoogleCast.IReceiver googleCast_receiver in googleCast_receivers)
                 {
-                    if ((toolStripItem.Tag as GoogleCast.IReceiver)?.Id == googleCast_receiver.Id)
+                    bool itemFound = false;
+                    foreach (KryptonContextMenuItem toolStripItem in kryptonContextMenuItemsChromecastList.Items)
                     {
-                        toolStripItem.Enabled = true;
-                        itemFound = true;
+                        if ((toolStripItem.Tag as GoogleCast.IReceiver)?.Id == googleCast_receiver.Id)
+                        {
+                            toolStripItem.Enabled = true;
+                            itemFound = true;
+                        }
+                    }
+                    if (!itemFound)
+                    {
+                        KryptonContextMenuItem kryptonContextMenuItemChromecast = new KryptonContextMenuItem();
+                        kryptonContextMenuItemChromecast.Click += KryptonContextMenuItemChromecast_Click;
+                        kryptonContextMenuItemChromecast.Text = googleCast_receiver.FriendlyName;
+                        kryptonContextMenuItemChromecast.Tag = googleCast_receiver;
+                        kryptonContextMenuItemsChromecastList.Items.Add(kryptonContextMenuItemChromecast);
                     }
                 }
-                if (!itemFound)
-                {
-                    KryptonContextMenuItem kryptonContextMenuItemChromecast = new KryptonContextMenuItem();
-                    kryptonContextMenuItemChromecast.Click += KryptonContextMenuItemChromecast_Click;
-                    kryptonContextMenuItemChromecast.Text = googleCast_receiver.FriendlyName;
-                    kryptonContextMenuItemChromecast.Tag = googleCast_receiver;
-                    kryptonContextMenuItemsChromecastList.Items.Add(kryptonContextMenuItemChromecast);
-                }
+
+                ToolStripDropDownCheckReceiver(googleCast_SelectedReceiver);
+                if (kryptonContextMenuItemsChromecastList.Items.Count > 0) kryptonRibbonGroupButtonPreviewChromecast.Enabled = IsButtonPreviewPreviewEnabled;
+                else kryptonRibbonGroupButtonPreviewChromecast.Enabled = false;
+
+                timerFindGoogleCast.Start();
             }
-
-            ToolStripDropDownCheckReceiver(googleCast_SelectedReceiver);
-            if (kryptonContextMenuItemsChromecastList.Items.Count > 0) kryptonRibbonGroupButtonPreviewChromecast.Enabled = IsButtonPreviewPreviewEnabled;
-            else kryptonRibbonGroupButtonPreviewChromecast.Enabled = false;
-
-            timerFindGoogleCast.Start();
+            else
+            {
+                kryptonRibbonGroupButtonPreviewChromecast.Enabled = false;
+            }
+            
         }
 
         
@@ -1238,8 +1245,11 @@ namespace PhotoTagsSynchronizer
                         }
                         else
                         {
-                            if (videoView1.MediaPlayer.Length == -1) kryptonRibbonGroupLabelPreviewTimer.TextLine2 = "No video";
-                            else kryptonRibbonGroupLabelPreviewTimer.TextLine2 = ConvertMsToHuman(vlcTime);                           
+                            if (videoView1 != null && videoView1.MediaPlayer != null)
+                            {
+                                if (videoView1.MediaPlayer.Length == -1) kryptonRibbonGroupLabelPreviewTimer.TextLine2 = "No video";
+                                else kryptonRibbonGroupLabelPreviewTimer.TextLine2 = ConvertMsToHuman(vlcTime);
+                            }
                         }
                         
                     }
@@ -1251,26 +1261,28 @@ namespace PhotoTagsSynchronizer
                     if (stopwachVlcMediaPositionChanged.IsRunning && stopwachVlcMediaPositionChanged.ElapsedMilliseconds > 300)
                     {
                         stopwachVlcMediaPositionChanged.Restart();
-
-                        if (videoView1.MediaPlayer.Length == -1)
+                        if (videoView1 != null && videoView1.MediaPlayer != null)
                         {
-                            toolStripTraceBarItemMediaPreviewTimerUpdating = true;
-                            //kryptonRibbonGroupTrackBarPreviewTimer.SuspendLayout();
+                            if (videoView1.MediaPlayer.Length == -1)
+                            {
+                                toolStripTraceBarItemMediaPreviewTimerUpdating = true;
+                                //kryptonRibbonGroupTrackBarPreviewTimer.SuspendLayout();
 
 
-                            kryptonRibbonGroupTrackBarPreviewTimer.Value = 0;
-                            //kryptonRibbonGroupTrackBarPreviewTimer.ResumeLayout();
-                            toolStripTraceBarItemMediaPreviewTimerUpdating = false;
-                        }
-                        else
-                        {
-                            toolStripTraceBarItemMediaPreviewTimerUpdating = true;
-                            //kryptonRibbonGroupTrackBarPreviewTimer.SuspendLayout();
+                                kryptonRibbonGroupTrackBarPreviewTimer.Value = 0;
+                                //kryptonRibbonGroupTrackBarPreviewTimer.ResumeLayout();
+                                toolStripTraceBarItemMediaPreviewTimerUpdating = false;
+                            }
+                            else
+                            {
+                                toolStripTraceBarItemMediaPreviewTimerUpdating = true;
+                                //kryptonRibbonGroupTrackBarPreviewTimer.SuspendLayout();
 
 
-                            kryptonRibbonGroupTrackBarPreviewTimer.Value = Math.Min((int)(vlcPosition * 100), 100);
-                            //kryptonRibbonGroupTrackBarPreviewTimer.ResumeLayout();
-                            toolStripTraceBarItemMediaPreviewTimerUpdating = false;
+                                kryptonRibbonGroupTrackBarPreviewTimer.Value = Math.Min((int)(vlcPosition * 100), 100);
+                                //kryptonRibbonGroupTrackBarPreviewTimer.ResumeLayout();
+                                toolStripTraceBarItemMediaPreviewTimerUpdating = false;
+                            }
                         }
                     }
                     break;
@@ -1429,6 +1441,8 @@ namespace PhotoTagsSynchronizer
         #region Preview - MediaButton Action - Play
         private void ActionPreviewResumePlay()
         {
+            if (videoView1 == null || videoView1.MediaPlayer == null) return;
+
             if (videoView1.MediaPlayer.Length != -1)
             {
                 if (!videoView1.MediaPlayer.WillPlay)
@@ -1444,7 +1458,7 @@ namespace PhotoTagsSynchronizer
                         else
                         {
                             GoogleCast_Command_ResumePlay();
-                            videoView1.MediaPlayer.Play();
+                            if (videoView1 != null && videoView1.MediaPlayer != null) videoView1.MediaPlayer.Play();
                         }
                     }
                 }
@@ -1467,7 +1481,9 @@ namespace PhotoTagsSynchronizer
         {
             if (previewMediaIsCurrentMediaVideo)
             {
-                if (videoView1.MediaPlayer.CanPause) videoView1.MediaPlayer.Pause();
+                if (videoView1 != null && videoView1.MediaPlayer != null)
+                    if (videoView1.MediaPlayer.CanPause) videoView1.MediaPlayer.Pause();
+                
                 GoogleCast_Command_Pause();
             }
         }
@@ -1489,7 +1505,8 @@ namespace PhotoTagsSynchronizer
 
             ChromecastingSwitchOff(); //No chromecast selected
             if (!await GoogleCast_Disconnect(googleCast_ConnectedReceiver, true)) KryptonMessageBox.Show(googleCast_LastKnownErrorMessage, "Warning...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
-            if (videoView1.MediaPlayer.IsPlaying) videoView1.MediaPlayer.Stop(); //Stop Vlc mediaplayer
+            if (videoView1 != null && videoView1.MediaPlayer != null)
+                if (videoView1.MediaPlayer.IsPlaying) videoView1.MediaPlayer.Stop(); //Stop Vlc mediaplayer
         }
         
         private void kryptonRibbonGroupButtonPreviewStop_Click(object sender, EventArgs e)
@@ -1508,6 +1525,7 @@ namespace PhotoTagsSynchronizer
         private void kryptonRibbonGroupTrackBarPreviewTimer_ValueChanged(object sender, EventArgs e)
         {
             if (toolStripTraceBarItemMediaPreviewTimerUpdating) return;
+            if (videoView1 == null || videoView1.MediaPlayer == null) return;
             if (videoView1.MediaPlayer.IsSeekable) videoView1.MediaPlayer.Position = (float)kryptonRibbonGroupTrackBarPreviewTimer.Value / 100;
         }
         #endregion
@@ -1515,7 +1533,7 @@ namespace PhotoTagsSynchronizer
         #region Preview - MediaButton Action - FastBackward_Click
         private void ActionPreviewRewind()
         {
-            videoView1.MediaPlayer.Time -= 10000;
+            if (videoView1 != null && videoView1.MediaPlayer != null) videoView1.MediaPlayer.Time -= 10000;
         }
         private void kryptonRibbonGroupButtonPreviewRewind_Click(object sender, EventArgs e)
         {
@@ -1531,7 +1549,7 @@ namespace PhotoTagsSynchronizer
         #region Preview - MediaButton Action - FastForward_Click
         private void ActionPreviewForward()
         {
-            videoView1.MediaPlayer.Time += 10000;
+            if (videoView1 != null && videoView1.MediaPlayer != null) videoView1.MediaPlayer.Time += 10000;
         }
 
         private void kryptonRibbonGroupButtonPreviewForward_Click(object sender, EventArgs e)
@@ -1653,7 +1671,8 @@ namespace PhotoTagsSynchronizer
         {            
             SetPreviewRibbonEnabledStatusSkipButtons(skipPrevEnabled: false, skipNextEnabled: false);
 
-            if (videoView1.MediaPlayer.IsPlaying) videoView1.MediaPlayer.Stop();
+            if (videoView1 != null && videoView1.MediaPlayer != null)
+                if (videoView1.MediaPlayer.IsPlaying) videoView1.MediaPlayer.Stop();
 
             string playItem =
                     String.Format("http://{0}", nHttpServer.EndPoint) + "/chromecast?index=" + previewMediaShowItemIndex +
@@ -1666,180 +1685,184 @@ namespace PhotoTagsSynchronizer
                 previewMediaIsCurrentMediaVideo = true;
                 try
                 {
-                    LibVLCSharp.Shared.Media media = new LibVLCSharp.Shared.Media(_libVLC, fullFilename, FromType.FromPath);
-
-                    string chromecastTransporter = "SCREEN";  
-                    if (IsChromecastSelected) chromecastTransporter = Properties.Settings.Default.ChromecastTransporter;
-
-                    //Properties.Settings.Default.ChromecastContainer
-                    //HTTP - Simple HTTP server, send video as is
-                    //VLC-Render - Use VLC own Chromecast stack
-                    //VLC-Stream - Use VLC stream and own config
-                    switch (chromecastTransporter)
+                    if (_libVLC != null)
                     {
-                        case "SCREEN":
-                            #region SCREEN
+                        LibVLCSharp.Shared.Media media = new LibVLCSharp.Shared.Media(_libVLC, fullFilename, FromType.FromPath);
 
-                            videoView1.MediaPlayer.SetRenderer(null);
+                        string chromecastTransporter = "SCREEN";
+                        if (IsChromecastSelected) chromecastTransporter = Properties.Settings.Default.ChromecastTransporter;
+
+                        //Properties.Settings.Default.ChromecastContainer
+                        //HTTP - Simple HTTP server, send video as is
+                        //VLC-Render - Use VLC own Chromecast stack
+                        //VLC-Stream - Use VLC stream and own config
+                        switch (chromecastTransporter)
+                        {
+                            case "SCREEN":
+                                #region SCREEN
+                                if (videoView1 != null && videoView1.MediaPlayer != null) videoView1.MediaPlayer.SetRenderer(null);
+                                /*
+                                _libVLC = new LibVLC(new string[] {
+                                    "--avcodec-hw=none",
+                                    "--video-filter=scene",
+                                    "--scene-format=bmp",
+                                    "--scene-prefix=vlcsnap",
+                                    "--scene-ratio=3"
+
+                                    });
+                                */
+
+                                //rotateDegress = 90;
+                                if (rotateDegress != 0)
+                                {
+
+                                    media.AddOption(":avcodec-hw=none");
+
+                                    media.AddOption(":aspect-ratio=16:9");
+                                    media.AddOption(":video-filter=invert");
+
+                                    //media.AddOption(":video-filter=scene");
+                                    //media.AddOption(":scene-format=bmp");
+                                    //media.AddOption(":scene-prefix=vlcsnap");
+                                    //media.AddOption(":scene-ratio=3");
+                                    //":sout=#transcode{vfilter=transform{transform-type=" + ((int)rotateDegress).ToString() + "}}:display"
+
+                                    //media.AddOption(":sout=#display{vfilter=transform{transform-type=" + ((int)rotateDegress).ToString() + "}}");
+                                    media.AddOption(":sout=#transcode{vfilter=transform{transform-type=" + ((int)rotateDegress).ToString() + "}}:display");
+
+                                    media.AddOption(":sout -keep");
+                                }
+                                if (videoView1 != null && videoView1.MediaPlayer != null)
+                                    if (!videoView1.MediaPlayer.IsPlaying) videoView1.MediaPlayer.Play(media);
+                                break;
+                            #endregion
+                            case "HTTP":
+                                #region HTTP
+                                ShowMediaChromecast(playItem);
+                                if (videoView1 != null && videoView1.MediaPlayer != null)
+                                    if (!videoView1.MediaPlayer.IsPlaying) videoView1.MediaPlayer.Play(media);
+                                break;
+                            #endregion
+                            case "VLC-Render":
+                                #region VLC-Render
+
+                                VlcSetChromecastRender(googleCast_SelectedReceiver);
+                                if (videoView1 != null && videoView1.MediaPlayer != null)
+                                    if (!videoView1.MediaPlayer.IsPlaying) videoView1.MediaPlayer.Play(media);
+                                break;
+                            #endregion
+                            case "VLC-Stream":
+                                #region VLC-Stream
+                                string chromecastAgruments = Properties.Settings.Default.ChromecastAgruments;
+                                string chromecastUrl = Properties.Settings.Default.ChromecastUrl;
+                                string chromecastAudioCodec = Properties.Settings.Default.ChromecastAudioCodec;
+                                string chromecastVideoCodec = Properties.Settings.Default.ChromecastVideoCodec;
+
+                                chromecastUrl = chromecastUrl.Replace("{port}", vlcChromecastIPEndPoint.Port.ToString());
+                                chromecastUrl = chromecastUrl.Replace("{ipaddress}", vlcChromecastIPEndPoint.Address.ToString());
+
+                                chromecastAgruments = chromecastAgruments.Replace("{vcodec}", chromecastVideoCodec);
+                                chromecastAgruments = chromecastAgruments.Replace("{acodec}", chromecastAudioCodec);
+                                chromecastAgruments = chromecastAgruments.Replace("{url}", chromecastUrl);
+
+                                Logger.Trace(chromecastAgruments);
+                                media.AddOption(chromecastAgruments);
+
+
+                                if (videoView1 != null && videoView1.MediaPlayer != null) videoView1.MediaPlayer.SetRenderer(null);
+                                if (videoView1 != null && videoView1.MediaPlayer != null) videoView1.MediaPlayer.EnableHardwareDecoding = false;
+
+                                //if (!videoView1.MediaPlayer.IsPlaying) videoView1.MediaPlayer.Play(new Media(_libVLC, fullFilename, FromType.FromPath));
+                                if (videoView1 != null && videoView1.MediaPlayer != null)
+                                    if (!videoView1.MediaPlayer.IsPlaying) videoView1.MediaPlayer.Play(media);
+                                Logger.Trace("http://" + (chromecastUrl.StartsWith(":") ? vlcChromecastIPEndPoint.Address.ToString() : "") + chromecastUrl);
+                                ShowMediaChromecast("http://" + (chromecastUrl.StartsWith(":") ? vlcChromecastIPEndPoint.Address.ToString() : "") + chromecastUrl);
+
+                                break;
+                            #endregion
+                            #region Help
                             /*
-                            _libVLC = new LibVLC(new string[] {
-                                "--avcodec-hw=none",
-                                "--video-filter=scene",
-                                "--scene-format=bmp",
-                                "--scene-prefix=vlcsnap",
-                                "--scene-ratio=3"
-                                
-                                });
+                            Media container formats
+                                MP2T, MP3, MP4, OGG, WAV, WebM 
+
+                            vcodec=
+                            acodec=
+                            mux=
+
+
+                            stream output
+                            standard    allows to send the stream via an access output module : for example, UDP, file, HTTP, … You will probably want to use this module at the end of your chains.
+                            transcode   is used to transcode (decode and re-encode the stream using a different codec and/or bitrate) the audio and the video of the input stream. If the input or output access method doesn't allow pace control (network, capture devices), this will be done "on the fly", in real time. This can require quite a lot of CPU power, depending on the parameters set. Other streams, such as files and disks, are transcoded as fast as the system allows it.
+                            duplicate   allows you to create a second chain, where the stream will be handled in an independent way.
+                            display     allows you to display the input stream, as VLC would normally do. Used with the duplicate module, this allows you to monitor the stream while processing it.
+                            rtp         streams over RTP (one UDP port for each elementary stream). This module also allows RTSP support.
+
+                            --sout "#module1{option1=parameter1{parameter-option1},option2=parameter2}:module2{option1=…,option2=…}:…"
+                            */
+                            //static const vlc_fourcc_t DEFAULT_TRANSCODE_AUDIO = VLC_CODEC_MP3;
+                            //static const vlc_fourcc_t DEFAULT_TRANSCODE_VIDEO = VLC_CODEC_H264;
+                            //OGG sout=#transcode{vcodec=theo,vb=1024,channels=1,ab=128,samplerate=44100,width=320}:http{dst=:8080/webcam.ogg}
+                            //MP4 dshow: --dshow-adev=none --dshow-caching=0 --sout=#transcode{vcodec=h264,vb=1024,channels=1,ab=128,samplerate=44100,width=320}:http{mux=ts,dst=:8080/webcam.mp4} 
+
+                            //you're telling VLC to stream in TS format mux=ts this is your problem, you need to mux in mp4
+                            //codecs=theora, mux=ogg
+
+                            //vlc.exe rtsp://192.168.0.53/ :network-caching=1000 :sout=#transcode{vcodec=theo,vb=1600,scale=1,acodec=none}:http{mux=ogg,dst=:8181/stream} :no-sout-rtp-sap :no-sout-standard-sap :sout-keep
+                            //vlc.exe http://ksportiptv.com:1557/SajidLhr/Cj6cZT2p6V/1345 :network-caching=1000 :sout=#transcode{vcodec=theo,vb=1600,scale=1,acodec=none}:http{mux=ogg,dst=:8181/stream} :no-sout-rtp-sap :no-sout-standard-sap :sout-kee
+
+                            //#transcode{vcodec=h264,
+                            //  venc=x264{profile=baseline,level=3,preset=ultrafast,tune=zerolatency,crf=28,keyint=50},
+                            //  acodec=aac,ab=128,channels=2,samplerate=44100}:
+                            //  rtp{sdp=rtsp://:9090/desktop.sdp}
+                            //  #transcode{vcodec=h264,venc=x264{profile=baseline,level=3,preset=ultrafast,tune=zerolatency,crf=28,keyint=50},
+                            //  acodec=aac,ab=128,channels=2,samplerate=44100}:
+                            //  rtp{sdp=rtsp://:9090/desktop.sdp}
+                            //#transcode{vfilter=canvas{width=852,height=480},vcodec=h264,venc=x264{profile=baseline,level=3,preset=ultrafast,tune=zerolatency,keyint=50},acodec=aac,ab=128,channels=2,samplerate=44100}:rtp{sdp=rtsp://:9090/desktop.sdp}
+
+                            //#transcode{vcodec=mpgv,vb=3500,fps=25,acodec=mpga,ab=128,channels=2,deinterlace,
+                            //  vfilter=canvas{no-padd,height=576,width=720,aspect=4:3}}:std{access=udp,mux=ts,dst=...}
+
+                            /*
+                            Properties.Settings.Default.ChromecastAudioBitrate; //E.g.44100
+                            Properties.Settings.Default.ChromecastAudioCodec; //E.g. mp4a
+                            Properties.Settings.Default.ChromecastImageOutputFormat; //E.g. .JPEG
+
+                            Properties.Settings.Default.ChromecastImageOutputResolutionWidth, 
+                            Properties.Settings.Default.ChromecastImageOutputResolutionHeight);
+
+                             //E.g. 7500 kbps
+                            ); //E.g. h264
+
+                            Properties.Settings.Default.ChromecastVideoOutputResolutionWidth
+                            Properties.Settings.Default.ChromecastVideoOutputResolutionHeight
                             */
 
-                            //rotateDegress = 90;
-                            if (rotateDegress != 0 )
-                            {
-                                
-                                media.AddOption(":avcodec-hw=none");
 
-                                media.AddOption(":aspect-ratio=16:9");
-                                media.AddOption(":video-filter=invert");
 
-                                //media.AddOption(":video-filter=scene");
-                                //media.AddOption(":scene-format=bmp");
-                                //media.AddOption(":scene-prefix=vlcsnap");
-                                //media.AddOption(":scene-ratio=3");
-                                //":sout=#transcode{vfilter=transform{transform-type=" + ((int)rotateDegress).ToString() + "}}:display"
 
-                                //media.AddOption(":sout=#display{vfilter=transform{transform-type=" + ((int)rotateDegress).ToString() + "}}");
-                                media.AddOption(":sout=#transcode{vfilter=transform{transform-type=" + ((int)rotateDegress).ToString() + "}}:display");
+                            //media.AddOption(":sout=#transcode{vcodec=h264,vb=0,scale=0,acodec=acc,ab=128,channels=2,samplerate=44100}");
+                            //media.AddOption(":sout=#http{dst=192.168.86.163,port=8080,mime=video/x-matroska,mux=matroska,sdp=http://192.168.86.163:8080}");
+                            //media.AddOption(":sout=#http{dst=192.168.86.163,port=8080,mime=video/mp4,mux=mp4,sdp=http://192.168.86.163:8080}");
 
-                                media.AddOption(":sout -keep");
-                            }
+                            //media.AddOption(":sout=#transcode{vcodec=h264,vb=0,scale=0,acodec=mp4a,ab=128,channels=2,samplerate=44100}:http{dst=192.168.86.163,port=8080,sdp=http://192.168.86.163:8080}");
+                            //media.AddOption(":sout -keep");
 
-                            if (!videoView1.MediaPlayer.IsPlaying) videoView1.MediaPlayer.Play(media);
-                            break;
-                            #endregion 
-                        case "HTTP":
-                            #region HTTP
-                            ShowMediaChromecast(playItem);
-                            if (!videoView1.MediaPlayer.IsPlaying) videoView1.MediaPlayer.Play(media);
-                            break;
+                            //transform-type <string> { "90", "180", "270", "hflip", "vflip", "transpose", "antitranspose" } : Transformation type default value: "90"
+                            //sout=#transcode{vcodec=VP8,vb=4000,acodec=mpga,channels=2,mux=ogg}:http{dst=:8080/webcam.ogg}
+
+                            //VideoOrientation
+                            //videoView1.MediaPlayer.Or;
                             #endregion
-                        case "VLC-Render":
-                            #region VLC-Render
-                            
-                            VlcSetChromecastRender(googleCast_SelectedReceiver);
-                            if (!videoView1.MediaPlayer.IsPlaying) videoView1.MediaPlayer.Play(media);
-                            break;
-                        #endregion 
-                        case "VLC-Stream":
-                            #region VLC-Stream
-                            string chromecastAgruments = Properties.Settings.Default.ChromecastAgruments;
-                            string chromecastUrl = Properties.Settings.Default.ChromecastUrl;
-                            string chromecastAudioCodec = Properties.Settings.Default.ChromecastAudioCodec;
-                            string chromecastVideoCodec = Properties.Settings.Default.ChromecastVideoCodec;
-
-                            chromecastUrl = chromecastUrl.Replace("{port}", vlcChromecastIPEndPoint.Port.ToString());
-                            chromecastUrl = chromecastUrl.Replace("{ipaddress}", vlcChromecastIPEndPoint.Address.ToString());
-                            
-                            chromecastAgruments = chromecastAgruments.Replace("{vcodec}", chromecastVideoCodec);
-                            chromecastAgruments = chromecastAgruments.Replace("{acodec}", chromecastAudioCodec);
-                            chromecastAgruments = chromecastAgruments.Replace("{url}", chromecastUrl);
-
-                            Logger.Trace(chromecastAgruments);                            
-                            media.AddOption(chromecastAgruments);
-
-                            
-                            videoView1.MediaPlayer.SetRenderer(null);
-                            videoView1.MediaPlayer.EnableHardwareDecoding = false;
-                            
-                            //if (!videoView1.MediaPlayer.IsPlaying) videoView1.MediaPlayer.Play(new Media(_libVLC, fullFilename, FromType.FromPath));
-                            if (!videoView1.MediaPlayer.IsPlaying) videoView1.MediaPlayer.Play(media);
-                            Logger.Trace("http://" + (chromecastUrl.StartsWith(":") ? vlcChromecastIPEndPoint.Address.ToString() : "") + chromecastUrl);
-                            ShowMediaChromecast("http://" + (chromecastUrl.StartsWith(":") ? vlcChromecastIPEndPoint.Address.ToString() : "") + chromecastUrl);
-                             
-                            break;
-                        #endregion 
-                        #region Help
-                        /*
-                        Media container formats
-                            MP2T, MP3, MP4, OGG, WAV, WebM 
-
-                        vcodec=
-                        acodec=
-                        mux=
-
-
-                        stream output
-                        standard    allows to send the stream via an access output module : for example, UDP, file, HTTP, … You will probably want to use this module at the end of your chains.
-                        transcode   is used to transcode (decode and re-encode the stream using a different codec and/or bitrate) the audio and the video of the input stream. If the input or output access method doesn't allow pace control (network, capture devices), this will be done "on the fly", in real time. This can require quite a lot of CPU power, depending on the parameters set. Other streams, such as files and disks, are transcoded as fast as the system allows it.
-                        duplicate   allows you to create a second chain, where the stream will be handled in an independent way.
-                        display     allows you to display the input stream, as VLC would normally do. Used with the duplicate module, this allows you to monitor the stream while processing it.
-                        rtp         streams over RTP (one UDP port for each elementary stream). This module also allows RTSP support.
-
-                        --sout "#module1{option1=parameter1{parameter-option1},option2=parameter2}:module2{option1=…,option2=…}:…"
-                        */
-                        //static const vlc_fourcc_t DEFAULT_TRANSCODE_AUDIO = VLC_CODEC_MP3;
-                        //static const vlc_fourcc_t DEFAULT_TRANSCODE_VIDEO = VLC_CODEC_H264;
-                        //OGG sout=#transcode{vcodec=theo,vb=1024,channels=1,ab=128,samplerate=44100,width=320}:http{dst=:8080/webcam.ogg}
-                        //MP4 dshow: --dshow-adev=none --dshow-caching=0 --sout=#transcode{vcodec=h264,vb=1024,channels=1,ab=128,samplerate=44100,width=320}:http{mux=ts,dst=:8080/webcam.mp4} 
-
-                        //you're telling VLC to stream in TS format mux=ts this is your problem, you need to mux in mp4
-                        //codecs=theora, mux=ogg
-
-                        //vlc.exe rtsp://192.168.0.53/ :network-caching=1000 :sout=#transcode{vcodec=theo,vb=1600,scale=1,acodec=none}:http{mux=ogg,dst=:8181/stream} :no-sout-rtp-sap :no-sout-standard-sap :sout-keep
-                        //vlc.exe http://ksportiptv.com:1557/SajidLhr/Cj6cZT2p6V/1345 :network-caching=1000 :sout=#transcode{vcodec=theo,vb=1600,scale=1,acodec=none}:http{mux=ogg,dst=:8181/stream} :no-sout-rtp-sap :no-sout-standard-sap :sout-kee
-
-                        //#transcode{vcodec=h264,
-                        //  venc=x264{profile=baseline,level=3,preset=ultrafast,tune=zerolatency,crf=28,keyint=50},
-                        //  acodec=aac,ab=128,channels=2,samplerate=44100}:
-                        //  rtp{sdp=rtsp://:9090/desktop.sdp}
-                        //  #transcode{vcodec=h264,venc=x264{profile=baseline,level=3,preset=ultrafast,tune=zerolatency,crf=28,keyint=50},
-                        //  acodec=aac,ab=128,channels=2,samplerate=44100}:
-                        //  rtp{sdp=rtsp://:9090/desktop.sdp}
-                        //#transcode{vfilter=canvas{width=852,height=480},vcodec=h264,venc=x264{profile=baseline,level=3,preset=ultrafast,tune=zerolatency,keyint=50},acodec=aac,ab=128,channels=2,samplerate=44100}:rtp{sdp=rtsp://:9090/desktop.sdp}
-
-                        //#transcode{vcodec=mpgv,vb=3500,fps=25,acodec=mpga,ab=128,channels=2,deinterlace,
-                        //  vfilter=canvas{no-padd,height=576,width=720,aspect=4:3}}:std{access=udp,mux=ts,dst=...}
-
-                        /*
-                        Properties.Settings.Default.ChromecastAudioBitrate; //E.g.44100
-                        Properties.Settings.Default.ChromecastAudioCodec; //E.g. mp4a
-                        Properties.Settings.Default.ChromecastImageOutputFormat; //E.g. .JPEG
-
-                        Properties.Settings.Default.ChromecastImageOutputResolutionWidth, 
-                        Properties.Settings.Default.ChromecastImageOutputResolutionHeight);
-
-                         //E.g. 7500 kbps
-                        ); //E.g. h264
-
-                        Properties.Settings.Default.ChromecastVideoOutputResolutionWidth
-                        Properties.Settings.Default.ChromecastVideoOutputResolutionHeight
-                        */
-
-
-
-
-                        //media.AddOption(":sout=#transcode{vcodec=h264,vb=0,scale=0,acodec=acc,ab=128,channels=2,samplerate=44100}");
-                        //media.AddOption(":sout=#http{dst=192.168.86.163,port=8080,mime=video/x-matroska,mux=matroska,sdp=http://192.168.86.163:8080}");
-                        //media.AddOption(":sout=#http{dst=192.168.86.163,port=8080,mime=video/mp4,mux=mp4,sdp=http://192.168.86.163:8080}");
-
-                        //media.AddOption(":sout=#transcode{vcodec=h264,vb=0,scale=0,acodec=mp4a,ab=128,channels=2,samplerate=44100}:http{dst=192.168.86.163,port=8080,sdp=http://192.168.86.163:8080}");
-                        //media.AddOption(":sout -keep");
-
-                        //transform-type <string> { "90", "180", "270", "hflip", "vflip", "transpose", "antitranspose" } : Transformation type default value: "90"
-                        //sout=#transcode{vcodec=VP8,vb=4000,acodec=mpga,channels=2,mux=ogg}:http{dst=:8080/webcam.ogg}
-
-                        //VideoOrientation
-                        //videoView1.MediaPlayer.Or;
-                        #endregion
-                        default:
-                            throw new NotImplementedException();
-
-                    } 
+                            default:
+                                throw new NotImplementedException();
+                        }
+                    }
                 }
                 catch (Exception ex)
                 {
                     KryptonMessageBox.Show("Playing Video file failed: " + ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
                 }
-                videoView1.Visible = true;
+                if (videoView1 != null && videoView1.MediaPlayer != null) videoView1.Visible = true;
                 imageBoxPreview.Visible = false;
             }
             if (ImageAndMovieFileExtentions.ImageAndMovieFileExtentionsUtility.IsImageFormat(fullFilename))
@@ -1863,8 +1886,7 @@ namespace PhotoTagsSynchronizer
                 imageBoxPreview.Visible = true;
                 imageBoxPreview.ZoomToFit();
 
-                videoView1.Visible = false;
-
+                if (videoView1 != null && videoView1.MediaPlayer != null) videoView1.Visible = false;
             }
 
             SetPreviewRibbonEnabledStatusSkipButtons(skipPrevEnabled: true, skipNextEnabled: true);

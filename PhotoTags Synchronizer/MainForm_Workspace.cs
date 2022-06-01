@@ -623,7 +623,6 @@ namespace PhotoTagsSynchronizer
         {
             try
             {
-
                 bool isSomethingSelected = (ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true).Count >= 1);
                 bool isMoreThatOneSelected = (ImageListViewHandler.GetFileEntriesSelectedItemsCache(imageListView1, true).Count > 1);
 

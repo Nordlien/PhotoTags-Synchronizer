@@ -392,7 +392,16 @@ namespace PhotoTagsSynchronizer
                 return;
             }
 
-            UpdateRibbonsWhenWorkspaceChanged();
+
+
+
+//UpdateRibbonsWhenWorkspaceChanged();
+
+
+
+
+
+
             UpdateStatusImageListView(string.Format("Files: {0} Selected {1} ", imageListView1.Items.Count, imageListView1.SelectedItems.Count));
 
             string progressBackgroundStatusText = "";

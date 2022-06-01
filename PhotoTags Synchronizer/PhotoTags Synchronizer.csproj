@@ -2,6 +2,7 @@
   <PropertyGroup>
     <TargetFramework>net48</TargetFramework>
     <Platforms>AnyCPU;x86;x64</Platforms>
+    <OutputType>WinExe</OutputType>
     <SignAssembly>true</SignAssembly>
     <UpdateEnabled>false</UpdateEnabled>
     <UpdateMode>Foreground</UpdateMode>
@@ -18,29 +19,33 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <UseWindowsForms>true</UseWindowsForms>
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+    <!--BaseOutputPath>..\Bin\</BaseOutputPath-->
+    <!--BaseIntermediateOutputPath>..\Obj\</BaseIntermediateOutputPath-->
   </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <NoWarn />
     <WarningsAsErrors />
     <DefineConstants>TRACE;DEBUG</DefineConstants>
     <OutputPath>..\Bin\Debug\Any\</OutputPath>
   </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
     <DefineConstants>TRACE;DEBUG</DefineConstants>
     <PlatformTarget>x86</PlatformTarget>
     <NoWarn />
     <WarningsAsErrors />
     <OutputPath>..\Bin\Debug\x86\</OutputPath>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <PlatformTarget>x64</PlatformTarget>
     <DefineConstants>TRACE;DEBUG</DefineConstants>
     <NoWarn />
     <WarningsAsErrors />
     <OutputPath>..\Bin\Debug\x64\</OutputPath>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DefineConstants />
     <NoWarn />
@@ -53,7 +58,6 @@
     <WarningsAsErrors />
     <DefineConstants />
     <OutputPath>..\Bin\Release\x86\</OutputPath>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <PlatformTarget>x64</PlatformTarget>
@@ -62,11 +66,8 @@
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <DefineConstants />
     <OutputPath>..\Bin\Release\x64\</OutputPath>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-  </PropertyGroup>
+  
   <PropertyGroup>
     <StartupObject>PhotoTagsSynchronizer.Program</StartupObject>
   </PropertyGroup>
@@ -78,24 +79,17 @@
     <AssemblyName>PhotoTags Synchronizer</AssemblyName>
     <Win32Resource />
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <OutputPath>..\Bin\Debug\Any\</OutputPath>
-    <PlatformTarget>x64</PlatformTarget>
-    <NoWarn />
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <WarningsAsErrors />
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <OutputPath>..\Bin\Release\Any\</OutputPath>
-    <DefineConstants />
-    <PlatformTarget>x64</PlatformTarget>
-  </PropertyGroup>
+
   <ItemGroup>
     <None Remove="ffmpeg.exe" />
   </ItemGroup>
   <ItemGroup>
+    <None Update="libvlccore.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="magick.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -129,18 +123,6 @@
     <Content Include="Resources\Silent.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="x64\sqlite3.def">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="x64\sqlite3.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="x86\sqlite3.def">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="x86\sqlite3.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Resources\tri_state_switch_partial.png" />
   </ItemGroup>
 
@@ -156,6 +138,8 @@
     <ProjectReference Include="..\GoogleLocationHistory\GoogleLocationHistory.csproj" />
     <ProjectReference Include="..\ImageAndMovieFileExtentions\ImageAndMovieFileExtentions.csproj" />
     <ProjectReference Include="..\ImageListView\ImageListView.csproj" />
+    <ProjectReference Include="..\IncludeFiles64bit\IncludeFiles64bit.csproj" />
+    <ProjectReference Include="..\IncludeFilesAlways\IncludeFilesAlways.csproj" />
     <ProjectReference Include="..\LocationNames\LocationNames.csproj" />
     <ProjectReference Include="..\MetadataLibrary\MetadataLibrary.csproj" />
     <ProjectReference Include="..\MetadataPriorityLibrary\MetadataPriorityLibrary.csproj" />
@@ -193,6 +177,7 @@
     </PackageReference>
     <PackageReference Include="VideoLAN.LibVLC.Windows" Version="3.0.17.4" />
   </ItemGroup>
+  
   <ItemGroup>
     <Reference Include="System.Web" />
   </ItemGroup>

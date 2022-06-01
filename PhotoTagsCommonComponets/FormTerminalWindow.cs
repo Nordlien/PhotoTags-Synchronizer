@@ -1,9 +1,9 @@
-﻿using System;
-using System.Diagnostics;
-using System.Drawing;
-using System.Windows.Forms;
+﻿using Krypton.Toolkit;
 using FastColoredTextBoxNS;
-using Krypton.Toolkit;
+using System.Diagnostics;
+using System.Windows.Forms;
+using System;
+using System.Drawing;
 
 namespace PhotoTagsCommonComponets
 {

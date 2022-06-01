@@ -28,5 +28,5 @@
   - [Zip package .z03, file: 4 / 6](2021-06-13-PhotoTags-Synchronizer-x64-alpha.z03)
   - [Zip package .z04, file: 5 / 6](2021-06-13-PhotoTags-Synchronizer-x64-alpha.z04)
   - [Zip package .z05, file: 6 / 6](2021-06-13-PhotoTags-Synchronizer-x64-alpha.z05)
-
+ 
 {% include footer.md %}

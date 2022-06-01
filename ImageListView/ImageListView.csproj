@@ -6,28 +6,34 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
     <Platforms>AnyCPU;x86;x64</Platforms>
+    <!--BaseOutputPath>..\Bin\</BaseOutputPath-->
+    <!--BaseIntermediateOutputPath>..\Obj\</BaseIntermediateOutputPath-->
   </PropertyGroup>
-  
+
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <NoWarn />
     <WarningsAsErrors />
     <DefineConstants>TRACE;DEBUG</DefineConstants>
     <OutputPath>..\Bin\Debug\Any\</OutputPath>
   </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
     <DefineConstants>TRACE;DEBUG</DefineConstants>
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <NoWarn />
     <WarningsAsErrors />
     <OutputPath>..\Bin\Debug\x86\</OutputPath>
   </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DefineConstants>TRACE;DEBUG</DefineConstants>
     <NoWarn />
     <WarningsAsErrors />
     <OutputPath>..\Bin\Debug\x64\</OutputPath>
   </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DefineConstants />
     <NoWarn />
@@ -35,20 +41,21 @@
     <OutputPath>..\Bin\Release\Any\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <NoWarn />
     <WarningsAsErrors />
     <DefineConstants />
     <OutputPath>..\Bin\Release\x86\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <NoWarn />
     <WarningsAsErrors />
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <DefineConstants />
     <OutputPath>..\Bin\Release\x64\</OutputPath>
   </PropertyGroup>
+  
   <PropertyGroup>
     <OutputType>Library</OutputType>
   </PropertyGroup>
@@ -59,31 +66,10 @@
     <RootNamespace>Manina.Windows.Forms</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System.Design" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.Transactions" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Update="HitInfo.cs" />
-    <Compile Update="ImageListView.cs" />
-    <Compile Update="ImageListViewColumnHeader.cs" />
-    <Compile Update="ImageListViewColumnHeaderCollection.cs" />
-    <Compile Update="ImageListViewItemCollection.cs" />
-    <Compile Update="ImageListViewRenderer.cs" />
-    <Compile Update="ImageListViewSelectedItemCollection.cs" />
-    <Compile Update="ImageListViewNavigationManager.cs" />
-    <Compile Update="Properties\Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Properties\Settings.Designer.cs">
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
-    <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
-  </ItemGroup>
+  
   <ItemGroup>
     <EmbeddedResource Include="ImageListView.bmp" />
   </ItemGroup>
@@ -97,16 +83,6 @@
     <Compile Remove="Events.old.cs" />
     <Compile Remove="ImageListViewCacheManager.old.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Update="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Update="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
+
+
 </Project>

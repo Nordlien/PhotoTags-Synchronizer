@@ -3,66 +3,62 @@
     <TargetFramework>net48</TargetFramework>
     <OutputType>Exe</OutputType>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <Platforms>AnyCPU;x86;x64</Platforms>
+    <Platforms>x86</Platforms>
+    <!--BaseOutputPath>..\Bin\</BaseOutputPath-->
+    <!--BaseIntermediateOutputPath>..\Obj\</BaseIntermediateOutputPath-->
   </PropertyGroup>
 
- <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <PlatformTarget>x86</PlatformTarget>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn />
+    <WarningsAsErrors />
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <OutputPath>..\Bin\Debug\Any\net48\Pipe\</OutputPath>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <NoWarn />
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <WarningsAsErrors />
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <PlatformTarget>x86</PlatformTarget>
+    <NoWarn />
+    <WarningsAsErrors />
     <OutputPath>..\Bin\Debug\x86\net48\Pipe\</OutputPath>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <NoWarn />
-    <WarningsAsErrors />
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <PlatformTarget>x86</PlatformTarget>
-    <OutputPath>..\Bin\Debug\x64\net48\Pipe\</OutputPath>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PlatformTarget>x64</PlatformTarget>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <NoWarn />
     <WarningsAsErrors />
+    <OutputPath>..\Bin\Debug\x64\net48\Pipe\</OutputPath>
   </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <PlatformTarget>x86</PlatformTarget>
+    <DefineConstants />
+    <NoWarn />
+    <WarningsAsErrors />
     <OutputPath>..\Bin\Release\Any\net48\Pipe\</OutputPath>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+    <PlatformTarget>x86</PlatformTarget>
     <NoWarn />
     <WarningsAsErrors />
     <DefineConstants />
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <PlatformTarget>x86</PlatformTarget>
     <OutputPath>..\Bin\Release\x86\net48\Pipe\</OutputPath>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <WarningsAsErrors />
-    <NoWarn />
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <PlatformTarget>x86</PlatformTarget>
-    <OutputPath>..\Bin\Release\x64\net48\Pipe\</OutputPath>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <PlatformTarget>x64</PlatformTarget>
     <NoWarn />
     <WarningsAsErrors />
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <DefineConstants />
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <OutputPath>..\Bin\Release\x64\net48\Pipe\</OutputPath>
   </PropertyGroup>
   
+ 
   
   <PropertyGroup>
     <ApplicationIcon>AppIcon.ico</ApplicationIcon>
   </PropertyGroup>
+  
   <ItemGroup>
     <None Update="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -78,6 +74,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AppIcon.ico" />
+    <Content Include="sqlite3.def">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="sqlite3.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    
+    
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Management" />

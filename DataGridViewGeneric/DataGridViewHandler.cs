@@ -820,6 +820,7 @@ namespace DataGridViewGeneric
         #region Agregate handling - GetIsAgregated
         public static bool GetIsAgregated(DataGridView dataGridView)
         {
+            if (dataGridView.TopLeftHeaderCell.Tag == null) return false;
             return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).IsAgregated;
         }
         #endregion

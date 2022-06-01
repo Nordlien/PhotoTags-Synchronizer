@@ -2,7 +2,7 @@
   "profiles": {
     "PhotoTags Synchronizer": {
       "commandName": "Project",
-      "workingDirectory": "..\\Bin\\Debug\\Any\\net48",
+      "workingDirectory": "..\\Bin\\$(Configuration)\\$(Platform)\\net48",
       "jsWebView2Debugging": false,
       "sqlDebugging": false,
       "remoteDebugEnabled": false,

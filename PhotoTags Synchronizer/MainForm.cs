@@ -25,6 +25,7 @@ using Krypton.Toolkit;
 using Krypton.Navigator;
 using FileDateTime;
 using ColumnNamesAndWidth;
+using System.IO;
 
 namespace PhotoTagsSynchronizer
 {
@@ -121,9 +122,44 @@ namespace PhotoTagsSynchronizer
         int slideShowIntervalMs = 0;
         #endregion
 
+        private void CopyIfNewer(string sourceFolder, string destinationFolder, string filename)
+        {
+            try
+            {
+                string sourceFullFilename = Path.Combine(sourceFolder, filename);
+                string destinationFullFilename = Path.Combine(destinationFolder, filename);
+                if (File.Exists(sourceFullFilename))
+                {
+                    if (!File.Exists(destinationFullFilename)) File.Copy(sourceFullFilename, destinationFullFilename);
+                    else
+                    {
+                        if (File.GetCreationTime(sourceFullFilename) > File.GetCreationTime(destinationFullFilename)) File.Copy(sourceFullFilename, destinationFullFilename, true);
+                    }
+                }
+            }
+            catch { }
+        }
+
         #region Constructor - MainForm()
         public MainForm()
         {
+            try
+            {
+                //string sourceFolder = Path.GetDirectoryName(Application.ExecutablePath);
+                //string destinationFolder = Path.Combine(sourceFolder, "libvlc\\win-x64");
+                //Directory.CreateDirectory(destinationFolder);
+
+                //CopyIfNewer(sourceFolder, destinationFolder, "libvlc.dll");
+                //CopyIfNewer(sourceFolder, destinationFolder, "libvlccore.dll");
+                
+                //CopyIfNewer(sourceFolder, destinationFolder, "libcef.dll");
+                //CopyIfNewer(sourceFolder, destinationFolder, "libEGL.dll");
+                //CopyIfNewer(sourceFolder, destinationFolder, "libGLESv2.dll");
+                //CopyIfNewer(sourceFolder, destinationFolder, "LibVLCSharp.dll");
+                //CopyIfNewer(sourceFolder, destinationFolder, "LibVLCSharp.WinForms.dll");
+            }
+            catch { }
+
             #region Initialize VLC player
             FormSplash.UpdateStatus("Initialize VLC player...");
             try
@@ -276,13 +312,22 @@ namespace PhotoTagsSynchronizer
 
             SetPreviewRibbonEnabledStatus(previewStartEnabled: false, enabled: false);
 
+
             #region Initialize VLC player
             FormSplash.UpdateStatus("Staring VLC player...");
-
-            _libVLC = new LibVLC();
-            videoView1.MediaPlayer = new MediaPlayer(_libVLC);
+            try
+            {
+                _libVLC = new LibVLC();
+                videoView1.MediaPlayer = new MediaPlayer(_libVLC);
+            } catch
+            {
+                _libVLC = null;
+                videoView1 = null;
+                FormSplash.UpdateStatus("Staring VLC player failed...");
+                Thread.Sleep(5000);
+            }
             #endregion 
-
+            
             #region Loading ImageListView renderers
             FormSplash.UpdateStatus("Loading ImageListView renderers...");
 

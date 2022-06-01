@@ -2,7 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>net48</TargetFramework>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <OutputType>Library</OutputType>
+    <Platforms>AnyCPU;x86;x64</Platforms>
+    <!--BaseOutputPath>..\Bin\</BaseOutputPath-->
+    <!--BaseIntermediateOutputPath>..\Obj\</BaseIntermediateOutputPath-->
+    
     <SignAssembly>False</SignAssembly>
     <AssemblyOriginatorKeyFile>key.pfx</AssemblyOriginatorKeyFile>
     <Authors>Stéphane Mitermite</Authors>
@@ -26,20 +30,23 @@
     <DefineConstants>TRACE;DEBUG</DefineConstants>
     <OutputPath>..\Bin\Debug\Any\</OutputPath>
   </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
     <DefineConstants>TRACE;DEBUG</DefineConstants>
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <NoWarn />
     <WarningsAsErrors />
     <OutputPath>..\Bin\Debug\x86\</OutputPath>
   </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DefineConstants>TRACE;DEBUG</DefineConstants>
     <NoWarn />
     <WarningsAsErrors />
     <OutputPath>..\Bin\Debug\x64\</OutputPath>
   </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DefineConstants />
     <NoWarn />
@@ -47,20 +54,21 @@
     <OutputPath>..\Bin\Release\Any\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <NoWarn />
     <WarningsAsErrors />
     <DefineConstants />
     <OutputPath>..\Bin\Release\x86\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <NoWarn />
     <WarningsAsErrors />
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <DefineConstants />
     <OutputPath>..\Bin\Release\x64\</OutputPath>
   </PropertyGroup>
+  
   <ItemGroup>
     <None Remove="cast_channel.bat" />
     <None Remove="cast_channel.proto" />

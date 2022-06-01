@@ -14,7 +14,11 @@ namespace PhotoTagsSynchronizer
             {
                 Application.UseWaitCursor = true;
                 Cursor.Current = Cursors.WaitCursor;
-                if (!GlobalData.IsApplicationClosing) System.Windows.Forms.Application.OpenForms[0].Refresh();
+                try
+                {
+                    if (!GlobalData.IsApplicationClosing) System.Windows.Forms.Application.OpenForms[0].Refresh();
+                }
+                catch { }
             }
         }
         #endregion
