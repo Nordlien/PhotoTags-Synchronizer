@@ -1,6 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net48</TargetFramework>
+    <RuntimeIdentifiers>win7-x64;win7-x86;win-x64;win-x86</RuntimeIdentifiers>
+    <!--https://docs.microsoft.com/en-us/dotnet/core/rid-catalog-->
     <Platforms>AnyCPU;x86;x64</Platforms>
     <OutputType>WinExe</OutputType>
     <SignAssembly>true</SignAssembly>
@@ -138,7 +140,6 @@
     <ProjectReference Include="..\GoogleLocationHistory\GoogleLocationHistory.csproj" />
     <ProjectReference Include="..\ImageAndMovieFileExtentions\ImageAndMovieFileExtentions.csproj" />
     <ProjectReference Include="..\ImageListView\ImageListView.csproj" />
-    <ProjectReference Include="..\IncludeFiles64bit\IncludeFiles64bit.csproj" />
     <ProjectReference Include="..\IncludeFilesAlways\IncludeFilesAlways.csproj" />
     <ProjectReference Include="..\LocationNames\LocationNames.csproj" />
     <ProjectReference Include="..\MetadataLibrary\MetadataLibrary.csproj" />
@@ -154,6 +155,15 @@
     <ProjectReference Include="..\WindowsLivePhotoGallery\WindowsLivePhotoGallery.csproj" />
     <ProjectReference Include="..\WindowsProperty\WindowsProperty.csproj" />
   </ItemGroup>
+  
+  <ItemGroup Condition=" '$(Platform)' == 'x86' ">
+    <ProjectReference Include="..\IncludeFiles32bit\IncludeFiles32bit.csproj" />
+  </ItemGroup>
+  
+    <ItemGroup Condition=" '$(Platform)' == 'x64' ">
+    <ProjectReference Include="..\IncludeFiles64bit\IncludeFiles64bit.csproj" />
+  </ItemGroup>
+  
   <ItemGroup>
     <PackageReference Include="CefSharp.Common" Version="101.0.180" />
     <PackageReference Include="CefSharp.WinForms" Version="101.0.180" />
