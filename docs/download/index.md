@@ -1,7 +1,7 @@
 {% include header.md %}
 
 # Download
-
+ 
 - 2021-05-30:
   - Download all files and unpack in same folder and just run it
   - [Zip package .zip, file: 1 / 6](2022-05-17-PhotoTags-Synchronizer-x64rc2.zip)
