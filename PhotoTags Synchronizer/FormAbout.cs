@@ -9,6 +9,11 @@ namespace PhotoTagsSynchronizer
         public FormAbout()
         {
             InitializeComponent();
+            try
+            {
+                richTextBox1.LoadFile("About.rtf");
+            }
+            catch { }
         }
     }
 }

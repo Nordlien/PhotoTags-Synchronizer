@@ -1328,5 +1328,8 @@ cmd.exe /K exiftool -t -a -G0:1 -s -n -P -struct "{FileFullPath}"
 cmd.exe /K /C exiftool -t -a -G0:1 -s -n -P -struct "{FileFullPath}"
 explorer ms-photos?filename="{FileFullPath}"</Value>
     </Setting>
+    <Setting Name="ShowAboutPage" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -64,6 +64,9 @@
   
   
   <ItemGroup>
+    <None Update="About.rtf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Pipe\net48\ApplicationAssociations.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

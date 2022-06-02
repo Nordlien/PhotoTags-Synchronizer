@@ -1017,6 +1017,12 @@ namespace PhotoTagsSynchronizer
 
             MaximizeOrRestoreWorkspaceMainCellAndChilds();
             SetNavigatorModeSearch((NavigatorMode)Properties.Settings.Default.WorkspaceCellFolderSearchFilterNavigatorMode);
+
+            if (Properties.Settings.Default.ShowAboutPage)
+            {
+                About();
+                Properties.Settings.Default.ShowAboutPage = false;
+            }
         }
         #endregion
 
