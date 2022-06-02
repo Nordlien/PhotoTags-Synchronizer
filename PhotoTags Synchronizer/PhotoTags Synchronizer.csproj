@@ -81,10 +81,6 @@
     <AssemblyName>PhotoTags Synchronizer</AssemblyName>
     <Win32Resource />
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="ffmpeg.exe" />
-  </ItemGroup>
   <ItemGroup>
     <None Update="libvlccore.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -105,12 +101,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AutoKeywords_example.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="exiftool.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="ffmpeg.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Audio.wav">

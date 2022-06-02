@@ -53,6 +53,14 @@
     <DefineConstants />
     <OutputPath>..\Bin\Release\x64\</OutputPath>
   </PropertyGroup>
+  <ItemGroup>
+    <None Remove="exiftool.exe" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="exiftool.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   
   
   <ItemGroup>
