@@ -14,5 +14,4 @@
 4. Wait until Microsoft OneDrive with Microsoft Photos is done with sync. Microsoft Photos can do changes in the metadata and sync that will get synced back to your disk. Remember to get files back to disk, using for example “Always keep on this device”
 5. Start Google Drive again, and wait, Google Photos backup will do a new backup of the media that has changed.
 
-
 {% include footer.md %}
