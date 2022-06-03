@@ -5,19 +5,17 @@
 Keep the tags where it belongs.
 
 ### Lot of functionality
-
 ![Ribbon Home](userguide/ribbon/ribbon_home.png)
 ![Ribbon Preview](userguide/ribbon/ribbon_preview.png)
 ![Ribbon Select](userguide/ribbon/ribbon_select.png)
 ![Ribbon Tools](userguide/ribbon/ribbon_tools.png)
 ![Ribbon View](userguide/ribbon/ribbon_view.png)
-### Color themes
 
+### Color themes
 #### Blue themes
 ![Theme Lightmode](screenshots/theme_lightmode.png)
 ### Dark themes
 ![Theme Darkmode](screenshots/theme_darkmode.png)
-
 
 ## Userguide
 [Userguide](userguide)
@@ -25,7 +23,7 @@ Keep the tags where it belongs.
 ## Key features
 
 - Keyword tagging
-  - See user guide for [Keywords][3737e4b0]
+  - See user guide for [Keywords](userguide\keywords\)
   - Fast and easy editing meta information in a wide variety of media file formats.
   - [Keywords](userguide/keywords), [People and  Region](userguide/people), [GEOtagging](userguide/map) and [Dates](userguide/date)
   - Easy edit and tag many files at once
@@ -58,17 +56,16 @@ Keep the tags where it belongs.
   - Support casting of video and pictures directly from PC with build-in webserver
 - Media files support
   - Exif and metadata
-    - Read and Write to around 200 [Media File formats using exiftool][750832c4]
+    - Read and Write to around 200 [Media File formats using exiftool](https://exiftool.org/#supported)
   - Image formats:
-    - Display and Chromecast 100 [Image File Formats supported by ImageMagick][c491c138]
+    - Display and Chromecast 100 [Image File Formats supported by ImageMagick](https://imagemagick.org/script/formats.php)
   - Video formats:
-    - Display and Chromecast over 30 types of [Video File Codecs using VLClib][d9d46493]
-    - Convert around 200 [Video File Codecs using ffmpeg][e2a8453e]
+    - Display and Chromecast over 30 types of [Video File Codecs using VLClib](https://wiki.videolan.org/VLC_Features_Formats/)
+    - Convert around 200 [Video File Codecs using ffmpeg](https://www.ffmpeg.org/general.html#File-Formats)
 
-  [3737e4b0]: userguide\keywords\ "Keywords"
 
 ## Key problems to solve
-[More details][fbe6f277]
+[More details](problems/)
 - Don't lose your work and meta information.<br><br>When meta information are stored in cloud, your are not able to change provider without losing your tagging work.<br>When data is stored in local database, you will lose your tagging when change computer.<br><br>
   - Microsoft Windows Live Gallery
     - Store most of meta information in Media Files
@@ -87,11 +84,6 @@ Keep the tags where it belongs.
   - Google Photos duplicatemedia files
     - Problem 1: WHen changing media files, Google Photos will do a new backup a file. Google Photos will keep the old version and a duplicate file be created.
     - See [Google Photos Duplicate Hack](google_photos_duplicate_hack.html)
-[fbe6f277]: problems "More details"
-[750832c4]: https://exiftool.org/#supported "Media File formats using Exiftool"
-[c491c138]: https://imagemagick.org/script/formats.php "Image File Formats using ImageMagick"
-[e2a8453e]: https://www.ffmpeg.org/general.html#File-Formats "Video File Codecs"
-[d9d46493]: https://wiki.videolan.org/VLC_Features_Formats/ "Video File Codecs using VLClib"
 
 ## Keyword tagging
 
