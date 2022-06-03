@@ -23,7 +23,7 @@ It's therefore your responsibility to keep the data safe and only store informat
 Advertising partners and other third parties may use cookies, scripts and/or web beacons to track visitors activities on this 
 app in order to display advertisements and other useful information. Such tracking is done directly by the third parties through their own 
 servers and is subject to their own privacy policies. This app has no access or control over these cookies, scripts and/or 
-web beacons that may be used by third parties. Learn how to [opt out of Google’s cookie usage](http://www.google.com/privacy_ads.html).
+web beacons that may be used by third parties. Learn how to [opt out of Google's cookie usage](http://www.google.com/privacy_ads.html).
 
 
 ## Links to Third Party Websites
