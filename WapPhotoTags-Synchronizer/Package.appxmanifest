@@ -7,12 +7,12 @@
   IgnorableNamespaces="uap rescap">
 
   <Identity
-    Name="637b2058-dabc-463d-bae2-989a968427d6-PhotoTags"
-    Publisher="CN=Nordlien"
+    Name="36037Nordlien.PhotoTags-Synchronizer"
+    Publisher="CN=DF87018A-C33F-49BD-9845-46DA96748F42"
     Version="2022.6.31.0" />
 
   <Properties>
-    <DisplayName>WapPhotoTags-Synchronizer</DisplayName>
+    <DisplayName>PhotoTags-Synchronizer</DisplayName>
     <PublisherDisplayName>Nordlien</PublisherDisplayName>
     <Logo>Images\StoreLogo.png</Logo>
   </Properties>

@@ -67,6 +67,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System.IO.Compression" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Transactions" />
   </ItemGroup>
   
@@ -74,9 +75,9 @@
     <EmbeddedResource Include="ImageListView.bmp" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Krypton.Toolkit" Version="65.22.4.94" />
+    <PackageReference Include="Krypton.Toolkit" Version="65.22.6.152" />
     <PackageReference Include="NLog">
-      <Version>4.7.15</Version>
+      <Version>5.0.0</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
