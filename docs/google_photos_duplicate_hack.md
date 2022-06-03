@@ -1,4 +1,4 @@
-{% include header.md %}
+﻿{% include header.md %}
 
 # How to remove Google Photos Duplicate Hack.
 
