@@ -620,19 +620,22 @@ namespace PhotoTagsSynchronizer
             {
                 if (e.InitCounter && e.FileEntries > 0 && queueLeft > 0)
                 {
-                    if (!readToCacheQueues.ContainsKey(e.HashQueue)) readToCacheQueues.Add(e.HashQueue, queueLeft);
+                    lock (_readToCacheQueuesLock) if (!readToCacheQueues.ContainsKey(e.HashQueue)) readToCacheQueues.Add(e.HashQueue, queueLeft);
                 }
                 else
                 {
-                    if (readToCacheQueues.ContainsKey(e.HashQueue))
+                    lock (_readToCacheQueuesLock)
                     {
-                        if (queueLeft == 0 || e.Aborted)
+                        if (readToCacheQueues.ContainsKey(e.HashQueue))
                         {
-                            if (readToCacheQueues.ContainsKey(e.HashQueue)) readToCacheQueues.Remove(e.HashQueue);
-                        }
-                        else
-                        {
-                            readToCacheQueues[e.HashQueue] = queueLeft;
+                            if (queueLeft == 0 || e.Aborted)
+                            {
+                                if (readToCacheQueues.ContainsKey(e.HashQueue)) readToCacheQueues.Remove(e.HashQueue);
+                            }
+                            else
+                            {
+                                readToCacheQueues[e.HashQueue] = queueLeft;
+                            }
                         }
                     }
                 }
@@ -651,19 +654,23 @@ namespace PhotoTagsSynchronizer
             {
                 if (e.InitCounter && e.FileEntries > 0 && queueLeft > 0)
                 {
-                    if (!readToCacheQueues.ContainsKey(e.HashQueue)) readToCacheQueues.Add(e.HashQueue, queueLeft);
+
+                    lock (_readToCacheQueuesLock) if (!readToCacheQueues.ContainsKey(e.HashQueue)) readToCacheQueues.Add(e.HashQueue, queueLeft);
                 }
                 else
                 {
-                    if (readToCacheQueues.ContainsKey(e.HashQueue))
+                    lock (_readToCacheQueuesLock)
                     {
-                        if (queueLeft == 0 || e.Aborted)
+                        if (readToCacheQueues.ContainsKey(e.HashQueue))
                         {
-                            if (readToCacheQueues.ContainsKey(e.HashQueue)) readToCacheQueues.Remove(e.HashQueue);
-                        }
-                        else
-                        {
-                            readToCacheQueues[e.HashQueue] = queueLeft;
+                            if (queueLeft == 0 || e.Aborted)
+                            {
+                                if (readToCacheQueues.ContainsKey(e.HashQueue)) readToCacheQueues.Remove(e.HashQueue);
+                            }
+                            else
+                            {
+                                readToCacheQueues[e.HashQueue] = queueLeft;
+                            }
                         }
                     }
                 }
