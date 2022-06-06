@@ -122,44 +122,9 @@ namespace PhotoTagsSynchronizer
         int slideShowIntervalMs = 0;
         #endregion
 
-        private void CopyIfNewer(string sourceFolder, string destinationFolder, string filename)
-        {
-            try
-            {
-                string sourceFullFilename = Path.Combine(sourceFolder, filename);
-                string destinationFullFilename = Path.Combine(destinationFolder, filename);
-                if (File.Exists(sourceFullFilename))
-                {
-                    if (!File.Exists(destinationFullFilename)) File.Copy(sourceFullFilename, destinationFullFilename);
-                    else
-                    {
-                        if (File.GetCreationTime(sourceFullFilename) > File.GetCreationTime(destinationFullFilename)) File.Copy(sourceFullFilename, destinationFullFilename, true);
-                    }
-                }
-            }
-            catch { }
-        }
-
         #region Constructor - MainForm()
         public MainForm()
         {
-            try
-            {
-                //string sourceFolder = Path.GetDirectoryName(Application.ExecutablePath);
-                //string destinationFolder = Path.Combine(sourceFolder, "libvlc\\win-x64");
-                //Directory.CreateDirectory(destinationFolder);
-
-                //CopyIfNewer(sourceFolder, destinationFolder, "libvlc.dll");
-                //CopyIfNewer(sourceFolder, destinationFolder, "libvlccore.dll");
-                
-                //CopyIfNewer(sourceFolder, destinationFolder, "libcef.dll");
-                //CopyIfNewer(sourceFolder, destinationFolder, "libEGL.dll");
-                //CopyIfNewer(sourceFolder, destinationFolder, "libGLESv2.dll");
-                //CopyIfNewer(sourceFolder, destinationFolder, "LibVLCSharp.dll");
-                //CopyIfNewer(sourceFolder, destinationFolder, "LibVLCSharp.WinForms.dll");
-            }
-            catch { }
-
             #region Initialize VLC player
             FormSplash.UpdateStatus("Initialize VLC player...");
             try

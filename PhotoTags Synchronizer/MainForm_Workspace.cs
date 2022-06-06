@@ -148,6 +148,8 @@ namespace PhotoTagsSynchronizer
         private void kryptonWorkspaceMain_ActivePageChanged(object sender, Krypton.Workspace.ActivePageChangedEventArgs e)
         {
             if (e.NewPage == kryptonPageFolderSearchFilterSearch) PopulateDatabaseFilter();
+            UpdateFromsAcceptButtonWhenPageActivated();
+
             e.OldPage.Text = e.OldPage.TextTitle = e.OldPage.Text.TrimEnd('*');
             e.NewPage.Text = e.NewPage.TextTitle = e.NewPage.Text.TrimEnd('*') + "*";
             SetDataGridViewForLocationAnalytics();
@@ -1188,7 +1190,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region UpdateDataGridViewDirtyFlagsWhenPageActivated()
+        #region DataGridView - UpdateDataGridViewDirtyFlagsWhenPageActivated()
         private void ActionUpdateDataGridViewDirtyFlagsWhenPageActivated()
         {
             try
@@ -1202,6 +1204,7 @@ namespace PhotoTagsSynchronizer
                 KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
+
         private void UpdateDataGridViewDirtyFlagsWhenPageActivated()
         {
             try
@@ -1244,9 +1247,48 @@ namespace PhotoTagsSynchronizer
                 KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
+        #endregion 
+
+        #region UpdateFromsAcceptButtonWhenPageActivated
+        private void UpdateFromsAcceptButtonWhenPageActivated()
+        {
+            try
+            {
+                switch (ActiveKryptonPage)
+                {
+                    case KryptonPages.None:
+                    case KryptonPages.kryptonPageFolderSearchFilterFolder:
+                        this.AcceptButton = null;
+                        break;
+                    case KryptonPages.kryptonPageFolderSearchFilterSearch:
+                        this.AcceptButton = buttonSearch;
+                        break;
+                    case KryptonPages.kryptonPageFolderSearchFilterFilter:
+                    case KryptonPages.kryptonPageMediaFiles:
+                    case KryptonPages.kryptonPageToolboxTags:
+                    case KryptonPages.kryptonPageToolboxPeople:
+                    case KryptonPages.kryptonPageToolboxMap:
+                    case KryptonPages.kryptonPageToolboxDates:
+                    case KryptonPages.kryptonPageToolboxExiftool:
+                    case KryptonPages.kryptonPageToolboxWarnings:
+                    case KryptonPages.kryptonPageToolboxProperties:
+                    case KryptonPages.kryptonPageToolboxRename:
+                    case KryptonPages.kryptonPageToolboxConvertAndMerge:
+                        this.AcceptButton = null;
+                        break;
+                    default:
+                        throw new NotImplementedException();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
+        }
         #endregion
 
-        #region KryptonPages - Remeber what's active page
+        #region KryptonPages - Trigger Actions and Remeber what's active page
         private KryptonPages activeKryptonPage = KryptonPages.None;
         private KryptonPages ActiveKryptonPage
         {
@@ -1259,6 +1301,7 @@ namespace PhotoTagsSynchronizer
                 activeKryptonPage = value;
                 UpdateRibbonsWhenWorkspaceChanged();
                 UpdateDataGridViewDirtyFlagsWhenPageActivated();
+                UpdateFromsAcceptButtonWhenPageActivated();
             }
         }
 

@@ -2173,6 +2173,18 @@ namespace MetadataLibrary
 
             string sqlCommand = "";
 
+            #region Filename and Folder
+            string sqlFilenameAndFolders = "";
+            if (useFileDirectory && useFileName)
+                sqlFilenameAndFolders += (sqlFilenameAndFolders == "" ? "" : useAndBetweenGrups ? "AND " : "OR ") + "(FileDirectory " + likeOrRegEx + " @FileDirectory AND FileName " + likeOrRegEx + " @FileName) ";
+            else if (useFileDirectory)
+                sqlFilenameAndFolders += (sqlFilenameAndFolders == "" ? "" : useAndBetweenGrups ? "AND " : "OR ") + "FileDirectory " + likeOrRegEx + " @FileDirectory ";
+            else if (useFileName)
+                sqlFilenameAndFolders += (sqlFilenameAndFolders == "" ? "" : useAndBetweenGrups ? "AND " : "OR ") + "FileName " + likeOrRegEx + " @FileName ";
+
+            if (sqlFilenameAndFolders != "") sqlCommand += (sqlCommand == "" ? "" : useAndBetweenGrups ? "AND " : "OR ") + "(" + sqlFilenameAndFolders + ") ";
+            #endregion
+
             #region Text field tags
             string sqlTextTags = "";
             if (usePersonalAlbum) sqlTextTags += (sqlTextTags == "" ? "" : useAndBetweenTextTags ? "AND " : "OR ") + (personalAlbum == null ? "PersonalAlbum IS NULL " : "PersonalAlbum " + likeOrRegEx + " @PersonalAlbum ");
@@ -2184,15 +2196,10 @@ namespace MetadataLibrary
             if (useLocationState) sqlTextTags += (sqlTextTags == "" ? "" : useAndBetweenTextTags ? "AND " : "OR ") + (locationState == null ? "LocationState IS NULL " : "LocationState " + likeOrRegEx + " @LocationState ");
             if (useLocationCountry) sqlTextTags += (sqlTextTags == "" ? "" : useAndBetweenTextTags ? "AND " : "OR ") + (locationCountry == null ? "LocationCountry IS NULL " : "LocationCountry " + likeOrRegEx + " @LocationCountry ");
 
-            if (useFileDirectory && useFileName)
-                sqlTextTags += (sqlTextTags == "" ? "" : useAndBetweenTextTags ? "AND " : "OR ") + "(FileDirectory " + likeOrRegEx + " @FileDirectory AND FileName " + likeOrRegEx + " @FileName) ";
-            else if (useFileDirectory)
-                sqlTextTags += (sqlTextTags == "" ? "" : useAndBetweenTextTags ? "AND " : "OR ") + "FileDirectory " + likeOrRegEx + " @FileDirectory ";
-            else if (useFileName) 
-                sqlTextTags += (sqlTextTags == "" ? "" : useAndBetweenTextTags ? "AND " : "OR ") + "FileName " + likeOrRegEx + " @FileName ";
-
             if (sqlTextTags != "") sqlCommand += (sqlCommand == "" ? "" : useAndBetweenGrups ? "AND " : "OR ") + "(" + sqlTextTags + ") ";
             #endregion
+
+            
 
             #region Rating
             string sqlRating = "";

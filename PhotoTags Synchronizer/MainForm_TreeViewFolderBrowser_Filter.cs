@@ -53,10 +53,22 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region Filter Helper - FilterReplaceNullWithIsNotDefineText
-        private void FilterReplaceNullWithIsNotDefineText(List<string> list)
+        private void FilterReplaceNullWithIsNotDefineText(List<string> list, bool addIsNotDefined, bool addEmpty = true, bool moveEmptyToTop = true)
         {
             if (list.Contains(null)) list.Remove(null);
-            if (!list.Contains("(Is not defined)")) list.Insert(0, "(Is not defined)");
+
+            if (addEmpty && !list.Contains("")) list.Add("");
+
+            if (moveEmptyToTop)
+            {
+                if (list.Contains("")) 
+                {
+                    list.Remove(""); 
+                    list.Insert(0, ""); 
+                }
+            }
+            
+            if (addIsNotDefined && !list.Contains("(Is not defined)")) list.Insert(0, "(Is not defined)");
         }
         #endregion
 
@@ -75,7 +87,7 @@ namespace PhotoTagsSynchronizer
             
             List<string> albums = databaseAndCacheMetadataExiftool.ListAllPersonalAlbumsCache(MetadataBrokerType.ExifTool);
             albums.Sort();
-            FilterReplaceNullWithIsNotDefineText(albums);
+            FilterReplaceNullWithIsNotDefineText(albums, addIsNotDefined: true, addEmpty: true, moveEmptyToTop: true);
             comboBoxSearchAlbum.SuspendLayout();
             comboBoxSearchAlbum.Text = null;
             comboBoxSearchAlbum.Items.Clear();
@@ -90,7 +102,7 @@ namespace PhotoTagsSynchronizer
 
             List<string> comments = databaseAndCacheMetadataExiftool.ListAllPersonalCommentsCache(MetadataBrokerType.ExifTool);
             comments.Sort();
-            FilterReplaceNullWithIsNotDefineText(comments);
+            FilterReplaceNullWithIsNotDefineText(comments, addIsNotDefined: true, addEmpty: true, moveEmptyToTop: true);
             comboBoxSearchComments.SuspendLayout();
             comboBoxSearchComments.Text = "";
             comboBoxSearchComments.Items.Clear();
@@ -99,7 +111,7 @@ namespace PhotoTagsSynchronizer
 
             List<string> descriptions = databaseAndCacheMetadataExiftool.ListAllPersonalDescriptionsCache(MetadataBrokerType.ExifTool);
             descriptions.Sort();
-            FilterReplaceNullWithIsNotDefineText(descriptions);
+            FilterReplaceNullWithIsNotDefineText(descriptions, addIsNotDefined: true, addEmpty: true, moveEmptyToTop: true);
             comboBoxSearchDescription.SuspendLayout();
             comboBoxSearchDescription.Text = "";
             comboBoxSearchDescription.Items.Clear();
@@ -108,7 +120,7 @@ namespace PhotoTagsSynchronizer
 
             List<string> titles = databaseAndCacheMetadataExiftool.ListAllPersonalTitlesCache(MetadataBrokerType.ExifTool);
             titles.Sort();
-            FilterReplaceNullWithIsNotDefineText(titles);
+            FilterReplaceNullWithIsNotDefineText(titles, addIsNotDefined: true, addEmpty: true, moveEmptyToTop: true);
             comboBoxSearchTitle.SuspendLayout();
             comboBoxSearchTitle.Text = "";
             comboBoxSearchTitle.Items.Clear();
@@ -117,7 +129,7 @@ namespace PhotoTagsSynchronizer
 
             List<string> locations = databaseAndCacheMetadataExiftool.ListAllLocationNamesCache(MetadataBrokerType.ExifTool);
             locations.Sort();
-            FilterReplaceNullWithIsNotDefineText(locations);
+            FilterReplaceNullWithIsNotDefineText(locations, addIsNotDefined: true, addEmpty: true, moveEmptyToTop: true);
             comboBoxSearchLocationName.SuspendLayout();
             comboBoxSearchLocationName.Text = "";
             comboBoxSearchLocationName.Items.Clear();
@@ -126,7 +138,7 @@ namespace PhotoTagsSynchronizer
 
             List<string> cities = databaseAndCacheMetadataExiftool.ListAllLocationCitiesCache(MetadataBrokerType.ExifTool);
             cities.Sort();
-            FilterReplaceNullWithIsNotDefineText(cities);
+            FilterReplaceNullWithIsNotDefineText(cities, addIsNotDefined: true, addEmpty: true, moveEmptyToTop: true);
             comboBoxSearchLocationCity.SuspendLayout();
             comboBoxSearchLocationCity.Text = "";
             comboBoxSearchLocationCity.Items.Clear();
@@ -135,7 +147,7 @@ namespace PhotoTagsSynchronizer
 
             List<string> states = databaseAndCacheMetadataExiftool.ListAllLocationStatesCache(MetadataBrokerType.ExifTool);
             states.Sort();
-            FilterReplaceNullWithIsNotDefineText(states);
+            FilterReplaceNullWithIsNotDefineText(states, addIsNotDefined: true, addEmpty: true, moveEmptyToTop: true);
             comboBoxSearchLocationState.SuspendLayout();
             comboBoxSearchLocationState.Text = "";
             comboBoxSearchLocationState.Items.Clear();
@@ -144,7 +156,7 @@ namespace PhotoTagsSynchronizer
 
             List<string> countries = databaseAndCacheMetadataExiftool.ListAllLocationCountriesCache(MetadataBrokerType.ExifTool);
             countries.Sort();
-            FilterReplaceNullWithIsNotDefineText(countries);
+            FilterReplaceNullWithIsNotDefineText(countries, addIsNotDefined: true, addEmpty: true, moveEmptyToTop: true);
             comboBoxSearchLocationCountry.SuspendLayout();
             comboBoxSearchLocationCountry.Text = "";
             comboBoxSearchLocationCountry.Items.Clear();
@@ -153,11 +165,9 @@ namespace PhotoTagsSynchronizer
 
             List<string> peoples = databaseAndCacheMetadataExiftool.ListAllPersonalRegionNameCache(MetadataBrokerType.ExifTool);
             peoples.Sort();
-            FilterReplaceNullWithIsNotDefineText(peoples);
+            FilterReplaceNullWithIsNotDefineText(peoples, addIsNotDefined: true, addEmpty: false, moveEmptyToTop: false);
             checkedListBoxSearchPeople.SuspendLayout();
             checkedListBoxSearchPeople.Items.Clear();
-
-            
 
             foreach (string people in peoples)
             {

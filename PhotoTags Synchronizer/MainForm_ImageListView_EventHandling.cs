@@ -904,15 +904,21 @@ namespace PhotoTagsSynchronizer
             bool useAndBetweenGroups = checkBoxSerachFitsAllValues.Checked;
             #endregion
 
+            #region Filename and Folder
+            string searchDirectory = kryptonTextBoxSearchDirectory.Text;
+            bool useSearchDirectory = !string.IsNullOrWhiteSpace(searchDirectory);
+            if (useSearchDirectory) searchDirectory = searchDirectory.Replace("*", "%");
+
+            string searchFilename = kryptonTextBoxSearchFilename.Text;
+            bool useSearchFilename = !string.IsNullOrWhiteSpace(searchFilename);
+            if (useSearchFilename) searchFilename = searchFilename.Replace("*", "%");
+            #endregion
+
             LoadingItemsImageListView(1, 6);
             UpdateStatusImageListView("Searhing for match in database...");
 
             #region Read from Database
-            string searchDirectory = kryptonTextBoxSearchDirectory.Text;
-            bool useSearchDirectory = !string.IsNullOrWhiteSpace(searchDirectory);
-            string searchFilename = kryptonTextBoxSearchFilename.Text;
-            bool useSearchFilename = !string.IsNullOrWhiteSpace(searchFilename);
-
+            
             bool useRegEx = kryptonCheckBoxSearchUseRegEx.Checked;
 
             int maxRowsInResult = Properties.Settings.Default.MaxRowsInSearchResult;
