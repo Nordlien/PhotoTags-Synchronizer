@@ -65,7 +65,8 @@ namespace SqliteDatabase
         #region TransactionBeginSelect
         public SqliteTransaction TransactionBeginSelect()
         {
-            return connectionDatabase.BeginTransaction();
+            if (connectionDatabase != null && connectionDatabase.State == System.Data.ConnectionState.Open) return connectionDatabase.BeginTransaction();
+            else return null;
         }
         #endregion
 
