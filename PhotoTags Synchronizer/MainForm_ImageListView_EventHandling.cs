@@ -818,6 +818,13 @@ namespace PhotoTagsSynchronizer
         #region ImageListView - Aggregate / Populate 
 
         #region Database Search - click
+        private void kryptonRibbonGroupButtonToolsSearch_Click(object sender, EventArgs e)
+        {
+            ImageListView_FetchListOfMediaFiles_FromDatabase_and_Aggregate_Search();
+        }
+        #endregion
+
+        #region Database Search - click
         private void buttonFilterSearch_Click(object sender, EventArgs e)
         {
             ImageListView_FetchListOfMediaFiles_FromDatabase_and_Aggregate();
@@ -831,119 +838,244 @@ namespace PhotoTagsSynchronizer
             ClearAllQueues();
             //GlobalData.SerachFilterResult = databaseAndCacheMetadataExiftool.ListAllSearch
             //GlobalData.SearchFolder = false;
-
-            #region DateTaken
-            bool useMediaTakenFrom = dateTimePickerSearchDateFrom.Checked;
-            DateTime mediaTakenFrom = new DateTime(dateTimePickerSearchDateFrom.Value.Year, dateTimePickerSearchDateFrom.Value.Month, dateTimePickerSearchDateFrom.Value.Day);
-            bool useMediaTakenTo = dateTimePickerSearchDateTo.Checked;
-            DateTime mediaTakenTo = new DateTime(dateTimePickerSearchDateTo.Value.Year, dateTimePickerSearchDateTo.Value.Month, dateTimePickerSearchDateTo.Value.Day).AddDays(1);
-            bool isMediaTakenNull = checkBoxSearchMediaTakenIsNull.Checked;
-            #endregion 
-
-            #region Text tags
-            bool usePersonalAlbum = !string.IsNullOrWhiteSpace(comboBoxSearchAlbum.Text);
-            string personalAlbum = comboBoxSearchAlbum.SelectedIndex == 0 ? null : comboBoxSearchAlbum.Text;
-            bool usePersonalTitle = !string.IsNullOrWhiteSpace(comboBoxSearchTitle.Text);
-            string personalTitle = comboBoxSearchTitle.SelectedIndex == 0 ? null : comboBoxSearchTitle.Text;
-            bool usePersonalComments = !string.IsNullOrWhiteSpace(comboBoxSearchComments.Text);
-            string personalComments = comboBoxSearchComments.SelectedIndex == 0 ? null : comboBoxSearchComments.Text;
-            bool usePersonalDescription = !string.IsNullOrWhiteSpace(comboBoxSearchDescription.Text);
-            string personalDescription = comboBoxSearchDescription.SelectedIndex == 0 ? null : comboBoxSearchDescription.Text;
-            bool useLocationName = !string.IsNullOrWhiteSpace(comboBoxSearchLocationName.Text);
-            string locationName = comboBoxSearchLocationName.SelectedIndex == 0 ? null : comboBoxSearchLocationName.Text;
-            bool useLocationCity = !string.IsNullOrWhiteSpace(comboBoxSearchLocationCity.Text);
-            string locationCity = comboBoxSearchLocationCity.SelectedIndex == 0 ? null : comboBoxSearchLocationCity.Text;
-            bool useLocationState = !string.IsNullOrWhiteSpace(comboBoxSearchLocationState.Text);
-            string locationState = comboBoxSearchLocationState.SelectedIndex == 0 ? null : comboBoxSearchLocationState.Text;
-            bool useLocationCountry = !string.IsNullOrWhiteSpace(comboBoxSearchLocationCountry.Text);
-            string locationCountry = comboBoxSearchLocationCountry.SelectedIndex == 0 ? null : comboBoxSearchLocationCountry.Text;
-            bool useAndBetweenTextTagFields = checkBoxSearchUseAndBetweenTextTagFields.Checked;
-            #endregion 
-
-            #region Rating
-            bool isRatingNull = checkBoxSearchRatingEmpty.Checked;
-            bool hasRating0 = checkBoxSearchRating0.Checked;
-            bool hasRating1 = checkBoxSearchRating1.Checked;
-            bool hasRating2 = checkBoxSearchRating2.Checked;
-            bool hasRating3 = checkBoxSearchRating3.Checked;
-            bool hasRating4 = checkBoxSearchRating4.Checked;
-            bool hasRating5 = checkBoxSearchRating5.Checked;
-            #endregion
-
-            #region Region Names
-            bool useRegionNameList = checkedListBoxSearchPeople.CheckedItems.Count > 0;
-            bool needAllRegionNames = checkBoxSearchNeedAllNames.Checked;
-            bool withoutRegions = checkBoxSearchWithoutRegions.Checked;
-
-            List<string> regionNameList = new List<string>();
-            for (int index = 0; index < checkedListBoxSearchPeople.Items.Count; index++)
+            using (new WaitCursor())
             {
-                if (checkedListBoxSearchPeople.GetItemChecked(index))
+                #region DateTaken
+                bool useMediaTakenFrom = dateTimePickerSearchDateFrom.Checked;
+                DateTime mediaTakenFrom = new DateTime(dateTimePickerSearchDateFrom.Value.Year, dateTimePickerSearchDateFrom.Value.Month, dateTimePickerSearchDateFrom.Value.Day);
+                bool useMediaTakenTo = dateTimePickerSearchDateTo.Checked;
+                DateTime mediaTakenTo = new DateTime(dateTimePickerSearchDateTo.Value.Year, dateTimePickerSearchDateTo.Value.Month, dateTimePickerSearchDateTo.Value.Day).AddDays(1);
+                bool isMediaTakenNull = checkBoxSearchMediaTakenIsNull.Checked;
+                #endregion
+
+                #region Text tags
+                bool usePersonalAlbum = !string.IsNullOrWhiteSpace(comboBoxSearchAlbum.Text);
+                string personalAlbum = comboBoxSearchAlbum.SelectedIndex == 0 ? null : comboBoxSearchAlbum.Text;
+                bool usePersonalTitle = !string.IsNullOrWhiteSpace(comboBoxSearchTitle.Text);
+                string personalTitle = comboBoxSearchTitle.SelectedIndex == 0 ? null : comboBoxSearchTitle.Text;
+                bool usePersonalComments = !string.IsNullOrWhiteSpace(comboBoxSearchComments.Text);
+                string personalComments = comboBoxSearchComments.SelectedIndex == 0 ? null : comboBoxSearchComments.Text;
+                bool usePersonalDescription = !string.IsNullOrWhiteSpace(comboBoxSearchDescription.Text);
+                string personalDescription = comboBoxSearchDescription.SelectedIndex == 0 ? null : comboBoxSearchDescription.Text;
+                bool useLocationName = !string.IsNullOrWhiteSpace(comboBoxSearchLocationName.Text);
+                string locationName = comboBoxSearchLocationName.SelectedIndex == 0 ? null : comboBoxSearchLocationName.Text;
+                bool useLocationCity = !string.IsNullOrWhiteSpace(comboBoxSearchLocationCity.Text);
+                string locationCity = comboBoxSearchLocationCity.SelectedIndex == 0 ? null : comboBoxSearchLocationCity.Text;
+                bool useLocationState = !string.IsNullOrWhiteSpace(comboBoxSearchLocationState.Text);
+                string locationState = comboBoxSearchLocationState.SelectedIndex == 0 ? null : comboBoxSearchLocationState.Text;
+                bool useLocationCountry = !string.IsNullOrWhiteSpace(comboBoxSearchLocationCountry.Text);
+                string locationCountry = comboBoxSearchLocationCountry.SelectedIndex == 0 ? null : comboBoxSearchLocationCountry.Text;
+                bool useAndBetweenTextTagFields = checkBoxSearchUseAndBetweenTextTagFields.Checked;
+                #endregion
+
+                #region Rating
+                bool isRatingNull = checkBoxSearchRatingEmpty.Checked;
+                bool hasRating0 = checkBoxSearchRating0.Checked;
+                bool hasRating1 = checkBoxSearchRating1.Checked;
+                bool hasRating2 = checkBoxSearchRating2.Checked;
+                bool hasRating3 = checkBoxSearchRating3.Checked;
+                bool hasRating4 = checkBoxSearchRating4.Checked;
+                bool hasRating5 = checkBoxSearchRating5.Checked;
+                #endregion
+
+                #region Region Names
+                bool useRegionNameList = checkedListBoxSearchPeople.CheckedItems.Count > 0;
+                bool needAllRegionNames = checkBoxSearchNeedAllNames.Checked;
+                bool withoutRegions = checkBoxSearchWithoutRegions.Checked;
+
+                List<string> regionNameList = new List<string>();
+                for (int index = 0; index < checkedListBoxSearchPeople.Items.Count; index++)
                 {
-                    if (index == 0) regionNameList.Add(null);
-                    else
-                        regionNameList.Add(checkedListBoxSearchPeople.Items[index].ToString());
+                    if (checkedListBoxSearchPeople.GetItemChecked(index))
+                    {
+                        if (index == 0) regionNameList.Add(null);
+                        else
+                            regionNameList.Add(checkedListBoxSearchPeople.Items[index].ToString());
+                    }
                 }
+                #endregion
+
+                #region Keywords
+                bool useKeywordList = !string.IsNullOrWhiteSpace(comboBoxSearchKeyword.Text);
+                bool needAllKeywords = checkBoxSearchNeedAllKeywords.Checked;
+                bool withoutKeywords = checkBoxSearchWithoutKeyword.Checked;
+
+                List<string> keywords = new List<string>();
+                keywords.AddRange(comboBoxSearchKeyword.Text.Split(';'));
+                #endregion
+
+                #region Warning
+                bool checkIfHasExifWarning = checkBoxSearchHasWarning.Checked;
+                #endregion
+
+                #region Between Groups
+                bool useAndBetweenGroups = checkBoxSerachFitsAllValues.Checked;
+                #endregion
+
+                #region Filename and Folder
+                string searchDirectory = kryptonTextBoxSearchDirectory.Text;
+                bool useSearchDirectory = !string.IsNullOrWhiteSpace(searchDirectory);
+                if (useSearchDirectory) searchDirectory = searchDirectory.Replace("*", "%");
+
+                string searchFilename = kryptonTextBoxSearchFilename.Text;
+                bool useSearchFilename = !string.IsNullOrWhiteSpace(searchFilename);
+                if (useSearchFilename) searchFilename = searchFilename.Replace("*", "%");
+                #endregion
+
+                LoadingItemsImageListView(1, 6);
+                UpdateStatusImageListView("Searhing for match in database...");
+
+                #region Read from Database
+
+                bool useRegEx = kryptonCheckBoxSearchUseRegEx.Checked;
+
+                int maxRowsInResult = Properties.Settings.Default.MaxRowsInSearchResult;
+
+                GlobalData.SerachFilterResult = databaseAndCacheMetadataExiftool.ListAllSearch(MetadataBrokerType.ExifTool,
+                    useAndBetweenGroups, useRegEx,
+                    useMediaTakenFrom, mediaTakenFrom, useMediaTakenTo, mediaTakenTo, isMediaTakenNull,
+                    useAndBetweenTextTagFields,
+                    usePersonalAlbum, personalAlbum,
+                    usePersonalTitle, personalTitle,
+                    usePersonalComments, personalComments,
+                    usePersonalDescription, personalDescription,
+                    isRatingNull, hasRating0, hasRating1, hasRating2, hasRating3, hasRating4, hasRating5,
+                    useLocationName, locationName,
+                    useLocationCity, locationCity,
+                    useLocationState, locationState,
+                    useLocationCountry, locationCountry,
+                    useRegionNameList, needAllRegionNames, regionNameList, withoutRegions,
+                    useKeywordList, needAllKeywords, keywords, withoutKeywords,
+                    checkIfHasExifWarning, maxRowsInResult,
+                    useSearchDirectory, searchDirectory,
+                    useSearchFilename, searchFilename);
+                GlobalData.SearchFolder = false;
+                #endregion
             }
-            #endregion
+            ImageListView_Aggregate_FromDatabaseSearchResult_and_Aggregate(GlobalData.SerachFilterResult, true); //True = New search result needs to aggregate and poplate filters
+        }
+        #endregion
 
-            #region Keywords
-            bool useKeywordList = !string.IsNullOrWhiteSpace(comboBoxSearchKeyword.Text);
-            bool needAllKeywords = checkBoxSearchNeedAllKeywords.Checked;
-            bool withoutKeywords = checkBoxSearchWithoutKeyword.Checked;
+        #region ImageListView_FetchListOfMediaFiles_FromDatabase_and_Aggregate_Search
+        private void ImageListView_FetchListOfMediaFiles_FromDatabase_and_Aggregate_Search()
+        {
+            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+            ClearAllQueues();
 
-            List<string> keywords = new List<string>();
-            keywords.AddRange(comboBoxSearchKeyword.Text.Split(';'));
-            #endregion
+            using (new WaitCursor())
+            {
+                //GlobalData.SerachFilterResult = databaseAndCacheMetadataExiftool.ListAllSearch
+                //GlobalData.SearchFolder = false;
 
-            #region Warning
-            bool checkIfHasExifWarning = checkBoxSearchHasWarning.Checked;
-            #endregion
+                #region DateTaken
+                bool useMediaTakenFrom = false;
+                DateTime mediaTakenFrom = DateTime.Now;
+                bool useMediaTakenTo = false;
+                DateTime mediaTakenTo = DateTime.Now;
+                bool isMediaTakenNull = false;
+                #endregion
 
-            #region Between Groups
-            bool useAndBetweenGroups = checkBoxSerachFitsAllValues.Checked;
-            #endregion
+                string searchFor = "%" + kryptonRibbonGroupTextBoxToolsSearch.Text + "%";
 
-            #region Filename and Folder
-            string searchDirectory = kryptonTextBoxSearchDirectory.Text;
-            bool useSearchDirectory = !string.IsNullOrWhiteSpace(searchDirectory);
-            if (useSearchDirectory) searchDirectory = searchDirectory.Replace("*", "%");
+                #region And/Or - Between Groups
+                bool useAndBetweenGroups = false;
+                #endregion
 
-            string searchFilename = kryptonTextBoxSearchFilename.Text;
-            bool useSearchFilename = !string.IsNullOrWhiteSpace(searchFilename);
-            if (useSearchFilename) searchFilename = searchFilename.Replace("*", "%");
-            #endregion
+                #region And/Or - Beetween TextTags
+                bool useAndBetweenTextTagFields = false;
+                #endregion
 
-            LoadingItemsImageListView(1, 6);
-            UpdateStatusImageListView("Searhing for match in database...");
+                #region Text tags
+                bool usePersonalAlbum = true;
+                string personalAlbum = searchFor;
+                bool usePersonalTitle = true;
+                string personalTitle = searchFor;
+                bool usePersonalComments = true;
+                string personalComments = searchFor;
+                bool usePersonalDescription = true;
+                string personalDescription = searchFor;
+                bool useLocationName = true;
+                string locationName = searchFor;
+                bool useLocationCity = true;
+                string locationCity = searchFor;
+                bool useLocationState = true;
+                string locationState = searchFor;
+                bool useLocationCountry = true;
+                string locationCountry = searchFor;
+                #endregion
 
-            #region Read from Database
-            
-            bool useRegEx = kryptonCheckBoxSearchUseRegEx.Checked;
+                #region Rating
+                bool isRatingNull = false;
+                bool hasRating0 = false;
+                bool hasRating1 = false;
+                bool hasRating2 = false;
+                bool hasRating3 = false;
+                bool hasRating4 = false;
+                bool hasRating5 = false;
+                #endregion
 
-            int maxRowsInResult = Properties.Settings.Default.MaxRowsInSearchResult;
+                #region Region Names
+                bool useRegionNameList = true;
+                bool needAllRegionNames = false;
+                bool withoutRegions = false;
 
-            GlobalData.SerachFilterResult = databaseAndCacheMetadataExiftool.ListAllSearch(MetadataBrokerType.ExifTool,
-                useAndBetweenGroups, useRegEx,
-                useMediaTakenFrom, mediaTakenFrom, useMediaTakenTo, mediaTakenTo, isMediaTakenNull,
-                useAndBetweenTextTagFields,
-                usePersonalAlbum, personalAlbum,
-                usePersonalTitle, personalTitle,
-                usePersonalComments, personalComments,
-                usePersonalDescription, personalDescription,
-                isRatingNull, hasRating0, hasRating1, hasRating2, hasRating3, hasRating4, hasRating5,
-                useLocationName, locationName,
-                useLocationCity, locationCity,
-                useLocationState, locationState,
-                useLocationCountry, locationCountry,
-                useRegionNameList, needAllRegionNames, regionNameList, withoutRegions,
-                useKeywordList, needAllKeywords, keywords, withoutKeywords,
-                checkIfHasExifWarning, maxRowsInResult,
-                useSearchDirectory, searchDirectory,
-                useSearchFilename, searchFilename);
-            GlobalData.SearchFolder = false;
-            #endregion 
+                List<string> regionNameList = new List<string>();
+                regionNameList.Add(searchFor);
+                #endregion
 
+                #region Keywords
+                bool useKeywordList = true;
+                bool needAllKeywords = false;
+                bool withoutKeywords = false;
+
+                List<string> keywords = new List<string>();
+                keywords.Add(searchFor);
+                #endregion
+
+                #region Warning
+                bool checkIfHasExifWarning = false;
+                #endregion
+
+
+                #region Filename and Folder
+                string searchDirectory = null;
+                bool useSearchDirectory = false;
+
+                string searchFilename = searchFor;
+                bool useSearchFilename = true;
+                #endregion
+
+                LoadingItemsImageListView(1, 6);
+                UpdateStatusImageListView("Searhing for match in database...");
+
+                #region Read from Database
+
+                bool useRegEx = kryptonCheckBoxSearchUseRegEx.Checked;
+
+                int maxRowsInResult = Properties.Settings.Default.MaxRowsInSearchResult;
+
+                GlobalData.SerachFilterResult = databaseAndCacheMetadataExiftool.ListAllSearch(MetadataBrokerType.ExifTool,
+                    useAndBetweenGroups, useRegEx,
+                    useMediaTakenFrom, mediaTakenFrom, useMediaTakenTo, mediaTakenTo, isMediaTakenNull,
+                    useAndBetweenTextTagFields,
+                    usePersonalAlbum, personalAlbum,
+                    usePersonalTitle, personalTitle,
+                    usePersonalComments, personalComments,
+                    usePersonalDescription, personalDescription,
+                    isRatingNull, hasRating0, hasRating1, hasRating2, hasRating3, hasRating4, hasRating5,
+                    useLocationName, locationName,
+                    useLocationCity, locationCity,
+                    useLocationState, locationState,
+                    useLocationCountry, locationCountry,
+                    useRegionNameList, needAllRegionNames, regionNameList, withoutRegions,
+                    useKeywordList, needAllKeywords, keywords, withoutKeywords,
+                    checkIfHasExifWarning, maxRowsInResult,
+                    useSearchDirectory, searchDirectory,
+                    useSearchFilename, searchFilename);
+                GlobalData.SearchFolder = false;
+                #endregion
+
+            }
             ImageListView_Aggregate_FromDatabaseSearchResult_and_Aggregate(GlobalData.SerachFilterResult, true); //True = New search result needs to aggregate and poplate filters
         }
         #endregion

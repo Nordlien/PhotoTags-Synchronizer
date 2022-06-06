@@ -2163,24 +2163,36 @@ namespace MetadataLibrary
                 "WHERE MediaMetadataNewst.Broker = MediaMetadata.Broker AND MediaMetadataNewst.FileDirectory = MediaMetadata.FileDirectory AND MediaMetadataNewst.FileName = MediaMetadata.FileName) ";
             #endregion
 
-            #region DateTaken
-            if (useMediaTakenFrom && useMediaTakenTo)
-                sqlCommandBasicSelect += (useAndBetweenGrups ? "AND " : "OR ") + "((MediaDateTaken >= @MediaDateTakenFrom AND MediaDateTaken < @MediaDateTakenTo) " + (isMediaTakenNull ? "OR MediaDateTaken IS NULL " : "") + ") ";
-            else if (useMediaTakenFrom) sqlCommandBasicSelect += (useAndBetweenGrups ? "AND " : "OR ") + "(MediaDateTaken >= @MediaDateTakenFrom " + (isMediaTakenNull ? "OR MediaDateTaken IS NULL " : "") + ") ";
-            else if (useMediaTakenTo) sqlCommandBasicSelect += (useAndBetweenGrups ? "AND " : "OR ") + "(MediaDateTaken < @MediaDateTakenTo " + (isMediaTakenNull ? "OR MediaDateTaken IS NULL " : "") + ") ";
-            else if (isMediaTakenNull) sqlCommandBasicSelect += (useAndBetweenGrups ? "AND " : "OR ") + "MediaDateTaken IS NULL ";
-            #endregion
-
             string sqlCommand = "";
+
+            #region DateTaken
+            string sqlMediaTaken = "";
+
+            if (useMediaTakenFrom && useMediaTakenTo)
+                sqlMediaTaken = "((MediaDateTaken >= @MediaDateTakenFrom AND MediaDateTaken < @MediaDateTakenTo) " + (isMediaTakenNull ? "OR MediaDateTaken IS NULL " : "") + ") ";
+            else if (useMediaTakenFrom) sqlMediaTaken = "(MediaDateTaken >= @MediaDateTakenFrom " + (isMediaTakenNull ? "OR MediaDateTaken IS NULL " : "") + ") ";
+            else if (useMediaTakenTo) sqlMediaTaken = "(MediaDateTaken < @MediaDateTakenTo " + (isMediaTakenNull ? "OR MediaDateTaken IS NULL " : "") + ") ";
+            else if (isMediaTakenNull) sqlMediaTaken = "MediaDateTaken IS NULL ";
+
+            /*
+            if (useMediaTakenFrom && useMediaTakenTo)
+                sqlMediaTaken += (useAndBetweenGrups ? "AND " : "OR ") + "((MediaDateTaken >= @MediaDateTakenFrom AND MediaDateTaken < @MediaDateTakenTo) " + (isMediaTakenNull ? "OR MediaDateTaken IS NULL " : "") + ") ";
+            else if (useMediaTakenFrom) sqlMediaTaken += (useAndBetweenGrups ? "AND " : "OR ") + "(MediaDateTaken >= @MediaDateTakenFrom " + (isMediaTakenNull ? "OR MediaDateTaken IS NULL " : "") + ") ";
+            else if (useMediaTakenTo) sqlMediaTaken += (useAndBetweenGrups ? "AND " : "OR ") + "(MediaDateTaken < @MediaDateTakenTo " + (isMediaTakenNull ? "OR MediaDateTaken IS NULL " : "") + ") ";
+            else if (isMediaTakenNull) sqlMediaTaken += (useAndBetweenGrups ? "AND " : "OR ") + "MediaDateTaken IS NULL ";
+            */
+
+            if (sqlMediaTaken != "") sqlCommand += (sqlCommand == "" ? "" : useAndBetweenGrups ? "AND " : "OR ") + "(" + sqlMediaTaken + ") ";
+            #endregion
 
             #region Filename and Folder
             string sqlFilenameAndFolders = "";
             if (useFileDirectory && useFileName)
-                sqlFilenameAndFolders += (sqlFilenameAndFolders == "" ? "" : useAndBetweenGrups ? "AND " : "OR ") + "(FileDirectory " + likeOrRegEx + " @FileDirectory AND FileName " + likeOrRegEx + " @FileName) ";
+                sqlFilenameAndFolders = "(FileDirectory " + likeOrRegEx + " @FileDirectory AND FileName " + likeOrRegEx + " @FileName) ";
             else if (useFileDirectory)
-                sqlFilenameAndFolders += (sqlFilenameAndFolders == "" ? "" : useAndBetweenGrups ? "AND " : "OR ") + "FileDirectory " + likeOrRegEx + " @FileDirectory ";
+                sqlFilenameAndFolders = "FileDirectory " + likeOrRegEx + " @FileDirectory ";
             else if (useFileName)
-                sqlFilenameAndFolders += (sqlFilenameAndFolders == "" ? "" : useAndBetweenGrups ? "AND " : "OR ") + "FileName " + likeOrRegEx + " @FileName ";
+                sqlFilenameAndFolders = "FileName " + likeOrRegEx + " @FileName ";
 
             if (sqlFilenameAndFolders != "") sqlCommand += (sqlCommand == "" ? "" : useAndBetweenGrups ? "AND " : "OR ") + "(" + sqlFilenameAndFolders + ") ";
             #endregion
@@ -2289,7 +2301,7 @@ namespace MetadataLibrary
             }
             #endregion
 
-            sqlCommand = sqlCommandBasicSelect + (sqlCommand == "" ? "" : useAndBetweenGrups ? "AND (" + sqlCommand + ") " : "OR (" + sqlCommand + ")");
+            sqlCommand = sqlCommandBasicSelect + (sqlCommand == "" ? "" : "AND (" + sqlCommand + ")");
             
             #region Limit
             sqlCommand += "LIMIT " + maxRowsInResult.ToString();
