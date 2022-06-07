@@ -395,7 +395,7 @@ namespace SqliteDatabase
                         ConnectionDatabase.Open();
                 } catch (Exception ex)
                 {
-                    forwardException = ex;                    
+                    forwardException = ex;
                     ConnectionDatabase.Close();
                     ConnectionDatabase.Dispose();
                     ConnectionDatabase = null;

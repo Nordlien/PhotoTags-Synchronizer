@@ -1331,5 +1331,8 @@ explorer ms-photos?filename="{FileFullPath}"</Value>
     <Setting Name="ShowAboutPage" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="ShowDatabaseNotFoundWarning" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -9,6 +9,9 @@ namespace PhotoTagsSynchronizer
         public static readonly object populateSelectedLock = new object(); //Avoid gridview to update while updateing
         public static readonly object metadataUpdateLock = new object();
 
+        public static bool doesMircosoftPhotosExists = true;
+        public static bool doesWindowsLivePhotoGalleryExists = true;
+
         public static int ProcessCounterReadProperties = 0;
 
         #region 

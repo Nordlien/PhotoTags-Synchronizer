@@ -361,20 +361,28 @@ namespace PhotoTagsSynchronizer
         /// </summary>
         private void StartThreads()
         {
-            threadPriority = (ThreadPriority)Properties.Settings.Default.ApplicationDebugBackgroundThreadPrioity;
-            ThreadReadFromSourceMetadataExiftool();            //Read from cache first, then exifdata, 
-            ThreadReadFromSourceMetadataMicrosoftPhotos();
-            ThreadReadFromSourceMetadataWindowsLiveGallery();
-            ThreadSaveUsingExiftoolToMedia();
-            ThreadSaveToDatabaseMediaThumbnail();
-            ThreadSaveToDatabaseRegionAndThumbnail();
+            try
+            {
+                threadPriority = (ThreadPriority)Properties.Settings.Default.ApplicationDebugBackgroundThreadPrioity;
+                ThreadReadFromSourceMetadataExiftool();            //Read from cache first, then exifdata, 
+                ThreadReadFromSourceMetadataMicrosoftPhotos();
+                ThreadReadFromSourceMetadataWindowsLiveGallery();
+                ThreadSaveUsingExiftoolToMedia();
+                ThreadSaveToDatabaseMediaThumbnail();
+                ThreadSaveToDatabaseRegionAndThumbnail();
 
-            ThreadRenameMediaFiles();
-            ThreadAutoCorrect();
+                ThreadRenameMediaFiles();
+                ThreadAutoCorrect();
 
-            ThreadLazyLoadingAllSourcesMetadataAndRegionThumbnails();
-            ThreadLazyLoadingMediaThumbnail();
-            ThreadQueueLazyLoadingMapNomnatatim();            
+                ThreadLazyLoadingAllSourcesMetadataAndRegionThumbnails();
+                ThreadLazyLoadingMediaThumbnail();
+                ThreadQueueLazyLoadingMapNomnatatim();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "StartThreads failed. ");
+                //_ThreadMicrosoftPhotos = null;
+            }
         }
         #endregion
 
@@ -2336,6 +2344,7 @@ namespace PhotoTagsSynchronizer
         /// <param name="fileEntry"></param>
         public void AddQueueReadFromSourceMetadataMicrosoftPhotosLock(FileEntry fileEntry)
         {
+            if (!GlobalData.doesMircosoftPhotosExists) return;
             //Need to add to the end, due due read queue read potion [0] end delete after, not thread safe
             lock (commonQueueReadMetadataFromSourceMicrosoftPhotosLock)
             {
@@ -2346,10 +2355,14 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region MicrosoftPhotos - ReadFromSource Metadata MicrosoftPhotos - **Populate** - Thread 
+        private bool ThreadReadFromSourceMetadataMicrosoftPhotosFailed = false;
         public void ThreadReadFromSourceMetadataMicrosoftPhotos()
         {
             try
             {
+                if (!GlobalData.doesMircosoftPhotosExists) return;
+                if (ThreadReadFromSourceMetadataMicrosoftPhotosFailed) return;
+
                 lock (_ThreadReadFromSourceMicrosoftPhotosLock) if (_ThreadReadFromSourceMicrosoftPhotos != null || CommonQueueReadMetadataFromSourceMicrosoftPhotosCountDirty() <= 0) return;
 
                 lock (_ThreadReadFromSourceMicrosoftPhotosLock)
@@ -2406,10 +2419,11 @@ namespace PhotoTagsSynchronizer
                         }
                         catch (Exception ex)
                         {
-                            KryptonMessageBox.Show("ThreadCollectMetadataMicrosoftPhotos crashed.\r\n" + 
+                            ThreadReadFromSourceMetadataMicrosoftPhotosFailed = true;
+                            KryptonMessageBox.Show("ThreadCollectMetadataMicrosoftPhotos crashed.\r\nThis thead will stop running. You may try restart App to get it started again.\r\n" + 
                                 "Exception message:" + ex.Message + "\r\n",
                                 "ThreadCollectMetadataMicrosoftPhotos failed", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-                            Logger.Error(ex, "ThreadCollectMetadataMicrosoftPhotos failed");
+                            Logger.Error(ex, "ThreadCollectMetadataMicrosoftPhotos failed.");
                         }
                         finally
                         {
@@ -2453,6 +2467,8 @@ namespace PhotoTagsSynchronizer
         /// <param name="fileEntry"></param>
         public void AddQueueReadFromSourceWindowsLivePhotoGalleryLock(FileEntry fileEntry)
         {
+            if (!GlobalData.doesWindowsLivePhotoGalleryExists) return;
+
             //Need to add to the end, due due read queue read potion [0] end delete after, not thread safe
             lock (commonQueueReadMetadataFromSourceWindowsLivePhotoGalleryLock)
             {
@@ -2463,10 +2479,14 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region WindowsLivePhotoGallery - ReadFromSource Metadata WindowsLiveGallery - **Populate** - Thread - 
+        private bool ThreadReadFromSourceMetadataWindowsLiveGalleryFailed = false;
         public void ThreadReadFromSourceMetadataWindowsLiveGallery()
         {
             try
             {
+                if (!GlobalData.doesWindowsLivePhotoGalleryExists) return;
+                if (ThreadReadFromSourceMetadataWindowsLiveGalleryFailed) return;
+
                 lock (_ThreadReadFromSourceWindowsLiveGalleryLock) if (_ThreadReadFromSourceWindowsLiveGallery != null || CommonQueueReadMetadataFromSourceWindowsLivePhotoGalleryCountDirty() <= 0) return;
 
                 lock (_ThreadReadFromSourceWindowsLiveGalleryLock)
@@ -2524,9 +2544,10 @@ namespace PhotoTagsSynchronizer
                         }
                         catch (Exception ex)
                         {
-                            KryptonMessageBox.Show("ThreadCollectMetadataWindowsLiveGallery crashed.\r\n" + 
-                                "Exception message:" + ex.Message + "\r\n", 
-                                "ThreadCollectMetadataWindowsLiveGallery failed", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                            ThreadReadFromSourceMetadataWindowsLiveGalleryFailed = true;
+                            KryptonMessageBox.Show("ThreadCollectMetadataWindowsLiveGallery crashed.\r\n This thead will stop running. You may try restart App to get it started again.\r\n" + 
+                                "Exception message:" + ex.Message + "\r\n",
+                                "ThreadCollectMetadataWindowsLiveGallery failed.  This thead will stop running. You may try restart App to get it started again.", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
                             lock (commonQueueReadMetadataFromSourceWindowsLivePhotoGalleryLock) commonQueueReadMetadataFromSourceWindowsLivePhotoGallery.Clear();
                             Logger.Error(ex, "ThreadCollectMetadataWindowsLiveGallery failed");
                         }

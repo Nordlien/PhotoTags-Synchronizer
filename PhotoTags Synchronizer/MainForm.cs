@@ -416,11 +416,15 @@ namespace PhotoTagsSynchronizer
             FormSplash.UpdateStatus("Initialize database: Connect to Microsoft Photos...");
             try
             {
-                databaseMicrosoftPhotos = new MicrosoftPhotosReader();
+                if (!File.Exists(SqliteDatabaseUtilities.GetMicrosoftPhotosDatabaseOriginalFile()) &&
+                !File.Exists(SqliteDatabaseUtilities.GetMicrosoftPhotosDatabaseBackupFile())) GlobalData.doesMircosoftPhotosExists = false;
+                
+                if (GlobalData.doesMircosoftPhotosExists) databaseMicrosoftPhotos = new MicrosoftPhotosReader();
+                if (!File.Exists(SqliteDatabaseUtilities.GetMicrosoftPhotosDatabaseBackupFile())) GlobalData.doesMircosoftPhotosExists = false;
             }
             catch (Exception e)
             {
-
+                GlobalData.doesMircosoftPhotosExists = false;
                 FormSplash.AddWarning("Windows photo warning:\r\n" + e.Message + "\r\n");
                 databaseMicrosoftPhotos = null;
             }
@@ -430,15 +434,22 @@ namespace PhotoTagsSynchronizer
             FormSplash.UpdateStatus("Initialize database: Connect to Windows Live Photo Gallery...");
             try
             {
-                databaseWindowsLivePhotGallery = new WindowsLivePhotoGalleryDatabasePipe();
-                databaseWindowsLivePhotGallery.ConnectDatabase(databaseAndCacheMetadataWindowsLivePhotoGallery);
+                if (!File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Microsoft\\Windows Live Photo Gallery\\Pictures.pd6")))
+                    GlobalData.doesWindowsLivePhotoGalleryExists = false;
+
+                if (GlobalData.doesWindowsLivePhotoGalleryExists)
+                {
+                    databaseWindowsLivePhotGallery = new WindowsLivePhotoGalleryDatabasePipe();
+                    databaseWindowsLivePhotGallery.ConnectDatabase(databaseAndCacheMetadataWindowsLivePhotoGallery);
+                }
             }
             catch (Exception e)
             {
+                GlobalData.doesWindowsLivePhotoGalleryExists = false;
                 FormSplash.AddWarning("Windows Live Photo Gallery warning:\r\n" + e.Message + "\r\n");
                 databaseWindowsLivePhotGallery = null;
             }
-            #endregion 
+            #endregion
 
             #region Configure ChromiumWebBrowser
             try
@@ -987,6 +998,20 @@ namespace PhotoTagsSynchronizer
             {
                 About();
                 Properties.Settings.Default.ShowAboutPage = false;
+            }
+
+            if (Properties.Settings.Default.ShowDatabaseNotFoundWarning)
+            {
+                if (!GlobalData.doesMircosoftPhotosExists || !GlobalData.doesWindowsLivePhotoGalleryExists)
+                {
+                    KryptonMessageBox.Show(
+                    "PhotoTags-Synchronizer works better with connected sources.\r\n\r\n" +
+                    "Tried connect to:\r\n" +
+                    (GlobalData.doesMircosoftPhotosExists ? "Mircosoft Photos (OK)\r\n" : "Mircosoft Photos was not found\r\n") +
+                    (GlobalData.doesWindowsLivePhotoGalleryExists ? "Windows Live Photo Gallery (OK)" : "Windows Live Photo Gallery was not found\r\n"),
+                    "PhotoTags-Synchronizer works better with connected sources.", MessageBoxButtons.OK, MessageBoxIcon.Information, showCtrlCopy: true);
+                    Properties.Settings.Default.ShowDatabaseNotFoundWarning = false;
+                }
             }
         }
         #endregion

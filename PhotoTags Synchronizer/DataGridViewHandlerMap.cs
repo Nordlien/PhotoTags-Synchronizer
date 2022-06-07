@@ -514,24 +514,30 @@ namespace PhotoTagsSynchronizer
 
                 //Microsoft Photos Locations
                 Metadata metadataMicrosoftPhotos = null;
-                if (metadataExiftool != null) metadataMicrosoftPhotos = DatabaseAndCacheMetadataMicrosoftPhotos.ReadMetadataFromCacheOrDatabase(
-                    new FileEntryBroker(fileEntryBrokerReadVersion, MetadataBrokerType.MicrosoftPhotos));
+                if (GlobalData.doesMircosoftPhotosExists)
+                {
+                    if (metadataExiftool != null) metadataMicrosoftPhotos = DatabaseAndCacheMetadataMicrosoftPhotos.ReadMetadataFromCacheOrDatabase(
+                        new FileEntryBroker(fileEntryBrokerReadVersion, MetadataBrokerType.MicrosoftPhotos));
 
-                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMicrosoftPhotos));
-                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMicrosoftPhotos, tagExternalCoordinates), metadataMicrosoftPhotos?.LocationCoordinate, true);
-                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMicrosoftPhotos, tagLocationName), metadataMicrosoftPhotos?.LocationName, true);
-                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMicrosoftPhotos, tagCity), metadataMicrosoftPhotos?.LocationCity, true);
-                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMicrosoftPhotos, tagProvince), metadataMicrosoftPhotos?.LocationState, true);
-                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMicrosoftPhotos, tagCountry), metadataMicrosoftPhotos?.LocationCountry, true);
+                    AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMicrosoftPhotos));
+                    AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMicrosoftPhotos, tagExternalCoordinates), metadataMicrosoftPhotos?.LocationCoordinate, true);
+                    AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMicrosoftPhotos, tagLocationName), metadataMicrosoftPhotos?.LocationName, true);
+                    AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMicrosoftPhotos, tagCity), metadataMicrosoftPhotos?.LocationCity, true);
+                    AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMicrosoftPhotos, tagProvince), metadataMicrosoftPhotos?.LocationState, true);
+                    AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMicrosoftPhotos, tagCountry), metadataMicrosoftPhotos?.LocationCountry, true);
+                }
 
                 //Windows Live Photo Gallary Locations
                 Metadata metadataWindowsLivePhotoGallery = null;
-                if (metadataExiftool != null) metadataWindowsLivePhotoGallery = DatabaseAndCacheMetadataWindowsLivePhotoGallery.ReadMetadataFromCacheOrDatabase(
-                    new FileEntryBroker(fileEntryBrokerReadVersion, MetadataBrokerType.WindowsLivePhotoGallery));
+                if (GlobalData.doesWindowsLivePhotoGalleryExists)
+                {
+                    if (metadataExiftool != null) metadataWindowsLivePhotoGallery = DatabaseAndCacheMetadataWindowsLivePhotoGallery.ReadMetadataFromCacheOrDatabase(
+                        new FileEntryBroker(fileEntryBrokerReadVersion, MetadataBrokerType.WindowsLivePhotoGallery));
 
-                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerWindowsLivePhotoGallery));
-                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerWindowsLivePhotoGallery, tagExternalCoordinates), metadataWindowsLivePhotoGallery?.LocationCoordinate, true);
-                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerWindowsLivePhotoGallery, tagLocationName), metadataWindowsLivePhotoGallery?.LocationName, true);
+                    AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerWindowsLivePhotoGallery));
+                    AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerWindowsLivePhotoGallery, tagExternalCoordinates), metadataWindowsLivePhotoGallery?.LocationCoordinate, true);
+                    AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerWindowsLivePhotoGallery, tagLocationName), metadataWindowsLivePhotoGallery?.LocationName, true);
+                }
 
                 //Browser
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerBrowser));

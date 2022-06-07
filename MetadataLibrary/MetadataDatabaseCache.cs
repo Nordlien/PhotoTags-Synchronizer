@@ -1045,7 +1045,7 @@ namespace MetadataLibrary
                 //commandDatabase.Prepare();
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {
-                    if (reader.Read())
+                    if (reader != null && reader.Read())
                     {
                         image = dbTools.ByteArrayToImage(dbTools.ConvertFromDBValByteArray(reader["Thumbnail"]));
                         //RandomThumbnailCacheUpdate(name, image);

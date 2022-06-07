@@ -37,24 +37,6 @@ namespace PhotoTagsSynchronizer
             FormSplash.ShowSplashScreen("PhotoTags Synchronizer - Loading...", 21, Properties.Settings.Default.CloseWarningWindowsAutomatically, true);
             FormSplash.UpdateStatus("Initialize DLL files..."); //1 
 
-            //try
-            //{
-            //    if (Environment.Is64BitProcess)
-            //    {
-            //        File.Copy(
-            //            Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "x64\\sqlite3.dll"),
-            //            Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "sqlite3.dll"), true);
-            //    }
-            //    else
-            //    {
-            //        File.Copy(
-            //            Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "x86\\sqlite3.dll"),
-            //            Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "sqlite3.dll"), true);
-            //    }
-            //}
-            //catch { }
-            
-
             //Monitor parent process exit and close subprocesses if parent process exits first
             //This will at some point in the future becomes the default
             FormSplash.UpdateStatus("Initialize ChromiumWebBrowser - settings 1/2..."); //2 

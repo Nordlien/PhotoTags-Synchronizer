@@ -2818,5 +2818,17 @@ explorer ms-photos?filename=""{FileFullPath}""")]
                 this["ShowAboutPage"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowDatabaseNotFoundWarning {
+            get {
+                return ((bool)(this["ShowDatabaseNotFoundWarning"]));
+            }
+            set {
+                this["ShowDatabaseNotFoundWarning"] = value;
+            }
+        }
     }
 }

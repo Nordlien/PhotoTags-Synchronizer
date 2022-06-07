@@ -254,23 +254,30 @@ namespace PhotoTagsSynchronizer
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagAuthor), metadataExiftool?.PersonalAuthor, false);
 
                 // Microsoft Phontos
-                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMicrosoftPhotos), false);
                 Metadata metadataMicrosoftPhotos = null;
-                if (metadataExiftool != null) metadataMicrosoftPhotos = DatabaseAndCacheMetadataMicrosoftPhotos.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryBrokerReadVersion, MetadataBrokerType.MicrosoftPhotos));
-                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMicrosoftPhotos, tagAlbum), metadataMicrosoftPhotos?.PersonalAlbum, true);
-                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMicrosoftPhotos, tagTitle), metadataMicrosoftPhotos?.PersonalTitle, true);
+                if (GlobalData.doesMircosoftPhotosExists)
+                {
+                    AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMicrosoftPhotos), false);
+                    
+                    if (metadataExiftool != null) metadataMicrosoftPhotos = DatabaseAndCacheMetadataMicrosoftPhotos.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryBrokerReadVersion, MetadataBrokerType.MicrosoftPhotos));
+                    AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMicrosoftPhotos, tagAlbum), metadataMicrosoftPhotos?.PersonalAlbum, true);
+                    AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMicrosoftPhotos, tagTitle), metadataMicrosoftPhotos?.PersonalTitle, true);
+                }
 
                 // Folder path as Album
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerFolder), false);
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerFolder, tagAlbum), new DirectoryInfo(fileEntryBrokerReadVersion.Directory).Name, true);
 
                 //Windows Live Photo Gallery
-                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerWindowsLivePhotoGallery), false);
                 Metadata metadataWindowsLivePhotoGallery = null;
-                if (metadataExiftool != null) metadataWindowsLivePhotoGallery = DatabaseAndCacheMetadataWindowsLivePhotoGallery.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryBrokerReadVersion, MetadataBrokerType.WindowsLivePhotoGallery));
+                if (GlobalData.doesWindowsLivePhotoGalleryExists)
+                {
+                    AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerWindowsLivePhotoGallery), false);
+                    if (metadataExiftool != null) metadataWindowsLivePhotoGallery = DatabaseAndCacheMetadataWindowsLivePhotoGallery.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryBrokerReadVersion, MetadataBrokerType.WindowsLivePhotoGallery));
 
-                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerWindowsLivePhotoGallery, tagTitle), metadataWindowsLivePhotoGallery?.PersonalTitle, true);
-                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerWindowsLivePhotoGallery, tagRating), metadataWindowsLivePhotoGallery?.PersonalRating, true);
+                    AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerWindowsLivePhotoGallery, tagTitle), metadataWindowsLivePhotoGallery?.PersonalTitle, true);
+                    AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerWindowsLivePhotoGallery, tagRating), metadataWindowsLivePhotoGallery?.PersonalRating, true);
+                }
 
                 // WebScarping
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerWebScraping), false);
