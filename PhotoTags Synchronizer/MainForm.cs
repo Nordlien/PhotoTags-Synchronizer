@@ -29,6 +29,8 @@ using System.IO;
 
 namespace PhotoTagsSynchronizer
 {
+
+
     public partial class MainForm : KryptonForm
     {
 
