@@ -50,7 +50,6 @@ namespace PhotoTagsSynchronizer
                 if (File.Exists(Path.Combine(Environment.SystemDirectory, "CodeIntegrity\\SIPolicy.P7B"))) GlobalData.isRunningWinSmode = true;
                 if (File.Exists(Path.Combine(Environment.SystemDirectory, "..\\sysnative\\CodeIntegrity\\SIPolicy.P7B"))) GlobalData.isRunningWinSmode = true;
 
-                GlobalData.isRunningWinSmode = true;
                 if (!GlobalData.isRunningWinSmode)
                 {
                     var settings = new CefSettings()
