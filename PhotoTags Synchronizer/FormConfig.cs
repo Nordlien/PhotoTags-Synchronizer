@@ -160,18 +160,29 @@ namespace PhotoTagsSynchronizer
 
             propertyGrid.SelectedObject = kryptonManager1.GlobalPalette;
 
-            browser = new ChromiumWebBrowser("https://www.openstreetmap.org/")
+            try
             {
-                Dock = DockStyle.Fill,
-            };
-            browser.BrowserSettings.Javascript = CefState.Enabled;
-            //browser.BrowserSettings.WebSecurity = CefState.Enabled;
-            browser.BrowserSettings.WebGl = CefState.Enabled;
-            //browser.BrowserSettings.UniversalAccessFromFileUrls = CefState.Disabled;
-            //browser.BrowserSettings.Plugins = CefState.Enabled;
-            this.panelBrowser.Controls.Add(this.browser);
+                if (!GlobalData.isRunningWinSmode)
+                {
+                    browser = new ChromiumWebBrowser("https://www.openstreetmap.org/")
+                    {
+                        Dock = DockStyle.Fill,
+                    };
+                    browser.BrowserSettings.Javascript = CefState.Enabled;
+                    //browser.BrowserSettings.WebSecurity = CefState.Enabled;
+                    browser.BrowserSettings.WebGl = CefState.Enabled;
+                    //browser.BrowserSettings.UniversalAccessFromFileUrls = CefState.Disabled;
+                    //browser.BrowserSettings.Plugins = CefState.Enabled;
+                    this.panelBrowser.Controls.Add(this.browser);
 
-            browser.AddressChanged += Browser_AddressChanged;
+                    browser.AddressChanged += Browser_AddressChanged;
+                }
+            }
+            catch (Exception ex)
+            {
+                browser = null;
+                Logger.Error(ex, "Cef Browser");
+            }
 
             typeof(DataGridView).InvokeMember(
                    "DoubleBuffered",
@@ -1446,7 +1457,17 @@ namespace PhotoTagsSynchronizer
             if (e.KeyChar == (char)Keys.Enter)
             {
                 e.Handled = true; //Handle the Keypress event (suppress the Beep)
-                browser.Load(textBoxBrowserURL.Text);
+                try
+                {
+                    if (browser != null) browser.Load(textBoxBrowserURL.Text);
+                }
+                catch (Exception ex)
+                {
+                    KryptonMessageBox.Show(
+                        (GlobalData.isRunningWinSmode ? "Your Windows is running Windows 10 S / 11 S mode.\r\n" +
+                        "The Chromium Web Browser doesn't support this mode.\r\n\r\n" : "") +
+                        ex.Message, "Syntax Error", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                }
             }
         }
         #endregion
@@ -1469,7 +1490,17 @@ namespace PhotoTagsSynchronizer
 
             DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, e.RowIndex);
             locationCoordinateRememberForZooming = dataGridViewGenericRow?.LocationCoordinate;
-            if (locationCoordinateRememberForZooming != null) ShowMediaOnMap.UpdateBrowserMap(browser, locationCoordinateRememberForZooming, GetZoomLevel(), GetMapProvider()); //Use last valid coordinates clicked
+            try
+            {
+                if (locationCoordinateRememberForZooming != null) ShowMediaOnMap.UpdateBrowserMap(browser, locationCoordinateRememberForZooming, GetZoomLevel(), GetMapProvider()); //Use last valid coordinates clicked
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show(
+                    (GlobalData.isRunningWinSmode ? "Your Windows is running Windows 10 S / 11 S mode.\r\n" +
+                    "The Chromium Web Browser doesn't support this mode.\r\n\r\n" : "") +
+                    ex.Message, "Syntax Error", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
         }
         #endregion 
 
@@ -1479,8 +1510,17 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.IsApplicationClosing) return;
             if (isSettingDefaultComboxValuesZoomLevel) return;
             if (GlobalData.IsPopulatingMap) return;
-            Properties.Settings.Default.SettingLocationZoomLevel = (byte)comboBoxMapZoomLevel.SelectedIndex;
-            if (locationCoordinateRememberForZooming != null) ShowMediaOnMap.UpdateBrowserMap(browser, locationCoordinateRememberForZooming, GetZoomLevel(), GetMapProvider()); //Use last valid coordinates clicked
+            try {
+                Properties.Settings.Default.SettingLocationZoomLevel = (byte)comboBoxMapZoomLevel.SelectedIndex;
+                if (locationCoordinateRememberForZooming != null) ShowMediaOnMap.UpdateBrowserMap(browser, locationCoordinateRememberForZooming, GetZoomLevel(), GetMapProvider()); //Use last valid coordinates clicked
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show(
+                    (GlobalData.isRunningWinSmode ? "Your Windows is running Windows 10 S / 11 S mode.\r\n" +
+                    "The Chromium Web Browser doesn't support this mode.\r\n\r\n" : "") +
+                    ex.Message, "Syntax Error", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
         }
         #endregion
 
@@ -1496,18 +1536,38 @@ namespace PhotoTagsSynchronizer
         #region GetLocationAndShow(MapProvider mapProvider)
         private void GetLocationAndShow(MapProvider mapProvider)
         {
-            DataGridView dataGridView = dataGridViewLocationNames;
-            List<int> rowsSelected = DataGridViewHandler.GetRowSelected(dataGridView);
-            List<LocationCoordinate> locationCoordinates = new List<LocationCoordinate>();
-            foreach (int rowIndex in rowsSelected)
+            try
             {
-                DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndex);
-                if (dataGridViewGenericRow != null && !dataGridViewGenericRow.IsHeader && dataGridViewGenericRow?.LocationCoordinate != null)
+                DataGridView dataGridView = dataGridViewLocationNames;
+                List<int> rowsSelected = DataGridViewHandler.GetRowSelected(dataGridView);
+                List<LocationCoordinate> locationCoordinates = new List<LocationCoordinate>();
+                foreach (int rowIndex in rowsSelected)
                 {
-                    if (!locationCoordinates.Contains((LocationCoordinate)dataGridViewGenericRow?.LocationCoordinate)) locationCoordinates.Add(dataGridViewGenericRow.LocationCoordinate);
+                    DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndex);
+                    if (dataGridViewGenericRow != null && !dataGridViewGenericRow.IsHeader && dataGridViewGenericRow?.LocationCoordinate != null)
+                    {
+                        if (!locationCoordinates.Contains((LocationCoordinate)dataGridViewGenericRow?.LocationCoordinate)) locationCoordinates.Add(dataGridViewGenericRow.LocationCoordinate);
+                    }
+                }
+                try
+                {
+                    ShowMediaOnMap.UpdatedBroswerMap(browser, locationCoordinates, GetZoomLevel(), mapProvider);
+                }
+                catch (Exception ex)
+                {
+                    KryptonMessageBox.Show(
+                        (GlobalData.isRunningWinSmode ? "Your Windows is running Windows 10 S / 11 S mode.\r\n" +
+                        "The Chromium Web Browser doesn't support this mode.\r\n\r\n" : "") +
+                        ex.Message, "Syntax Error", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
                 }
             }
-            ShowMediaOnMap.UpdatedBroswerMap(browser, locationCoordinates, GetZoomLevel(), mapProvider);
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show(
+                    (GlobalData.isRunningWinSmode ? "Your Windows is running Windows 10 S / 11 S mode.\r\n" +
+                    "The Chromium Web Browser doesn't support this mode.\r\n\r\n" : "") +
+                    ex.Message, "Syntax Error", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
         }
         #endregion
 

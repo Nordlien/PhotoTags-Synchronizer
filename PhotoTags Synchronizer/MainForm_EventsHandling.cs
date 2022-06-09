@@ -10903,16 +10903,27 @@ namespace PhotoTagsSynchronizer
         private void WebScraper_Click()
         {
             if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
-            try
+            if (!GlobalData.isRunningWinSmode)
             {
-                FormWebScraper formWebScraper = new FormWebScraper();
-                formWebScraper.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
-                formWebScraper.ShowDialog();
+                try
+                {
+                    FormWebScraper formWebScraper = new FormWebScraper();
+                    formWebScraper.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
+                    formWebScraper.ShowDialog();
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error(ex, "");
+                    KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                }
             }
-            catch (Exception ex)
+            else
             {
-                Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(
+                    (GlobalData.isRunningWinSmode ? "Your Windows is running Windows 10 S / 11 S mode.\r\n" +
+                    "The Chromium Web Browser doesn't support this mode.\r\n\r\n" : "") +
+                    "\r\nCan't run WebScraper tool on your windows integrity policies.\r\n",
+                    "Syntax Error", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion

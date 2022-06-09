@@ -74,18 +74,22 @@ namespace PhotoTagsSynchronizer
             kryptonNumericUpDownDistance.Value = Properties.Settings.Default.LocationAnalyticsMinimumDistance;
             kryptonNumericUpDownTimeInterval.Value = Properties.Settings.Default.LocationAnalyticsMinimumTimeInterval;
 
-            browser = new ChromiumWebBrowser("https://www.openstreetmap.org/")
+            if (!GlobalData.isRunningWinSmode)
             {
-                Dock = DockStyle.Fill,
-            };
-            browser.BrowserSettings.Javascript = CefState.Enabled;
-            //browser.BrowserSettings.WebSecurity = CefState.Enabled;
-            browser.BrowserSettings.WebGl = CefState.Enabled;
-            //browser.BrowserSettings.UniversalAccessFromFileUrls = CefState.Disabled;
-            //browser.BrowserSettings.Plugins = CefState.Enabled;
-            this.kryptonPanelBrowser.Controls.Add(this.browser);
+                browser = new ChromiumWebBrowser("https://www.openstreetmap.org/")
+                {
+                    Dock = DockStyle.Fill,
+                };
+                browser.BrowserSettings.Javascript = CefState.Enabled;
+                //browser.BrowserSettings.WebSecurity = CefState.Enabled;
+                browser.BrowserSettings.WebGl = CefState.Enabled;
+                //browser.BrowserSettings.UniversalAccessFromFileUrls = CefState.Disabled;
+                //browser.BrowserSettings.Plugins = CefState.Enabled;
+                this.kryptonPanelBrowser.Controls.Add(this.browser);
 
-            browser.AddressChanged += Browser_AddressChanged;
+                browser.AddressChanged += Browser_AddressChanged;
+            }
+
             isInitProcessing = false;
 
             DataGridViewHandler.DataGridViewInit(kryptonDataGridViewLocationHistory, false);
@@ -333,7 +337,17 @@ namespace PhotoTagsSynchronizer
                     if (dataGridViewGenericRow != null && !dataGridViewGenericRow.IsHeader && dataGridViewGenericRow.LocationCoordinate != null)
                         if (!locationCoordinates.Contains(dataGridViewGenericRow.LocationCoordinate)) locationCoordinates.Add(dataGridViewGenericRow.LocationCoordinate);
                 }
-                ShowMediaOnMap.UpdatedBroswerMap(browser, locationCoordinates, GetZoomLevel(), mapProvider);
+                try
+                {
+                    ShowMediaOnMap.UpdatedBroswerMap(browser, locationCoordinates, GetZoomLevel(), mapProvider);
+                }
+                catch (Exception ex)
+                {
+                    KryptonMessageBox.Show(
+                        (GlobalData.isRunningWinSmode ? "Your Windows is running Windows 10 S / 11 S mode.\r\n" +
+                        "The Chromium Web Browser doesn't support this mode.\r\n\r\n" : "") +
+                        ex.Message, "Syntax Error", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                }
             }
             catch (Exception ex)
             {

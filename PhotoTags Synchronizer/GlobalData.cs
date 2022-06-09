@@ -11,6 +11,7 @@ namespace PhotoTagsSynchronizer
 
         public static bool doesMircosoftPhotosExists = true;
         public static bool doesWindowsLivePhotoGalleryExists = true;
+        public static bool isRunningWinSmode = false;
 
         public static int ProcessCounterReadProperties = 0;
 

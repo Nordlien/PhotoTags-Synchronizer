@@ -110,7 +110,17 @@ namespace PhotoTagsSynchronizer
             if (e.KeyChar == (char)Keys.Enter)
             {
                 e.Handled = true; //Handle the Keypress event (suppress the Beep)
-                browser.Load(textBoxBrowserURL.Text);
+                try
+                {
+                    if (browser != null) browser.Load(textBoxBrowserURL.Text);
+                } 
+                catch (Exception ex)
+                {
+                    KryptonMessageBox.Show(
+                        (GlobalData.isRunningWinSmode ? "Your Windows is running Windows 10 S / 11 S mode.\r\n" + 
+                        "The Chromium Web Browser doesn't support this mode.\r\n\r\n" : "") +
+                        ex.Message, "Can't run the Web Browser", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                }
             }
         }
         #endregion
@@ -191,7 +201,17 @@ namespace PhotoTagsSynchronizer
                 if (locationCoordinate != null)
                 {
                     locationCoordinateRememberForZooming = new LocationCoordinate(locationCoordinate.Latitude, locationCoordinate.Longitude);
-                    ShowMediaOnMap.UpdateBrowserMap(browser, locationCoordinate, GetZoomLevel(), mapProvider);
+                    try
+                    {
+                        ShowMediaOnMap.UpdateBrowserMap(browser, locationCoordinate, GetZoomLevel(), mapProvider);
+                    }
+                    catch (Exception ex)
+                    {
+                        KryptonMessageBox.Show(
+                            (GlobalData.isRunningWinSmode ? "Your Windows is running Windows 10 S / 11 S mode.\r\n" +
+                            "The Chromium Web Browser doesn't support this mode.\r\n\r\n" : "") +
+                            ex.Message, "Syntax Error", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    }
                 }
             }
         }
@@ -218,7 +238,17 @@ namespace PhotoTagsSynchronizer
                     if (!locationCoordinates.Contains(locationCoordinate)) locationCoordinates.Add(locationCoordinate);
                 }
             }
-            ShowMediaOnMap.UpdatedBroswerMap(browser, locationCoordinates, GetZoomLevel(), mapProvider);
+            try
+            {
+                ShowMediaOnMap.UpdatedBroswerMap(browser, locationCoordinates, GetZoomLevel(), mapProvider);
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show(
+                    (GlobalData.isRunningWinSmode ? "Your Windows is running Windows 10 S / 11 S mode.\r\n" +
+                    "The Chromium Web Browser doesn't support this mode.\r\n\r\n" : "") +
+                    ex.Message, "Syntax Error", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
         }
         #endregion
 
@@ -355,8 +385,17 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.IsPopulatingMap) return;
 
             Properties.Settings.Default.ComboBoxMapZoomLevel = comboBoxMapZoomLevel.SelectedIndex;
-            
-            if (locationCoordinateRememberForZooming != null) ShowMediaOnMap.UpdateBrowserMap(browser, locationCoordinateRememberForZooming, GetZoomLevel(), GetMapProvider()); //Use last valid coordinates clicked
+            try
+            {
+                if (locationCoordinateRememberForZooming != null) ShowMediaOnMap.UpdateBrowserMap(browser, locationCoordinateRememberForZooming, GetZoomLevel(), GetMapProvider()); //Use last valid coordinates clicked
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show(
+                    (GlobalData.isRunningWinSmode ? "Your Windows is running Windows 10 S / 11 S mode.\r\n" +
+                    "The Chromium Web Browser doesn't support this mode.\r\n\r\n" : "") +
+                    ex.Message, "Syntax Error", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
         }
         #endregion 
 

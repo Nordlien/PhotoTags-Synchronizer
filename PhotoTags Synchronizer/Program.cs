@@ -46,11 +46,12 @@ namespace PhotoTagsSynchronizer
             {
                 CefSharpSettings.SubprocessExitIfParentProcessClosed = true;
 
-                bool isWinSmode = false;
-                if (File.Exists(Path.Combine(Environment.SystemDirectory, "\\CodeIntegrity\\SIPolicy.P7B"))) isWinSmode = true;
-                if (File.Exists(Path.Combine(Environment.SystemDirectory, "..\\sysnative\\CodeIntegrity\\SIPolicy.P7B"))) isWinSmode = true;
+                GlobalData.isRunningWinSmode = false;
+                if (File.Exists(Path.Combine(Environment.SystemDirectory, "CodeIntegrity\\SIPolicy.P7B"))) GlobalData.isRunningWinSmode = true;
+                if (File.Exists(Path.Combine(Environment.SystemDirectory, "..\\sysnative\\CodeIntegrity\\SIPolicy.P7B"))) GlobalData.isRunningWinSmode = true;
 
-                if (!isWinSmode)
+                GlobalData.isRunningWinSmode = true;
+                if (!GlobalData.isRunningWinSmode)
                 {
                     var settings = new CefSettings()
                     {

@@ -380,17 +380,20 @@ namespace PhotoTagsSynchronizer
             listViewColumnSorterDataSet = new ListViewColumnSorter();
             listViewDataSetDates.ListViewItemSorter = listViewColumnSorterDataSet;
             
-            browser = new ChromiumWebBrowser("https://photos.google.com/") { Dock = DockStyle.Fill, };
-            browser.BrowserSettings.Javascript = CefState.Enabled;
-            //browser.BrowserSettings.WebSecurity = CefState.Enabled;
-            browser.BrowserSettings.WebGl = CefState.Enabled;
-            //browser.BrowserSettings.UniversalAccessFromFileUrls = CefState.Disabled;
-            //browser.BrowserSettings.Plugins = CefState.Enabled;
-            this.panelBrowser.Controls.Add(this.browser);
+            if (!GlobalData.isRunningWinSmode)
+            {
+                browser = new ChromiumWebBrowser("https://photos.google.com/") { Dock = DockStyle.Fill, };
+                browser.BrowserSettings.Javascript = CefState.Enabled;
+                //browser.BrowserSettings.WebSecurity = CefState.Enabled;
+                browser.BrowserSettings.WebGl = CefState.Enabled;
+                //browser.BrowserSettings.UniversalAccessFromFileUrls = CefState.Disabled;
+                //browser.BrowserSettings.Plugins = CefState.Enabled;
+                this.panelBrowser.Controls.Add(this.browser);
 
-            browser.AddressChanged += Browser_AddressChanged;
-            browser.FrameLoadEnd += Browser_FrameLoadEnd;
-            browser.LoadingStateChanged += Browser_LoadingStateChanged;
+                browser.AddressChanged += Browser_AddressChanged;
+                browser.FrameLoadEnd += Browser_FrameLoadEnd;
+                browser.LoadingStateChanged += Browser_LoadingStateChanged;
+            }
 
             fastColoredTextBoxJavaScript.Text = Properties.Settings.Default.WebScraperScript;
 

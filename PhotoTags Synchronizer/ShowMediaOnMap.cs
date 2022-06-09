@@ -107,6 +107,9 @@ namespace PhotoTagsSynchronizer
 
         public static void UpdateBrowserMap(ChromiumWebBrowser chromiumWebBrowser, LocationCoordinate locationCoordinate, int zoomLevel, MapProvider mapProvider)
         {
+            if (chromiumWebBrowser == null) return;
+
+
             switch (mapProvider)
             {
                 case MapProvider.OpenStreetMap:
@@ -134,12 +137,15 @@ namespace PhotoTagsSynchronizer
                         "%2C" + locationCoordinate.Longitude.ToString(CultureInfo.InvariantCulture));
                     break;
             }
+
         }
 
         
 
         public static void UpdatedBroswerMap(ChromiumWebBrowser chromiumWebBrowser, List<LocationCoordinate> locationCoordinates, int zoomLevelSiglePointView, MapProvider mapProvider)
         {
+            if (chromiumWebBrowser == null) return;
+
             if (locationCoordinates.Count == 1) UpdateBrowserMap(chromiumWebBrowser, locationCoordinates[0], zoomLevelSiglePointView, mapProvider);
             else
             {

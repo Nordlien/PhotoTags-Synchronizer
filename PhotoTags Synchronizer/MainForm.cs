@@ -454,24 +454,37 @@ namespace PhotoTagsSynchronizer
             #endregion
 
             #region Configure ChromiumWebBrowser
-            try
+            if (!GlobalData.isRunningWinSmode)
             {
-                FormSplash.UpdateStatus("Configure ChromiumWebBrowser...");
-                browser = new ChromiumWebBrowser("https://www.openstreetmap.org/")
+                try
                 {
-                    Dock = DockStyle.Fill,
-                };
-                browser.BrowserSettings.Javascript = CefState.Enabled;
-                //browser.BrowserSettings.WebSecurity = CefState.Enabled;
-                browser.BrowserSettings.WebGl = CefState.Enabled;
-                //browser.BrowserSettings.UniversalAccessFromFileUrls = CefState.Disabled;
-                //browser.BrowserSettings.Plugins = CefState.Enabled;
-                this.panelBrowser.Controls.Add(this.browser);
-                browser.AddressChanged += this.OnBrowserAddressChanged;
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex, "Cef Browser");
+                    FormSplash.UpdateStatus("Configure ChromiumWebBrowser...");
+                    browser = new ChromiumWebBrowser("https://www.openstreetmap.org/")
+                    {
+                        Dock = DockStyle.Fill,
+                    };
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error(ex, "Cef Browser");
+                }
+
+                try
+                {
+                    browser.BrowserSettings.Javascript = CefState.Enabled;
+                    //browser.BrowserSettings.WebSecurity = CefState.Enabled;
+                    browser.BrowserSettings.WebGl = CefState.Enabled;
+                    //browser.BrowserSettings.UniversalAccessFromFileUrls = CefState.Disabled;
+                    //browser.BrowserSettings.Plugins = CefState.Enabled;
+                    this.panelBrowser.Controls.Add(this.browser);
+                    browser.AddressChanged += this.OnBrowserAddressChanged;
+                }
+                catch (Exception ex)
+                {
+                    browser = null;
+
+                    Logger.Error(ex, "Cef Browser");
+                }
             }
             #endregion 
 
@@ -781,7 +794,7 @@ namespace PhotoTagsSynchronizer
 
                 try
                 {
-                    browser.Dispose();
+                    if (browser != null) browser.Dispose();
                 }
                 catch { }
 
@@ -1004,15 +1017,21 @@ namespace PhotoTagsSynchronizer
 
             if (Properties.Settings.Default.ShowDatabaseNotFoundWarning)
             {
-                if (!GlobalData.doesMircosoftPhotosExists || !GlobalData.doesWindowsLivePhotoGalleryExists)
+                if (!GlobalData.doesMircosoftPhotosExists || !GlobalData.doesWindowsLivePhotoGalleryExists || GlobalData.isRunningWinSmode)
                 {
                     KryptonMessageBox.Show(
-                    "PhotoTags-Synchronizer works better with connected sources.\r\n\r\n" +
-                    "Tried connect to:\r\n" +
-                    (GlobalData.doesMircosoftPhotosExists ? "Mircosoft Photos (OK)\r\n" : "Mircosoft Photos was not found\r\n") +
-                    (GlobalData.doesWindowsLivePhotoGalleryExists ? "Windows Live Photo Gallery (OK)" : "Windows Live Photo Gallery was not found\r\n"),
-                    "PhotoTags-Synchronizer works better with connected sources.", MessageBoxButtons.OK, MessageBoxIcon.Information, showCtrlCopy: true);
-                    Properties.Settings.Default.ShowDatabaseNotFoundWarning = false;
+                        //Windows S mode
+                        (GlobalData.isRunningWinSmode ? "\r\nWindows is Running Windows 10/11 S mode, this will reduce functionality on this app.\r\n" +
+                        "- Showing maps on ChromiumWebBrowser will not work\r\n" +
+                        "- Running DOS commands will not work...\r\n" +
+                        "- Reading data from Exiftool will not work, in general nothing will work\r\n" : "") +
+                        //Database sources
+                        "\r\nPhotoTags-Synchronizer works better with connected sources.\r\n\r\n" +
+                        "Tried connect to:\r\n" +
+                        (GlobalData.doesMircosoftPhotosExists ? "Mircosoft Photos (OK)\r\n" : "Mircosoft Photos was not found\r\n") +
+                        (GlobalData.doesWindowsLivePhotoGalleryExists ? "Windows Live Photo Gallery (OK)" : "Windows Live Photo Gallery was not found\r\n"),                    
+                        "PhotoTags-Synchronizer works better with...", MessageBoxButtons.OK, MessageBoxIcon.Information, showCtrlCopy: true);
+                        Properties.Settings.Default.ShowDatabaseNotFoundWarning = false;
                 }
             }
         }
