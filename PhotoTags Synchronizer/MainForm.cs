@@ -127,612 +127,621 @@ namespace PhotoTagsSynchronizer
         #region Constructor - MainForm()
         public MainForm()
         {
-            #region Initialize VLC player
-            FormSplash.UpdateStatus("Initialize VLC player...");
             try
             {
-                if (!DesignMode) Core.Initialize();
-            }
-            catch (Exception ex)
-            {
-                KryptonMessageBox.Show(ex.Message, "Was not able to load VLC player", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-                return;
-            }
-            #endregion
-
-            #region Initialize components
-            FormSplash.UpdateStatus("Initialize components...");
-            InitializeComponent();
-            #endregion
-
-            #region InitializeComponent - Krypton
-
-            fileDateTimeReader = new FileDateTimeReader(Properties.Settings.Default.RenameDateFormats);
-
-            KryptonPalette kryptonPalette = KryptonPaletteHandler.Load(Properties.Settings.Default.KryptonPaletteFullFilename, Properties.Settings.Default.KryptonPaletteName);
-            KryptonPaletteHandler.SetPalette(this, kryptonManager1, kryptonPalette, KryptonPaletteHandler.IsSystemPalette, Properties.Settings.Default.KryptonPaletteDropShadow);
-            KryptonPaletteHandler.SetImageListViewPalettes(kryptonManager1, imageListView1);
-
-            this.kryptonRibbonGroupCustomControlToolsProgressBackground.CustomControl = progressBarBackground;
-            this.kryptonRibbonGroupCustomControlToolsProgressSave.CustomControl = progressBarSaveConvert;
-            this.kryptonRibbonGroupCustomControlToolsProgressLazyloading.CustomControl = progressBarLazyLoading;
-
-            this.kryptonRibbonGroupButtonHomeSortColumn.KryptonContextMenu = kryptonContextMenuFileSystemColumnSort;
-            this.imageListView1.KryptonContextMenu = kryptonContextMenuGenericBase;
-            this.kryptonRibbonGroupButtonPreviewSlideshowTimeInterval.KryptonContextMenu = kryptonContextMenuPreviewSlideshowInterval;
-            this.treeViewFolderBrowser1.KryptonContextMenu = kryptonContextMenuGenericBase;
-            this.dataGridViewConvertAndMerge.KryptonContextMenu = kryptonContextMenuGenericBase;
-            this.dataGridViewDate.KryptonContextMenu = kryptonContextMenuGenericBase;
-            this.dataGridViewExiftool.KryptonContextMenu = kryptonContextMenuGenericBase;
-            this.dataGridViewExiftoolWarning.KryptonContextMenu = kryptonContextMenuGenericBase;
-            this.dataGridViewMap.KryptonContextMenu = kryptonContextMenuGenericBase;
-            this.dataGridViewPeople.KryptonContextMenu = kryptonContextMenuGenericBase;
-            this.dataGridViewProperties.KryptonContextMenu = kryptonContextMenuGenericBase;
-            this.dataGridViewRename.KryptonContextMenu = kryptonContextMenuGenericBase;
-            this.dataGridViewTagsAndKeywords.KryptonContextMenu = kryptonContextMenuGenericBase;
-
-            this.kryptonContextMenuItemGenericRegionRename1.Click += KryptonContextMenuItemGenericRegionRenameGeneric_Click;
-            this.kryptonContextMenuItemGenericRegionRename2.Click += KryptonContextMenuItemGenericRegionRenameGeneric_Click;
-            this.kryptonContextMenuItemGenericRegionRename3.Click += KryptonContextMenuItemGenericRegionRenameGeneric_Click;
-            this.kryptonContextMenuItemGenericRegionRename4.Click += KryptonContextMenuItemGenericRegionRenameGeneric_Click;
-            this.kryptonContextMenuItemGenericRegionRename5.Click += KryptonContextMenuItemGenericRegionRenameGeneric_Click;
-            //this.kryptonContextMenuItemGenericRegionRenameMostUsed
-            //this.kryptonContextMenuItemGenericRegionRenameMostUsedList
-
-            //this.kryptonContextMenuItemGenericRegionRenameFromLastUsed.Click += KryptonContextMenuItemRegionRenameGeneric_Click;
-            //this.kryptonContextMenuItemGenericRegionRenameListAll.Click += KryptonContextMenuItemRegionRenameGeneric_Click;
-            //this.kryptonContextMenuSeparatorGenericEndOfRegionRename
-            this.kryptonContextMenuItemGenericCut.Click += KryptonContextMenuItemGenericCut_Click;
-            this.kryptonContextMenuItemGenericCopy.Click += KryptonContextMenuItemGenericCopy_Click;
-            this.kryptonContextMenuItemGenericCopyText.Click += KryptonContextMenuItemGenericCopyText_Click;
-            this.kryptonContextMenuItemGenericFastCopyNoOverwrite.Click += KryptonContextMenuItemGenericFastCopyNoOverwrite_Click;
-            this.kryptonContextMenuItemGenericFastCopyWithOverwrite.Click += KryptonContextMenuItemGenericFastCopyWithOverwrite_Click;
-            this.kryptonContextMenuItemGenericPaste.Click += KryptonContextMenuItemGenericPaste_Click;
-            this.kryptonContextMenuItemGenericDelete.Click += KryptonContextMenuItemGenericFileSystemDelete_Click;
-            this.kryptonContextMenuItemGenericRename.Click += KryptonContextMenuItemGenericFileSystemRename_Click;
-            this.kryptonContextMenuItemGenericUndo.Click += KryptonContextMenuItemGenericUndo_Click;
-            this.kryptonContextMenuItemGenericRedo.Click += KryptonContextMenuItemGenericRedo_Click;
-            this.kryptonContextMenuItemGenericFind.Click += KryptonContextMenuItemGenericFind_Click;
-            this.kryptonContextMenuItemGenericReplace.Click += KryptonContextMenuItemGenericReplace_Click;
-            this.kryptonContextMenuItemGenericSave.Click += KryptonContextMenuItemGenericSave_Click;
-            //this.kryptonContextMenuSeparatorGenericEndOfClipboard
-            this.kryptonContextMenuItemGenericRefreshFolder.Click += KryptonContextMenuItemGenericFileSystemRefreshFolder_Click;
-            this.kryptonContextMenuItemGenericReadSubfolders.Click += KryptonContextMenuItemGenericReadSubfolders_Click;
-            this.kryptonContextMenuItemGenericOpenFolderLocation.Click += KryptonContextMenuItemGenericOpenExplorerLocation_Click;
-            this.kryptonContextMenuItemGenericOpen.Click += KryptonContextMenuItemGenericOpen_Click;
-            this.kryptonContextMenuItemOpenAndAssociateWithDialog.Click += KryptonContextMenuItemOpenAndAssociateWithDialog_Click;
-            this.kryptonContextMenuItemGenericOpenVerbEdit.Click += KryptonContextMenuItemGenericFileSystemVerbEdit_Click;
-            this.kryptonContextMenuItemGenericRunCommand.Click += KryptonContextMenuItemGenericFileSystemRunCommand_Click;
-            //this.kryptonContextMenuSeparatorGenericEndOfFileSystem,
-            this.kryptonContextMenuItemGenericAutoCorrectRun.Click += KryptonContextMenuItemGenericAutoCorrectRun_Click;
-            this.kryptonContextMenuItemGenericAutoCorrectForm.Click += KryptonContextMenuItemGenericAutoCorrectForm_Click;
-            this.kryptonContextMenuItemGenericMetadataRefreshLast.Click += KryptonContextMenuItemGenericMetadataRefreshLast_Click;
-            this.kryptonContextMenuItemGenericMetadataDeleteHistory.Click += KryptonContextMenuItemGenericMetadataReloadDeleteHistory_Click;
-            //this.kryptonContextMenuSeparatorGenericEndOfMetadata,
-            this.kryptonContextMenuItemGenericRotate270.Click += KryptonContextMenuItemGenericRotate270_Click;
-            this.kryptonContextMenuItemGenericRotate180.Click += KryptonContextMenuItemGenericRotate180_Click;
-            this.kryptonContextMenuItemGenericRotate90.Click += KryptonContextMenuItemGenericRotate90_Click;
-            //this.kryptonContextMenuSeparatorEndOfRotate,
-            this.kryptonContextMenuItemGenericFavoriteAdd.Click += KryptonContextMenuItemGenericFavoriteAdd_Click;
-            this.kryptonContextMenuItemGenericFavoriteDelete.Click += KryptonContextMenuItemGenericFavoriteDelete_Click;
-            this.kryptonContextMenuItemGenericFavoriteToggle.Click += KryptonContextMenuItemFavoriteToggle_Click;
-            //this.kryptonContextMenuSeparatorGenericEndOfFavorite,
-            this.kryptonContextMenuItemGenericRowShowFavorite.Click += KryptonContextMenuItemGenericRowShowFavorite_Click;
-            this.kryptonContextMenuItemGenericRowHideEqual.Click += KryptonContextMenuItemGenericRowHideEqual_Click;
-            //this.kryptonContextMenuSeparatorGenericEndOfShowHideRows,
-            this.kryptonContextMenuItemGenericTriStateOn.Click += KryptonContextMenuItemGenericTriStateOn_Click;
-            this.kryptonContextMenuItemGenericTriStateOff.Click += KryptonContextMenuItemGenericTriStateOff_Click;
-            this.kryptonContextMenuItemGenericTriStateToggle.Click += KryptonContextMenuItemGenericTriStateToggle_Click;
-            //this.kryptonContextMenuSeparatorGenericEndOfTriState,
-            this.kryptonContextMenuItemGenericMediaViewAsPoster.Click += KryptonContextMenuItemGenericMediaViewAsPoster_Click;
-            this.kryptonContextMenuItemGenericMediaViewAsFull.Click += KryptonContextMenuItemGenericMediaViewAsFull_Click;
-            //this.kryptonContextMenuSeparatorMap,
-            this.kryptonContextMenuItemMapShowCoordinateOnOpenStreetMap.Click += KryptonContextMenuItemMapShowCoordinateOnOpenStreetMap_Click;
-            this.kryptonContextMenuItemMapShowCoordinateOnGoogleMap.Click += KryptonContextMenuItemMapShowCoordinateOnGoogleMap_Click;
-            this.kryptonContextMenuItemMapReloadUsingNominatim.Click += KryptonContextMenuItemMapReloadUsingNominatim_Click;
-            this.kryptonContextMenuItemToolLocationAnalytics.Click += KryptonContextMenuItemToolLocationAnalytics_Click;
-            this.kryptonContextMenuItemMapSaveExactLocation.Click += KryptonContextMenuItemMapSaveExactLocation_Click;
-
-            //
-            this.kryptonContextMenuRadioButtonFileSystemColumnSortFilename.Click += KryptonContextMenuRadioButtonFileSystemColumnSortFilename_Click;
-            this.kryptonContextMenuRadioButtonFileSystemColumnSortSmarteDate.Click += KryptonContextMenuRadioButtonFileSystemColumnSortSmarteDate_Click;
-            this.kryptonContextMenuRadioButtonFileSystemColumnSortFileDate.Click += KryptonContextMenuRadioButtonFileSystemColumnSortFileDate_Click;
-            this.kryptonContextMenuRadioButtonFileSystemColumnSortFileCreateDate.Click += KryptonContextMenuRadioButtonFileSystemColumnSortFileCreateDate_Click;
-            this.kryptonContextMenuRadioButtonFileSystemColumnSortFileModifiedDate.Click += KryptonContextMenuRadioButtonFileSystemColumnSortFileModifiedDate_Click;
-            this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaDateTaken.Click += KryptonContextMenuRadioButtonFileSystemColumnSortMediaDateTaken_Click;
-            this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaAlbum.Click += KryptonContextMenuRadioButtonFileSystemColumnSortMediaAlbum_Click;
-            this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaTitle.Click += KryptonContextMenuRadioButtonFileSystemColumnSortMediaTitle_Click;
-            this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaDescription.Click += KryptonContextMenuRadioButtonFileSystemColumnSortMediaDescription_Click;
-            this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaComments.Click += KryptonContextMenuRadioButtonFileSystemColumnSortMediaComments_Click;
-            this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaAuthor.Click += KryptonContextMenuRadioButtonFileSystemColumnSortMediaAuthor_Click;
-            this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaRating.Click += KryptonContextMenuRadioButtonFileSystemColumnSortMediaRating_Click;
-            this.kryptonContextMenuRadioButtonFileSystemColumnSortLocationName.Click += KryptonContextMenuRadioButtonFileSystemColumnSortLocationName_Click;
-            this.kryptonContextMenuRadioButtonFileSystemColumnSortLocationRegionState.Click += KryptonContextMenuRadioButtonFileSystemColumnSortLocationRegionState_Click;
-            this.kryptonContextMenuRadioButtonFileSystemColumnSortLocationCity.Click += KryptonContextMenuRadioButtonFileSystemColumnSortLocationCity_Click;
-            this.kryptonContextMenuRadioButtonFileSystemColumnSortLocationCountry.Click += KryptonContextMenuRadioButtonFileSystemColumnSortLocationCountry_Click;
-            this.kryptonContextMenuItemFileSystemColumnSortClear.Click += KryptonContextMenuItemFileSystemColumnSortClear_Click;
-            //this.kryptonContextMenuItemsCloseMenuList
-
-            this.kryptonContextMenuRadioButtonSlideshow2sec.Click += KryptonContextMenuRadioButtonSlideshow2sec_Click;
-            this.kryptonContextMenuRadioButtonSlideshow4sec.Click += KryptonContextMenuRadioButtonSlideshow4sec_Click;
-            this.kryptonContextMenuRadioButtonSlideshow6sec.Click += KryptonContextMenuRadioButtonSlideshow6sec_Click;
-            this.kryptonContextMenuRadioButtonSlideshow8sec.Click += KryptonContextMenuRadioButtonSlideshow8sec_Click;
-            this.kryptonContextMenuRadioButtonSlideshow10sec.Click += KryptonContextMenuRadioButtonSlideshow10sec_Click;
-            this.kryptonContextMenuItemPreviewSlideshowIntervalStop.Click += KryptonContextMenuItemPreviewSlideshowIntervalStop_Click;
-            //this.kryptonContextMenuItemsPreviewSlideshowIntervalList.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
-
-            nameImageListView = this.imageListView1.Name;
-            nameFolderTreeViewFolder = this.treeViewFolderBrowser1.Name;
-            nameDataGridViewConvertAndMerge = this.dataGridViewConvertAndMerge.Name;
-            nameDataGridViewDate = this.dataGridViewDate.Name;
-            nameDataGridViewExifTool = this.dataGridViewExiftool.Name;
-            nameDataGridViewExifToolWarning = this.dataGridViewExiftoolWarning.Name;
-            nameDataGridViewMap = this.dataGridViewMap.Name;
-            nameDataGridViewPeople = this.dataGridViewPeople.Name;
-            nameDataGridViewProperties = this.dataGridViewProperties.Name;
-            nameDataGridViewRename = this.dataGridViewRename.Name;
-            nameDataGridViewTagsAndKeywords = this.dataGridViewTagsAndKeywords.Name;
-
-            comboBoxRenameVariableList.Items.Clear();
-            comboBoxRenameVariableList.Items.AddRange(DataGridViewHandlerRename.ListOfRenameVariables);
-            #endregion
-
-            SetPreviewRibbonEnabledStatus(previewStartEnabled: false, enabled: false);
-
-
-            #region Initialize VLC player
-            FormSplash.UpdateStatus("Staring VLC player...");
-            try
-            {
-                _libVLC = new LibVLC();
-                videoView1.MediaPlayer = new MediaPlayer(_libVLC);
-            } catch
-            {
-                _libVLC = null;
-                videoView1 = null;
-                FormSplash.UpdateStatus("Staring VLC player failed...");
-                Thread.Sleep(5000);
-            }
-            #endregion 
-            
-            #region Loading ImageListView renderers
-            FormSplash.UpdateStatus("Loading ImageListView renderers...");
-
-
-            Manina.Windows.Forms.View listViewSelectedMode;
-
-            KryptonContextMenuItems kryptonContextMenuItems = (KryptonContextMenuItems)kryptonContextMenuImageListViewModeThumbnailRenders.Items[0];
-            kryptonRibbonGroupButtonImageListViewModeThumbnailRenders.KryptonContextMenu = kryptonContextMenuImageListViewModeThumbnailRenders;
-
-            bool isRendererAssigned = false;
-            bool isDefaultRendererAssigned = false;
-            Assembly assembly = Assembly.GetAssembly(typeof(ImageListView));
-            foreach (Type t in assembly.GetTypes())
-            {
-                if (t.BaseType == typeof(Manina.Windows.Forms.ImageListView.ImageListViewRenderer))
+                #region Initialize VLC player
+                FormSplash.UpdateStatus("Initialize VLC player...");
+                try
                 {
-                    KryptonContextMenuItem kryptonContextMenuItem = new KryptonContextMenuItem();
-                    kryptonContextMenuItem.Text = t.Name;
-                    kryptonContextMenuItem.Tag = new RendererItem(t);
-                    kryptonContextMenuItem.Click += KryptonContextMenuItemRenderers_Click;
-                    kryptonContextMenuItems.Items.Add(kryptonContextMenuItem);
+                    if (!DesignMode) Core.Initialize();
+                }
+                catch (Exception ex)
+                {
+                    KryptonMessageBox.Show(ex.Message, "Was not able to load VLC player", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    return;
+                }
+                #endregion
 
-                    if (!isDefaultRendererAssigned || !isRendererAssigned) imageListViewSelectedRenderer = (RendererItem)kryptonContextMenuItem.Tag;
-                    if (!isRendererAssigned && t.Name == "RendererDefault")
-                    {
-                        imageListViewSelectedRenderer = (RendererItem)kryptonContextMenuItem.Tag;
-                        isDefaultRendererAssigned = true;
-                    }
+                #region Initialize components
+                FormSplash.UpdateStatus("Initialize components...");
+                InitializeComponent();
+                #endregion
 
-                    if (t.Name == Properties.Settings.Default.ImageListViewRendererName)
+                #region InitializeComponent - Krypton
+
+                fileDateTimeReader = new FileDateTimeReader(Properties.Settings.Default.RenameDateFormats);
+
+                KryptonPalette kryptonPalette = KryptonPaletteHandler.Load(Properties.Settings.Default.KryptonPaletteFullFilename, Properties.Settings.Default.KryptonPaletteName);
+                KryptonPaletteHandler.SetPalette(this, kryptonManager1, kryptonPalette, KryptonPaletteHandler.IsSystemPalette, Properties.Settings.Default.KryptonPaletteDropShadow);
+                KryptonPaletteHandler.SetImageListViewPalettes(kryptonManager1, imageListView1);
+
+                this.kryptonRibbonGroupCustomControlToolsProgressBackground.CustomControl = progressBarBackground;
+                this.kryptonRibbonGroupCustomControlToolsProgressSave.CustomControl = progressBarSaveConvert;
+                this.kryptonRibbonGroupCustomControlToolsProgressLazyloading.CustomControl = progressBarLazyLoading;
+
+                this.kryptonRibbonGroupButtonHomeSortColumn.KryptonContextMenu = kryptonContextMenuFileSystemColumnSort;
+                this.imageListView1.KryptonContextMenu = kryptonContextMenuGenericBase;
+                this.kryptonRibbonGroupButtonPreviewSlideshowTimeInterval.KryptonContextMenu = kryptonContextMenuPreviewSlideshowInterval;
+                this.treeViewFolderBrowser1.KryptonContextMenu = kryptonContextMenuGenericBase;
+                this.dataGridViewConvertAndMerge.KryptonContextMenu = kryptonContextMenuGenericBase;
+                this.dataGridViewDate.KryptonContextMenu = kryptonContextMenuGenericBase;
+                this.dataGridViewExiftool.KryptonContextMenu = kryptonContextMenuGenericBase;
+                this.dataGridViewExiftoolWarning.KryptonContextMenu = kryptonContextMenuGenericBase;
+                this.dataGridViewMap.KryptonContextMenu = kryptonContextMenuGenericBase;
+                this.dataGridViewPeople.KryptonContextMenu = kryptonContextMenuGenericBase;
+                this.dataGridViewProperties.KryptonContextMenu = kryptonContextMenuGenericBase;
+                this.dataGridViewRename.KryptonContextMenu = kryptonContextMenuGenericBase;
+                this.dataGridViewTagsAndKeywords.KryptonContextMenu = kryptonContextMenuGenericBase;
+
+                this.kryptonContextMenuItemGenericRegionRename1.Click += KryptonContextMenuItemGenericRegionRenameGeneric_Click;
+                this.kryptonContextMenuItemGenericRegionRename2.Click += KryptonContextMenuItemGenericRegionRenameGeneric_Click;
+                this.kryptonContextMenuItemGenericRegionRename3.Click += KryptonContextMenuItemGenericRegionRenameGeneric_Click;
+                this.kryptonContextMenuItemGenericRegionRename4.Click += KryptonContextMenuItemGenericRegionRenameGeneric_Click;
+                this.kryptonContextMenuItemGenericRegionRename5.Click += KryptonContextMenuItemGenericRegionRenameGeneric_Click;
+                //this.kryptonContextMenuItemGenericRegionRenameMostUsed
+                //this.kryptonContextMenuItemGenericRegionRenameMostUsedList
+
+                //this.kryptonContextMenuItemGenericRegionRenameFromLastUsed.Click += KryptonContextMenuItemRegionRenameGeneric_Click;
+                //this.kryptonContextMenuItemGenericRegionRenameListAll.Click += KryptonContextMenuItemRegionRenameGeneric_Click;
+                //this.kryptonContextMenuSeparatorGenericEndOfRegionRename
+                this.kryptonContextMenuItemGenericCut.Click += KryptonContextMenuItemGenericCut_Click;
+                this.kryptonContextMenuItemGenericCopy.Click += KryptonContextMenuItemGenericCopy_Click;
+                this.kryptonContextMenuItemGenericCopyText.Click += KryptonContextMenuItemGenericCopyText_Click;
+                this.kryptonContextMenuItemGenericFastCopyNoOverwrite.Click += KryptonContextMenuItemGenericFastCopyNoOverwrite_Click;
+                this.kryptonContextMenuItemGenericFastCopyWithOverwrite.Click += KryptonContextMenuItemGenericFastCopyWithOverwrite_Click;
+                this.kryptonContextMenuItemGenericPaste.Click += KryptonContextMenuItemGenericPaste_Click;
+                this.kryptonContextMenuItemGenericDelete.Click += KryptonContextMenuItemGenericFileSystemDelete_Click;
+                this.kryptonContextMenuItemGenericRename.Click += KryptonContextMenuItemGenericFileSystemRename_Click;
+                this.kryptonContextMenuItemGenericUndo.Click += KryptonContextMenuItemGenericUndo_Click;
+                this.kryptonContextMenuItemGenericRedo.Click += KryptonContextMenuItemGenericRedo_Click;
+                this.kryptonContextMenuItemGenericFind.Click += KryptonContextMenuItemGenericFind_Click;
+                this.kryptonContextMenuItemGenericReplace.Click += KryptonContextMenuItemGenericReplace_Click;
+                this.kryptonContextMenuItemGenericSave.Click += KryptonContextMenuItemGenericSave_Click;
+                //this.kryptonContextMenuSeparatorGenericEndOfClipboard
+                this.kryptonContextMenuItemGenericRefreshFolder.Click += KryptonContextMenuItemGenericFileSystemRefreshFolder_Click;
+                this.kryptonContextMenuItemGenericReadSubfolders.Click += KryptonContextMenuItemGenericReadSubfolders_Click;
+                this.kryptonContextMenuItemGenericOpenFolderLocation.Click += KryptonContextMenuItemGenericOpenExplorerLocation_Click;
+                this.kryptonContextMenuItemGenericOpen.Click += KryptonContextMenuItemGenericOpen_Click;
+                this.kryptonContextMenuItemOpenAndAssociateWithDialog.Click += KryptonContextMenuItemOpenAndAssociateWithDialog_Click;
+                this.kryptonContextMenuItemGenericOpenVerbEdit.Click += KryptonContextMenuItemGenericFileSystemVerbEdit_Click;
+                this.kryptonContextMenuItemGenericRunCommand.Click += KryptonContextMenuItemGenericFileSystemRunCommand_Click;
+                //this.kryptonContextMenuSeparatorGenericEndOfFileSystem,
+                this.kryptonContextMenuItemGenericAutoCorrectRun.Click += KryptonContextMenuItemGenericAutoCorrectRun_Click;
+                this.kryptonContextMenuItemGenericAutoCorrectForm.Click += KryptonContextMenuItemGenericAutoCorrectForm_Click;
+                this.kryptonContextMenuItemGenericMetadataRefreshLast.Click += KryptonContextMenuItemGenericMetadataRefreshLast_Click;
+                this.kryptonContextMenuItemGenericMetadataDeleteHistory.Click += KryptonContextMenuItemGenericMetadataReloadDeleteHistory_Click;
+                //this.kryptonContextMenuSeparatorGenericEndOfMetadata,
+                this.kryptonContextMenuItemGenericRotate270.Click += KryptonContextMenuItemGenericRotate270_Click;
+                this.kryptonContextMenuItemGenericRotate180.Click += KryptonContextMenuItemGenericRotate180_Click;
+                this.kryptonContextMenuItemGenericRotate90.Click += KryptonContextMenuItemGenericRotate90_Click;
+                //this.kryptonContextMenuSeparatorEndOfRotate,
+                this.kryptonContextMenuItemGenericFavoriteAdd.Click += KryptonContextMenuItemGenericFavoriteAdd_Click;
+                this.kryptonContextMenuItemGenericFavoriteDelete.Click += KryptonContextMenuItemGenericFavoriteDelete_Click;
+                this.kryptonContextMenuItemGenericFavoriteToggle.Click += KryptonContextMenuItemFavoriteToggle_Click;
+                //this.kryptonContextMenuSeparatorGenericEndOfFavorite,
+                this.kryptonContextMenuItemGenericRowShowFavorite.Click += KryptonContextMenuItemGenericRowShowFavorite_Click;
+                this.kryptonContextMenuItemGenericRowHideEqual.Click += KryptonContextMenuItemGenericRowHideEqual_Click;
+                //this.kryptonContextMenuSeparatorGenericEndOfShowHideRows,
+                this.kryptonContextMenuItemGenericTriStateOn.Click += KryptonContextMenuItemGenericTriStateOn_Click;
+                this.kryptonContextMenuItemGenericTriStateOff.Click += KryptonContextMenuItemGenericTriStateOff_Click;
+                this.kryptonContextMenuItemGenericTriStateToggle.Click += KryptonContextMenuItemGenericTriStateToggle_Click;
+                //this.kryptonContextMenuSeparatorGenericEndOfTriState,
+                this.kryptonContextMenuItemGenericMediaViewAsPoster.Click += KryptonContextMenuItemGenericMediaViewAsPoster_Click;
+                this.kryptonContextMenuItemGenericMediaViewAsFull.Click += KryptonContextMenuItemGenericMediaViewAsFull_Click;
+                //this.kryptonContextMenuSeparatorMap,
+                this.kryptonContextMenuItemMapShowCoordinateOnOpenStreetMap.Click += KryptonContextMenuItemMapShowCoordinateOnOpenStreetMap_Click;
+                this.kryptonContextMenuItemMapShowCoordinateOnGoogleMap.Click += KryptonContextMenuItemMapShowCoordinateOnGoogleMap_Click;
+                this.kryptonContextMenuItemMapReloadUsingNominatim.Click += KryptonContextMenuItemMapReloadUsingNominatim_Click;
+                this.kryptonContextMenuItemToolLocationAnalytics.Click += KryptonContextMenuItemToolLocationAnalytics_Click;
+                this.kryptonContextMenuItemMapSaveExactLocation.Click += KryptonContextMenuItemMapSaveExactLocation_Click;
+
+                //
+                this.kryptonContextMenuRadioButtonFileSystemColumnSortFilename.Click += KryptonContextMenuRadioButtonFileSystemColumnSortFilename_Click;
+                this.kryptonContextMenuRadioButtonFileSystemColumnSortSmarteDate.Click += KryptonContextMenuRadioButtonFileSystemColumnSortSmarteDate_Click;
+                this.kryptonContextMenuRadioButtonFileSystemColumnSortFileDate.Click += KryptonContextMenuRadioButtonFileSystemColumnSortFileDate_Click;
+                this.kryptonContextMenuRadioButtonFileSystemColumnSortFileCreateDate.Click += KryptonContextMenuRadioButtonFileSystemColumnSortFileCreateDate_Click;
+                this.kryptonContextMenuRadioButtonFileSystemColumnSortFileModifiedDate.Click += KryptonContextMenuRadioButtonFileSystemColumnSortFileModifiedDate_Click;
+                this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaDateTaken.Click += KryptonContextMenuRadioButtonFileSystemColumnSortMediaDateTaken_Click;
+                this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaAlbum.Click += KryptonContextMenuRadioButtonFileSystemColumnSortMediaAlbum_Click;
+                this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaTitle.Click += KryptonContextMenuRadioButtonFileSystemColumnSortMediaTitle_Click;
+                this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaDescription.Click += KryptonContextMenuRadioButtonFileSystemColumnSortMediaDescription_Click;
+                this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaComments.Click += KryptonContextMenuRadioButtonFileSystemColumnSortMediaComments_Click;
+                this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaAuthor.Click += KryptonContextMenuRadioButtonFileSystemColumnSortMediaAuthor_Click;
+                this.kryptonContextMenuRadioButtonFileSystemColumnSortMediaRating.Click += KryptonContextMenuRadioButtonFileSystemColumnSortMediaRating_Click;
+                this.kryptonContextMenuRadioButtonFileSystemColumnSortLocationName.Click += KryptonContextMenuRadioButtonFileSystemColumnSortLocationName_Click;
+                this.kryptonContextMenuRadioButtonFileSystemColumnSortLocationRegionState.Click += KryptonContextMenuRadioButtonFileSystemColumnSortLocationRegionState_Click;
+                this.kryptonContextMenuRadioButtonFileSystemColumnSortLocationCity.Click += KryptonContextMenuRadioButtonFileSystemColumnSortLocationCity_Click;
+                this.kryptonContextMenuRadioButtonFileSystemColumnSortLocationCountry.Click += KryptonContextMenuRadioButtonFileSystemColumnSortLocationCountry_Click;
+                this.kryptonContextMenuItemFileSystemColumnSortClear.Click += KryptonContextMenuItemFileSystemColumnSortClear_Click;
+                //this.kryptonContextMenuItemsCloseMenuList
+
+                this.kryptonContextMenuRadioButtonSlideshow2sec.Click += KryptonContextMenuRadioButtonSlideshow2sec_Click;
+                this.kryptonContextMenuRadioButtonSlideshow4sec.Click += KryptonContextMenuRadioButtonSlideshow4sec_Click;
+                this.kryptonContextMenuRadioButtonSlideshow6sec.Click += KryptonContextMenuRadioButtonSlideshow6sec_Click;
+                this.kryptonContextMenuRadioButtonSlideshow8sec.Click += KryptonContextMenuRadioButtonSlideshow8sec_Click;
+                this.kryptonContextMenuRadioButtonSlideshow10sec.Click += KryptonContextMenuRadioButtonSlideshow10sec_Click;
+                this.kryptonContextMenuItemPreviewSlideshowIntervalStop.Click += KryptonContextMenuItemPreviewSlideshowIntervalStop_Click;
+                //this.kryptonContextMenuItemsPreviewSlideshowIntervalList.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
+
+                nameImageListView = this.imageListView1.Name;
+                nameFolderTreeViewFolder = this.treeViewFolderBrowser1.Name;
+                nameDataGridViewConvertAndMerge = this.dataGridViewConvertAndMerge.Name;
+                nameDataGridViewDate = this.dataGridViewDate.Name;
+                nameDataGridViewExifTool = this.dataGridViewExiftool.Name;
+                nameDataGridViewExifToolWarning = this.dataGridViewExiftoolWarning.Name;
+                nameDataGridViewMap = this.dataGridViewMap.Name;
+                nameDataGridViewPeople = this.dataGridViewPeople.Name;
+                nameDataGridViewProperties = this.dataGridViewProperties.Name;
+                nameDataGridViewRename = this.dataGridViewRename.Name;
+                nameDataGridViewTagsAndKeywords = this.dataGridViewTagsAndKeywords.Name;
+
+                comboBoxRenameVariableList.Items.Clear();
+                comboBoxRenameVariableList.Items.AddRange(DataGridViewHandlerRename.ListOfRenameVariables);
+                #endregion
+
+                SetPreviewRibbonEnabledStatus(previewStartEnabled: false, enabled: false);
+
+
+                #region Initialize VLC player
+                FormSplash.UpdateStatus("Staring VLC player...");
+                try
+                {
+                    _libVLC = new LibVLC();
+                    videoView1.MediaPlayer = new MediaPlayer(_libVLC);
+                }
+                catch
+                {
+                    _libVLC = null;
+                    videoView1 = null;
+                    FormSplash.UpdateStatus("Staring VLC player failed...");
+                    Thread.Sleep(5000);
+                }
+                #endregion
+
+                #region Loading ImageListView renderers
+                FormSplash.UpdateStatus("Loading ImageListView renderers...");
+
+
+                Manina.Windows.Forms.View listViewSelectedMode;
+
+                KryptonContextMenuItems kryptonContextMenuItems = (KryptonContextMenuItems)kryptonContextMenuImageListViewModeThumbnailRenders.Items[0];
+                kryptonRibbonGroupButtonImageListViewModeThumbnailRenders.KryptonContextMenu = kryptonContextMenuImageListViewModeThumbnailRenders;
+
+                bool isRendererAssigned = false;
+                bool isDefaultRendererAssigned = false;
+                Assembly assembly = Assembly.GetAssembly(typeof(ImageListView));
+                foreach (Type t in assembly.GetTypes())
+                {
+                    if (t.BaseType == typeof(Manina.Windows.Forms.ImageListView.ImageListViewRenderer))
                     {
-                        imageListViewSelectedRenderer = (RendererItem)kryptonContextMenuItem.Tag;
-                        isRendererAssigned = true;
+                        KryptonContextMenuItem kryptonContextMenuItem = new KryptonContextMenuItem();
+                        kryptonContextMenuItem.Text = t.Name;
+                        kryptonContextMenuItem.Tag = new RendererItem(t);
+                        kryptonContextMenuItem.Click += KryptonContextMenuItemRenderers_Click;
+                        kryptonContextMenuItems.Items.Add(kryptonContextMenuItem);
+
+                        if (!isDefaultRendererAssigned || !isRendererAssigned) imageListViewSelectedRenderer = (RendererItem)kryptonContextMenuItem.Tag;
+                        if (!isRendererAssigned && t.Name == "RendererDefault")
+                        {
+                            imageListViewSelectedRenderer = (RendererItem)kryptonContextMenuItem.Tag;
+                            isDefaultRendererAssigned = true;
+                        }
+
+                        if (t.Name == Properties.Settings.Default.ImageListViewRendererName)
+                        {
+                            imageListViewSelectedRenderer = (RendererItem)kryptonContextMenuItem.Tag;
+                            isRendererAssigned = true;
+                        }
                     }
                 }
-            }
 
-            listViewSelectedMode = (Manina.Windows.Forms.View)Properties.Settings.Default.ImageListViewViewMode;
+                listViewSelectedMode = (Manina.Windows.Forms.View)Properties.Settings.Default.ImageListViewViewMode;
 
-            SetImageListViewRender(listViewSelectedMode, imageListViewSelectedRenderer);
+                SetImageListViewRender(listViewSelectedMode, imageListViewSelectedRenderer);
 
-            imageListView1.TitleLine1 = FormChooseColumns.GetColumnTypeByText(Properties.Settings.Default.ImageListViewTitleLine1);
-            imageListView1.TitleLine2 = FormChooseColumns.GetColumnTypeByText(Properties.Settings.Default.ImageListViewTitleLine2);
-            imageListView1.TitleLine3 = FormChooseColumns.GetColumnTypeByText(Properties.Settings.Default.ImageListViewTitleLine3);
-            imageListView1.TitleLine4 = FormChooseColumns.GetColumnTypeByText(Properties.Settings.Default.ImageListViewTitleLine4);
-            imageListView1.TitleLine5 = FormChooseColumns.GetColumnTypeByText(Properties.Settings.Default.ImageListViewTitleLine5);
-            ColumnNamesAndWidthHandler.SetImageListViewCheckedValues(imageListView1, Properties.Settings.Default.ImageListViewSelectedColumns);
-            ColumnNamesAndWidthHandler.SetColumnNameWithWidth(
-                ColumnNamesAndWidthHandler.ConvertConfigStringToColumnNameAndWidths(Properties.Settings.Default.ColumnNameAndWithsImageListView),
-                imageListView1);
-            #endregion
+                imageListView1.TitleLine1 = FormChooseColumns.GetColumnTypeByText(Properties.Settings.Default.ImageListViewTitleLine1);
+                imageListView1.TitleLine2 = FormChooseColumns.GetColumnTypeByText(Properties.Settings.Default.ImageListViewTitleLine2);
+                imageListView1.TitleLine3 = FormChooseColumns.GetColumnTypeByText(Properties.Settings.Default.ImageListViewTitleLine3);
+                imageListView1.TitleLine4 = FormChooseColumns.GetColumnTypeByText(Properties.Settings.Default.ImageListViewTitleLine4);
+                imageListView1.TitleLine5 = FormChooseColumns.GetColumnTypeByText(Properties.Settings.Default.ImageListViewTitleLine5);
+                ColumnNamesAndWidthHandler.SetImageListViewCheckedValues(imageListView1, Properties.Settings.Default.ImageListViewSelectedColumns);
+                ColumnNamesAndWidthHandler.SetColumnNameWithWidth(
+                    ColumnNamesAndWidthHandler.ConvertConfigStringToColumnNameAndWidths(Properties.Settings.Default.ColumnNameAndWithsImageListView),
+                    imageListView1);
+                #endregion
 
-            #region Initialize database connect
-            FormSplash.UpdateStatus("Initialize database: connect...");
-            try
-            {
-                databaseUtilitiesSqliteMetadata = new SqliteDatabaseUtilities(DatabaseType.SqliteMetadataDatabase);
-            }
-            catch (Exception ex)
-            {
-                KryptonMessageBox.Show(ex.Message, "Was not able to start the database...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-                Close();
-                return;
-            }
-            databaseGoogleLocationHistory = new GoogleLocationHistoryDatabaseCache(databaseUtilitiesSqliteMetadata);
-            databaseAndCacheMetadataExiftool = new MetadataDatabaseCache(databaseUtilitiesSqliteMetadata);
-            databaseAndCacheMetadataExiftool.AllowedDateFormats = Properties.Settings.Default.RenameDateFormats;
-            databaseAndCacheMetadataExiftool.OnRecordReadToCache += DatabaseAndCacheMetadataExiftool_OnRecordReadToCache;
-            databaseAndCacheMetadataExiftool.OnDeleteRecord += DatabaseAndCacheMetadataExiftool_OnDeleteRecord;
-
-            databaseAndCacheThumbnailPoster = new ThumbnailPosterDatabaseCache(databaseUtilitiesSqliteMetadata);
-            databaseAndCacheThumbnailPoster.UpsizeThumbnailSize = ThumbnailMaxUpsize;
-
-            databaseExiftoolData = new ExiftoolDataDatabase(databaseUtilitiesSqliteMetadata);
-            databaseExiftoolWarning = new ExiftoolWarningDatabase(databaseUtilitiesSqliteMetadata);
-
-            databaseAndCahceCameraOwner = new CameraOwnersDatabaseCache(databaseUtilitiesSqliteMetadata);
-            databaseLocationNameAndLookUp = new LocationNameDatabaseAndLookUpCache(databaseUtilitiesSqliteMetadata, Properties.Settings.Default.ApplicationPreferredLanguages);
-
-            //databaseUtilitiesSqliteWindowsLivePhotoGallery = new SqliteDatabaseUtilities(DatabaseType.SqliteWindowsLivePhotoGallaryCache);
-            //databaseAndCacheMetadataWindowsLivePhotoGallery = new MetadataDatabaseCache(databaseUtilitiesSqliteWindowsLivePhotoGallery);
-            databaseAndCacheMetadataWindowsLivePhotoGallery = new MetadataDatabaseCache(databaseUtilitiesSqliteMetadata);
-            databaseAndCacheMetadataWindowsLivePhotoGallery.AllowedDateFormats = Properties.Settings.Default.RenameDateFormats;
-            databaseAndCacheMetadataWindowsLivePhotoGallery.OnRecordReadToCache += DatabaseAndCacheMetadataExiftool_OnRecordReadToCache;
-            databaseAndCacheMetadataWindowsLivePhotoGallery.OnDeleteRecord += DatabaseAndCacheMetadataExiftool_OnDeleteRecord;
-
-            //databaseUtilitiesSqliteMicrosoftPhotos = new SqliteDatabaseUtilities(DatabaseType.SqliteMicrosoftPhotosCache);
-            //databaseAndCacheMetadataMicrosoftPhotos = new MetadataDatabaseCache(databaseUtilitiesSqliteMicrosoftPhotos);
-            databaseAndCacheMetadataMicrosoftPhotos = new MetadataDatabaseCache(databaseUtilitiesSqliteMetadata);
-            databaseAndCacheMetadataMicrosoftPhotos.AllowedDateFormats = Properties.Settings.Default.RenameDateFormats;
-            databaseAndCacheMetadataMicrosoftPhotos.OnRecordReadToCache += DatabaseAndCacheMetadataExiftool_OnRecordReadToCache;
-            databaseAndCacheMetadataMicrosoftPhotos.OnDeleteRecord += DatabaseAndCacheMetadataExiftool_OnDeleteRecord;
-
-            exiftoolReader = new ExiftoolReader(databaseAndCacheMetadataExiftool, databaseExiftoolData, databaseExiftoolWarning);
-            exiftoolReader.MetadataGroupPrioityRead();
-            exiftoolReader.afterNewMediaFoundEvent += ExiftoolReader_afterNewMediaFoundEvent;
-            #endregion
-
-            #region Initialize database: read metadata to cache
-            FormSplash.UpdateStatus("Initialize database: read metadata to cache...");
-            try
-            {
-                Thread threadCache = new Thread(() =>
+                #region Initialize database connect
+                FormSplash.UpdateStatus("Initialize database: connect...");
+                try
                 {
+                    databaseUtilitiesSqliteMetadata = new SqliteDatabaseUtilities(DatabaseType.SqliteMetadataDatabase);
+                }
+                catch (Exception ex)
+                {
+                    KryptonMessageBox.Show(ex.Message, "Was not able to start the database...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    Close();
+                    return;
+                }
+                databaseGoogleLocationHistory = new GoogleLocationHistoryDatabaseCache(databaseUtilitiesSqliteMetadata);
+                databaseAndCacheMetadataExiftool = new MetadataDatabaseCache(databaseUtilitiesSqliteMetadata);
+                databaseAndCacheMetadataExiftool.AllowedDateFormats = Properties.Settings.Default.RenameDateFormats;
+                databaseAndCacheMetadataExiftool.OnRecordReadToCache += DatabaseAndCacheMetadataExiftool_OnRecordReadToCache;
+                databaseAndCacheMetadataExiftool.OnDeleteRecord += DatabaseAndCacheMetadataExiftool_OnDeleteRecord;
 
-                    if (cacheAllThumbnails) databaseAndCacheThumbnailPoster.ReadToCacheFolder(null);
-                    if (cacheAllMetadatas) databaseAndCacheMetadataExiftool.ReadToCacheAllMetadatas();
-                    if (cacheAllWebScraperDataSets) databaseAndCacheMetadataExiftool.ReadToCacheWebScarpingAllDataSets();
-                });
-                threadCache.Priority = (ThreadPriority)Properties.Settings.Default.ApplicationDebugBackgroundThreadPrioity;
-                threadCache.Start();
-            }
-            catch { }
-            #endregion 
+                databaseAndCacheThumbnailPoster = new ThumbnailPosterDatabaseCache(databaseUtilitiesSqliteMetadata);
+                databaseAndCacheThumbnailPoster.UpsizeThumbnailSize = ThumbnailMaxUpsize;
 
-            filesCutCopyPasteDrag = new FilesCutCopyPasteDrag(databaseAndCacheMetadataExiftool, databaseAndCacheMetadataWindowsLivePhotoGallery,
-                databaseAndCacheMetadataMicrosoftPhotos, databaseAndCacheThumbnailPoster, databaseExiftoolData, databaseExiftoolWarning);
-            filesCutCopyPasteDrag.OnFileSystemAction += FilesCutCopyPasteDrag_OnFileSystemAction;
+                databaseExiftoolData = new ExiftoolDataDatabase(databaseUtilitiesSqliteMetadata);
+                databaseExiftoolWarning = new ExiftoolWarningDatabase(databaseUtilitiesSqliteMetadata);
 
-            #region Connect to Microsoft Photos
-            FormSplash.UpdateStatus("Initialize database: Connect to Microsoft Photos...");
-            try
-            {
-                if (!File.Exists(SqliteDatabaseUtilities.GetMicrosoftPhotosDatabaseOriginalFile()) &&
-                !File.Exists(SqliteDatabaseUtilities.GetMicrosoftPhotosDatabaseBackupFile())) GlobalData.doesMircosoftPhotosExists = false;
-                
-                if (GlobalData.doesMircosoftPhotosExists) databaseMicrosoftPhotos = new MicrosoftPhotosReader();
-                if (!File.Exists(SqliteDatabaseUtilities.GetMicrosoftPhotosDatabaseBackupFile())) GlobalData.doesMircosoftPhotosExists = false;
-            }
-            catch (Exception e)
-            {
-                GlobalData.doesMircosoftPhotosExists = false;
-                FormSplash.AddWarning("Windows photo warning:\r\n" + e.Message + "\r\n");
-                databaseMicrosoftPhotos = null;
-            }
-            #endregion 
+                databaseAndCahceCameraOwner = new CameraOwnersDatabaseCache(databaseUtilitiesSqliteMetadata);
+                databaseLocationNameAndLookUp = new LocationNameDatabaseAndLookUpCache(databaseUtilitiesSqliteMetadata, Properties.Settings.Default.ApplicationPreferredLanguages);
 
-            #region Connect to Windows Live Photo Gallery
-            FormSplash.UpdateStatus("Initialize database: Connect to Windows Live Photo Gallery...");
-            try
-            {
-                if (!File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Microsoft\\Windows Live Photo Gallery\\Pictures.pd6")))
+                //databaseUtilitiesSqliteWindowsLivePhotoGallery = new SqliteDatabaseUtilities(DatabaseType.SqliteWindowsLivePhotoGallaryCache);
+                //databaseAndCacheMetadataWindowsLivePhotoGallery = new MetadataDatabaseCache(databaseUtilitiesSqliteWindowsLivePhotoGallery);
+                databaseAndCacheMetadataWindowsLivePhotoGallery = new MetadataDatabaseCache(databaseUtilitiesSqliteMetadata);
+                databaseAndCacheMetadataWindowsLivePhotoGallery.AllowedDateFormats = Properties.Settings.Default.RenameDateFormats;
+                databaseAndCacheMetadataWindowsLivePhotoGallery.OnRecordReadToCache += DatabaseAndCacheMetadataExiftool_OnRecordReadToCache;
+                databaseAndCacheMetadataWindowsLivePhotoGallery.OnDeleteRecord += DatabaseAndCacheMetadataExiftool_OnDeleteRecord;
+
+                //databaseUtilitiesSqliteMicrosoftPhotos = new SqliteDatabaseUtilities(DatabaseType.SqliteMicrosoftPhotosCache);
+                //databaseAndCacheMetadataMicrosoftPhotos = new MetadataDatabaseCache(databaseUtilitiesSqliteMicrosoftPhotos);
+                databaseAndCacheMetadataMicrosoftPhotos = new MetadataDatabaseCache(databaseUtilitiesSqliteMetadata);
+                databaseAndCacheMetadataMicrosoftPhotos.AllowedDateFormats = Properties.Settings.Default.RenameDateFormats;
+                databaseAndCacheMetadataMicrosoftPhotos.OnRecordReadToCache += DatabaseAndCacheMetadataExiftool_OnRecordReadToCache;
+                databaseAndCacheMetadataMicrosoftPhotos.OnDeleteRecord += DatabaseAndCacheMetadataExiftool_OnDeleteRecord;
+
+                exiftoolReader = new ExiftoolReader(databaseAndCacheMetadataExiftool, databaseExiftoolData, databaseExiftoolWarning);
+                exiftoolReader.MetadataGroupPrioityRead();
+                exiftoolReader.afterNewMediaFoundEvent += ExiftoolReader_afterNewMediaFoundEvent;
+                #endregion
+
+                #region Initialize database: read metadata to cache
+                FormSplash.UpdateStatus("Initialize database: read metadata to cache...");
+                try
+                {
+                    Thread threadCache = new Thread(() =>
+                    {
+
+                        if (cacheAllThumbnails) databaseAndCacheThumbnailPoster.ReadToCacheFolder(null);
+                        if (cacheAllMetadatas) databaseAndCacheMetadataExiftool.ReadToCacheAllMetadatas();
+                        if (cacheAllWebScraperDataSets) databaseAndCacheMetadataExiftool.ReadToCacheWebScarpingAllDataSets();
+                    });
+                    threadCache.Priority = (ThreadPriority)Properties.Settings.Default.ApplicationDebugBackgroundThreadPrioity;
+                    threadCache.Start();
+                }
+                catch { }
+                #endregion
+
+                filesCutCopyPasteDrag = new FilesCutCopyPasteDrag(databaseAndCacheMetadataExiftool, databaseAndCacheMetadataWindowsLivePhotoGallery,
+                    databaseAndCacheMetadataMicrosoftPhotos, databaseAndCacheThumbnailPoster, databaseExiftoolData, databaseExiftoolWarning);
+                filesCutCopyPasteDrag.OnFileSystemAction += FilesCutCopyPasteDrag_OnFileSystemAction;
+
+                #region Connect to Microsoft Photos
+                FormSplash.UpdateStatus("Initialize database: Connect to Microsoft Photos...");
+                try
+                {
+                    if (!File.Exists(SqliteDatabaseUtilities.GetMicrosoftPhotosDatabaseOriginalFile()) &&
+                    !File.Exists(SqliteDatabaseUtilities.GetMicrosoftPhotosDatabaseBackupFile())) GlobalData.doesMircosoftPhotosExists = false;
+
+                    if (GlobalData.doesMircosoftPhotosExists) databaseMicrosoftPhotos = new MicrosoftPhotosReader();
+                    if (!File.Exists(SqliteDatabaseUtilities.GetMicrosoftPhotosDatabaseBackupFile())) GlobalData.doesMircosoftPhotosExists = false;
+                }
+                catch (Exception e)
+                {
+                    GlobalData.doesMircosoftPhotosExists = false;
+                    FormSplash.AddWarning("Windows photo warning:\r\n" + e.Message + "\r\n");
+                    databaseMicrosoftPhotos = null;
+                }
+                #endregion
+
+                #region Connect to Windows Live Photo Gallery
+                FormSplash.UpdateStatus("Initialize database: Connect to Windows Live Photo Gallery...");
+                try
+                {
+                    if (!File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Microsoft\\Windows Live Photo Gallery\\Pictures.pd6")))
+                        GlobalData.doesWindowsLivePhotoGalleryExists = false;
+
+                    if (GlobalData.doesWindowsLivePhotoGalleryExists)
+                    {
+                        databaseWindowsLivePhotGallery = new WindowsLivePhotoGalleryDatabasePipe();
+                        databaseWindowsLivePhotGallery.ConnectDatabase(databaseAndCacheMetadataWindowsLivePhotoGallery);
+                    }
+                }
+                catch (Exception e)
+                {
                     GlobalData.doesWindowsLivePhotoGalleryExists = false;
-
-                if (GlobalData.doesWindowsLivePhotoGalleryExists)
-                {
-                    databaseWindowsLivePhotGallery = new WindowsLivePhotoGalleryDatabasePipe();
-                    databaseWindowsLivePhotGallery.ConnectDatabase(databaseAndCacheMetadataWindowsLivePhotoGallery);
+                    FormSplash.AddWarning("Windows Live Photo Gallery warning:\r\n" + e.Message + "\r\n");
+                    databaseWindowsLivePhotGallery = null;
                 }
-            }
-            catch (Exception e)
-            {
-                GlobalData.doesWindowsLivePhotoGalleryExists = false;
-                FormSplash.AddWarning("Windows Live Photo Gallery warning:\r\n" + e.Message + "\r\n");
-                databaseWindowsLivePhotGallery = null;
-            }
-            #endregion
+                #endregion
 
-            #region Configure ChromiumWebBrowser
-            if (!GlobalData.isRunningWinSmode)
-            {
-                try
-                {
-                    FormSplash.UpdateStatus("Configure ChromiumWebBrowser...");
-                    browser = new ChromiumWebBrowser("https://www.openstreetmap.org/")
-                    {
-                        Dock = DockStyle.Fill,
-                    };
-                }
-                catch (Exception ex)
-                {
-                    Logger.Error(ex, "Cef Browser");
-                }
-
-                try
-                {
-                    browser.BrowserSettings.Javascript = CefState.Enabled;
-                    //browser.BrowserSettings.WebSecurity = CefState.Enabled;
-                    browser.BrowserSettings.WebGl = CefState.Enabled;
-                    //browser.BrowserSettings.UniversalAccessFromFileUrls = CefState.Disabled;
-                    //browser.BrowserSettings.Plugins = CefState.Enabled;
-                    this.panelBrowser.Controls.Add(this.browser);
-                    browser.AddressChanged += this.OnBrowserAddressChanged;
-                }
-                catch (Exception ex)
-                {
-                    browser = null;
-
-                    Logger.Error(ex, "Cef Browser");
-                }
-            }
-            #endregion 
-
-            #region Initialize global data
-            FormSplash.UpdateStatus("Initialize global data...");
-
-            #region Setup Global Variables - Cache config
-            cacheNumberOfPosters = (int)Properties.Settings.Default.CacheNumberOfPosters;
-            cacheAllMetadatas = Properties.Settings.Default.CacheAllMetadatas;
-            cacheAllThumbnails = Properties.Settings.Default.CacheAllThumbnails;
-            cacheAllWebScraperDataSets = Properties.Settings.Default.CacheAllWebScraperDataSets;
-
-            cacheFolderMetadatas = Properties.Settings.Default.CacheFolderMetadatas;
-            cacheFolderThumbnails = Properties.Settings.Default.CacheFolderThumbnails;
-            cacheFolderWebScraperDataSets = Properties.Settings.Default.CacheFolderWebScraperDataSets;
-            #endregion
-
-            #region Setup Global Variables - ThumbnailSize
-            imageListView1.ThumbnailSize = thumbnailSizes[Properties.Settings.Default.ThumbmailViewSizeIndex];
-            SetThumbnailSize(Properties.Settings.Default.ThumbmailViewSizeIndex);
-
-            kryptonRibbonGroupButtonThumbnailSizeXLarge.ToolTipValues.Heading = "Thumbnail size " + thumbnailSizes[4].Width + "x" + thumbnailSizes[4].Height;
-            kryptonRibbonGroupButtonThumbnailSizeLarge.ToolTipValues.Heading = "Thumbnail size " + thumbnailSizes[3].Width + "x" + thumbnailSizes[3].Height;
-            kryptonRibbonGroupButtonThumbnailSizeMedium.ToolTipValues.Heading = "Thumbnail size " + thumbnailSizes[2].Width + "x" + thumbnailSizes[2].Height;
-            kryptonRibbonGroupButtonThumbnailSizeSmall.ToolTipValues.Heading = "Thumbnail size " + thumbnailSizes[1].Width + "x" + thumbnailSizes[1].Height;
-            kryptonRibbonGroupButtonThumbnailSizeXSmall.ToolTipValues.Heading = "Thumbnail size " + thumbnailSizes[0].Width + "x" + thumbnailSizes[0].Height;
-            #endregion
-
-            #region Setup Global Variables - Link Tab and DataGridView
-            //kryptonPageToolboxTags
-            kryptonPageToolboxTags.Tag = LinkTabAndDataGridViewNameTags;
-            GlobalData.dataGridViewHandlerTags = new DataGridViewHandler(dataGridViewTagsAndKeywords, (KryptonPalette)kryptonManager1.GlobalPalette,
-                LinkTabAndDataGridViewNameTags, "Metadata/Files", (DataGridViewSize)Properties.Settings.Default.CellSizeKeywords, allowUserToAddRow: true);
-
-            kryptonPageToolboxMap.Tag = LinkTabAndDataGridViewNameMap;
-            GlobalData.dataGridViewHandlerMap = new DataGridViewHandler(dataGridViewMap, (KryptonPalette)kryptonManager1.GlobalPalette,
-                LinkTabAndDataGridViewNameMap, "Location/Files", (DataGridViewSize)Properties.Settings.Default.CellSizeMap, allowUserToAddRow: false);
-
-            kryptonPageToolboxPeople.Tag = LinkTabAndDataGridViewNamePeople;
-            GlobalData.dataGridViewHandlerPeople = new DataGridViewHandler(dataGridViewPeople, (KryptonPalette)kryptonManager1.GlobalPalette,
-                LinkTabAndDataGridViewNamePeople, "Name/Files", (DataGridViewSize)Properties.Settings.Default.CellSizePeoples, allowUserToAddRow: true);
-
-            kryptonPageToolboxDates.Tag = LinkTabAndDataGridViewNameDates;
-            GlobalData.dataGridViewHandlerDates = new DataGridViewHandler(dataGridViewDate, (KryptonPalette)kryptonManager1.GlobalPalette,
-                LinkTabAndDataGridViewNameDates, "Name/Files", (DataGridViewSize)Properties.Settings.Default.CellSizeDates, allowUserToAddRow: false);
-
-            kryptonPageToolboxExiftool.Tag = LinkTabAndDataGridViewNameExiftool;
-            GlobalData.dataGridViewHandlerExiftoolTags = new DataGridViewHandler(dataGridViewExiftool, (KryptonPalette)kryptonManager1.GlobalPalette,
-                LinkTabAndDataGridViewNameExiftool, "File/Tag Description", (DataGridViewSize)Properties.Settings.Default.CellSizeExiftool, allowUserToAddRow: false);
-
-            kryptonPageToolboxWarnings.Tag = LinkTabAndDataGridViewNameWarnings;
-            GlobalData.dataGridViewHandlerExiftoolWarning = new DataGridViewHandler(dataGridViewExiftoolWarning, (KryptonPalette)kryptonManager1.GlobalPalette,
-                LinkTabAndDataGridViewNameWarnings, "File and version/Tag region and command", (DataGridViewSize)Properties.Settings.Default.CellSizeWarnings, allowUserToAddRow: false);
-
-            kryptonPageToolboxProperties.Tag = LinkTabAndDataGridViewNameProperties;
-            GlobalData.dataGridViewHandlerProperties = new DataGridViewHandler(dataGridViewProperties, (KryptonPalette)kryptonManager1.GlobalPalette,
-                LinkTabAndDataGridViewNameProperties, "File/Properties", (DataGridViewSize)Properties.Settings.Default.CellSizeProperties, allowUserToAddRow: false);
-
-            kryptonPageToolboxRename.Tag = LinkTabAndDataGridViewNameRename;
-            GlobalData.dataGridViewHandlerRename = new DataGridViewHandler(dataGridViewRename, (KryptonPalette)kryptonManager1.GlobalPalette,
-                LinkTabAndDataGridViewNameRename, "Filename/Values", ((DataGridViewSize)Properties.Settings.Default.CellSizeRename | DataGridViewSize.RenameConvertAndMergeSize),
-                    ColumnNamesAndWidthHandler.ConvertConfigStringToColumnNameAndWidths(Properties.Settings.Default.ColumnNameAndWithsRenameLarge),
-                    ColumnNamesAndWidthHandler.ConvertConfigStringToColumnNameAndWidths(Properties.Settings.Default.ColumnNameAndWithsRenameMedium),
-                    ColumnNamesAndWidthHandler.ConvertConfigStringToColumnNameAndWidths(Properties.Settings.Default.ColumnNameAndWithsRenameSmall), allowUserToAddRow: false
-                );
-
-            kryptonPageToolboxConvertAndMerge.Tag = LinkTabAndDataGridViewNameConvertAndMerge;
-            GlobalData.dataGridViewHandlerConvertAndMerge = new DataGridViewHandler(dataGridViewConvertAndMerge, (KryptonPalette)kryptonManager1.GlobalPalette,
-                LinkTabAndDataGridViewNameConvertAndMerge, "Full path of media file",
-                ((DataGridViewSize)Properties.Settings.Default.CellSizeConvertAndMerge | DataGridViewSize.RenameConvertAndMergeSize),
-                    ColumnNamesAndWidthHandler.ConvertConfigStringToColumnNameAndWidths(Properties.Settings.Default.ColumnNameAndWithsConvertAndMergeLarge),
-                    ColumnNamesAndWidthHandler.ConvertConfigStringToColumnNameAndWidths(Properties.Settings.Default.ColumnNameAndWithsConvertAndMergeMedium),
-                    ColumnNamesAndWidthHandler.ConvertConfigStringToColumnNameAndWidths(Properties.Settings.Default.ColumnNameAndWithsConvertAndMergeSmall), allowUserToAddRow: false
-                );
-            #endregion
-
-            isSettingDefaultComboxValues = true;
-            #region Setup Global Variables - Map
-            comboBoxGoogleTimeZoneShift.SelectedIndex = Properties.Settings.Default.ComboBoxGoogleTimeZoneShift;    //0 time shift = 12
-            comboBoxGoogleLocationInterval.SelectedIndex = Properties.Settings.Default.ComboBoxGoogleLocationInterval;    //30 minutes Index 2
-            comboBoxMapZoomLevel.SelectedIndex = Properties.Settings.Default.ComboBoxMapZoomLevel;     //13 map zoom level 14
-            #endregion 
-
-            #region Setup Global Variables - Rename
-            textBoxRenameNewName.Text = Properties.Settings.Default.RenameVariable;
-            #endregion
-            isSettingDefaultComboxValues = false;
-
-            #region Setup Global Variables - Thumbnail
-            ThumbnailSaveSize = Properties.Settings.Default.ApplicationThumbnail;
-            ThumbnailRegionHandler.FaceThumbnailSize = Properties.Settings.Default.ApplicationRegionThumbnail;
-            #endregion
-            #endregion
-
-            
-            autoKeywordConvertions = AutoKeywordHandler.PopulateList(AutoKeywordHandler.ReadDataSetFromXML());
-
-            #region Initialize layout setup
-
-            #region Initialize layout setup - Windows Size and Splitters
-            FormSplash.UpdateStatus("Initialize layout setup: Sizes...");
-
-            isFormLoading = true; //MainForm_Shown(object sender, EventArgs e) -> isFormLoading = false;
-
-            this.Size = Properties.Settings.Default.MainFormSize;
-            this.Location = Properties.Settings.Default.MainFormLocation;
-
-            if (Properties.Settings.Default.IsMainFormMaximized)
-            {
-                this.WindowState = FormWindowState.Maximized;
-            }
-            else
-            {
-                this.WindowState = FormWindowState.Normal;
-            }
-
-            kryptonWorkspaceCellFolderSearchFilter.StarSize = Properties.Settings.Default.WorkspaceCellFolderSearchFilterStarSize; //"313*,50*"
-            kryptonWorkspaceCellMediaFiles.StarSize = Properties.Settings.Default.WorkspaceCellMediaFilesStarSize; //"367*,50*"
-            kryptonWorkspaceCellToolbox.StarSize = Properties.Settings.Default.WorkspaceCellToolboxStarSize; //"674*,50*"
-            kryptonWorkspaceCellToolboxMapBroswer.StarSize = Properties.Settings.Default.WorkspaceCellToolboxMapBroswerStarSize; //"50*,211*"
-            kryptonWorkspaceCellToolboxMapBroswerProperties.StarSize = Properties.Settings.Default.WorkspaceCellToolboxMapBroswerPropertiesStarSize; //"50*,35"
-            kryptonWorkspaceCellToolboxMapDetails.StarSize = Properties.Settings.Default.WorkspaceCellToolboxMapDetailsStarSize; //"50*,497*"
-            kryptonWorkspaceCellToolboxMapProperties.StarSize = Properties.Settings.Default.WorkspaceCellToolboxMapPropertiesStarSize; //"50*,29"
-            kryptonWorkspaceCellToolboxRenameResult.StarSize = Properties.Settings.Default.WorkspaceCellToolboxRenameResultStarSize; //"50*,650*"
-            kryptonWorkspaceCellToolboxRenameVariables.StarSize = Properties.Settings.Default.WorkspaceCellToolboxRenameVariablesStarSize; //"50*,132"
-            kryptonWorkspaceCellToolboxTagsDetails.StarSize = Properties.Settings.Default.WorkspaceCellToolboxTagsDetailsStarSize; //"50*,272*"
-            kryptonWorkspaceCellToolboxTagsKeywords.StarSize = Properties.Settings.Default.WorkspaceCellToolboxTagsKeywordsStarSize; //"50*,510*"
-            kryptonWorkspaceCellFolderSearchFilter.NavigatorMode = (Krypton.Navigator.NavigatorMode)Properties.Settings.Default.WorkspaceCellFolderSearchFilterNavigatorMode;
-            #endregion
-
-            this.SuspendLayout();
-
-            #region Initialize layout setup - Show/Hide error and History            
-            SetRibbonGridViewColumnsButtonsHistoricalAndError(Properties.Settings.Default.ShowHistortyColumns, Properties.Settings.Default.ShowErrorColumns);
-            showWhatColumns = ShowWhatColumnHandler.SetShowWhatColumns(kryptonRibbonGroupButtonDataGridViewColumnsHistory.Checked, kryptonRibbonGroupButtonDataGridViewColumnsErrors.Checked);
-            #endregion
-
-            timerShowErrorMessage.Enabled = true;
-
-            #region Initialize layout setup - Initialize layout toolstrip: Exiftool
-            FormSplash.UpdateStatus("Initialize layout toolstrip: Exiftool & ExiftoolWarnings...");
-            PopulateExiftoolToolStripMenuItems();
-            #endregion 
-
-            #region Initialize layout setup - Initialize layout toolstrip: People
-            FormSplash.UpdateStatus("Initialize layout toolstrip: People...");
-            PopulatePeopleToolStripMenuItems(null,
-                Properties.Settings.Default.SuggestRegionNameNearbyDays,
-                Properties.Settings.Default.SuggestRegionNameNearByContextMenuCount,
-                Properties.Settings.Default.SuggestRegionNameMostUsedContextMenuCount,
-                Properties.Settings.Default.ApplicationSizeOfRegionNamesGroup,
-                Properties.Settings.Default.RenameDateFormats);
-            #endregion
-
-            #region Initialize layout - Sort Order - ImageListView
-            try
-            {
-                SetImageListViewSortByRadioButton(imageListView1, (ColumnType)Properties.Settings.Default.ImageListViewSortingColumn, (SortOrder)Properties.Settings.Default.ImageListViewSortingOrder);
-                ImageListViewSortByCheckedRadioButton(false);
-            }
-            catch { }
-            #endregion
-
-            this.ResumeLayout();
-            #endregion
-
-
-            #region OneDriveNetworkNames - for automatic remove
-
-            #region Get stored NetworkNames - Incase of thread fails
-            string[] networkNamesFromConfig =
-                    FormConfig.ConvertStringWithSepeartorToArray(Properties.Settings.Default.OneDriveDuplicatesNetworkNames);
-            foreach (string networkName in networkNamesFromConfig) if (!oneDriveNetworkNames.Contains(networkName)) oneDriveNetworkNames.Add(networkName);
-            #endregion
-
-            if (!oneDriveNetworkNames.Contains(Environment.MachineName)) oneDriveNetworkNames.Add(Environment.MachineName);
-            try
-            {
-                Thread scanForComputers = new Thread(() =>
+                #region Configure ChromiumWebBrowser
+                if (!GlobalData.isRunningWinSmode)
                 {
                     try
                     {
-                        Trinet.Networking.NetworkCompuersAndSharesHandler networkCompuersAndSharesHandler = new Trinet.Networking.NetworkCompuersAndSharesHandler();
-
-                        List<string> listOfNetworkNames = new List<string>();
-                        
-                        if (!listOfNetworkNames.Contains(Environment.MachineName)) listOfNetworkNames.Add(Environment.MachineName);
-
-                        string[] networkNamesFromConfigThread =
-                            FormConfig.ConvertStringWithSepeartorToArray(Properties.Settings.Default.OneDriveDuplicatesNetworkNames);
-                            foreach (string networkName in networkNamesFromConfigThread) if (!listOfNetworkNames.Contains(networkName)) listOfNetworkNames.Add(networkName);
-
-                        networkCompuersAndSharesHandler.ScanForComputers();
-                        foreach (string computerName in networkCompuersAndSharesHandler.ComputerNames)
+                        FormSplash.UpdateStatus("Configure ChromiumWebBrowser...");
+                        browser = new ChromiumWebBrowser("https://www.openstreetmap.org/")
                         {
-                            if (!listOfNetworkNames.Contains(computerName)) listOfNetworkNames.Add(computerName);
-                        }
-                        oneDriveNetworkNames = listOfNetworkNames; //Swap to new list;
-
-                        Properties.Settings.Default.OneDriveDuplicatesNetworkNames = FormConfig.ConvertArrayToStringWithSepeartor(oneDriveNetworkNames.ToArray(), "\r\n");
-                    }
-                    catch { }
-                });
-                scanForComputers.Priority = (ThreadPriority)Properties.Settings.Default.ApplicationDebugBackgroundThreadPrioity;
-                scanForComputers.Start();
-            }
-            catch { }
-            #endregion
-
-            #region Initialize nHTTP server
-            FormSplash.UpdateStatus("Initialize nHTTP server...");
-            try
-            {
-                _ThreadHttp = new Thread(() =>
-                {
-                    try
-                    {
-                        using (nHttpServer = new HttpServer())
-                        {
-                            nHttpServer.WriteBufferSize = 1024 * 1024 * 10;
-                            nHttpServer.RequestReceived -= NHttpServer_RequestReceived;
-                            nHttpServer.RequestReceived += NHttpServer_RequestReceived;
-                            nHttpServer.StateChanged -= NHttpServer_StateChanged;
-                            nHttpServer.StateChanged += NHttpServer_StateChanged;
-                            nHttpServer.UnhandledException += NHttpServer_UnhandledException;
-                            nHttpServer.EndPoint = new IPEndPoint(IPAddress.Parse(GetLocalIp()), GetOpenPort());
-                            Logger.Info("nHTTP server started: " + DateTime.Now.ToString() + " ip: " + nHttpServer.EndPoint.ToString());
-                            nHttpServer.Start();
-                            nHttpServerThreadWaitApplicationClosing = new AutoResetEvent(false);
-                            nHttpServerThreadWaitApplicationClosing.WaitOne();
-                            Application.DoEvents();
-                        }
+                            Dock = DockStyle.Fill,
+                        };
                     }
                     catch (Exception ex)
                     {
-                        Logger.Error(ex);
+                        Logger.Error(ex, "Cef Browser");
                     }
-                });
-                _ThreadHttp.Priority = (ThreadPriority)Properties.Settings.Default.ApplicationDebugBackgroundThreadPrioity;
-                _ThreadHttp.Start();
+
+                    try
+                    {
+                        browser.BrowserSettings.Javascript = CefState.Enabled;
+                        //browser.BrowserSettings.WebSecurity = CefState.Enabled;
+                        browser.BrowserSettings.WebGl = CefState.Enabled;
+                        //browser.BrowserSettings.UniversalAccessFromFileUrls = CefState.Disabled;
+                        //browser.BrowserSettings.Plugins = CefState.Enabled;
+                        this.panelBrowser.Controls.Add(this.browser);
+                        browser.AddressChanged += this.OnBrowserAddressChanged;
+                    }
+                    catch (Exception ex)
+                    {
+                        browser = null;
+
+                        Logger.Error(ex, "Cef Browser");
+                    }
+                }
+                #endregion
+
+                #region Initialize global data
+                FormSplash.UpdateStatus("Initialize global data...");
+
+                #region Setup Global Variables - Cache config
+                cacheNumberOfPosters = (int)Properties.Settings.Default.CacheNumberOfPosters;
+                cacheAllMetadatas = Properties.Settings.Default.CacheAllMetadatas;
+                cacheAllThumbnails = Properties.Settings.Default.CacheAllThumbnails;
+                cacheAllWebScraperDataSets = Properties.Settings.Default.CacheAllWebScraperDataSets;
+
+                cacheFolderMetadatas = Properties.Settings.Default.CacheFolderMetadatas;
+                cacheFolderThumbnails = Properties.Settings.Default.CacheFolderThumbnails;
+                cacheFolderWebScraperDataSets = Properties.Settings.Default.CacheFolderWebScraperDataSets;
+                #endregion
+
+                #region Setup Global Variables - ThumbnailSize
+                imageListView1.ThumbnailSize = thumbnailSizes[Properties.Settings.Default.ThumbmailViewSizeIndex];
+                SetThumbnailSize(Properties.Settings.Default.ThumbmailViewSizeIndex);
+
+                kryptonRibbonGroupButtonThumbnailSizeXLarge.ToolTipValues.Heading = "Thumbnail size " + thumbnailSizes[4].Width + "x" + thumbnailSizes[4].Height;
+                kryptonRibbonGroupButtonThumbnailSizeLarge.ToolTipValues.Heading = "Thumbnail size " + thumbnailSizes[3].Width + "x" + thumbnailSizes[3].Height;
+                kryptonRibbonGroupButtonThumbnailSizeMedium.ToolTipValues.Heading = "Thumbnail size " + thumbnailSizes[2].Width + "x" + thumbnailSizes[2].Height;
+                kryptonRibbonGroupButtonThumbnailSizeSmall.ToolTipValues.Heading = "Thumbnail size " + thumbnailSizes[1].Width + "x" + thumbnailSizes[1].Height;
+                kryptonRibbonGroupButtonThumbnailSizeXSmall.ToolTipValues.Heading = "Thumbnail size " + thumbnailSizes[0].Width + "x" + thumbnailSizes[0].Height;
+                #endregion
+
+                #region Setup Global Variables - Link Tab and DataGridView
+                //kryptonPageToolboxTags
+                kryptonPageToolboxTags.Tag = LinkTabAndDataGridViewNameTags;
+                GlobalData.dataGridViewHandlerTags = new DataGridViewHandler(dataGridViewTagsAndKeywords, (KryptonPalette)kryptonManager1.GlobalPalette,
+                    LinkTabAndDataGridViewNameTags, "Metadata/Files", (DataGridViewSize)Properties.Settings.Default.CellSizeKeywords, allowUserToAddRow: true);
+
+                kryptonPageToolboxMap.Tag = LinkTabAndDataGridViewNameMap;
+                GlobalData.dataGridViewHandlerMap = new DataGridViewHandler(dataGridViewMap, (KryptonPalette)kryptonManager1.GlobalPalette,
+                    LinkTabAndDataGridViewNameMap, "Location/Files", (DataGridViewSize)Properties.Settings.Default.CellSizeMap, allowUserToAddRow: false);
+
+                kryptonPageToolboxPeople.Tag = LinkTabAndDataGridViewNamePeople;
+                GlobalData.dataGridViewHandlerPeople = new DataGridViewHandler(dataGridViewPeople, (KryptonPalette)kryptonManager1.GlobalPalette,
+                    LinkTabAndDataGridViewNamePeople, "Name/Files", (DataGridViewSize)Properties.Settings.Default.CellSizePeoples, allowUserToAddRow: true);
+
+                kryptonPageToolboxDates.Tag = LinkTabAndDataGridViewNameDates;
+                GlobalData.dataGridViewHandlerDates = new DataGridViewHandler(dataGridViewDate, (KryptonPalette)kryptonManager1.GlobalPalette,
+                    LinkTabAndDataGridViewNameDates, "Name/Files", (DataGridViewSize)Properties.Settings.Default.CellSizeDates, allowUserToAddRow: false);
+
+                kryptonPageToolboxExiftool.Tag = LinkTabAndDataGridViewNameExiftool;
+                GlobalData.dataGridViewHandlerExiftoolTags = new DataGridViewHandler(dataGridViewExiftool, (KryptonPalette)kryptonManager1.GlobalPalette,
+                    LinkTabAndDataGridViewNameExiftool, "File/Tag Description", (DataGridViewSize)Properties.Settings.Default.CellSizeExiftool, allowUserToAddRow: false);
+
+                kryptonPageToolboxWarnings.Tag = LinkTabAndDataGridViewNameWarnings;
+                GlobalData.dataGridViewHandlerExiftoolWarning = new DataGridViewHandler(dataGridViewExiftoolWarning, (KryptonPalette)kryptonManager1.GlobalPalette,
+                    LinkTabAndDataGridViewNameWarnings, "File and version/Tag region and command", (DataGridViewSize)Properties.Settings.Default.CellSizeWarnings, allowUserToAddRow: false);
+
+                kryptonPageToolboxProperties.Tag = LinkTabAndDataGridViewNameProperties;
+                GlobalData.dataGridViewHandlerProperties = new DataGridViewHandler(dataGridViewProperties, (KryptonPalette)kryptonManager1.GlobalPalette,
+                    LinkTabAndDataGridViewNameProperties, "File/Properties", (DataGridViewSize)Properties.Settings.Default.CellSizeProperties, allowUserToAddRow: false);
+
+                kryptonPageToolboxRename.Tag = LinkTabAndDataGridViewNameRename;
+                GlobalData.dataGridViewHandlerRename = new DataGridViewHandler(dataGridViewRename, (KryptonPalette)kryptonManager1.GlobalPalette,
+                    LinkTabAndDataGridViewNameRename, "Filename/Values", ((DataGridViewSize)Properties.Settings.Default.CellSizeRename | DataGridViewSize.RenameConvertAndMergeSize),
+                        ColumnNamesAndWidthHandler.ConvertConfigStringToColumnNameAndWidths(Properties.Settings.Default.ColumnNameAndWithsRenameLarge),
+                        ColumnNamesAndWidthHandler.ConvertConfigStringToColumnNameAndWidths(Properties.Settings.Default.ColumnNameAndWithsRenameMedium),
+                        ColumnNamesAndWidthHandler.ConvertConfigStringToColumnNameAndWidths(Properties.Settings.Default.ColumnNameAndWithsRenameSmall), allowUserToAddRow: false
+                    );
+
+                kryptonPageToolboxConvertAndMerge.Tag = LinkTabAndDataGridViewNameConvertAndMerge;
+                GlobalData.dataGridViewHandlerConvertAndMerge = new DataGridViewHandler(dataGridViewConvertAndMerge, (KryptonPalette)kryptonManager1.GlobalPalette,
+                    LinkTabAndDataGridViewNameConvertAndMerge, "Full path of media file",
+                    ((DataGridViewSize)Properties.Settings.Default.CellSizeConvertAndMerge | DataGridViewSize.RenameConvertAndMergeSize),
+                        ColumnNamesAndWidthHandler.ConvertConfigStringToColumnNameAndWidths(Properties.Settings.Default.ColumnNameAndWithsConvertAndMergeLarge),
+                        ColumnNamesAndWidthHandler.ConvertConfigStringToColumnNameAndWidths(Properties.Settings.Default.ColumnNameAndWithsConvertAndMergeMedium),
+                        ColumnNamesAndWidthHandler.ConvertConfigStringToColumnNameAndWidths(Properties.Settings.Default.ColumnNameAndWithsConvertAndMergeSmall), allowUserToAddRow: false
+                    );
+                #endregion
+
+                isSettingDefaultComboxValues = true;
+                #region Setup Global Variables - Map
+                comboBoxGoogleTimeZoneShift.SelectedIndex = Properties.Settings.Default.ComboBoxGoogleTimeZoneShift;    //0 time shift = 12
+                comboBoxGoogleLocationInterval.SelectedIndex = Properties.Settings.Default.ComboBoxGoogleLocationInterval;    //30 minutes Index 2
+                comboBoxMapZoomLevel.SelectedIndex = Properties.Settings.Default.ComboBoxMapZoomLevel;     //13 map zoom level 14
+                #endregion
+
+                #region Setup Global Variables - Rename
+                textBoxRenameNewName.Text = Properties.Settings.Default.RenameVariable;
+                #endregion
+                isSettingDefaultComboxValues = false;
+
+                #region Setup Global Variables - Thumbnail
+                ThumbnailSaveSize = Properties.Settings.Default.ApplicationThumbnail;
+                ThumbnailRegionHandler.FaceThumbnailSize = Properties.Settings.Default.ApplicationRegionThumbnail;
+                #endregion
+                #endregion
+
+
+                autoKeywordConvertions = AutoKeywordHandler.PopulateList(AutoKeywordHandler.ReadDataSetFromXML());
+
+                #region Initialize layout setup
+
+                #region Initialize layout setup - Windows Size and Splitters
+                FormSplash.UpdateStatus("Initialize layout setup: Sizes...");
+
+                isFormLoading = true; //MainForm_Shown(object sender, EventArgs e) -> isFormLoading = false;
+
+                this.Size = Properties.Settings.Default.MainFormSize;
+                this.Location = Properties.Settings.Default.MainFormLocation;
+
+                if (Properties.Settings.Default.IsMainFormMaximized)
+                {
+                    this.WindowState = FormWindowState.Maximized;
+                }
+                else
+                {
+                    this.WindowState = FormWindowState.Normal;
+                }
+
+                kryptonWorkspaceCellFolderSearchFilter.StarSize = Properties.Settings.Default.WorkspaceCellFolderSearchFilterStarSize; //"313*,50*"
+                kryptonWorkspaceCellMediaFiles.StarSize = Properties.Settings.Default.WorkspaceCellMediaFilesStarSize; //"367*,50*"
+                kryptonWorkspaceCellToolbox.StarSize = Properties.Settings.Default.WorkspaceCellToolboxStarSize; //"674*,50*"
+                kryptonWorkspaceCellToolboxMapBroswer.StarSize = Properties.Settings.Default.WorkspaceCellToolboxMapBroswerStarSize; //"50*,211*"
+                kryptonWorkspaceCellToolboxMapBroswerProperties.StarSize = Properties.Settings.Default.WorkspaceCellToolboxMapBroswerPropertiesStarSize; //"50*,35"
+                kryptonWorkspaceCellToolboxMapDetails.StarSize = Properties.Settings.Default.WorkspaceCellToolboxMapDetailsStarSize; //"50*,497*"
+                kryptonWorkspaceCellToolboxMapProperties.StarSize = Properties.Settings.Default.WorkspaceCellToolboxMapPropertiesStarSize; //"50*,29"
+                kryptonWorkspaceCellToolboxRenameResult.StarSize = Properties.Settings.Default.WorkspaceCellToolboxRenameResultStarSize; //"50*,650*"
+                kryptonWorkspaceCellToolboxRenameVariables.StarSize = Properties.Settings.Default.WorkspaceCellToolboxRenameVariablesStarSize; //"50*,132"
+                kryptonWorkspaceCellToolboxTagsDetails.StarSize = Properties.Settings.Default.WorkspaceCellToolboxTagsDetailsStarSize; //"50*,272*"
+                kryptonWorkspaceCellToolboxTagsKeywords.StarSize = Properties.Settings.Default.WorkspaceCellToolboxTagsKeywordsStarSize; //"50*,510*"
+                kryptonWorkspaceCellFolderSearchFilter.NavigatorMode = (Krypton.Navigator.NavigatorMode)Properties.Settings.Default.WorkspaceCellFolderSearchFilterNavigatorMode;
+                #endregion
+
+                this.SuspendLayout();
+
+                #region Initialize layout setup - Show/Hide error and History            
+                SetRibbonGridViewColumnsButtonsHistoricalAndError(Properties.Settings.Default.ShowHistortyColumns, Properties.Settings.Default.ShowErrorColumns);
+                showWhatColumns = ShowWhatColumnHandler.SetShowWhatColumns(kryptonRibbonGroupButtonDataGridViewColumnsHistory.Checked, kryptonRibbonGroupButtonDataGridViewColumnsErrors.Checked);
+                #endregion
+
+                timerShowErrorMessage.Enabled = true;
+
+                #region Initialize layout setup - Initialize layout toolstrip: Exiftool
+                FormSplash.UpdateStatus("Initialize layout toolstrip: Exiftool & ExiftoolWarnings...");
+                PopulateExiftoolToolStripMenuItems();
+                #endregion
+
+                #region Initialize layout setup - Initialize layout toolstrip: People
+                FormSplash.UpdateStatus("Initialize layout toolstrip: People...");
+                PopulatePeopleToolStripMenuItems(null,
+                    Properties.Settings.Default.SuggestRegionNameNearbyDays,
+                    Properties.Settings.Default.SuggestRegionNameNearByContextMenuCount,
+                    Properties.Settings.Default.SuggestRegionNameMostUsedContextMenuCount,
+                    Properties.Settings.Default.ApplicationSizeOfRegionNamesGroup,
+                    Properties.Settings.Default.RenameDateFormats);
+                #endregion
+
+                #region Initialize layout - Sort Order - ImageListView
+                try
+                {
+                    SetImageListViewSortByRadioButton(imageListView1, (ColumnType)Properties.Settings.Default.ImageListViewSortingColumn, (SortOrder)Properties.Settings.Default.ImageListViewSortingOrder);
+                    ImageListViewSortByCheckedRadioButton(false);
+                }
+                catch { }
+                #endregion
+
+                this.ResumeLayout();
+                #endregion
+
+
+                #region OneDriveNetworkNames - for automatic remove
+
+                #region Get stored NetworkNames - Incase of thread fails
+                string[] networkNamesFromConfig =
+                        FormConfig.ConvertStringWithSepeartorToArray(Properties.Settings.Default.OneDriveDuplicatesNetworkNames);
+                foreach (string networkName in networkNamesFromConfig) if (!oneDriveNetworkNames.Contains(networkName)) oneDriveNetworkNames.Add(networkName);
+                #endregion
+
+                if (!oneDriveNetworkNames.Contains(Environment.MachineName)) oneDriveNetworkNames.Add(Environment.MachineName);
+                try
+                {
+                    Thread scanForComputers = new Thread(() =>
+                    {
+                        try
+                        {
+                            Trinet.Networking.NetworkCompuersAndSharesHandler networkCompuersAndSharesHandler = new Trinet.Networking.NetworkCompuersAndSharesHandler();
+
+                            List<string> listOfNetworkNames = new List<string>();
+
+                            if (!listOfNetworkNames.Contains(Environment.MachineName)) listOfNetworkNames.Add(Environment.MachineName);
+
+                            string[] networkNamesFromConfigThread =
+                                FormConfig.ConvertStringWithSepeartorToArray(Properties.Settings.Default.OneDriveDuplicatesNetworkNames);
+                            foreach (string networkName in networkNamesFromConfigThread) if (!listOfNetworkNames.Contains(networkName)) listOfNetworkNames.Add(networkName);
+
+                            networkCompuersAndSharesHandler.ScanForComputers();
+                            foreach (string computerName in networkCompuersAndSharesHandler.ComputerNames)
+                            {
+                                if (!listOfNetworkNames.Contains(computerName)) listOfNetworkNames.Add(computerName);
+                            }
+                            oneDriveNetworkNames = listOfNetworkNames; //Swap to new list;
+
+                            Properties.Settings.Default.OneDriveDuplicatesNetworkNames = FormConfig.ConvertArrayToStringWithSepeartor(oneDriveNetworkNames.ToArray(), "\r\n");
+                        }
+                        catch { }
+                    });
+                    scanForComputers.Priority = (ThreadPriority)Properties.Settings.Default.ApplicationDebugBackgroundThreadPrioity;
+                    scanForComputers.Start();
+                }
+                catch { }
+                #endregion
+
+                #region Initialize nHTTP server
+                FormSplash.UpdateStatus("Initialize nHTTP server...");
+                try
+                {
+                    _ThreadHttp = new Thread(() =>
+                    {
+                        try
+                        {
+                            using (nHttpServer = new HttpServer())
+                            {
+                                nHttpServer.WriteBufferSize = 1024 * 1024 * 10;
+                                nHttpServer.RequestReceived -= NHttpServer_RequestReceived;
+                                nHttpServer.RequestReceived += NHttpServer_RequestReceived;
+                                nHttpServer.StateChanged -= NHttpServer_StateChanged;
+                                nHttpServer.StateChanged += NHttpServer_StateChanged;
+                                nHttpServer.UnhandledException += NHttpServer_UnhandledException;
+                                nHttpServer.EndPoint = new IPEndPoint(IPAddress.Parse(GetLocalIp()), GetOpenPort());
+                                Logger.Info("nHTTP server started: " + DateTime.Now.ToString() + " ip: " + nHttpServer.EndPoint.ToString());
+                                nHttpServer.Start();
+                                nHttpServerThreadWaitApplicationClosing = new AutoResetEvent(false);
+                                nHttpServerThreadWaitApplicationClosing.WaitOne();
+                                Application.DoEvents();
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Logger.Error(ex);
+                        }
+                    });
+                    _ThreadHttp.Priority = (ThreadPriority)Properties.Settings.Default.ApplicationDebugBackgroundThreadPrioity;
+                    _ThreadHttp.Start();
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error(ex);
+                }
+                #endregion
+
+                MaximizeOrRestoreWorkspaceMainCellAndChilds();
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Form Constructor failed", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                return;
             }
-            #endregion
-
-            MaximizeOrRestoreWorkspaceMainCellAndChilds();
         }
 
         #endregion
@@ -949,90 +958,98 @@ namespace PhotoTagsSynchronizer
         #region MainForm_Shown
         private void MainForm_Shown(object sender, EventArgs e)
         {
-            isFormLoading = false;
-
-            #region Initialize folder tree...
-            //If in Form_Load
-            //System.InvalidOperationException: 'Cross-thread operation not valid: Control 'toolStrip1' accessed from a thread other than the thread it was created on.'
             try
             {
-                FormSplash.UpdateStatus("Initialize folder tree...");
-                GlobalData.DoNotTrigger_TreeViewFolder_BeforeAndAfterSelect = true;
+                isFormLoading = false;
 
+                #region Initialize folder tree...
+                //If in Form_Load
+                //System.InvalidOperationException: 'Cross-thread operation not valid: Control 'toolStrip1' accessed from a thread other than the thread it was created on.'
+                try
+                {
+                    FormSplash.UpdateStatus("Initialize folder tree...");
+                    GlobalData.DoNotTrigger_TreeViewFolder_BeforeAndAfterSelect = true;
+
+                    try
+                    {
+
+                        Raccoom.Windows.Forms.TreeStrategyShell32Provider shell32Provider = new Raccoom.Windows.Forms.TreeStrategyShell32Provider();
+                        shell32Provider.EnableContextMenu = true;
+                        shell32Provider.ShowAllShellObjects = true;
+                        treeViewFolderBrowser1.DataSource = shell32Provider; // new Raccoom.Windows.Forms.TreeStrategyFolderBrowserProvider();
+                        string folder = Properties.Settings.Default.LastFolder;
+
+                        treeViewFolderBrowser1.Populate(folder);
+                        if (treeViewFolderBrowser1.SelectedNode == null && treeViewFolderBrowser1.Nodes.Count >= 1)
+                        {
+                            TreeViewFolderBrowserHandler.RefreshTreeNode(treeViewFolderBrowser1, treeViewFolderBrowser1.Nodes[0]);
+                        }
+
+                    }
+                    catch (Exception ee)
+                    {
+                        KryptonMessageBox.Show(Application.ProductName + "\r\n\r\n" + ee.Message, "Initialize folder tree failed...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    }
+
+                    GlobalData.DoNotTrigger_TreeViewFolder_BeforeAndAfterSelect = false;
+                }
+                catch (Exception ex)
+                {
+                    KryptonMessageBox.Show(ex.Message, "Initialize folder tree failed...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                }
+                #endregion
+
+                #region Populate search filters...
                 try
                 {
 
-                    Raccoom.Windows.Forms.TreeStrategyShell32Provider shell32Provider = new Raccoom.Windows.Forms.TreeStrategyShell32Provider();
-                    shell32Provider.EnableContextMenu = true;
-                    shell32Provider.ShowAllShellObjects = true;
-                    treeViewFolderBrowser1.DataSource = shell32Provider; // new Raccoom.Windows.Forms.TreeStrategyFolderBrowserProvider();
-                    string folder = Properties.Settings.Default.LastFolder;
+                    FormSplash.UpdateStatus("Populate search filters...");
+                    PopulateDatabaseFilter();
+                    PopulateSelectGroupToolStripMenuItems();
+                }
+                catch (Exception ex)
+                {
+                    KryptonMessageBox.Show(ex.Message, "Populate search failed...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                }
+                #endregion
 
-                    treeViewFolderBrowser1.Populate(folder);
-                    if (treeViewFolderBrowser1.SelectedNode == null && treeViewFolderBrowser1.Nodes.Count >= 1)
+                ImageListView_FetchListOfMediaFiles_FromFolder_and_Aggregate(false, true);
+                treeViewFolderBrowser1.Focus();
+                ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false);
+
+                MaximizeOrRestoreWorkspaceMainCellAndChilds();
+                SetNavigatorModeSearch((NavigatorMode)Properties.Settings.Default.WorkspaceCellFolderSearchFilterNavigatorMode);
+
+                if (Properties.Settings.Default.ShowAboutPage)
+                {
+                    About();
+                    Properties.Settings.Default.ShowAboutPage = false;
+                }
+
+                if (Properties.Settings.Default.ShowDatabaseNotFoundWarning)
+                {
+                    if (!GlobalData.doesMircosoftPhotosExists || !GlobalData.doesWindowsLivePhotoGalleryExists || GlobalData.isRunningWinSmode)
                     {
-                        TreeViewFolderBrowserHandler.RefreshTreeNode(treeViewFolderBrowser1, treeViewFolderBrowser1.Nodes[0]);
-                    }
-
-                }
-                catch (Exception ee)
-                {
-                    KryptonMessageBox.Show(Application.ProductName + "\r\n\r\n" + ee.Message, "Initialize folder tree failed...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-                }
-
-                GlobalData.DoNotTrigger_TreeViewFolder_BeforeAndAfterSelect = false;
-            }
-            catch (Exception ex)
-            {
-                KryptonMessageBox.Show(ex.Message, "Initialize folder tree failed...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-            }
-            #endregion
-
-            #region Populate search filters...
-            try
-            {
-
-                FormSplash.UpdateStatus("Populate search filters...");
-                PopulateDatabaseFilter();
-                PopulateSelectGroupToolStripMenuItems();
-            }
-            catch (Exception ex)
-            {
-                KryptonMessageBox.Show(ex.Message, "Populate search failed...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-            }
-            #endregion
-
-            ImageListView_FetchListOfMediaFiles_FromFolder_and_Aggregate(false, true);
-            treeViewFolderBrowser1.Focus();
-            ImageListView_SelectionChanged_Action_ImageListView_DataGridView(false);
-
-            MaximizeOrRestoreWorkspaceMainCellAndChilds();
-            SetNavigatorModeSearch((NavigatorMode)Properties.Settings.Default.WorkspaceCellFolderSearchFilterNavigatorMode);
-
-            if (Properties.Settings.Default.ShowAboutPage)
-            {
-                About();
-                Properties.Settings.Default.ShowAboutPage = false;
-            }
-
-            if (Properties.Settings.Default.ShowDatabaseNotFoundWarning)
-            {
-                if (!GlobalData.doesMircosoftPhotosExists || !GlobalData.doesWindowsLivePhotoGalleryExists || GlobalData.isRunningWinSmode)
-                {
-                    KryptonMessageBox.Show(
-                        //Windows S mode
-                        (GlobalData.isRunningWinSmode ? "\r\nWindows is Running Windows 10/11 S mode, this will reduce functionality on this app.\r\n" +
-                        "- Showing maps on ChromiumWebBrowser will not work\r\n" +
-                        "- Running DOS commands will not work...\r\n" +
-                        "- Reading data from Exiftool will not work, in general nothing will work\r\n" : "") +
-                        //Database sources
-                        "\r\nPhotoTags-Synchronizer works better with connected sources.\r\n\r\n" +
-                        "Tried connect to:\r\n" +
-                        (GlobalData.doesMircosoftPhotosExists ? "Mircosoft Photos (OK)\r\n" : "Mircosoft Photos was not found\r\n") +
-                        (GlobalData.doesWindowsLivePhotoGalleryExists ? "Windows Live Photo Gallery (OK)" : "Windows Live Photo Gallery was not found\r\n"),                    
-                        "PhotoTags-Synchronizer works better with...", MessageBoxButtons.OK, MessageBoxIcon.Information, showCtrlCopy: true);
+                        KryptonMessageBox.Show(
+                            //Windows S mode
+                            (GlobalData.isRunningWinSmode ? "\r\nWindows is Running Windows 10/11 S mode, this will reduce functionality on this app.\r\n" +
+                            "- Showing maps on ChromiumWebBrowser will not work\r\n" +
+                            "- Running DOS commands will not work...\r\n" +
+                            "- Reading data from Exiftool will not work, in general nothing will work\r\n" : "") +
+                            //Database sources
+                            "\r\nPhotoTags-Synchronizer works better with connected sources.\r\n\r\n" +
+                            "Tried connect to:\r\n" +
+                            (GlobalData.doesMircosoftPhotosExists ? "Mircosoft Photos (OK)\r\n" : "Mircosoft Photos was not found\r\n") +
+                            (GlobalData.doesWindowsLivePhotoGalleryExists ? "Windows Live Photo Gallery (OK)" : "Windows Live Photo Gallery was not found\r\n"),
+                            "PhotoTags-Synchronizer works better with...", MessageBoxButtons.OK, MessageBoxIcon.Information, showCtrlCopy: true);
                         Properties.Settings.Default.ShowDatabaseNotFoundWarning = false;
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show(ex.Message, "Form Load failed", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                return;
             }
         }
         #endregion

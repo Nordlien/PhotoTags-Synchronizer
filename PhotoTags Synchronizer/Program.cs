@@ -30,59 +30,72 @@ namespace PhotoTagsSynchronizer
             // Add the event handler for handling non-UI thread exceptions to the event.
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
             */
-
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-
-            FormSplash.ShowSplashScreen("PhotoTags Synchronizer - Loading...", 21, Properties.Settings.Default.CloseWarningWindowsAutomatically, true);
-            FormSplash.UpdateStatus("Initialize DLL files..."); //1 
-
-            //Monitor parent process exit and close subprocesses if parent process exits first
-            //This will at some point in the future becomes the default
-
-            
-            FormSplash.UpdateStatus("Initialize ChromiumWebBrowser - settings 1/2..."); //2 
             try
             {
-                CefSharpSettings.SubprocessExitIfParentProcessClosed = true;
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
 
-                GlobalData.isRunningWinSmode = false;
-                if (File.Exists(Path.Combine(Environment.SystemDirectory, "CodeIntegrity\\SIPolicy.P7B"))) GlobalData.isRunningWinSmode = true;
-                if (File.Exists(Path.Combine(Environment.SystemDirectory, "..\\sysnative\\CodeIntegrity\\SIPolicy.P7B"))) GlobalData.isRunningWinSmode = true;
+                FormSplash.ShowSplashScreen("PhotoTags Synchronizer - Loading...", 21, Properties.Settings.Default.CloseWarningWindowsAutomatically, true);
+                FormSplash.UpdateStatus("Initialize DLL files..."); //1 
 
-                if (!GlobalData.isRunningWinSmode)
+                //Monitor parent process exit and close subprocesses if parent process exits first
+                //This will at some point in the future becomes the default
+
+
+                try
                 {
-                    var settings = new CefSettings()
+                    FormSplash.UpdateStatus("Initialize ChromiumWebBrowser - 1/4..."); //2 
+                    CefSharpSettings.SubprocessExitIfParentProcessClosed = true;
+
+                    GlobalData.isRunningWinSmode = false;
+                    try
                     {
-                        //By default CefSharp will use an in-memory cache, you need to specify a Cache Folder to persist data
-                        CachePath = FileHandler.GetLocalApplicationDataPath("BrowserCache", false, null),
-                        UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101 Firefox/68.0"
-                    };
+                        if (File.Exists(Path.Combine(Environment.SystemDirectory, "CodeIntegrity\\SIPolicy.P7B"))) GlobalData.isRunningWinSmode = true;
+                        if (File.Exists(Path.Combine(Environment.SystemDirectory, "..\\sysnative\\CodeIntegrity\\SIPolicy.P7B"))) GlobalData.isRunningWinSmode = true;
+                    } catch
+                    {
+                        GlobalData.isRunningWinSmode = true;
+                    }
 
-                    FormSplash.UpdateStatus("Initialize ChromiumWebBrowser - settings 2/2..."); //3 
-                    settings.CefCommandLineArgs.Add("enable-media-stream", "1"); //Enables WebRTC
-                                                                                 //settings.CefCommandLineArgs.Add("force-device-scale-factor", "1");
-                    settings.CefCommandLineArgs.Add("disable-gpu", "1"); //https://stackoverflow.com/questions/52913442/cefsharp-winforms-dock-dockstyle-fill-no-effect-black-edge-how-to-make-the-c
+                    if (!GlobalData.isRunningWinSmode)
+                    {
+                        FormSplash.UpdateStatus("Initialize ChromiumWebBrowser - 2/4..."); //3 
+                        var settings = new CefSettings()
+                        {
+                            //By default CefSharp will use an in-memory cache, you need to specify a Cache Folder to persist data
+                            CachePath = FileHandler.GetLocalApplicationDataPath("BrowserCache", false, null),
+                            UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101 Firefox/68.0"
+                        };
+
+                        settings.CefCommandLineArgs.Add("enable-media-stream", "1"); //Enables WebRTC
+                                                                                     //settings.CefCommandLineArgs.Add("force-device-scale-factor", "1");
+                        settings.CefCommandLineArgs.Add("disable-gpu", "1"); //https://stackoverflow.com/questions/52913442/cefsharp-winforms-dock-dockstyle-fill-no-effect-black-edge-how-to-make-the-c
 
 
-                    FormSplash.UpdateStatus("Initialize ChromiumWebBrowser - starting process..."); //4 
+                        FormSplash.UpdateStatus("Initialize ChromiumWebBrowser - 3/4..."); //4 
 
-                    //Perform dependency check to make sure all relevant resources are in our output directory.
-                    Cef.Initialize(settings, performDependencyCheck: true, browserProcessHandler: null);
+                        //Perform dependency check to make sure all relevant resources are in our output directory.
+                        Cef.Initialize(settings, performDependencyCheck: true, browserProcessHandler: null);
 
-                    FormSplash.UpdateStatus("Initialize ChromiumWebBrowser - process started..."); //5 
+                        FormSplash.UpdateStatus("Initialize ChromiumWebBrowser - 4/4..."); //5 
+                    }
+                    else
+                    {
+                        FormSplash.UpdateStatus("Initialize ChromiumWebBrowser - 2/4 - Not supported in Win S mode..."); //3
+                        FormSplash.UpdateStatus("Initialize ChromiumWebBrowser - 3/4 - Not supported in Win S mode..."); //4
+                        FormSplash.UpdateStatus("Initialize ChromiumWebBrowser - 4/4 - Not supported in Win S mode..."); //5
+                    }
                 }
-                else
+                catch
                 {
-                    FormSplash.UpdateStatus("Initialize ChromiumWebBrowser - Not supported in Win S mode..."); //3
-                    FormSplash.UpdateStatus("Initialize ChromiumWebBrowser - Not supported in Win S mode..."); //4
-                    FormSplash.UpdateStatus("Initialize ChromiumWebBrowser - Not supported in Win S mode..."); //5
                 }
+                mainForm = new MainForm(); //this takes ages
             }
-            catch 
-            { 
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show(ex.Message, "Was not able to load VLC player", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                return;
             }
-            mainForm = new MainForm(); //this takes ages
             Application.Run(mainForm);
         }
 
