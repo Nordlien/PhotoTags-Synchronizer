@@ -426,6 +426,18 @@ namespace PhotoTagsSynchronizer
 
                     if (GlobalData.doesMircosoftPhotosExists) databaseMicrosoftPhotos = new MicrosoftPhotosReader();
                     if (!File.Exists(SqliteDatabaseUtilities.GetMicrosoftPhotosDatabaseBackupFile())) GlobalData.doesMircosoftPhotosExists = false;
+
+                    try
+                    {
+                        GlobalData.doesMircosoftPhotosHaveData = true;
+                        if (GlobalData.doesMircosoftPhotosExists) databaseMicrosoftPhotos.Read(MetadataBrokerType.MicrosoftPhotos, "Check if contains data");
+                    }
+                    catch
+                    {
+                        GlobalData.doesMircosoftPhotosHaveData = false;
+                        GlobalData.doesMircosoftPhotosExists = false; 
+                    }
+
                 }
                 catch (Exception e)
                 {
@@ -653,7 +665,6 @@ namespace PhotoTagsSynchronizer
 
                 this.ResumeLayout();
                 #endregion
-
 
                 #region OneDriveNetworkNames - for automatic remove
 
@@ -1020,12 +1031,15 @@ namespace PhotoTagsSynchronizer
                 MaximizeOrRestoreWorkspaceMainCellAndChilds();
                 SetNavigatorModeSearch((NavigatorMode)Properties.Settings.Default.WorkspaceCellFolderSearchFilterNavigatorMode);
 
+                #region Show About Page
                 if (Properties.Settings.Default.ShowAboutPage)
                 {
                     About();
                     Properties.Settings.Default.ShowAboutPage = false;
                 }
+                #endregion
 
+                #region ShowDatabaseNotFoundWarning
                 if (Properties.Settings.Default.ShowDatabaseNotFoundWarning)
                 {
                     if (!GlobalData.doesMircosoftPhotosExists || !GlobalData.doesWindowsLivePhotoGalleryExists || GlobalData.isRunningWinSmode)
@@ -1038,13 +1052,15 @@ namespace PhotoTagsSynchronizer
                             "- Reading data from Exiftool will not work, in general nothing will work\r\n" : "") +
                             //Database sources
                             "\r\nPhotoTags-Synchronizer works better with connected sources.\r\n\r\n" +
-                            "Tried connect to:\r\n" +
-                            (GlobalData.doesMircosoftPhotosExists ? "Mircosoft Photos (OK)\r\n" : "Mircosoft Photos was not found\r\n") +
-                            (GlobalData.doesWindowsLivePhotoGalleryExists ? "Windows Live Photo Gallery (OK)" : "Windows Live Photo Gallery was not found\r\n"),
+                            "Tried connect to:\r\n" + 
+                            (GlobalData.doesMircosoftPhotosExists ? "Mircosoft Photos (Connected)\r\n" : "Mircosoft Photos (Not connected)\r\n") +
+                            (GlobalData.doesMircosoftPhotosHaveData ? "" : "Mircosoft Photos (Doesn't contains data)\r\n") +
+                            (GlobalData.doesWindowsLivePhotoGalleryExists ? "Windows Live Photo Gallery (Connected)" : "Windows Live Photo Gallery (Not connected)\r\n"),
                             "PhotoTags-Synchronizer works better with...", MessageBoxButtons.OK, MessageBoxIcon.Information, showCtrlCopy: true);
                         Properties.Settings.Default.ShowDatabaseNotFoundWarning = false;
                     }
                 }
+                #endregion 
             }
             catch (Exception ex)
             {

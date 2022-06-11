@@ -10,6 +10,7 @@ namespace PhotoTagsSynchronizer
         public static readonly object metadataUpdateLock = new object();
 
         public static bool doesMircosoftPhotosExists = true;
+        public static bool doesMircosoftPhotosHaveData = true;
         public static bool doesWindowsLivePhotoGalleryExists = true;
         public static bool isRunningWinSmode = false;
 
