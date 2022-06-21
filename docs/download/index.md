@@ -2,7 +2,7 @@
 
 # Download
 From Windows Store...
-- [Windows Store(]https://apps.microsoft.com/store/detail/phototagssynchronizer/9N5SR1C23JMS)
+- [Windows Store](https://apps.microsoft.com/store/detail/phototagssynchronizer/9N5SR1C23JMS)
 
 From Website as Zip files...
 - 2022-05-17:
