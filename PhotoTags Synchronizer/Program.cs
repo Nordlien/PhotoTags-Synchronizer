@@ -64,7 +64,12 @@ namespace PhotoTagsSynchronizer
                         {
                             //By default CefSharp will use an in-memory cache, you need to specify a Cache Folder to persist data
                             CachePath = FileHandler.GetLocalApplicationDataPath("BrowserCache", false, null),
-                            UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101 Firefox/68.0"
+                            //UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101 Firefox/68.0" - NOT WORK
+                            //UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0 - Not tested
+                            //UserAgent = "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:54.0) Gecko/20100101 Firefox/54.0" //Works
+                            //UserAgent = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36; SMART-TV; Tizen 4.0" //Works
+                              UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:90.0) Gecko/20100101 Firefox/90.0" //Tested - Works
+                            //UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36" // Not tested
                         };
 
                         settings.CefCommandLineArgs.Add("enable-media-stream", "1"); //Enables WebRTC

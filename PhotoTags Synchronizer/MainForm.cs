@@ -796,33 +796,36 @@ namespace PhotoTagsSynchronizer
                 else
                 {
                     GlobalData.IsApplicationClosing = true;
+                    imageListView1.StopThreads();
                     ImageListViewHandler.ClearAllAndCaches(imageListView1);
                     ImageListView_SelectionChanged_Action_ImageListView_DataGridView(true); //Even when 0 selected files, allocate data and flags, etc...
                 }
             }
 
-                MetadataDatabaseCache.StopApplication = true;
+            MetadataDatabaseCache.StopApplication = true;
 
-                try
-                {
-                    exiftoolReader.MetadataGroupPrioritiesWrite(); //Updated json config file if new tags found
-                }
-                catch (Exception ex)
-                {
-                    KryptonMessageBox.Show(ex.Message, "Can't save settings, Metadata Group Priorities", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
-                }
+            try
+            {
+                exiftoolReader.MetadataGroupPrioritiesWrite(); //Updated json config file if new tags found
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show(ex.Message, "Can't save settings, Metadata Group Priorities", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
 
-                try
-                {
-                    if (browser != null) browser.Dispose();
-                }
-                catch { }
+            try
+            {
+                if (browser != null) browser.Dispose();
+            }
+            catch { }
 
             try
             {
                 GlobalData.IsStopAndEmptyExiftoolReadQueueRequest = true;
                 MetadataDatabaseCache.StopCaching = true;
                 ThumbnailPosterDatabaseCache.StopCaching = true;
+
+                //databaseMicrosoftPhotos
 
                 //Close down nHTTP server;
                 nHttpServerThreadWaitApplicationClosing.Set();
@@ -888,13 +891,14 @@ namespace PhotoTagsSynchronizer
 
                 try
                 {
+                    imageListView1.StopThreads();
                     ImageListViewHandler.ClearAllAndCaches(imageListView1);
                     imageListView1.Dispose();
                 }
                 catch { }
 
                 //---------------------------------------------------------
-                Application.DoEvents();
+                //Application.DoEvents();
                 Task.Delay(200).Wait();
 
                 int waitForProcessEndRetray = 30;
@@ -905,7 +909,7 @@ namespace PhotoTagsSynchronizer
                     waitForProcessEndRetray = 30;
                     while (!imageListView1.IsBackgroundThreadsStopped() && waitForProcessEndRetray-- > 0)
                     {
-                        Application.DoEvents();
+                        //Application.DoEvents();
                         Task.Delay(200).Wait();
                     }
                 }
@@ -917,7 +921,7 @@ namespace PhotoTagsSynchronizer
                     waitForProcessEndRetray = 30;
                     while (IsAnyThreadRunning() && waitForProcessEndRetray-- > 0)
                     {
-                        Application.DoEvents();
+                        //Application.DoEvents();
                         Task.Delay(100).Wait();
                     }
                 }

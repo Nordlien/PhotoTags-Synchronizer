@@ -273,7 +273,7 @@ namespace Manina.Windows.Forms
                         {
                             if (mImageListView != null && mImageListView.IsHandleCreated && !mImageListView.IsDisposed && mImageListView.Enabled)
                             {
-                                mImageListView.Invoke(new UpdateItemDetailsDelegateInternal(mImageListView.UpdateItemDetailsInternal), item.Item, info, requestedTickCount);
+                                if (!Stopping) mImageListView.Invoke(new UpdateItemDetailsDelegateInternal(mImageListView.UpdateItemDetailsInternal), item.Item, info, requestedTickCount);
                             }
                         }
                         catch (ObjectDisposedException ex)

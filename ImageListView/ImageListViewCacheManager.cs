@@ -1004,7 +1004,7 @@ namespace Manina.Windows.Forms
                     {
                         if (mImageListView != null && mImageListView.IsHandleCreated && !mImageListView.IsDisposed)
                         {
-                            mImageListView.Invoke(new RefreshDelegateInternal(mImageListView.OnRefreshInternal));
+                            if (!Stopping) mImageListView.Invoke(new RefreshDelegateInternal(mImageListView.OnRefreshInternal));
                         }
                     }
                     catch (ObjectDisposedException ex)

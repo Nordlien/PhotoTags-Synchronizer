@@ -896,7 +896,15 @@ duration {Duration}</Value>
       <Value Profile="(Default)">13</Value>
     </Setting>
     <Setting Name="WebScraperScript" Type="System.String" Scope="User">
-      <Value Profile="(Default)">(function()
+      <Value Profile="(Default)">//
+// Please read....
+//
+// If you not using English version of Google Photos, please rename the "div[aria-label^='Filename']" to your language in use...
+//
+//
+//
+
+(function()
 {
     function isVisible(e) {
     return !!( e.offsetWidth || e.offsetHeight || e.getClientRects().length );
@@ -944,13 +952,6 @@ duration {Duration}</Value>
         }
     }
     
-    // Tag link
-    //var resultQuery = document.querySelectorAll("a[href^='./search/']");
-    //for (var i = 0; i &lt; resultQuery.length; i++)
-    //{
-    //    if (isVisible(resultQuery[i]) &amp;&amp; !(resultQuery[i].innerText === "")) resultArray[resultIndex++] = ["tag link", String(resultQuery[i].innerText), String(resultQuery[i].href)];
-    //}
-    
     // Picture link
     var linkName    = "photo link";
     if (window.location.href == "https://photos.google.com/things") linkName = "tag link";
@@ -965,12 +966,18 @@ duration {Duration}</Value>
     }
     
     // Mediafile
-    var resultQuery = document.querySelectorAll("div[aria-label^='Filnavn']");
+    var resultQuery = document.querySelectorAll("div[aria-label^='Filename']"); //English
     for (var i = 0; i &lt; resultQuery.length; i++)
     {
         if (isVisible(resultQuery[i])) resultArray[resultIndex++] = ["mediafile", String(resultQuery[i].innerHTML)];
     }
-
+    
+    var resultQuery = document.querySelectorAll("div[aria-label^='Filnavn']"); //Norwegain
+    for (var i = 0; i &lt; resultQuery.length; i++)
+    {
+        if (isVisible(resultQuery[i])) resultArray[resultIndex++] = ["mediafile", String(resultQuery[i].innerHTML)];
+    }
+    
     // Location name
     var resultQuery = document.querySelectorAll("div[class='qYQJEe']");
     for (var i = 0; i &lt; resultQuery.length; i++)

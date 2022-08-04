@@ -532,7 +532,8 @@ namespace PhotoTagsSynchronizer
         {
             bool result = autoResetEventWaitPageLoaded.WaitOne(waitEventPageLoadedTimeout);
             Application.DoEvents();
-            if (sleep) Task.Delay(webScrapingDelayInPageScriptToRun).Wait();
+            if (sleep) 
+                Task.Delay(webScrapingDelayInPageScriptToRun).Wait();
             return result;
         }
         #endregion

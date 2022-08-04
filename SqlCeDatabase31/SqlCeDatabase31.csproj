@@ -83,7 +83,7 @@
     <ProjectReference Include="..\SqlCeDatabase\SqlCeDatabase.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="NLog" Version="5.0.0" />
+    <PackageReference Include="NLog" Version="5.0.1" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Data.SqlServerCe">

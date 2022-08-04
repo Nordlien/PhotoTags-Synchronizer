@@ -606,6 +606,13 @@ namespace Manina.Windows.Forms
             cacheManager.Clear();
             Refresh();
         }
+
+        public void StopThreads()
+        {
+            cacheManager.Stop();
+            itemCacheManager.Stop();
+        }
+
         /// <summary>
         /// Temporarily suspends the layout logic for the control.
         /// </summary>
