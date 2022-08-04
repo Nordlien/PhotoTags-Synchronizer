@@ -486,9 +486,9 @@ namespace PhotoTagsSynchronizer
 
                     try
                     {
-                        browser.BrowserSettings.Javascript = CefState.Enabled;
+                        browser.BrowserSettings.Javascript = (Properties.Settings.Default.BrowserSettingsJavaScript ? CefState.Enabled : CefState.Disabled);
                         //browser.BrowserSettings.WebSecurity = CefState.Enabled;
-                        browser.BrowserSettings.WebGl = CefState.Enabled;
+                        browser.BrowserSettings.WebGl = (Properties.Settings.Default.BrowserSettingsEnableMediaStream ? CefState.Enabled : CefState.Disabled);
                         //browser.BrowserSettings.UniversalAccessFromFileUrls = CefState.Disabled;
                         //browser.BrowserSettings.Plugins = CefState.Enabled;
                         this.panelBrowser.Controls.Add(this.browser);

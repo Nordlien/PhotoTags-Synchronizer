@@ -351,7 +351,11 @@ namespace PhotoTagsSynchronizer
             comboBoxChromecastAudioCodec.Text = Properties.Settings.Default.ChromecastAudioCodec;
             comboBoxChromecastVideoCodec.Text = Properties.Settings.Default.ChromecastVideoCodec;
 
-
+            kryptonTextBoxCEFWebSettingsUserAgent.Text = Properties.Settings.Default.BrowserSettingsUserAgent;
+            kryptonCheckBoxCEFWebSettingsDisableGPU.Enabled = Properties.Settings.Default.BrowserSettingsDisableGPU;
+            kryptonCheckBoxCEFWebSettingsEnableMediaStream.Enabled = Properties.Settings.Default.BrowserSettingsEnableMediaStream;
+            kryptonCheckBoxCEFWebSettingsJavaScript.Enabled = Properties.Settings.Default.BrowserSettingsJavaScript;
+            kryptonCheckBoxCEFWebSettingsWebGL.Enabled = Properties.Settings.Default.BrowserSettingsEnableMediaStream;
             //Show log
             ShowLogs();
         }

@@ -181,7 +181,7 @@ namespace MicrosoftPhotos
 
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {                   
-                    while (reader.Read())
+                    while (reader.Read() && !MetadataDatabaseCache.StopApplication)
                     {
                         String itemPath = dbToolsMicrosoftReader.ConvertFromDBValString(reader["ItemPath"]);
                         itemPath = itemPath.Replace("/", "\\");

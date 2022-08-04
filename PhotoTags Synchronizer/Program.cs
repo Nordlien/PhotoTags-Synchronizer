@@ -68,14 +68,13 @@ namespace PhotoTagsSynchronizer
                             //UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0 - Not tested
                             //UserAgent = "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:54.0) Gecko/20100101 Firefox/54.0" //Works
                             //UserAgent = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36; SMART-TV; Tizen 4.0" //Works
-                              UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:90.0) Gecko/20100101 Firefox/90.0" //Tested - Works
+                            //UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:90.0) Gecko/20100101 Firefox/90.0" //Tested - Works
                             //UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36" // Not tested
+                            UserAgent = Properties.Settings.Default.BrowserSettingsUserAgent 
                         };
 
-                        settings.CefCommandLineArgs.Add("enable-media-stream", "1"); //Enables WebRTC
-                                                                                     //settings.CefCommandLineArgs.Add("force-device-scale-factor", "1");
-                        settings.CefCommandLineArgs.Add("disable-gpu", "1"); //https://stackoverflow.com/questions/52913442/cefsharp-winforms-dock-dockstyle-fill-no-effect-black-edge-how-to-make-the-c
-
+                        settings.CefCommandLineArgs.Add("enable-media-stream", (Properties.Settings.Default.BrowserSettingsEnableMediaStream ? "1" : "0")); //Enables WebRTC
+                        settings.CefCommandLineArgs.Add("disable-gpu", (Properties.Settings.Default.BrowserSettingsDisableGPU ? "1" : "0")); //https://stackoverflow.com/questions/52913442/cefsharp-winforms-dock-dockstyle-fill-no-effect-black-edge-how-to-make-the-c
 
                         FormSplash.UpdateStatus("Initialize ChromiumWebBrowser - 3/4..."); //4 
 

@@ -897,7 +897,7 @@ duration {Duration}</Value>
     </Setting>
     <Setting Name="WebScraperScript" Type="System.String" Scope="User">
       <Value Profile="(Default)">//
-// Please read....
+// Please read.....
 //
 // If you not using English version of Google Photos, please rename the "div[aria-label^='Filename']" to your language in use...
 //
@@ -1339,6 +1339,21 @@ explorer ms-photos?filename="{FileFullPath}"</Value>
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="ShowDatabaseNotFoundWarning" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="BrowserSettingsUserAgent" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:90.0) Gecko/20100101 Firefox/90.0</Value>
+    </Setting>
+    <Setting Name="BrowserSettingsJavaScript" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="BrowserSettingsWebGL" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="BrowserSettingsDisableGPU" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="BrowserSettingsEnableMediaStream" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>

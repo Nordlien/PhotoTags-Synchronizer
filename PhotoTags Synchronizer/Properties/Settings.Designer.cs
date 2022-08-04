@@ -1534,65 +1534,65 @@ explorer ms-photos?filename=""{FileFullPath}""")]
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("//\r\n// Please read....\r\n//\r\n// If you not using English version of Google Photos," +
-            " please rename the \"div[aria-label^=\'Filename\']\" to your language in use...\r\n//\r" +
-            "\n//\r\n//\r\n\r\n(function()\r\n{\r\n    function isVisible(e) {\r\n    return !!( e.offsetW" +
-            "idth || e.offsetHeight || e.getClientRects().length );\r\n}\r\n\r\n    var resultArray" +
-            " = new Array();\r\n    \r\n    var resultIndex = 0;\r\n    \r\n    //page href\r\n    resu" +
-            "ltArray[resultIndex++] = [\"url\", String(window.location.href)];\r\n    \r\n    //doc" +
-            "ument title\r\n    resultArray[resultIndex++] = [\"title\", String(document.title)];" +
-            "\r\n    \r\n    //picture info screen\r\n    var resultQuery = document.getElementsByC" +
-            "lassName(\"Q77Pt eejsDc\");\r\n    for (var i = 0; i < resultQuery.length; i++)\r\n   " +
-            " {\r\n        resultArray[resultIndex++] = [\"picture info screen\", String(resultQu" +
-            "ery[i].style.display)];        \r\n    }\r\n        \r\n    // Album (main)\r\n    var r" +
-            "esultQuery = document.querySelectorAll(\"textarea[class=\'ajQY2 v3oaBb\']\");\r\n    f" +
-            "or (var i = 0; i < resultQuery.length; i++)\r\n    {\r\n        if (isVisible(result" +
-            "Query[i])) resultArray[resultIndex++] = [\"album\", String(resultQuery[i].textCont" +
-            "ent)];\r\n    }\r\n    \r\n    // Album (sub)\r\n    var resultQuery = document.querySel" +
-            "ectorAll(\"div[class=\'AJM7gb\']\");\r\n    for (var i = 0; i < resultQuery.length; i+" +
-            "+)\r\n    {\r\n        if (isVisible(resultQuery[i])) resultArray[resultIndex++] = [" +
-            "\"album other\", String(resultQuery[i].textContent)];\r\n    }\r\n    \r\n    // Album l" +
-            "ink\r\n    var resultQuery = document.querySelectorAll(\"a[href^=\'./album/\']\");\r\n  " +
-            "  for (var i = 0; i < resultQuery.length; i++)\r\n    {\r\n        if (isVisible(res" +
-            "ultQuery[i]) && !(resultQuery[i].innerText === \"\")) \r\n        {\r\n            var" +
-            " array = resultQuery[i].innerText.split(/\\r?\\n/); //Remove text about Number of " +
-            "Elements\r\n            resultArray[resultIndex++] = [\"album link\", String(array[0" +
-            "]), String(resultQuery[i].href)];\r\n        }\r\n    }\r\n    \r\n    // Picture link\r\n" +
-            "    var linkName    = \"photo link\";\r\n    if (window.location.href == \"https://ph" +
-            "otos.google.com/things\") linkName = \"tag link\";\r\n    if (window.location.href ==" +
-            " \"https://photos.google.com/places\") linkName = \"location link\";\r\n    if (window" +
-            ".location.href == \"https://photos.google.com/albums\") linkName = \"album link\";\r\n" +
-            "    if (window.location.href == \"https://photos.google.com/people\") linkName = \"" +
-            "people link\";\r\n    var resultQuery = document.querySelectorAll(\"a[class=\'p137Zd\'" +
-            "]\");\r\n    for (var i = 0; i < resultQuery.length; i++)\r\n    {\r\n        if (isVis" +
-            "ible(resultQuery[i])) \r\n            resultArray[resultIndex++] = [linkName, Stri" +
-            "ng(resultQuery[i].innerText), String(resultQuery[i].href)];\r\n    }\r\n    \r\n    //" +
-            " Mediafile\r\n    var resultQuery = document.querySelectorAll(\"div[aria-label^=\'Fi" +
-            "lename\']\"); //English\r\n    for (var i = 0; i < resultQuery.length; i++)\r\n    {\r\n" +
-            "        if (isVisible(resultQuery[i])) resultArray[resultIndex++] = [\"mediafile\"" +
-            ", String(resultQuery[i].innerHTML)];\r\n    }\r\n    \r\n    var resultQuery = documen" +
-            "t.querySelectorAll(\"div[aria-label^=\'Filnavn\']\"); //Norwegain\r\n    for (var i = " +
-            "0; i < resultQuery.length; i++)\r\n    {\r\n        if (isVisible(resultQuery[i])) r" +
-            "esultArray[resultIndex++] = [\"mediafile\", String(resultQuery[i].innerHTML)];\r\n  " +
-            "  }\r\n    \r\n    // Location name\r\n    var resultQuery = document.querySelectorAll" +
-            "(\"div[class=\'qYQJEe\']\");\r\n    for (var i = 0; i < resultQuery.length; i++)\r\n    " +
-            "{\r\n        if (isVisible(resultQuery[i])) \r\n            resultArray[resultIndex+" +
-            "+] = [\"locationName\", String(resultQuery[i].textContent)];\r\n    }\r\n    \r\n    // " +
-            "Location name\r\n    var resultQuery = document.querySelectorAll(\"div[class=\'R9U8a" +
-            "b\']\");\r\n    for (var i = 0; i < resultQuery.length; i++)\r\n    {\r\n        if (isV" +
-            "isible(resultQuery[i])) \r\n        resultArray[resultIndex++] = [\"locationName\", " +
-            "String(resultQuery[i].textContent)];\r\n    }\r\n    \r\n    // Title\r\n    var resultQ" +
-            "uery = document.querySelectorAll(\"div[class=\'nxaUwb\']\");\r\n    for (var i = 0; i " +
-            "< resultQuery.length; i++)\r\n    {\r\n        if (isVisible(resultQuery[i]) && !(re" +
-            "sultQuery[i].textContent === \"\") ) resultArray[resultIndex++] = [\"description\", " +
-            "String(resultQuery[i].textContent)];\r\n    }\r\n    \r\n    // Tags\r\n    var resultQu" +
-            "ery = document.querySelectorAll(\"div[class=\'CWzyGb\']\");\r\n    for (var i = 0; i <" +
-            " resultQuery.length; i++)\r\n    {\r\n        //if (isVisible(resultQuery[i])) resul" +
-            "tArray[resultIndex++] = [\"tag\", String(resultQuery[i].ariaLabel)];\r\n    }\r\n\r\n   " +
-            " // People\r\n    var resultQuery = document.querySelectorAll(\"span[class=\'Y8X4Pc\'" +
-            "]\"); \r\n    for (var i = 0; i < resultQuery.length; i++)\r\n    {\r\n        if (isVi" +
-            "sible(resultQuery[i])) resultArray[resultIndex++] = [\"people\", String(resultQuer" +
-            "y[i].innerHTML)];\r\n    }\r\n\r\n    \r\n    return resultArray;\r\n})();")]
+        [global::System.Configuration.DefaultSettingValueAttribute("//\r\n// Please read.....\r\n//\r\n// If you not using English version of Google Photos" +
+            ", please rename the \"div[aria-label^=\'Filename\']\" to your language in use...\r\n//" +
+            "\r\n//\r\n//\r\n\r\n(function()\r\n{\r\n    function isVisible(e) {\r\n    return !!( e.offset" +
+            "Width || e.offsetHeight || e.getClientRects().length );\r\n}\r\n\r\n    var resultArra" +
+            "y = new Array();\r\n    \r\n    var resultIndex = 0;\r\n    \r\n    //page href\r\n    res" +
+            "ultArray[resultIndex++] = [\"url\", String(window.location.href)];\r\n    \r\n    //do" +
+            "cument title\r\n    resultArray[resultIndex++] = [\"title\", String(document.title)]" +
+            ";\r\n    \r\n    //picture info screen\r\n    var resultQuery = document.getElementsBy" +
+            "ClassName(\"Q77Pt eejsDc\");\r\n    for (var i = 0; i < resultQuery.length; i++)\r\n  " +
+            "  {\r\n        resultArray[resultIndex++] = [\"picture info screen\", String(resultQ" +
+            "uery[i].style.display)];        \r\n    }\r\n        \r\n    // Album (main)\r\n    var " +
+            "resultQuery = document.querySelectorAll(\"textarea[class=\'ajQY2 v3oaBb\']\");\r\n    " +
+            "for (var i = 0; i < resultQuery.length; i++)\r\n    {\r\n        if (isVisible(resul" +
+            "tQuery[i])) resultArray[resultIndex++] = [\"album\", String(resultQuery[i].textCon" +
+            "tent)];\r\n    }\r\n    \r\n    // Album (sub)\r\n    var resultQuery = document.querySe" +
+            "lectorAll(\"div[class=\'AJM7gb\']\");\r\n    for (var i = 0; i < resultQuery.length; i" +
+            "++)\r\n    {\r\n        if (isVisible(resultQuery[i])) resultArray[resultIndex++] = " +
+            "[\"album other\", String(resultQuery[i].textContent)];\r\n    }\r\n    \r\n    // Album " +
+            "link\r\n    var resultQuery = document.querySelectorAll(\"a[href^=\'./album/\']\");\r\n " +
+            "   for (var i = 0; i < resultQuery.length; i++)\r\n    {\r\n        if (isVisible(re" +
+            "sultQuery[i]) && !(resultQuery[i].innerText === \"\")) \r\n        {\r\n            va" +
+            "r array = resultQuery[i].innerText.split(/\\r?\\n/); //Remove text about Number of" +
+            " Elements\r\n            resultArray[resultIndex++] = [\"album link\", String(array[" +
+            "0]), String(resultQuery[i].href)];\r\n        }\r\n    }\r\n    \r\n    // Picture link\r" +
+            "\n    var linkName    = \"photo link\";\r\n    if (window.location.href == \"https://p" +
+            "hotos.google.com/things\") linkName = \"tag link\";\r\n    if (window.location.href =" +
+            "= \"https://photos.google.com/places\") linkName = \"location link\";\r\n    if (windo" +
+            "w.location.href == \"https://photos.google.com/albums\") linkName = \"album link\";\r" +
+            "\n    if (window.location.href == \"https://photos.google.com/people\") linkName = " +
+            "\"people link\";\r\n    var resultQuery = document.querySelectorAll(\"a[class=\'p137Zd" +
+            "\']\");\r\n    for (var i = 0; i < resultQuery.length; i++)\r\n    {\r\n        if (isVi" +
+            "sible(resultQuery[i])) \r\n            resultArray[resultIndex++] = [linkName, Str" +
+            "ing(resultQuery[i].innerText), String(resultQuery[i].href)];\r\n    }\r\n    \r\n    /" +
+            "/ Mediafile\r\n    var resultQuery = document.querySelectorAll(\"div[aria-label^=\'F" +
+            "ilename\']\"); //English\r\n    for (var i = 0; i < resultQuery.length; i++)\r\n    {\r" +
+            "\n        if (isVisible(resultQuery[i])) resultArray[resultIndex++] = [\"mediafile" +
+            "\", String(resultQuery[i].innerHTML)];\r\n    }\r\n    \r\n    var resultQuery = docume" +
+            "nt.querySelectorAll(\"div[aria-label^=\'Filnavn\']\"); //Norwegain\r\n    for (var i =" +
+            " 0; i < resultQuery.length; i++)\r\n    {\r\n        if (isVisible(resultQuery[i])) " +
+            "resultArray[resultIndex++] = [\"mediafile\", String(resultQuery[i].innerHTML)];\r\n " +
+            "   }\r\n    \r\n    // Location name\r\n    var resultQuery = document.querySelectorAl" +
+            "l(\"div[class=\'qYQJEe\']\");\r\n    for (var i = 0; i < resultQuery.length; i++)\r\n   " +
+            " {\r\n        if (isVisible(resultQuery[i])) \r\n            resultArray[resultIndex" +
+            "++] = [\"locationName\", String(resultQuery[i].textContent)];\r\n    }\r\n    \r\n    //" +
+            " Location name\r\n    var resultQuery = document.querySelectorAll(\"div[class=\'R9U8" +
+            "ab\']\");\r\n    for (var i = 0; i < resultQuery.length; i++)\r\n    {\r\n        if (is" +
+            "Visible(resultQuery[i])) \r\n        resultArray[resultIndex++] = [\"locationName\"," +
+            " String(resultQuery[i].textContent)];\r\n    }\r\n    \r\n    // Title\r\n    var result" +
+            "Query = document.querySelectorAll(\"div[class=\'nxaUwb\']\");\r\n    for (var i = 0; i" +
+            " < resultQuery.length; i++)\r\n    {\r\n        if (isVisible(resultQuery[i]) && !(r" +
+            "esultQuery[i].textContent === \"\") ) resultArray[resultIndex++] = [\"description\"," +
+            " String(resultQuery[i].textContent)];\r\n    }\r\n    \r\n    // Tags\r\n    var resultQ" +
+            "uery = document.querySelectorAll(\"div[class=\'CWzyGb\']\");\r\n    for (var i = 0; i " +
+            "< resultQuery.length; i++)\r\n    {\r\n        //if (isVisible(resultQuery[i])) resu" +
+            "ltArray[resultIndex++] = [\"tag\", String(resultQuery[i].ariaLabel)];\r\n    }\r\n\r\n  " +
+            "  // People\r\n    var resultQuery = document.querySelectorAll(\"span[class=\'Y8X4Pc" +
+            "\']\"); \r\n    for (var i = 0; i < resultQuery.length; i++)\r\n    {\r\n        if (isV" +
+            "isible(resultQuery[i])) resultArray[resultIndex++] = [\"people\", String(resultQue" +
+            "ry[i].innerHTML)];\r\n    }\r\n\r\n    \r\n    return resultArray;\r\n})();")]
         public string WebScraperScript {
             get {
                 return ((string)(this["WebScraperScript"]));
@@ -2829,6 +2829,66 @@ explorer ms-photos?filename=""{FileFullPath}""")]
             }
             set {
                 this["ShowDatabaseNotFoundWarning"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:90.0) Gecko/20100101 Firefox/90.0")]
+        public string BrowserSettingsUserAgent {
+            get {
+                return ((string)(this["BrowserSettingsUserAgent"]));
+            }
+            set {
+                this["BrowserSettingsUserAgent"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool BrowserSettingsJavaScript {
+            get {
+                return ((bool)(this["BrowserSettingsJavaScript"]));
+            }
+            set {
+                this["BrowserSettingsJavaScript"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool BrowserSettingsWebGL {
+            get {
+                return ((bool)(this["BrowserSettingsWebGL"]));
+            }
+            set {
+                this["BrowserSettingsWebGL"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool BrowserSettingsDisableGPU {
+            get {
+                return ((bool)(this["BrowserSettingsDisableGPU"]));
+            }
+            set {
+                this["BrowserSettingsDisableGPU"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool BrowserSettingsEnableMediaStream {
+            get {
+                return ((bool)(this["BrowserSettingsEnableMediaStream"]));
+            }
+            set {
+                this["BrowserSettingsEnableMediaStream"] = value;
             }
         }
     }
