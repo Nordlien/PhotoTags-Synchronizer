@@ -1,7 +1,10 @@
 {% include header.md %}
 
 # Download
+From Windows Store...
+- [Windows Store](https://apps.microsoft.com/store/detail/phototagssynchronizer/9N5SR1C23JMS)
 
+From Website as Zip files...
 - 2022-05-17:
   - Download all files and unpack in same folder and just run it
   - [Zip package .zip, file: 1 / 6](2022-05-17-PhotoTags-Synchronizer-x64rc2.zip)
