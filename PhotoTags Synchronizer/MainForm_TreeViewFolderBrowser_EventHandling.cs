@@ -12,13 +12,21 @@ namespace PhotoTagsSynchronizer
         #region TreeViewFolderBrowser - BeforeSelect - Click
         private void treeViewFolderBrowser1_BeforeSelect(object sender, TreeViewCancelEventArgs e)
         {
-            if (GlobalData.IsApplicationClosing) e.Cancel = true;
-            if (!GlobalData.DoNotTrigger_TreeViewFolder_BeforeAndAfterSelect)
+            try
             {
-                if (GlobalData.DoNotTrigger_TreeViewFilter_BeforeAndAfterCheck) e.Cancel = true;
-                if (GlobalData.IsPopulatingImageListViewFromFolderOrDatabaseList) e.Cancel = true;
-                else if (IsPopulatingAnything("Select Items")) e.Cancel = true;
-                else if (SaveBeforeContinue(true) == DialogResult.Cancel) e.Cancel = true;
+                if (GlobalData.IsApplicationClosing) e.Cancel = true;
+                if (!GlobalData.DoNotTrigger_TreeViewFolder_BeforeAndAfterSelect)
+                {
+                    if (GlobalData.DoNotTrigger_TreeViewFilter_BeforeAndAfterCheck) e.Cancel = true;
+                    if (GlobalData.IsPopulatingImageListViewFromFolderOrDatabaseList) e.Cancel = true;
+                    else if (IsPopulatingAnything("Select Items")) e.Cancel = true;
+                    else if (SaveBeforeContinue(true) == DialogResult.Cancel) e.Cancel = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -47,18 +55,27 @@ namespace PhotoTagsSynchronizer
         #region TreeViewFolderBrowser - GetNodeFolderRealPath
         private string GetNodeFolderRealPath(TreeNodePath treeNodePath)
         {
-            if (treeNodePath == null) return "";
-            string folder = treeNodePath?.Path == null ? "" : treeNodePath?.Path; //"C:\\Users\\nordl\\OneDrive\\Skrivebord"
-            if (!Directory.Exists(folder))
+            try
             {
-                try
+                if (treeNodePath == null) return "";
+                string folder = treeNodePath?.Path == null ? "" : treeNodePath?.Path; //"C:\\Users\\nordl\\OneDrive\\Skrivebord"
+                if (!Directory.Exists(folder))
                 {
-                    if (treeNodePath.Tag is Raccoom.Win32.ShellItem shellItem) folder = (shellItem == null ? "" : Raccoom.Win32.ShellItem.GetRealPath(shellItem));
-                    if (folder.StartsWith("::{")) folder = "";
+                    try
+                    {
+                        if (treeNodePath.Tag is Raccoom.Win32.ShellItem shellItem) folder = (shellItem == null ? "" : Raccoom.Win32.ShellItem.GetRealPath(shellItem));
+                        if (folder.StartsWith("::{")) folder = "";
+                    }
+                    catch { }
                 }
-                catch { }
+                return Directory.Exists(folder) ? folder : "";
             }
-            return Directory.Exists(folder) ? folder : "";
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                return "";
+            }
         }
         #endregion
 

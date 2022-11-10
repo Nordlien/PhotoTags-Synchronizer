@@ -309,7 +309,15 @@ namespace PhotoTagsSynchronizer
         private DataObject SetDropDropFileList(string sourceDirectory)
         {           
             var droplist = new StringCollection();
-            droplist.Add(sourceDirectory);
+            try
+            {
+                droplist.Add(sourceDirectory);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
             return SetDropDropFileList(droplist);
         }
 

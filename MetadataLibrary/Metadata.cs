@@ -427,7 +427,14 @@ namespace MetadataLibrary
         {
             get
             {
-                if (fileEntry == null) fileEntry = new FileEntry(Path.Combine(fileDirectory, FileName), (DateTime)FileDateModified);
+                try
+                {
+                    if (fileEntry == null) fileEntry = new FileEntry(Path.Combine(fileDirectory, FileName), (DateTime)FileDateModified);
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error(ex);
+                }
                 return fileEntry;
             }
         }

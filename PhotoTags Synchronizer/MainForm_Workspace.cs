@@ -13,14 +13,22 @@ namespace PhotoTagsSynchronizer
         #region Workspace - FindWorkspaceCell
         private Krypton.Workspace.KryptonWorkspaceCell FindWorkspaceCell(Krypton.Workspace.KryptonWorkspace kryptonWorkspace, string name)
         {
-            Krypton.Workspace.KryptonWorkspaceCell kryptonWorkspaceCell = kryptonWorkspace.FirstVisibleCell();
-            while (kryptonWorkspaceCell != null)
+            try
             {
-                if (kryptonWorkspaceCell.Name == name)
+                Krypton.Workspace.KryptonWorkspaceCell kryptonWorkspaceCell = kryptonWorkspace.FirstVisibleCell();
+                while (kryptonWorkspaceCell != null)
                 {
-                    return kryptonWorkspaceCell;
+                    if (kryptonWorkspaceCell.Name == name)
+                    {
+                        return kryptonWorkspaceCell;
+                    }
+                    kryptonWorkspaceCell = kryptonWorkspace.NextVisibleCell(kryptonWorkspaceCell);
                 }
-                kryptonWorkspaceCell = kryptonWorkspace.NextVisibleCell(kryptonWorkspaceCell);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
             }
             return null;
         }
@@ -29,7 +37,15 @@ namespace PhotoTagsSynchronizer
         #region Workspace - ActionMaximumWorkspaceCell
         private void ActionMaximumWorkspaceCell(Krypton.Workspace.KryptonWorkspace kryptonWorkspace, Krypton.Workspace.KryptonWorkspaceCell kryptonWorkspaceCell)
         {
-            kryptonWorkspace.MaximizedCell = kryptonWorkspaceCell;
+            try
+            {
+                kryptonWorkspace.MaximizedCell = kryptonWorkspaceCell;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
         }
         #endregion
 
@@ -38,22 +54,30 @@ namespace PhotoTagsSynchronizer
         #region WorkspaceCellToolboxTags - MaximizeOrRestore()
         private void WorkspaceCellToolboxTagsMaximizeOrRestore()
         {
-            switch (GetActiveTabTag())
+            try
             {
-                case LinkTabAndDataGridViewNameTags:
-                    Krypton.Workspace.KryptonWorkspaceCell kryptonWorkspaceCell = FindWorkspaceCell(kryptonWorkspaceToolboxTags, Properties.Settings.Default.WorkspaceToolboxTagsMaximizedCell);
-                    ActionMaximumWorkspaceCell(kryptonWorkspaceToolboxTags, kryptonWorkspaceCell);
-                    break;
-                case LinkTabAndDataGridViewNameMap:
-                case LinkTabAndDataGridViewNamePeople:
-                case LinkTabAndDataGridViewNameDates:
-                case LinkTabAndDataGridViewNameExiftool:
-                case LinkTabAndDataGridViewNameWarnings:
-                case LinkTabAndDataGridViewNameProperties:
-                case LinkTabAndDataGridViewNameRename:
-                case LinkTabAndDataGridViewNameConvertAndMerge:
-                    break;
-                default: throw new NotImplementedException();
+                switch (GetActiveTabTag())
+                {
+                    case LinkTabAndDataGridViewNameTags:
+                        Krypton.Workspace.KryptonWorkspaceCell kryptonWorkspaceCell = FindWorkspaceCell(kryptonWorkspaceToolboxTags, Properties.Settings.Default.WorkspaceToolboxTagsMaximizedCell);
+                        ActionMaximumWorkspaceCell(kryptonWorkspaceToolboxTags, kryptonWorkspaceCell);
+                        break;
+                    case LinkTabAndDataGridViewNameMap:
+                    case LinkTabAndDataGridViewNamePeople:
+                    case LinkTabAndDataGridViewNameDates:
+                    case LinkTabAndDataGridViewNameExiftool:
+                    case LinkTabAndDataGridViewNameWarnings:
+                    case LinkTabAndDataGridViewNameProperties:
+                    case LinkTabAndDataGridViewNameRename:
+                    case LinkTabAndDataGridViewNameConvertAndMerge:
+                        break;
+                    default: throw new NotImplementedException();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion 
@@ -61,7 +85,15 @@ namespace PhotoTagsSynchronizer
         #region WorkspaceCellToolboxTags - MaximizeRestore - Click
         private void ActionMaximizeRestoreWorkspaceCellToolboxTags()
         {
-            Properties.Settings.Default.WorkspaceToolboxTagsMaximizedCell = kryptonWorkspaceToolboxTags?.MaximizedCell?.Name ?? "";
+            try
+            {
+                Properties.Settings.Default.WorkspaceToolboxTagsMaximizedCell = kryptonWorkspaceToolboxTags?.MaximizedCell?.Name ?? "";
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
         }
         #endregion
 
@@ -84,17 +116,33 @@ namespace PhotoTagsSynchronizer
         #region WorkspaceMain - MaximizeWorkspaceMainCell
         private void MaximizeOrRestoreWorkspaceMainCellAndChilds()
         {
-            Krypton.Workspace.KryptonWorkspaceCell kryptonWorkspaceCell = FindWorkspaceCell(kryptonWorkspaceMain, Properties.Settings.Default.WorkspaceMainMaximizedCell);
-            ActionMaximumWorkspaceCell(kryptonWorkspaceMain, kryptonWorkspaceCell);
-            WorkspaceCellToolboxTagsMaximizeOrRestore();
+            try
+            {
+                Krypton.Workspace.KryptonWorkspaceCell kryptonWorkspaceCell = FindWorkspaceCell(kryptonWorkspaceMain, Properties.Settings.Default.WorkspaceMainMaximizedCell);
+                ActionMaximumWorkspaceCell(kryptonWorkspaceMain, kryptonWorkspaceCell);
+                WorkspaceCellToolboxTagsMaximizeOrRestore();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
         }
         #endregion
 
         #region WorkspaceMain - ActionMaximizeRestoreWorkspaceMain
         private void ActionMaximizeRestoreWorkspaceMain()
         {
-            Properties.Settings.Default.WorkspaceMainMaximizedCell = kryptonWorkspaceMain?.MaximizedCell?.Name ?? "";
-            WorkspaceCellToolboxTagsMaximizeOrRestore(); //Not restore this but childs
+            try
+            {
+                Properties.Settings.Default.WorkspaceMainMaximizedCell = kryptonWorkspaceMain?.MaximizedCell?.Name ?? "";
+                WorkspaceCellToolboxTagsMaximizeOrRestore(); //Not restore this but childs
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
         }
         #endregion
 
@@ -128,31 +176,63 @@ namespace PhotoTagsSynchronizer
         #region KryptonWorkspaceCell Click - Keywords and Tags
         private void kryptonWorkspaceCellToolboxTagsDetails_Click(object sender, EventArgs e)
         {
-            ((Krypton.Workspace.KryptonWorkspaceCell)sender).Focus();
+            try
+            {
+                ((Krypton.Workspace.KryptonWorkspaceCell)sender).Focus();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
         }
 
         private void kryptonWorkspaceCellToolboxTagsKeywords_Click(object sender, EventArgs e)
         {
-            ((Krypton.Workspace.KryptonWorkspaceCell)sender).Focus();
+            try
+            {
+                ((Krypton.Workspace.KryptonWorkspaceCell)sender).Focus();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
         }
         #endregion 
 
         #region KryptonWorkspaceCell Click - Folder,Search, Filter
         private void kryptonWorkspaceCellFolderSearchFilter_Click(object sender, EventArgs e)
         {
-            ((Krypton.Workspace.KryptonWorkspaceCell)sender).Focus();
+            try
+            {
+                ((Krypton.Workspace.KryptonWorkspaceCell)sender).Focus();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
         }
         #endregion 
 
         #region ActivePageChanged - PopulateDatabaseFilter / Add TextTitle + *
         private void kryptonWorkspaceMain_ActivePageChanged(object sender, Krypton.Workspace.ActivePageChangedEventArgs e)
         {
-            if (e.NewPage == kryptonPageFolderSearchFilterSearch) PopulateDatabaseFilter();
-            UpdateFromsAcceptButtonWhenPageActivated();
+            try
+            {
+                if (e.NewPage == kryptonPageFolderSearchFilterSearch) PopulateDatabaseFilter();
+                UpdateFromsAcceptButtonWhenPageActivated();
 
-            e.OldPage.Text = e.OldPage.TextTitle = e.OldPage.Text.TrimEnd('*');
-            e.NewPage.Text = e.NewPage.TextTitle = e.NewPage.Text.TrimEnd('*') + "*";
-            SetDataGridViewForLocationAnalytics();
+                e.OldPage.Text = e.OldPage.TextTitle = e.OldPage.Text.TrimEnd('*');
+                e.NewPage.Text = e.NewPage.TextTitle = e.NewPage.Text.TrimEnd('*') + "*";
+                SetDataGridViewForLocationAnalytics();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
         }
         #endregion
 

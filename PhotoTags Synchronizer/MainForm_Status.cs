@@ -20,25 +20,41 @@ namespace PhotoTagsSynchronizer
         #region UpdateStatusAction - Remove (+Timer stop)
         private void timerShowStatusText_RemoveTimer_Tick(object sender, EventArgs e)
         {
-            timerShowStatusText_RemoveTimer.Stop();
-            StatusActionText = "Waiting actions...";
+            try
+            {
+                timerShowStatusText_RemoveTimer.Stop();
+                StatusActionText = "Waiting actions...";
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
         }
         #endregion
 
         #region UpdateStatusAction - (+Timer start)
         public void UpdateStatusAction(string text, bool forceRefresh = false)
         {
-            if (InvokeRequired)
+            try
             {
-                this.BeginInvoke(new Action<string, bool>(UpdateStatusAction), text, forceRefresh);
-                return;
+                if (InvokeRequired)
+                {
+                    this.BeginInvoke(new Action<string, bool>(UpdateStatusAction), text, forceRefresh);
+                    return;
+                }
+
+                StatusActionText = text;
+                if (forceRefresh) kryptonStatusStrip1.Refresh();
+
+                timerShowStatusText_RemoveTimer.Stop(); //Restart
+                timerShowStatusText_RemoveTimer.Start();
             }
-
-            StatusActionText = text;
-            if (forceRefresh) kryptonStatusStrip1.Refresh();
-
-            timerShowStatusText_RemoveTimer.Stop(); //Restart
-            timerShowStatusText_RemoveTimer.Start();
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
         }
         #endregion 
 
@@ -46,16 +62,24 @@ namespace PhotoTagsSynchronizer
         private DateTime whenNeedUpdatedDataGridViewLazyLoadingCounter = DateTime.Now;
         public void UpdateStatusActionDelayedRefresh(string text)
         {
-            if (DateTime.Now < whenNeedUpdatedDataGridViewLazyLoadingCounter) return;
-            
-            if (InvokeRequired)
+            try
             {
-                this.BeginInvoke(new Action<string>(UpdateStatusActionDelayedRefresh), text);
-                return;
+                if (DateTime.Now < whenNeedUpdatedDataGridViewLazyLoadingCounter) return;
+
+                if (InvokeRequired)
+                {
+                    this.BeginInvoke(new Action<string>(UpdateStatusActionDelayedRefresh), text);
+                    return;
+                }
+
+                UpdateStatusAction(text, forceRefresh: true);
+                whenNeedUpdatedDataGridViewLazyLoadingCounter = DateTime.Now.AddMilliseconds(300);
             }
-            
-            UpdateStatusAction(text, forceRefresh: true);
-            whenNeedUpdatedDataGridViewLazyLoadingCounter = DateTime.Now.AddMilliseconds(300);
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
         }
         #endregion 
 
@@ -63,29 +87,53 @@ namespace PhotoTagsSynchronizer
         #region UpdateStatusImageListView
         public void UpdateStatusImageListView(string text)
         {
-            if (InvokeRequired)
+            try
             {
-                this.BeginInvoke(new Action<string>(UpdateStatusImageListView), text);
-                return;
-            }
+                if (InvokeRequired)
+                {
+                    this.BeginInvoke(new Action<string>(UpdateStatusImageListView), text);
+                    return;
+                }
 
-            this.kryptonPageMediaFiles.TextDescription = text;
-            StatusActionText = text;
+                this.kryptonPageMediaFiles.TextDescription = text;
+                StatusActionText = text;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
         }
         #endregion
 
         #region UpdatedStatusAction - Trigger by imageListView1_ThumbnailCaching
         private void imageListView1_ThumbnailCaching(object sender, ItemEventArgs e)
-        {
-            UpdateStatusAction(string.Format("Cacheing image: {0}", e.Item.Text));
+        {   
+            try
+            {
+                UpdateStatusAction(string.Format("Cacheing image: {0}", e.Item.Text));
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
         }
         #endregion
 
         #region UpdatedStatusAction - Trigger by ExiftoolReader_afterNewMediaFoundEvent
         private void ExiftoolReader_afterNewMediaFoundEvent(FileEntry fileEntry)
         {
-            lock (commonQueueReadMetadataFromSourceExiftoolLock) commonQueueReadMetadataFromSourceExiftool.Remove(fileEntry);            
-            UpdateStatusAction("Metadata read using Exiftool: " + fileEntry.FileName);
+            try
+            {
+                lock (commonQueueReadMetadataFromSourceExiftoolLock) commonQueueReadMetadataFromSourceExiftool.Remove(fileEntry);
+                UpdateStatusAction("Metadata read using Exiftool: " + fileEntry.FileName);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
         }
         #endregion
 
@@ -105,274 +153,292 @@ namespace PhotoTagsSynchronizer
         #region -- Show Status Form / Window --
         private void AddTaskToFileTasks(Dictionary<string, List<string>> fileTasks, string fullFileName, DateTime? modifiedDate, string task)
         {
-            if (!fileTasks.ContainsKey(fullFileName))
+            try
             {
-                fileTasks.Add(fullFileName, new List<string>());
-                FileStatus fileStatus = FileHandler.GetFileStatus(
-                    fullFileName, checkLockedStatus: true, checkLockStatusTimeout: FileHandler.GetFileLockedStatusTimeout);
-                
-                if (!fileStatus.FileExists) fileTasks[fullFileName].Add("File not exists");
-                else
+
+                if (!fileTasks.ContainsKey(fullFileName))
                 {
-                    if (fileStatus.IsReadOnly) fileTasks[fullFileName].Add("ReadOnly");
-                    if (fileStatus.IsFileLockedReadAndWrite) fileTasks[fullFileName].Add("**Locked** for read and write");
-                    else if (fileStatus.IsFileLockedForRead) fileTasks[fullFileName].Add("**Locked** for read");
-                    if (fileStatus.IsInCloudOrVirtualOrOffline) fileTasks[fullFileName].Add("Is offline");
+                    fileTasks.Add(fullFileName, new List<string>());
+                    FileStatus fileStatus = FileHandler.GetFileStatus(
+                        fullFileName, checkLockedStatus: true, checkLockStatusTimeout: FileHandler.GetFileLockedStatusTimeout);
+
+                    if (!fileStatus.FileExists) fileTasks[fullFileName].Add("File not exists");
+                    else
+                    {
+                        if (fileStatus.IsReadOnly) fileTasks[fullFileName].Add("ReadOnly");
+                        if (fileStatus.IsFileLockedReadAndWrite) fileTasks[fullFileName].Add("**Locked** for read and write");
+                        else if (fileStatus.IsFileLockedForRead) fileTasks[fullFileName].Add("**Locked** for read");
+                        if (fileStatus.IsInCloudOrVirtualOrOffline) fileTasks[fullFileName].Add("Is offline");
+                    }
+                }
+
+                fileTasks[fullFileName].Add(task);
+                if (modifiedDate != null)
+                {
+                    DateTime? lastWriteTime = null;
+                    try
+                    {
+                        if (File.Exists(fullFileName)) lastWriteTime = FileHandler.GetLastWriteTime(fullFileName, waitAndRetry: false);
+                    }
+                    catch { }
+                    fileTasks[fullFileName].Add("  " + modifiedDate.ToString() + " vs. " + (lastWriteTime == modifiedDate ? "" : (lastWriteTime == null ? "File not exists or can't read last access time" : lastWriteTime.ToString())));
                 }
             }
-
-            fileTasks[fullFileName].Add(task);
-            if (modifiedDate != null) 
+            catch (Exception ex)
             {
-                DateTime? lastWriteTime = null;
-                try
-                {
-                    if (File.Exists(fullFileName)) lastWriteTime = FileHandler.GetLastWriteTime(fullFileName, waitAndRetry: false);
-                } catch { }                
-                fileTasks[fullFileName].Add("  " + modifiedDate.ToString() + " vs. " + (lastWriteTime == modifiedDate ? "" : (lastWriteTime == null ? "File not exists or can't read last access time" : lastWriteTime.ToString())));                
-            } 
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
         }
 
         private void ActionSeeProcessQueue()
         {
-            Dictionary<string, List<string>> fileTasks = new Dictionary<string, List<string>>();
-            string messageBoxQueuesInfo = "List of all process queues...\r\n";
-            
             try
             {
-                messageBoxQueuesInfo += string.Format("Files: {0} Selected {1}\r\n", imageListView1.Items.Count, imageListView1.SelectedItems.Count);
-                if (CommonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnailsCountDirty() > 0)
-                    messageBoxQueuesInfo += string.Format("Lazy loading queue: {0}\r\n", CommonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnailsCountDirty());
-                if (!string.IsNullOrWhiteSpace(FileHandler.FileLockedByProcess))
-                    messageBoxQueuesInfo += "**Locked file: " + FileHandler.FileLockedByProcess;
-            }
-            catch { }
+                Dictionary<string, List<string>> fileTasks = new Dictionary<string, List<string>>();
+                string messageBoxQueuesInfo = "List of all process queues...\r\n";
 
-            try {
-                if (countInvokeCalls > 0)
-                    messageBoxQueuesInfo += string.Format("DataGridView: {0} invoke queue\r\n", countInvokeCalls);
-            }
-            catch { }
-
-            try
-            {
-                lock (commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnailsLock)
-                {
-                    foreach (FileEntry fileEntry in commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnails)
-                        AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, fileEntry.LastWriteDateTime, "Lazy loading: read/check from all sources");
-                }
-            }
-            catch { }
-
-            try
-            {
-                lock (commonQueueLazyLoadingMediaThumbnailLock)
-                {
-                    foreach (FileEntry fileEntry in commonQueueLazyLoadingMediaThumbnail)
-                    {
-                        AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, fileEntry.LastWriteDateTime, "Lazy loading: Media Thumbnail");
-                    }
-                }
-            }
-            catch { }
-
-            try
-            {
-                lock (commonLazyLoadingMapNomnatatimLock)
-                {
-                    foreach (FileEntry fileEntry in commonLazyLoadingMapNomnatatim.Keys)
-                        AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, fileEntry.LastWriteDateTime, "Lazy loading: in queue, MapNomnatatim");
-                }
-            }
-            catch { }
-
-
-            if (readToCacheQueues.Count > 0)
-            {
                 try
                 {
-                    lock (_readToCacheQueuesLock)
-                    {
-                        messageBoxQueuesInfo += "Read to cache:";
-                        foreach (KeyValuePair<int, int> keyValuePair in readToCacheQueues) ProgressBackgroundStatusText += " " + keyValuePair.Value;
-                        messageBoxQueuesInfo += "\r\n";
-                    }
+                    messageBoxQueuesInfo += string.Format("Files: {0} Selected {1}\r\n", imageListView1.Items.Count, imageListView1.SelectedItems.Count);
+                    if (CommonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnailsCountDirty() > 0)
+                        messageBoxQueuesInfo += string.Format("Lazy loading queue: {0}\r\n", CommonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnailsCountDirty());
+                    if (!string.IsNullOrWhiteSpace(FileHandler.FileLockedByProcess))
+                        messageBoxQueuesInfo += "**Locked file: " + FileHandler.FileLockedByProcess;
                 }
-                catch
-                {
-                }
-            }
+                catch { }
 
-            if (deleteRecordQueues.Count > 0)
-            {
                 try
                 {
-                    lock (_deleteRecordQueuesLock)
+                    if (countInvokeCalls > 0)
+                        messageBoxQueuesInfo += string.Format("DataGridView: {0} invoke queue\r\n", countInvokeCalls);
+                }
+                catch { }
+
+                try
+                {
+                    lock (commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnailsLock)
                     {
-                        messageBoxQueuesInfo += "Delete records:";
-                        foreach (KeyValuePair<int, int> keyValuePair in deleteRecordQueues) messageBoxQueuesInfo += " " + keyValuePair.Value;
-                        messageBoxQueuesInfo += "\r\n";
+                        foreach (FileEntry fileEntry in commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnails)
+                            AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, fileEntry.LastWriteDateTime, "Lazy loading: read/check from all sources");
                     }
                 }
-                catch
+                catch { }
+
+                try
                 {
+                    lock (commonQueueLazyLoadingMediaThumbnailLock)
+                    {
+                        foreach (FileEntry fileEntry in commonQueueLazyLoadingMediaThumbnail)
+                        {
+                            AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, fileEntry.LastWriteDateTime, "Lazy loading: Media Thumbnail");
+                        }
+                    }
                 }
-            }
-            
-            messageBoxQueuesInfo += "\r\n";
+                catch { }
 
-            try
-            {
-                if (!string.IsNullOrEmpty(FileHandler.FileLockedByProcess)) messageBoxQueuesInfo += "Last file Locked by process: " + FileHandler.FileLockedByProcess + "\r\n";
-            }
-            catch { }
-
-            try
-            {
-                lock (_fileSaveSizeLock)
+                try
                 {
-                    foreach (KeyValuePair<string, long> keyValuePair in fileSaveSizeWatcher)
-                        AddTaskToFileTasks(fileTasks, keyValuePair.Key, null, "Written: " + keyValuePair.Value);                    
+                    lock (commonLazyLoadingMapNomnatatimLock)
+                    {
+                        foreach (FileEntry fileEntry in commonLazyLoadingMapNomnatatim.Keys)
+                            AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, fileEntry.LastWriteDateTime, "Lazy loading: in queue, MapNomnatatim");
+                    }
                 }
-            }
-            catch { }
+                catch { }
 
-            try
-            {
-                lock (commonQueueReadMetadataFromSourceExiftoolLock)
-                    foreach (FileEntry fileEntry in commonQueueReadMetadataFromSourceExiftool)
-                        AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, fileEntry.LastWriteDateTime, "Exiftool read: in queue, wait on turn");
-            }
-            catch { }
 
-            try
-            {
-                lock (exiftool_MediaFilesNotInDatabaseLock)
+                if (readToCacheQueues.Count > 0)
                 {
-                    foreach (FileEntry fileEntry in exiftool_MediaFilesNotInDatabase)
-                        AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, null, "Exiftool read, in process");
+                    try
+                    {
+                        lock (_readToCacheQueuesLock)
+                        {
+                            messageBoxQueuesInfo += "Read to cache:";
+                            foreach (KeyValuePair<int, int> keyValuePair in readToCacheQueues) ProgressBackgroundStatusText += " " + keyValuePair.Value;
+                            messageBoxQueuesInfo += "\r\n";
+                        }
+                    }
+                    catch
+                    {
+                    }
                 }
-            }
-            catch { }
 
-            try
-            {
-                lock (FileHandler.CloundFileTouchedAndWhenLock)
+                if (deleteRecordQueues.Count > 0)
                 {
-                    foreach (KeyValuePair<string, DateTime> filenameKeyWhenValue in FileHandler.CloundFileTouchedAndWhen)
-                        AddTaskToFileTasks(fileTasks, filenameKeyWhenValue.Key, null, "Downloading... Started: " + filenameKeyWhenValue.Value.ToString());
+                    try
+                    {
+                        lock (_deleteRecordQueuesLock)
+                        {
+                            messageBoxQueuesInfo += "Delete records:";
+                            foreach (KeyValuePair<int, int> keyValuePair in deleteRecordQueues) messageBoxQueuesInfo += " " + keyValuePair.Value;
+                            messageBoxQueuesInfo += "\r\n";
+                        }
+                    }
+                    catch
+                    {
+                    }
                 }
-            }
-            catch { }
 
-            try
-            {
-                lock (FileHandler.CloundFileTouchedFailedAndWhenLock)
+                messageBoxQueuesInfo += "\r\n";
+
+                try
                 {
-                    foreach (KeyValuePair<string, DateTime> filenameKeyWhenValue in FileHandler.CloundFileTouchedFailedAndWhen)
-                        AddTaskToFileTasks(fileTasks, filenameKeyWhenValue.Key, null, "Failed downloading, timeout at: " + filenameKeyWhenValue.Value.ToString());
+                    if (!string.IsNullOrEmpty(FileHandler.FileLockedByProcess)) messageBoxQueuesInfo += "Last file Locked by process: " + FileHandler.FileLockedByProcess + "\r\n";
                 }
-            }
-            catch { }
+                catch { }
 
-            try
-            {
-                //lock ()
+                try
                 {
-                    foreach (KeyValuePair<string, DateTime> filenameKeyWhenValue in FileHandler.CloundFileTouchedFailedAndWhen)
-                        AddTaskToFileTasks(fileTasks, filenameKeyWhenValue.Key, null, "Downloading... Started: " + filenameKeyWhenValue.Value.ToString());
+                    lock (_fileSaveSizeLock)
+                    {
+                        foreach (KeyValuePair<string, long> keyValuePair in fileSaveSizeWatcher)
+                            AddTaskToFileTasks(fileTasks, keyValuePair.Key, null, "Written: " + keyValuePair.Value);
+                    }
                 }
-            }
-            catch { }
+                catch { }
 
-            try
-            {
-                lock (exiftoolSave_QueueMetadataWrittenByExiftoolReadyToVerifyLock)
+                try
                 {
-                    foreach (Metadata fileEntry in exiftoolSave_QueueMetadataWrittenByExiftoolReadyToVerify)
-                        AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, fileEntry.FileDateModified, "In queue for: Will be verified after Exiftool readback");
+                    lock (commonQueueReadMetadataFromSourceExiftoolLock)
+                        foreach (FileEntry fileEntry in commonQueueReadMetadataFromSourceExiftool)
+                            AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, fileEntry.LastWriteDateTime, "Exiftool read: in queue, wait on turn");
                 }
-            }
-            catch { }
+                catch { }
 
-            try
-            {
-                lock (commonQueueReadMetadataFromSourceWindowsLivePhotoGallery)
+                try
                 {
-                    foreach (FileEntry fileEntry in commonQueueReadMetadataFromSourceWindowsLivePhotoGallery)
-                        AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, fileEntry.LastWriteDateTime, "In queue for: Read meta information from Windows Live Photo Gallery");
+                    lock (exiftool_MediaFilesNotInDatabaseLock)
+                    {
+                        foreach (FileEntry fileEntry in exiftool_MediaFilesNotInDatabase)
+                            AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, null, "Exiftool read, in process");
+                    }
                 }
-            }
-            catch { }
+                catch { }
 
-            try
-            {
-                lock (commonQueueReadMetadataFromSourceMicrosoftPhotosLock)
+                try
                 {
-                    foreach (FileEntry fileEntry in commonQueueReadMetadataFromSourceMicrosoftPhotos)
-                        AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, fileEntry.LastWriteDateTime, "In queue for: Read meta information from Microsoft Photos");
+                    lock (FileHandler.CloundFileTouchedAndWhenLock)
+                    {
+                        foreach (KeyValuePair<string, DateTime> filenameKeyWhenValue in FileHandler.CloundFileTouchedAndWhen)
+                            AddTaskToFileTasks(fileTasks, filenameKeyWhenValue.Key, null, "Downloading... Started: " + filenameKeyWhenValue.Value.ToString());
+                    }
                 }
-            }
-            catch { }
+                catch { }
 
-            try
-            {
-                lock (commonQueueSaveToDatabaseRegionAndThumbnailLock)
+                try
                 {
-                    foreach (Metadata fileEntry in commonQueueSaveToDatabaseRegionAndThumbnail)
-                        if (fileEntry.PersonalRegionList.Count > 0)
-                            AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, fileEntry.FileDateModified, "In queue for: Create thumbnail for region: " + fileEntry.PersonalRegionList.Count.ToString());
+                    lock (FileHandler.CloundFileTouchedFailedAndWhenLock)
+                    {
+                        foreach (KeyValuePair<string, DateTime> filenameKeyWhenValue in FileHandler.CloundFileTouchedFailedAndWhen)
+                            AddTaskToFileTasks(fileTasks, filenameKeyWhenValue.Key, null, "Failed downloading, timeout at: " + filenameKeyWhenValue.Value.ToString());
+                    }
                 }
-            }
-            catch { }
+                catch { }
 
-            try
-            {
-                lock (exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUserLock)
+                try
                 {
-                    foreach (Metadata fileEntry in exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUser)
-                        AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, fileEntry.FileDateModified, "In queue for: Wait to be saved with " + fileEntry.PersonalRegionList.Count.ToString() + " regions");
+                    //lock ()
+                    {
+                        foreach (KeyValuePair<string, DateTime> filenameKeyWhenValue in FileHandler.CloundFileTouchedFailedAndWhen)
+                            AddTaskToFileTasks(fileTasks, filenameKeyWhenValue.Key, null, "Downloading... Started: " + filenameKeyWhenValue.Value.ToString());
+                    }
                 }
-            }
-            catch { }
+                catch { }
 
-            try
-            {
-                lock (exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser)
+                try
                 {
-                    foreach (Metadata fileEntry in exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser)
-                        AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, fileEntry.FileDateModified, "In queue for: Saving bulk using exiftool with " + fileEntry.PersonalRegionList.Count.ToString() + " regions");
+                    lock (exiftoolSave_QueueMetadataWrittenByExiftoolReadyToVerifyLock)
+                    {
+                        foreach (Metadata fileEntry in exiftoolSave_QueueMetadataWrittenByExiftoolReadyToVerify)
+                            AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, fileEntry.FileDateModified, "In queue for: Will be verified after Exiftool readback");
+                    }
                 }
-            }
-            catch { }
+                catch { }
 
-            try
-            {
-                lock (commonQueueRenameMediaFilesLock)
+                try
                 {
-                    foreach (KeyValuePair<string, string> keyValuePair in commonQueueRenameMediaFiles)
-                        AddTaskToFileTasks(fileTasks, keyValuePair.Key, null, "In queue for: Wait rename to " + keyValuePair.Value);
+                    lock (commonQueueReadMetadataFromSourceWindowsLivePhotoGallery)
+                    {
+                        foreach (FileEntry fileEntry in commonQueueReadMetadataFromSourceWindowsLivePhotoGallery)
+                            AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, fileEntry.LastWriteDateTime, "In queue for: Read meta information from Windows Live Photo Gallery");
+                    }
                 }
-            }
-            catch { }
+                catch { }
 
-            foreach (KeyValuePair<string, List<string>> keyValuePair in fileTasks)
-            {
-                messageBoxQueuesInfo += keyValuePair.Key + "\r\n"; //filename
-                foreach (string task in keyValuePair.Value) messageBoxQueuesInfo += "  " + task + "\r\n"; //tasks
-            }
+                try
+                {
+                    lock (commonQueueReadMetadataFromSourceMicrosoftPhotosLock)
+                    {
+                        foreach (FileEntry fileEntry in commonQueueReadMetadataFromSourceMicrosoftPhotos)
+                            AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, fileEntry.LastWriteDateTime, "In queue for: Read meta information from Microsoft Photos");
+                    }
+                }
+                catch { }
 
-            try
-            {
-                Logger.Warn(messageBoxQueuesInfo);
-                if (string.IsNullOrWhiteSpace(messageBoxQueuesInfo)) messageBoxQueuesInfo = "\r\nThe queue is empty.\r\nHere you will see all task in all queues\r\n";
-                if (formMessageBoxThread == null || formMessageBoxThread.IsDisposed) formMessageBoxThread = new FormMessageBox("Task list", messageBoxQueuesInfo);
-                else formMessageBoxThread.UpdateMessage(messageBoxQueuesInfo);
-                formMessageBoxThread.Owner = this;
-                formMessageBoxThread.Show();
+                try
+                {
+                    lock (commonQueueSaveToDatabaseRegionAndThumbnailLock)
+                    {
+                        foreach (Metadata fileEntry in commonQueueSaveToDatabaseRegionAndThumbnail)
+                            if (fileEntry.PersonalRegionList.Count > 0)
+                                AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, fileEntry.FileDateModified, "In queue for: Create thumbnail for region: " + fileEntry.PersonalRegionList.Count.ToString());
+                    }
+                }
+                catch { }
+
+                try
+                {
+                    lock (exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUserLock)
+                    {
+                        foreach (Metadata fileEntry in exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUser)
+                            AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, fileEntry.FileDateModified, "In queue for: Wait to be saved with " + fileEntry.PersonalRegionList.Count.ToString() + " regions");
+                    }
+                }
+                catch { }
+
+                try
+                {
+                    lock (exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser)
+                    {
+                        foreach (Metadata fileEntry in exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser)
+                            AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, fileEntry.FileDateModified, "In queue for: Saving bulk using exiftool with " + fileEntry.PersonalRegionList.Count.ToString() + " regions");
+                    }
+                }
+                catch { }
+
+                try
+                {
+                    lock (commonQueueRenameMediaFilesLock)
+                    {
+                        foreach (KeyValuePair<string, string> keyValuePair in commonQueueRenameMediaFiles)
+                            AddTaskToFileTasks(fileTasks, keyValuePair.Key, null, "In queue for: Wait rename to " + keyValuePair.Value);
+                    }
+                }
+                catch { }
+
+                foreach (KeyValuePair<string, List<string>> keyValuePair in fileTasks)
+                {
+                    messageBoxQueuesInfo += keyValuePair.Key + "\r\n"; //filename
+                    foreach (string task in keyValuePair.Value) messageBoxQueuesInfo += "  " + task + "\r\n"; //tasks
+                }
+
+                try
+                {
+                    Logger.Warn(messageBoxQueuesInfo);
+                    if (string.IsNullOrWhiteSpace(messageBoxQueuesInfo)) messageBoxQueuesInfo = "\r\nThe queue is empty.\r\nHere you will see all task in all queues\r\n";
+                    if (formMessageBoxThread == null || formMessageBoxThread.IsDisposed) formMessageBoxThread = new FormMessageBox("Task list", messageBoxQueuesInfo);
+                    else formMessageBoxThread.UpdateMessage(messageBoxQueuesInfo);
+                    formMessageBoxThread.Owner = this;
+                    formMessageBoxThread.Show();
+                }
+                catch { }
             }
-            catch { }
-            
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
         }
         #endregion
 
@@ -381,231 +447,241 @@ namespace PhotoTagsSynchronizer
         private Stopwatch stopwatchLastDisplayedExiftoolWaitCloud = new Stopwatch();
         private void DisplayAllQueueStatus()
         {
-            if (!stopwatchLastDisplayed.IsRunning) stopwatchLastDisplayed.Start();
-            if (stopwatchLastDisplayed.ElapsedMilliseconds < 500)
-                return; //Avoid to much refresh
-            stopwatchLastDisplayed.Restart();
-
-            if (InvokeRequired)
-            {
-                this.BeginInvoke(new Action(DisplayAllQueueStatus));
-                return;
-            }
-
-
-
-
-//UpdateRibbonsWhenWorkspaceChanged();
-
-
-
-
-
-
-            UpdateStatusImageListView(string.Format("Files: {0} Selected {1} ", imageListView1.Items.Count, imageListView1.SelectedItems.Count));
-
-            string progressBackgroundStatusText = "";
-            int threadQueuCount = 0;
-
-            if (!string.IsNullOrWhiteSpace(FileHandler.FileLockedByProcess)) {
-                threadQueuCount++;
-                progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") +
-                    "Locked file: " + Path.GetFileName(FileHandler.FileLockedByProcess);
-            }
-
-            if (GetFileEntriesRotateMediaCountDirty() > 0) 
-                progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") + 
-                    string.Format("Rotate: {0}", GetFileEntriesRotateMediaCountDirty());
-            threadQueuCount += GetFileEntriesRotateMediaCountDirty();
-
-            if (GlobalData.ProcessCounterReadProperties > 0)
-                progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") +
-                    string.Format("Properties: {0}", GlobalData.ProcessCounterReadProperties);
-            threadQueuCount += GlobalData.ProcessCounterReadProperties;
-
-            
-            if (CommonQueueReadMetadataFromSourceWindowsLivePhotoGalleryCountDirty() > 0)
-                progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") +
-                    string.Format("Read WLPG: {0}", CommonQueueReadMetadataFromSourceWindowsLivePhotoGalleryCountDirty());
-            threadQueuCount += CommonQueueReadMetadataFromSourceWindowsLivePhotoGalleryCountDirty();
-
-            if (CommonQueueReadMetadataFromSourceMicrosoftPhotosCountDirty() > 0)
-                progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") +
-                    string.Format("Read MP: {0}", CommonQueueReadMetadataFromSourceMicrosoftPhotosCountDirty());
-            threadQueuCount += CommonQueueReadMetadataFromSourceMicrosoftPhotosCountDirty();
-
-            if (CommonQueueSaveToDatabaseMediaThumbnailCountDirty() > 0)
-                progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") +
-                    string.Format("Save Thumbnails: {0}", CommonQueueSaveToDatabaseMediaThumbnailCountDirty());
-            threadQueuCount += CommonQueueSaveToDatabaseMediaThumbnailCountDirty();
-
-            int regionCount = 0;
             try
             {
-                lock (commonQueueSaveToDatabaseRegionAndThumbnailLock) //CommonQueueReadPosterAndSaveFaceThumbnailsCountLock()
+                if (!stopwatchLastDisplayed.IsRunning) stopwatchLastDisplayed.Start();
+                if (stopwatchLastDisplayed.ElapsedMilliseconds < 500)
+                    return; //Avoid to much refresh
+                stopwatchLastDisplayed.Restart();
+
+                if (InvokeRequired)
                 {
-                    foreach (Metadata metadataRegionCount in commonQueueSaveToDatabaseRegionAndThumbnail) regionCount += metadataRegionCount.PersonalRegionList.Count;
+                    this.BeginInvoke(new Action(DisplayAllQueueStatus));
+                    return;
                 }
-            }
-            catch { }
 
-            if (regionCount > 0)
-                progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") +
-                    string.Format("Save Regions: {0}", regionCount); 
-            threadQueuCount += regionCount;
 
-            if (CommonQueueReadMetadataFromSourceExiftoolCountDirty() + ExiftoolSave_MediaFilesNotInDatabaseCountDirty() > 0)
-            {
-                progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") +
-                    string.Format("Exiftool: {0} in process: {1}", CommonQueueReadMetadataFromSourceExiftoolCountDirty(), ExiftoolSave_MediaFilesNotInDatabaseCountDirty());
-                threadQueuCount += CommonQueueReadMetadataFromSourceExiftoolCountDirty();
-                if (!stopwatchLastDisplayedExiftoolWaitCloud.IsRunning) stopwatchLastDisplayedExiftoolWaitCloud.Start();
-                if (stopwatchLastDisplayedExiftoolWaitCloud.ElapsedMilliseconds > 10000)
+
+
+                //UpdateRibbonsWhenWorkspaceChanged();
+
+
+
+
+
+
+                UpdateStatusImageListView(string.Format("Files: {0} Selected {1} ", imageListView1.Items.Count, imageListView1.SelectedItems.Count));
+
+                string progressBackgroundStatusText = "";
+                int threadQueuCount = 0;
+
+                if (!string.IsNullOrWhiteSpace(FileHandler.FileLockedByProcess))
+                {
+                    threadQueuCount++;
+                    progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") +
+                        "Locked file: " + Path.GetFileName(FileHandler.FileLockedByProcess);
+                }
+
+                if (GetFileEntriesRotateMediaCountDirty() > 0)
+                    progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") +
+                        string.Format("Rotate: {0}", GetFileEntriesRotateMediaCountDirty());
+                threadQueuCount += GetFileEntriesRotateMediaCountDirty();
+
+                if (GlobalData.ProcessCounterReadProperties > 0)
+                    progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") +
+                        string.Format("Properties: {0}", GlobalData.ProcessCounterReadProperties);
+                threadQueuCount += GlobalData.ProcessCounterReadProperties;
+
+
+                if (CommonQueueReadMetadataFromSourceWindowsLivePhotoGalleryCountDirty() > 0)
+                    progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") +
+                        string.Format("Read WLPG: {0}", CommonQueueReadMetadataFromSourceWindowsLivePhotoGalleryCountDirty());
+                threadQueuCount += CommonQueueReadMetadataFromSourceWindowsLivePhotoGalleryCountDirty();
+
+                if (CommonQueueReadMetadataFromSourceMicrosoftPhotosCountDirty() > 0)
+                    progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") +
+                        string.Format("Read MP: {0}", CommonQueueReadMetadataFromSourceMicrosoftPhotosCountDirty());
+                threadQueuCount += CommonQueueReadMetadataFromSourceMicrosoftPhotosCountDirty();
+
+                if (CommonQueueSaveToDatabaseMediaThumbnailCountDirty() > 0)
+                    progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") +
+                        string.Format("Save Thumbnails: {0}", CommonQueueSaveToDatabaseMediaThumbnailCountDirty());
+                threadQueuCount += CommonQueueSaveToDatabaseMediaThumbnailCountDirty();
+
+                int regionCount = 0;
+                try
+                {
+                    lock (commonQueueSaveToDatabaseRegionAndThumbnailLock) //CommonQueueReadPosterAndSaveFaceThumbnailsCountLock()
+                    {
+                        foreach (Metadata metadataRegionCount in commonQueueSaveToDatabaseRegionAndThumbnail) regionCount += metadataRegionCount.PersonalRegionList.Count;
+                    }
+                }
+                catch { }
+
+                if (regionCount > 0)
+                    progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") +
+                        string.Format("Save Regions: {0}", regionCount);
+                threadQueuCount += regionCount;
+
+                if (CommonQueueReadMetadataFromSourceExiftoolCountDirty() + ExiftoolSave_MediaFilesNotInDatabaseCountDirty() > 0)
+                {
+                    progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") +
+                        string.Format("Exiftool: {0} in process: {1}", CommonQueueReadMetadataFromSourceExiftoolCountDirty(), ExiftoolSave_MediaFilesNotInDatabaseCountDirty());
+                    threadQueuCount += CommonQueueReadMetadataFromSourceExiftoolCountDirty();
+                    if (!stopwatchLastDisplayedExiftoolWaitCloud.IsRunning) stopwatchLastDisplayedExiftoolWaitCloud.Start();
+                    if (stopwatchLastDisplayedExiftoolWaitCloud.ElapsedMilliseconds > 10000)
+                    {
+                        try
+                        {
+                            int countWaitFileInCloud = 0;
+                            foreach (FileEntry fileEntry in exiftool_MediaFilesNotInDatabase)
+                            {
+                                FileStatus fileStatus = FileHandler.GetFileStatus(fileEntry.FileFullPath);
+                                if (fileStatus.IsInCloudOrVirtualOrOffline) countWaitFileInCloud++;
+                            }
+                            if (countWaitFileInCloud > 0)
+                                progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") + string.Format("wait cloud:{0} ", countWaitFileInCloud);
+                        }
+                        catch
+                        {
+
+                        }
+                        stopwatchLastDisplayedExiftoolWaitCloud.Restart();
+                    }
+                }
+
+                try
+                {
+                    lock (FileHandler.CloundFileTouchedAndWhenLock)
+                    {
+                        if (FileHandler.CloundFileTouchedAndWhen.Count > 0)
+                            progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") +
+                                string.Format("In cloud: {0}", FileHandler.CloundFileTouchedAndWhen.Count);
+                    }
+                }
+                catch { }
+
+                try
+                {
+                    lock (FileHandler.CloundFileTouchedFailedAndWhenLock)
+                    {
+                        if (FileHandler.CloundFileTouchedFailedAndWhen.Count > 0)
+                        {
+                            int countTimeouts = 0;
+                            foreach (DateTime dateTime in FileHandler.CloundFileTouchedFailedAndWhen.Values) if (DateTime.Now > dateTime) countTimeouts++;
+
+                            if (countTimeouts > 0) progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") + string.Format("Timeouts: {0}", countTimeouts);
+                        }
+                    }
+                }
+                catch { }
+
+                if (readToCacheQueues.Count > 0)
                 {
                     try
                     {
-                        int countWaitFileInCloud = 0;
-                        foreach (FileEntry fileEntry in exiftool_MediaFilesNotInDatabase)
+                        progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") +
+                            string.Format("Caching: ");
+
+                        lock (_readToCacheQueuesLock)
                         {
-                            FileStatus fileStatus = FileHandler.GetFileStatus(fileEntry.FileFullPath);
-                            if (fileStatus.IsInCloudOrVirtualOrOffline) countWaitFileInCloud++;
+                            foreach (KeyValuePair<int, int> keyValuePair in readToCacheQueues)
+                            {
+                                progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") +
+                                    //"#" + keyValuePair.Key.ToString() + " " +
+                                    keyValuePair.Value;
+                                threadQueuCount += keyValuePair.Value;
+                            }
                         }
-                        if (countWaitFileInCloud > 0) 
-                            progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") + string.Format("wait cloud:{0} ", countWaitFileInCloud);
                     }
                     catch
                     {
-
                     }
-                    stopwatchLastDisplayedExiftoolWaitCloud.Restart();
                 }
-            }
 
-            try
-            {
-                lock (FileHandler.CloundFileTouchedAndWhenLock)
+                if (deleteRecordQueues.Count > 0)
                 {
-                    if (FileHandler.CloundFileTouchedAndWhen.Count > 0)
-                        progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") +
-                            string.Format("In cloud: {0}", FileHandler.CloundFileTouchedAndWhen.Count);
-                }
-            }
-            catch { }
-
-            try
-            {
-                lock (FileHandler.CloundFileTouchedFailedAndWhenLock)
-                {
-                    if (FileHandler.CloundFileTouchedFailedAndWhen.Count > 0)
+                    progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") + "Delete: ";
+                    try
                     {
-                        int countTimeouts = 0;
-                        foreach (DateTime dateTime in FileHandler.CloundFileTouchedFailedAndWhen.Values) if (DateTime.Now > dateTime) countTimeouts++;
-
-                        if (countTimeouts > 0) progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") + string.Format("Timeouts: {0}", countTimeouts);
+                        lock (_deleteRecordQueuesLock)
+                        {
+                            foreach (KeyValuePair<int, int> keyValuePair in deleteRecordQueues)
+                            {
+                                progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") + keyValuePair.Value;
+                                threadQueuCount += keyValuePair.Value;
+                            }
+                        }
+                    }
+                    catch
+                    {
                     }
                 }
-            }
-            catch { }
 
-            if (readToCacheQueues.Count > 0)
-            {
-                try
-                {
+                if (CountSaveQueueLock() > 0)
                     progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") +
-                        string.Format("Caching: ");
+                         string.Format("Saving: {0}", CountSaveQueueLock());
+                threadQueuCount += CountSaveQueueLock();
 
-                    lock (_readToCacheQueuesLock)
-                    {
-                        foreach (KeyValuePair<int, int> keyValuePair in readToCacheQueues)
-                        {
-                            progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") +
-                                //"#" + keyValuePair.Key.ToString() + " " +
-                                keyValuePair.Value;
-                            threadQueuCount += keyValuePair.Value;
-                        }
-                    }
-                }
-                catch
-                {
-                }
-            }
+                if (CommonQueueMetadataWrittenByExiftoolReadyToVerifyCountDirty() > 0)
+                    progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") +
+                        string.Format("Verify:{0}", CommonQueueMetadataWrittenByExiftoolReadyToVerifyCountDirty());
+                threadQueuCount += CommonQueueMetadataWrittenByExiftoolReadyToVerifyCountDirty();
 
-            if (deleteRecordQueues.Count > 0)
-            {
-                progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") + "Delete: ";
+                if (CommonQueueRenameCountDirty() > 0)
+                    progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") +
+                        string.Format("Rename: {0}", CommonQueueRenameCountDirty());
+                threadQueuCount += CommonQueueRenameCountDirty();
+
+                if (CommonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnailsCountDirty() > 0)
+                    progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") +
+                        string.Format("Metadata: {0}", CommonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnailsCountDirty());
+                threadQueuCount += CommonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnailsCountDirty();
+
+                if (CommonQueueLazyLoadingThumbnailCountDirty() > 0)
+                    progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") +
+                        string.Format("Thumbnail: {0}", CommonQueueLazyLoadingThumbnailCountDirty());
+                threadQueuCount += CommonQueueLazyLoadingThumbnailCountDirty();
+
+                //int lasyLoadingDataGridViewCount = ThreadLazyLoadingDataGridViewQueueSizeDirty() + DataGridViewLazyLoadingCount();
+                //if (lasyLoadingDataGridViewCount == 0) LazyLoadingDataGridViewProgressEndReached();
+
                 try
                 {
-                    lock (_deleteRecordQueuesLock)
-                    {
-                        foreach (KeyValuePair<int, int> keyValuePair in deleteRecordQueues)
-                        {
-                            progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") + keyValuePair.Value;
-                            threadQueuCount += keyValuePair.Value;
-                        }
-                    }
+                    if (threadQueuCount == 0) progressBackgroundStatusText = "";
+                    else progressBackgroundStatusText = "(" + threadQueuCount + ") " + progressBackgroundStatusText;
+                    ProgressBackgroundStatusText = progressBackgroundStatusText;
                 }
                 catch
                 {
                 }
-            }
 
-            if (CountSaveQueueLock() > 0)
-                progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") +
-                     string.Format("Saving: {0}", CountSaveQueueLock());
-            threadQueuCount += CountSaveQueueLock();
-
-            if (CommonQueueMetadataWrittenByExiftoolReadyToVerifyCountDirty() > 0)
-                progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") +
-                    string.Format("Verify:{0}", CommonQueueMetadataWrittenByExiftoolReadyToVerifyCountDirty());            
-            threadQueuCount += CommonQueueMetadataWrittenByExiftoolReadyToVerifyCountDirty();
-
-            if (CommonQueueRenameCountDirty() > 0)
-                progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") + 
-                    string.Format("Rename: {0}", CommonQueueRenameCountDirty());
-            threadQueuCount += CommonQueueRenameCountDirty();
-            
-            if (CommonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnailsCountDirty() > 0)
-                progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") +
-                    string.Format("Metadata: {0}", CommonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnailsCountDirty());
-            threadQueuCount += CommonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnailsCountDirty();
-
-            if (CommonQueueLazyLoadingThumbnailCountDirty() > 0)
-                progressBackgroundStatusText += (progressBackgroundStatusText == "" ? "" : " ") +
-                    string.Format("Thumbnail: {0}", CommonQueueLazyLoadingThumbnailCountDirty());
-            threadQueuCount += CommonQueueLazyLoadingThumbnailCountDirty();
-
-            //int lasyLoadingDataGridViewCount = ThreadLazyLoadingDataGridViewQueueSizeDirty() + DataGridViewLazyLoadingCount();
-            //if (lasyLoadingDataGridViewCount == 0) LazyLoadingDataGridViewProgressEndReached();
-
-            try
-            {
-                if (threadQueuCount == 0) progressBackgroundStatusText = "";
-                else progressBackgroundStatusText = "(" + threadQueuCount + ") " + progressBackgroundStatusText;
-                ProgressBackgroundStatusText = progressBackgroundStatusText;
-            }
-            catch { 
-            }
-
-            #region Updated progressbar
-            try
-            {
-                int queueRemainding = threadQueuCount;
-                ProgressbarBackgroundProgressQueueRemainding(queueRemainding);
-
-                if (queueRemainding != 0)
+                #region Updated progressbar
+                try
                 {
-                    ProgressbarBackgroundProgress(true);
-                }
-                else
-                { 
-                    ProgressbarBackgroundProgress(false, 1, 0, 1);                    
-                }
-            } catch (Exception ex)
-            {
-                Logger.Error(ex, "DisplayAllQueueStatus");
-            }
-            #endregion 
+                    int queueRemainding = threadQueuCount;
+                    ProgressbarBackgroundProgressQueueRemainding(queueRemainding);
 
+                    if (queueRemainding != 0)
+                    {
+                        ProgressbarBackgroundProgress(true);
+                    }
+                    else
+                    {
+                        ProgressbarBackgroundProgress(false, 1, 0, 1);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error(ex, "DisplayAllQueueStatus");
+                }
+                #endregion
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
         }
         #endregion
 
@@ -614,33 +690,40 @@ namespace PhotoTagsSynchronizer
         private static readonly Object _readToCacheQueuesLock = new Object();
         private void DatabaseAndCacheMetadataExiftool_OnRecordReadToCache(object sender, ReadToCacheFileEntriesRecordEventArgs e)
         {
-            int queueLeft = e.FileEntries - (e.KeywordCount + e.MetadataCount + e.RegionCount);
-
-            lock (_readToCacheQueuesLock)
+            try
             {
-                if (e.InitCounter && e.FileEntries > 0 && queueLeft > 0)
+                int queueLeft = e.FileEntries - (e.KeywordCount + e.MetadataCount + e.RegionCount);
+
+                lock (_readToCacheQueuesLock)
                 {
-                    lock (_readToCacheQueuesLock) if (!readToCacheQueues.ContainsKey(e.HashQueue)) readToCacheQueues.Add(e.HashQueue, queueLeft);
-                }
-                else
-                {
-                    lock (_readToCacheQueuesLock)
+                    if (e.InitCounter && e.FileEntries > 0 && queueLeft > 0)
                     {
-                        if (readToCacheQueues.ContainsKey(e.HashQueue))
+                        lock (_readToCacheQueuesLock) if (!readToCacheQueues.ContainsKey(e.HashQueue)) readToCacheQueues.Add(e.HashQueue, queueLeft);
+                    }
+                    else
+                    {
+                        lock (_readToCacheQueuesLock)
                         {
-                            if (queueLeft == 0 || e.Aborted)
+                            if (readToCacheQueues.ContainsKey(e.HashQueue))
                             {
-                                if (readToCacheQueues.ContainsKey(e.HashQueue)) readToCacheQueues.Remove(e.HashQueue);
-                            }
-                            else
-                            {
-                                readToCacheQueues[e.HashQueue] = queueLeft;
+                                if (queueLeft == 0 || e.Aborted)
+                                {
+                                    if (readToCacheQueues.ContainsKey(e.HashQueue)) readToCacheQueues.Remove(e.HashQueue);
+                                }
+                                else
+                                {
+                                    readToCacheQueues[e.HashQueue] = queueLeft;
+                                }
                             }
                         }
                     }
                 }
             }
-            
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
         }
         #endregion
 
@@ -649,33 +732,41 @@ namespace PhotoTagsSynchronizer
         private static readonly Object _deleteRecordQueuesLock = new Object();
         private void DatabaseAndCacheMetadataExiftool_OnDeleteRecord(object sender, DeleteRecordEventArgs e)
         {
-            int queueLeft = e.FileEntries - e.Count;
-            lock (_deleteRecordQueuesLock)
+            try
             {
-                if (e.InitCounter && e.FileEntries > 0 && queueLeft > 0)
+                int queueLeft = e.FileEntries - e.Count;
+                lock (_deleteRecordQueuesLock)
                 {
-
-                    lock (_readToCacheQueuesLock) if (!readToCacheQueues.ContainsKey(e.HashQueue)) readToCacheQueues.Add(e.HashQueue, queueLeft);
-                }
-                else
-                {
-                    lock (_readToCacheQueuesLock)
+                    if (e.InitCounter && e.FileEntries > 0 && queueLeft > 0)
                     {
-                        if (readToCacheQueues.ContainsKey(e.HashQueue))
+
+                        lock (_readToCacheQueuesLock) if (!readToCacheQueues.ContainsKey(e.HashQueue)) readToCacheQueues.Add(e.HashQueue, queueLeft);
+                    }
+                    else
+                    {
+                        lock (_readToCacheQueuesLock)
                         {
-                            if (queueLeft == 0 || e.Aborted)
+                            if (readToCacheQueues.ContainsKey(e.HashQueue))
                             {
-                                if (readToCacheQueues.ContainsKey(e.HashQueue)) readToCacheQueues.Remove(e.HashQueue);
-                            }
-                            else
-                            {
-                                readToCacheQueues[e.HashQueue] = queueLeft;
+                                if (queueLeft == 0 || e.Aborted)
+                                {
+                                    if (readToCacheQueues.ContainsKey(e.HashQueue)) readToCacheQueues.Remove(e.HashQueue);
+                                }
+                                else
+                                {
+                                    readToCacheQueues[e.HashQueue] = queueLeft;
+                                }
                             }
                         }
                     }
                 }
+                DisplayAllQueueStatus();
             }
-            DisplayAllQueueStatus();
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
         }
 
         #endregion
@@ -731,17 +822,33 @@ namespace PhotoTagsSynchronizer
         #region UpdateExiftoolSaveStatus - ShowExiftoolSaveProgressClear()
         private void ShowExiftoolSaveProgressClear()
         {
-            lock (_fileSaveSizeLock) fileSaveSizeWatcher.Clear();
-            //timerShowExiftoolSaveProgress.Start();
+            try
+            {
+                lock (_fileSaveSizeLock) fileSaveSizeWatcher.Clear();
+                //timerShowExiftoolSaveProgress.Start();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
         }
         #endregion 
 
         #region UpdateExiftoolSaveStatus - AddWatcherShowExiftoolSaveProcessQueue
         private void AddWatcherShowExiftoolSaveProcessQueue(string fullFileName)
         {
-            lock (_fileSaveSizeLock)
+            try
             {
-                if (!fileSaveSizeWatcher.ContainsKey(fullFileName)) fileSaveSizeWatcher.Add(fullFileName, 0);
+                lock (_fileSaveSizeLock)
+                {
+                    if (!fileSaveSizeWatcher.ContainsKey(fullFileName)) fileSaveSizeWatcher.Add(fullFileName, 0);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion 
@@ -785,18 +892,34 @@ namespace PhotoTagsSynchronizer
         #region ProgressbarBackgroundProgressQueueRemainding(int queueRemainding)
         private void ProgressbarBackgroundProgressQueueRemainding(int queueRemainding)
         {
-            if (queueRemainding > progressBarBackground.Maximum) progressBarBackground.Maximum = queueRemainding;
-            progressBarBackground.Value = progressBarBackground.Maximum - queueRemainding;
+            try
+            {
+                if (queueRemainding > progressBarBackground.Maximum) progressBarBackground.Maximum = queueRemainding;
+                progressBarBackground.Value = progressBarBackground.Maximum - queueRemainding;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
         }
         #endregion
 
         #region ProgressbarBackgroundProgress(bool enabled, int value, int minimum, int maximum)
         private void ProgressbarBackgroundProgress(bool enabled, int value, int minimum, int maximum)
         {
-            progressBarBackground.Minimum = minimum;
-            progressBarBackground.Maximum = maximum;
-            progressBarBackground.Value = value;
-            ProgressbarSaveProgress(enabled);
+            try
+            {
+                progressBarBackground.Minimum = minimum;
+                progressBarBackground.Maximum = maximum;
+                progressBarBackground.Value = value;
+                ProgressbarSaveProgress(enabled);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
         }
         #endregion
 
@@ -818,92 +941,101 @@ namespace PhotoTagsSynchronizer
         #region GetProgressCircle(int procentage)
         private Bitmap GetProgressCircle(int procentage, out int imageIndex)
         {
-            if (procentage < 0)
-            {
-                imageIndex = 0;
-                return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle00_16x16;
+            imageIndex = 0;
+            try
+            {                
+                if (procentage < 0)
+                {
+                    imageIndex = 0;
+                    return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle00_16x16;
+                }
+                else if (procentage <= 6)
+                {
+                    imageIndex = 1;
+                    return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle01_16x16;
+                }
+                else if (procentage <= 12)
+                {
+                    imageIndex = 2;
+                    return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle02_16x16;
+                }
+                else if (procentage <= 18)
+                {
+                    imageIndex = 3;
+                    return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle03_16x16;
+                }
+                else if (procentage <= 24)
+                {
+                    imageIndex = 4;
+                    return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle04_16x16;
+                }
+                else if (procentage <= 29)
+                {
+                    imageIndex = 5;
+                    return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle05_16x16;
+                }
+                else if (procentage <= 35)
+                {
+                    imageIndex = 6;
+                    return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle06_16x16;
+                }
+                else if (procentage <= 41)
+                {
+                    imageIndex = 7;
+                    return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle07_16x16;
+                }
+                else if (procentage <= 47)
+                {
+                    imageIndex = 8;
+                    return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle08_16x16;
+                }
+                else if (procentage <= 53)
+                {
+                    imageIndex = 9;
+                    return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle09_16x16;
+                }
+                else if (procentage <= 59)
+                {
+                    imageIndex = 10;
+                    return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle10_16x16;
+                }
+                else if (procentage <= 65)
+                {
+                    imageIndex = 11;
+                    return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle11_16x16;
+                }
+                else if (procentage <= 71)
+                {
+                    imageIndex = 12;
+                    return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle12_16x16;
+                }
+                else if (procentage <= 76)
+                {
+                    imageIndex = 13;
+                    return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle13_16x16;
+                }
+                else if (procentage <= 82)
+                {
+                    imageIndex = 14;
+                    return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle14_16x16;
+                }
+                else if (procentage <= 88)
+                {
+                    imageIndex = 15;
+                    return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle15_16x16;
+                }
+                else if (procentage <= 94)
+                {
+                    imageIndex = 16;
+                    return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle16_16x16;
+                }
+                imageIndex = 17;
             }
-            else if (procentage <= 6)
+            catch (Exception ex)
             {
-                imageIndex = 1;
-                return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle01_16x16;
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
             }
-            else if (procentage <= 12)
-            {
-                imageIndex = 2;
-                return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle02_16x16;
-            }
-            else if (procentage <= 18)
-            {
-                imageIndex = 3;
-                return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle03_16x16;
-            }
-            else if (procentage <= 24)
-            {
-                imageIndex = 4;
-                return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle04_16x16;
-            }
-            else if (procentage <= 29)
-            {
-                imageIndex = 5;
-                return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle05_16x16;
-            }
-            else if (procentage <= 35)
-            {
-                imageIndex = 6;
-                return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle06_16x16;
-            }
-            else if (procentage <= 41)
-            {
-                imageIndex = 7;
-                return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle07_16x16;
-            }
-            else if (procentage <= 47)
-            {
-                imageIndex = 8;
-                return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle08_16x16;
-            }
-            else if (procentage <= 53)
-            {
-                imageIndex = 9;
-                return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle09_16x16;
-            }
-            else if (procentage <= 59)
-            {
-                imageIndex = 10;
-                return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle10_16x16;
-            }
-            else if (procentage <= 65)
-            {
-                imageIndex = 11;
-                return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle11_16x16;
-            }
-            else if (procentage <= 71)
-            {
-                imageIndex = 12;
-                return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle12_16x16;
-            }
-            else if (procentage <= 76)
-            {
-                imageIndex = 13;
-                return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle13_16x16;
-            }
-            else if (procentage <= 82)
-            {
-                imageIndex = 14;
-                return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle14_16x16;
-            }
-            else if (procentage <= 88)
-            {
-                imageIndex = 15;
-                return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle15_16x16;
-            }
-            else if (procentage <= 94)
-            {
-                imageIndex = 16;
-                return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle16_16x16;
-            }
-            imageIndex = 17;
             return PhotoTagsSynchronizer.Properties.Resources.ProgressCircle17_16x16;
         }
         #endregion
@@ -912,34 +1044,42 @@ namespace PhotoTagsSynchronizer
         private Stopwatch stopwatchCircleProgressbar = new Stopwatch();
         private void SetButtonSpecNavigator(Krypton.Navigator.ButtonSpecNavigator buttonSpecNavigator, int value, int maximum)
         {
-            if (GlobalData.IsApplicationClosing) return;
-            if (InvokeRequired)
+            try
             {
-                this.BeginInvoke(new Action<Krypton.Navigator.ButtonSpecNavigator, int, int>(SetButtonSpecNavigator), buttonSpecNavigator, value, maximum);
-                return;
-            }
-
-            int procentage = 0;
-            if (value >= maximum) procentage = 100;
-            if (maximum == 0) procentage = -1;
-            else procentage = (int)(((double)value / (double)maximum) * 100);
-
-            buttonSpecNavigator.Image = GetProgressCircle(procentage, out int imageIndex);
-
-            if (buttonSpecNavigator.Tag == null && !(buttonSpecNavigator.Tag is int)) buttonSpecNavigator.Tag = -1;
-
-            if ((int)buttonSpecNavigator.Tag != imageIndex)
-            {
-                if (!stopwatchCircleProgressbar.IsRunning || stopwatchCircleProgressbar.ElapsedMilliseconds > 700)
+                if (GlobalData.IsApplicationClosing) return;
+                if (InvokeRequired)
                 {
-                    buttonSpecNavigator.Tag = imageIndex;
-                    stopwatchCircleProgressbar.Restart();
-                    kryptonPageToolboxTagsDetails.SuspendLayout();
-                    //DataGridViewHandler.SuspendLayoutSetDelay(dataGridViewTagsAndKeywords, true);
-                    kryptonWorkspaceCellToolbox.Refresh(); //Hack to get the circle to refresh
-                    //DataGridViewHandler.SuspendLayoutSetDelay(dataGridViewTagsAndKeywords, true);
-                    kryptonPageToolboxTagsDetails.ResumeLayout();
+                    this.BeginInvoke(new Action<Krypton.Navigator.ButtonSpecNavigator, int, int>(SetButtonSpecNavigator), buttonSpecNavigator, value, maximum);
+                    return;
                 }
+
+                int procentage = 0;
+                if (value >= maximum) procentage = 100;
+                if (maximum == 0) procentage = -1;
+                else procentage = (int)(((double)value / (double)maximum) * 100);
+
+                buttonSpecNavigator.Image = GetProgressCircle(procentage, out int imageIndex);
+
+                if (buttonSpecNavigator.Tag == null && !(buttonSpecNavigator.Tag is int)) buttonSpecNavigator.Tag = -1;
+
+                if ((int)buttonSpecNavigator.Tag != imageIndex)
+                {
+                    if (!stopwatchCircleProgressbar.IsRunning || stopwatchCircleProgressbar.ElapsedMilliseconds > 700)
+                    {
+                        buttonSpecNavigator.Tag = imageIndex;
+                        stopwatchCircleProgressbar.Restart();
+                        kryptonPageToolboxTagsDetails.SuspendLayout();
+                        //DataGridViewHandler.SuspendLayoutSetDelay(dataGridViewTagsAndKeywords, true);
+                        kryptonWorkspaceCellToolbox.Refresh(); //Hack to get the circle to refresh
+                                                               //DataGridViewHandler.SuspendLayoutSetDelay(dataGridViewTagsAndKeywords, true);
+                        kryptonPageToolboxTagsDetails.ResumeLayout();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -947,24 +1087,40 @@ namespace PhotoTagsSynchronizer
         #region LazyLoadingDataGridViewProgress - Update Status
         public void LazyLoadingDataGridViewProgressUpdateStatus(int queueRemainding)
         {
-            if (queueRemainding > progressBarLazyLoading.Maximum) progressBarLazyLoading.Maximum = queueRemainding;
-            if (queueRemainding == 0) progressBarLazyLoading.Maximum = 0;
-            if (queueRemainding == -1)
+            try
             {
-                progressBarLazyLoading.Maximum = 0;
-                queueRemainding = 0;
-            }
-            progressBarLazyLoading.Value = progressBarLazyLoading.Maximum - queueRemainding;
+                if (queueRemainding > progressBarLazyLoading.Maximum) progressBarLazyLoading.Maximum = queueRemainding;
+                if (queueRemainding == 0) progressBarLazyLoading.Maximum = 0;
+                if (queueRemainding == -1)
+                {
+                    progressBarLazyLoading.Maximum = 0;
+                    queueRemainding = 0;
+                }
+                progressBarLazyLoading.Value = progressBarLazyLoading.Maximum - queueRemainding;
 
-            UpdateStatusActionDelayedRefresh("Loading DataGridView: " + queueRemainding + " / " + progressBarLazyLoading.Maximum);
-            SetButtonSpecNavigator(buttonSpecNavigatorDataGridViewProgressCircle, progressBarLazyLoading.Value, progressBarLazyLoading.Maximum);
+                UpdateStatusActionDelayedRefresh("Loading DataGridView: " + queueRemainding + " / " + progressBarLazyLoading.Maximum);
+                SetButtonSpecNavigator(buttonSpecNavigatorDataGridViewProgressCircle, progressBarLazyLoading.Value, progressBarLazyLoading.Maximum);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
         }
         #endregion
 
         #region LoadingItemsImageListView
         public void LoadingItemsImageListView(int value, int maximum)
         {
-            SetButtonSpecNavigator(buttonSpecNavigatorImageListViewLoadStatus, maximum - value, maximum);
+            try
+            {
+                SetButtonSpecNavigator(buttonSpecNavigatorImageListViewLoadStatus, maximum - value, maximum);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
         }
         #endregion
 
@@ -989,8 +1145,16 @@ namespace PhotoTagsSynchronizer
         #region ProgressbarSaveAndConvertProgress(bool enabled, int value)
         private void ProgressbarSaveAndConvertProgress(bool enabled, int value)
         {
-            progressBarSaveConvert.Value = value;
-            ProgressbarSaveProgress(enabled);
+            try
+            {
+                progressBarSaveConvert.Value = value;
+                ProgressbarSaveProgress(enabled);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
         }
         #endregion
 
@@ -1035,7 +1199,15 @@ namespace PhotoTagsSynchronizer
         #region FilesCutCopyPasteDrag_OnFileSystemAction
         private void FilesCutCopyPasteDrag_OnFileSystemAction(object sender, FileSystemActionEventArgs e)
         {
-            UpdateStatusActionDelayedRefresh(e.Action + " Source:" + e.Source + (string.IsNullOrWhiteSpace(e.Destination) ? "" : " Destination:" + e.Destination));
+            try 
+            {
+                UpdateStatusActionDelayedRefresh(e.Action + " Source:" + e.Source + (string.IsNullOrWhiteSpace(e.Destination) ? "" : " Destination:" + e.Destination));
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
         }
         #endregion 
     }

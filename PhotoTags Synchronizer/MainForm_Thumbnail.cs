@@ -7,6 +7,7 @@ using Manina.Windows.Forms;
 using MetadataLibrary;
 using FileHandeling;
 using Krypton.Toolkit;
+using System.Windows.Forms;
 
 namespace PhotoTagsSynchronizer
 {
@@ -31,37 +32,44 @@ namespace PhotoTagsSynchronizer
         {
             FileEntryVersion fileEntryVersion = FileEntryVersion.ExtractedNowUsingExiftool;
 
-            Image thumbnailImage;
-            thumbnailImage = databaseAndCacheThumbnailPoster.ReadThumbnailFromCacheOrDatabase(fileEntry);
-            if (thumbnailImage != null) fileEntryVersion = FileEntryVersion.CurrentVersionInDatabase;
-
-            if (thumbnailImage == null) //Was not read from database or cache
+            Image thumbnailImage = null;
+            try
             {
-                if (fileStatus.IsInCloudOrVirtualOrOffline) UpdateStatusAction("File is in Cloud, check if windows has thumbnail: " + fileEntry.FileFullPath);
-                else UpdateStatusAction("Read thumbnail from file: " + fileEntry.FileFullPath);
+                thumbnailImage = databaseAndCacheThumbnailPoster.ReadThumbnailFromCacheOrDatabase(fileEntry);
+                if (thumbnailImage != null) fileEntryVersion = FileEntryVersion.CurrentVersionInDatabase;
 
-                thumbnailImage = LoadMediaCoverArtThumbnail(fileEntry.FileFullPath, ThumbnailSaveSize, fileStatus);
-
-                if (thumbnailImage != null)
+                if (thumbnailImage == null) //Was not read from database or cache
                 {
-                    databaseAndCacheThumbnailPoster.ThumbnailCacheUpdate(fileEntry, new Bitmap(thumbnailImage)); //Remember the Thumbnail, before Save, for show in DataGridView etc., no need to load again                        
-                    DataGridView_UpdateColumnThumbnail_OnFileEntryAttribute(new FileEntryAttribute(fileEntry, fileEntryVersion), new Bitmap(thumbnailImage));
-                    DataGridView_UpdateColumnThumbnail_OnFileEntryAttribute(new FileEntryAttribute(fileEntry, FileEntryVersion.Error), new Bitmap(thumbnailImage));
+                    if (fileStatus.IsInCloudOrVirtualOrOffline) UpdateStatusAction("File is in Cloud, check if windows has thumbnail: " + fileEntry.FileFullPath);
+                    else UpdateStatusAction("Read thumbnail from file: " + fileEntry.FileFullPath);
+
+                    thumbnailImage = LoadMediaCoverArtThumbnail(fileEntry.FileFullPath, ThumbnailSaveSize, fileStatus);
+
+                    if (thumbnailImage != null)
+                    {
+                        databaseAndCacheThumbnailPoster.ThumbnailCacheUpdate(fileEntry, new Bitmap(thumbnailImage)); //Remember the Thumbnail, before Save, for show in DataGridView etc., no need to load again                        
+                        DataGridView_UpdateColumnThumbnail_OnFileEntryAttribute(new FileEntryAttribute(fileEntry, fileEntryVersion), new Bitmap(thumbnailImage));
+                        DataGridView_UpdateColumnThumbnail_OnFileEntryAttribute(new FileEntryAttribute(fileEntry, FileEntryVersion.Error), new Bitmap(thumbnailImage));
+                    }
+                    else
+                    {
+                        //Start downloading in background from OneDrive
+                        if (!dontReadFilesInCloud && fileStatus.IsInCloudOrVirtualOrOffline)
+                            FileHandler.TouchOfflineFileToGetFileOnline(fileEntry.FileFullPath);
+                    }
+
+                    AddQueueSaveToDatabaseMediaThumbnailLock(
+                        new FileEntryImage(
+                            fileEntry, thumbnailImage == null ? null : new Bitmap(thumbnailImage),
+                            !dontReadFilesInCloud
+                            ));
                 }
-                else 
-                {
-                    //Start downloading in background from OneDrive
-                    if (!dontReadFilesInCloud && fileStatus.IsInCloudOrVirtualOrOffline) 
-                        FileHandler.TouchOfflineFileToGetFileOnline(fileEntry.FileFullPath);
-                } 
-
-                AddQueueSaveToDatabaseMediaThumbnailLock(
-                    new FileEntryImage(
-                        fileEntry, thumbnailImage == null ? null : new Bitmap(thumbnailImage), 
-                        !dontReadFilesInCloud
-                        ));
             }
-
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
             return thumbnailImage;
         }
         #endregion

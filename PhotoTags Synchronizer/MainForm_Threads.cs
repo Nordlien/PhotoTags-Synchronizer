@@ -1,4 +1,5 @@
-﻿using DataGridViewGeneric;
+﻿using CefSharp.DevTools.Debugger;
+using DataGridViewGeneric;
 using Exiftool;
 using FileDateTime;
 using FileHandeling;
@@ -145,7 +146,16 @@ namespace PhotoTagsSynchronizer
         #region CommonQueueLazyLoadingMapNomnatatimLock()
         private int CommonQueueLazyLoadingMapNomnatatimLock()
         {
-            lock (commonLazyLoadingMapNomnatatimLock) return commonLazyLoadingMapNomnatatim.Count;
+            try
+            {
+                lock (commonLazyLoadingMapNomnatatimLock) return commonLazyLoadingMapNomnatatim.Count;
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
+                return 0;
+            }
         }
 
         private int CommonQueueLazyLoadingMapNomnatatimDirty()
@@ -167,12 +177,30 @@ namespace PhotoTagsSynchronizer
         /// <returns>Number of items in queue</returns>
         private int CommonQueueLazyLoadingAllSourcesAllMetadataAndThumbnailCountLock()
         {
-            lock   (commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnailsLock) return commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnails.Count;
+            try
+            {
+                lock (commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnailsLock) return commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnails.Count;
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
+                return 0;
+            }
         }
 
         private int CommonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnailsCountDirty()
         {
-            lock   (commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnailsLock) return commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnails.Count;
+            try
+            {
+                lock (commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnailsLock) return commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnails.Count;
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
+                return 0;
+            }
         }
         #endregion
 
@@ -183,12 +211,28 @@ namespace PhotoTagsSynchronizer
         /// <returns>Number of items in queue</returns>
         private int CommonQueueLazyLoadingThumbnailCountLock()
         {
+            try { 
             lock   (commonQueueLazyLoadingMediaThumbnailLock) return commonQueueLazyLoadingMediaThumbnail.Count;
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
+                return 0;
+            }
         }
 
         private int CommonQueueLazyLoadingThumbnailCountDirty()
         {
+            try { 
             lock   (commonQueueLazyLoadingMediaThumbnailLock) return commonQueueLazyLoadingMediaThumbnail.Count;
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
+                return 0;
+            }
         }
         #endregion
 
@@ -199,12 +243,28 @@ namespace PhotoTagsSynchronizer
         /// <returns>Number of items in queue</returns>
         private int CommonQueueSaveToDatabaseRegionAndThumbnailCountLock()
         {
+            try { 
             lock   (commonQueueSaveToDatabaseRegionAndThumbnailLock) return commonQueueSaveToDatabaseRegionAndThumbnail.Count;
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
+                return 0;
+            }
         }
 
         private int CommonQueueSaveToDatabaseRegionAndThumbnailCountDirty()
         {
+            try { 
             return  commonQueueSaveToDatabaseRegionAndThumbnail.Count;
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
+                return 0;
+            }
         }
         #endregion
 
@@ -215,12 +275,29 @@ namespace PhotoTagsSynchronizer
         /// <returns>Number of items in queue</returns>
         private int CommonQueueSaveToDatabaseMediaThumbnailCountLock()
         {
+            try { 
             lock   (commonQueueSaveToDatabaseMediaThumbnailLock) return commonQueueSaveToDatabaseMediaThumbnail.Count;
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
+                return 0;
+            }
         }
 
         private int CommonQueueSaveToDatabaseMediaThumbnailCountDirty()
         {
-            return  commonQueueSaveToDatabaseMediaThumbnail.Count;
+            try
+            {
+                return commonQueueSaveToDatabaseMediaThumbnail.Count;
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
+                return 0;
+            }
         }
         #endregion
 
@@ -231,24 +308,57 @@ namespace PhotoTagsSynchronizer
         /// <returns>Number of items in queue</returns>
         private int CommonQueueReadMetadataFromMicrosoftPhotosCountLock()
         {
-            lock (commonQueueReadMetadataFromSourceMicrosoftPhotosLock) return commonQueueReadMetadataFromSourceMicrosoftPhotos.Count;
+            try
+            {
+                lock (commonQueueReadMetadataFromSourceMicrosoftPhotosLock) return commonQueueReadMetadataFromSourceMicrosoftPhotos.Count;
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
+                return 0;
+            }
         }
 
         private int CommonQueueReadMetadataFromSourceMicrosoftPhotosCountDirty()
         {
+            try { 
             return  commonQueueReadMetadataFromSourceMicrosoftPhotos.Count;
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
+                return 0;
+            }
         }
         #endregion
 
         #region CommonQueueReadMetadataFromSourceWindowsLivePhotoGalleryCountLock
         private int CommonQueueReadMetadataFromSourceWindowsLivePhotoGalleryCountLock()
         {
+            try { 
             lock   (commonQueueReadMetadataFromSourceWindowsLivePhotoGalleryLock) return commonQueueReadMetadataFromSourceWindowsLivePhotoGallery.Count;
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
+                return 0;
+            }
         }
 
         private int CommonQueueReadMetadataFromSourceWindowsLivePhotoGalleryCountDirty()
         {
+            try { 
             return  commonQueueReadMetadataFromSourceWindowsLivePhotoGallery.Count;
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
+                return 0;
+            }
         }
         #endregion
 
@@ -259,12 +369,28 @@ namespace PhotoTagsSynchronizer
         /// <returns>Number of items in queue</returns>
         private int CommonQueueReadMetadataFromSourceExiftoolCountLock()
         {
+            try { 
             lock   (commonQueueReadMetadataFromSourceExiftoolLock) return commonQueueReadMetadataFromSourceExiftool.Count;
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
+                return 0;
+            }
         }
 
         private int CommonQueueReadMetadataFromSourceExiftoolCountDirty()
         {
+            try { 
             return  commonQueueReadMetadataFromSourceExiftool.Count;
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
+                return 0;
+            }
         }
         #endregion
 
@@ -275,12 +401,28 @@ namespace PhotoTagsSynchronizer
         /// <returns>Number of items in queue</returns>
         private int CommonQueueSaveUsingExiftoolMetadataUpdatedByUserCountLock()
         {
+            try { 
             lock   (exiftoolSave_QueueSaveUsingExiftool_MetadataUpdatedByUserLock) return exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUser.Count;
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
+                return 0;
+            }
         }
 
         private int CommonQueueSaveUsingExiftoolMetadataUpdatedByUserCountDirty()
         {
+            try { 
             return exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUser.Count;
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
+                return 0;
+            }
         }
         #endregion
 
@@ -291,12 +433,28 @@ namespace PhotoTagsSynchronizer
         /// <returns>Number of items in queue</returns>
         private int ExiftoolSave_MediaFilesNotInDatabaseCountLock()
         {
+            try { 
             lock   (exiftool_MediaFilesNotInDatabaseLock) return exiftool_MediaFilesNotInDatabase.Count;
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
+                return 0;
+            }
         }
 
         private int ExiftoolSave_MediaFilesNotInDatabaseCountDirty()
         {
+            try { 
             return exiftool_MediaFilesNotInDatabase.Count;
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
+                return 0;
+            }
         }
         #endregion
 
@@ -307,7 +465,15 @@ namespace PhotoTagsSynchronizer
         /// <returns>Number of items in queue</returns>
         private int CommonQueueMetadataWrittenByExiftoolReadyToVerifyCountDirty()
         {
+            try { 
             return exiftoolSave_QueueMetadataWrittenByExiftoolReadyToVerify.Count;
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
+                return 0;
+            }
         }
         #endregion
 
@@ -318,24 +484,56 @@ namespace PhotoTagsSynchronizer
         /// <returns>Number of items in queue</returns>
         private int CommonQueueRenameCountLock()
         {
+            try { 
             lock (commonQueueRenameMediaFilesLock) return commonQueueRenameMediaFiles.Count;
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
+                return 0;
+            }
         }
 
         private int CommonQueueRenameCountDirty()
         {
+            try { 
             return commonQueueRenameMediaFiles.Count;
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
+                return 0;
+            }
         }
         #endregion
 
         #region CommonQueueAutoCorrectLock
         private int CommonQueueAutoCorrectLock()
         {
+            try { 
             lock (commonQueueAutoCorrectLock) return commonQueueAutoCorrect.Count;
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
+                return 0;
+            }
         }
 
         private int CommonQueueAutoCorrectDirty()
         {
+            try { 
             return commonQueueAutoCorrect.Count;
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
+                return 0;
+            }
         }
         #endregion
 
@@ -351,7 +549,15 @@ namespace PhotoTagsSynchronizer
         /// <param name="e"></param>
         private void timerStartThread_Tick(object sender, EventArgs e)
         {
-            if (!GlobalData.IsApplicationClosing) StartThreads();
+            try
+            {
+                if (!GlobalData.IsApplicationClosing) StartThreads();
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
+            }
         }
         #endregion
 
@@ -393,6 +599,7 @@ namespace PhotoTagsSynchronizer
         /// <returns>True if a thread is processing</returns>
         private bool IsAnyThreadRunning()
         {
+            try { 
             return (
                 (_ThreadSaveToDatabaseMediaThumbnail != null && _ThreadSaveToDatabaseMediaThumbnail.IsAlive) ||
                 (_ThreadReadMetadataFromSourceExiftool != null && _ThreadReadMetadataFromSourceExiftool.IsAlive) ||
@@ -401,6 +608,13 @@ namespace PhotoTagsSynchronizer
                 (_ThreadSaveToDatabaseRegionAndThumbnail != null && _ThreadSaveToDatabaseRegionAndThumbnail.IsAlive) ||
                 (_ThreadSaveUsingExiftoolToMedia != null && _ThreadSaveUsingExiftoolToMedia.IsAlive)
                 );
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
+                return false;
+            }
         }
         #endregion
 
@@ -412,13 +626,22 @@ namespace PhotoTagsSynchronizer
         /// <returns>True if a thread is processing (Except ThreadThumbnailRegion)</returns>
         private bool IsThreadRunningExcept_ThreadSaveToDatabaseRegionAndThumbnail()
         {
-            return
-                CommonQueueSaveToDatabaseMediaThumbnailCountDirty() > 0 ||
-                CommonQueueReadMetadataFromSourceExiftoolCountDirty() > 0 ||
-                CommonQueueReadMetadataFromSourceWindowsLivePhotoGalleryCountDirty() > 0 ||
-                CommonQueueReadMetadataFromSourceMicrosoftPhotosCountDirty() > 0 ||
-                //queueThumbnailRegion.Count > 0 ||
-                CommonQueueSaveUsingExiftoolMetadataUpdatedByUserCountDirty() > 0;
+            try
+            {
+                return
+                    CommonQueueSaveToDatabaseMediaThumbnailCountDirty() > 0 ||
+                    CommonQueueReadMetadataFromSourceExiftoolCountDirty() > 0 ||
+                    CommonQueueReadMetadataFromSourceWindowsLivePhotoGalleryCountDirty() > 0 ||
+                    CommonQueueReadMetadataFromSourceMicrosoftPhotosCountDirty() > 0 ||
+                    //queueThumbnailRegion.Count > 0 ||
+                    CommonQueueSaveUsingExiftoolMetadataUpdatedByUserCountDirty() > 0;
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
+                return false;
+            }
         }
         #endregion
 
@@ -427,6 +650,7 @@ namespace PhotoTagsSynchronizer
         #region ClearQueue - Exiftool
         public void ClearAllQueues()
         {
+            try { 
             GlobalData.IsStopAndEmptyExiftoolReadQueueRequest = true;
             GlobalData.IsStopAndEmptyThumbnailQueueRequest = true;
 
@@ -445,7 +669,12 @@ namespace PhotoTagsSynchronizer
 
             GlobalData.IsStopAndEmptyExiftoolReadQueueRequest = false;
             GlobalData.IsStopAndEmptyThumbnailQueueRequest = false;
-
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
+            }
         }
         #endregion
 
@@ -454,9 +683,17 @@ namespace PhotoTagsSynchronizer
         #region LazyLoading - Clear SelectedFiles
         public void ClearQueueLazyLoadningSelectedFilesLock()
         {
-            lock (commonQueueLazyLoadingSelectedFilesLock)
+            try
             {
-                commonQueueLazyLoadingSelectedFiles.Clear();
+                lock (commonQueueLazyLoadingSelectedFilesLock)
+                {
+                    commonQueueLazyLoadingSelectedFiles.Clear();
+                }
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
             }
         }
         #endregion
@@ -464,12 +701,20 @@ namespace PhotoTagsSynchronizer
         #region LazyLoading - Add SelectedFiles
         public void AddQueueLazyLoadningSelectedFilesLock(FileEntryBroker fileEntryBroker)
         {
-            lock (commonQueueLazyLoadingSelectedFilesLock)
+            try
             {
-                if (ImageListViewHandler.DoesExistInSelectedFiles(imageListView1, fileEntryBroker.FileFullPath)) //JTN: Loop Starts an endless loop, due to checking DateModified
+                lock (commonQueueLazyLoadingSelectedFilesLock)
                 {
-                    if (!commonQueueLazyLoadingSelectedFiles.Contains(fileEntryBroker)) commonQueueLazyLoadingSelectedFiles.Add(fileEntryBroker);
+                    if (ImageListViewHandler.DoesExistInSelectedFiles(imageListView1, fileEntryBroker.FileFullPath)) //JTN: Loop Starts an endless loop, due to checking DateModified
+                    {
+                        if (!commonQueueLazyLoadingSelectedFiles.Contains(fileEntryBroker)) commonQueueLazyLoadingSelectedFiles.Add(fileEntryBroker);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
             }
         }
         #endregion
@@ -477,9 +722,17 @@ namespace PhotoTagsSynchronizer
         #region LazyLoading - Remove SelectedFiles
         public void RemoveQueueLazyLoadningSelectedFilesLock(FileEntryBroker fileEntryBroker)
         {
-            lock (commonQueueLazyLoadingSelectedFilesLock)
+            try
             {
-                if (commonQueueLazyLoadingSelectedFiles.Contains(fileEntryBroker)) commonQueueLazyLoadingSelectedFiles.Remove(fileEntryBroker);
+                lock (commonQueueLazyLoadingSelectedFilesLock)
+                {
+                    if (commonQueueLazyLoadingSelectedFiles.Contains(fileEntryBroker)) commonQueueLazyLoadingSelectedFiles.Remove(fileEntryBroker);
+                }
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
             }
         }
         #endregion
@@ -487,9 +740,17 @@ namespace PhotoTagsSynchronizer
         #region LazyLoading - Count SelectedFiles
         public int CountQueueLazyLoadningSelectedFilesLock()
         {
+            try { 
             lock (commonQueueLazyLoadingSelectedFilesLock)
             {
                 return commonQueueLazyLoadingSelectedFiles.Count;
+            }
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
+                return 0;
             }
         }
         #endregion
@@ -501,84 +762,117 @@ namespace PhotoTagsSynchronizer
         #region LazyLoading - Add - All Versions / All Sources / Metadata And Region Thumbnails - AddQueue - (Read order: Cache, Database, Source) - AfterPopulateSelectedFiles 
         private void AddQueueLazyLoadning_AllSources_AllVersions_MetadataAndRegionThumbnailsLock_AfterPopulateSelectedFiles(HashSet<FileEntry> imageListViewSelectItems)
         {
-            List<FileEntryAttribute> lazyLoadingAllExiftoolVersionOfMediaFile = new List<FileEntryAttribute>();
-
-            foreach (FileEntry fileEntry in imageListViewSelectItems)
+            try
             {
-                List<FileEntryAttribute> fileEntryAttributeDateVersions =
-                    databaseAndCacheMetadataExiftool.ListFileEntryAttributesCache(MetadataBrokerType.ExifTool,
-                    fileEntry.FileFullPath, FileHandler.GetLastWriteTime(fileEntry.FileFullPath, waitAndRetry: IsFileInTemporaryUnavailableLock(fileEntry.FileFullPath)));
+                List<FileEntryAttribute> lazyLoadingAllExiftoolVersionOfMediaFile = new List<FileEntryAttribute>();
 
-                lazyLoadingAllExiftoolVersionOfMediaFile.AddRange(fileEntryAttributeDateVersions);
+                foreach (FileEntry fileEntry in imageListViewSelectItems)
+                {
+                    List<FileEntryAttribute> fileEntryAttributeDateVersions =
+                        databaseAndCacheMetadataExiftool.ListFileEntryAttributesCache(MetadataBrokerType.ExifTool,
+                        fileEntry.FileFullPath, FileHandler.GetLastWriteTime(fileEntry.FileFullPath, waitAndRetry: IsFileInTemporaryUnavailableLock(fileEntry.FileFullPath)));
 
-                FileStatus fileStaus = FileHandler.GetFileStatus(fileEntry.FileFullPath,
-                    exiftoolProcessStatus: ExiftoolProcessStatus.InExiftoolReadQueue);
+                    lazyLoadingAllExiftoolVersionOfMediaFile.AddRange(fileEntryAttributeDateVersions);
 
-                FileHandler.RemoveOfflineFileTouched(fileEntry.FileFullPath);
-                FileHandler.RemoveOfflineFileTouchedFailed(fileEntry.FileFullPath);
+                    FileStatus fileStaus = FileHandler.GetFileStatus(fileEntry.FileFullPath,
+                        exiftoolProcessStatus: ExiftoolProcessStatus.InExiftoolReadQueue);
 
-                ImageListView_UpdateItemFileStatusInvoke(fileEntry.FileFullPath, fileStaus);
+                    FileHandler.RemoveOfflineFileTouched(fileEntry.FileFullPath);
+                    FileHandler.RemoveOfflineFileTouchedFailed(fileEntry.FileFullPath);
+
+                    ImageListView_UpdateItemFileStatusInvoke(fileEntry.FileFullPath, fileStaus);
+                }
+
+                AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(lazyLoadingAllExiftoolVersionOfMediaFile);
+                AddQueueLazyLoadningMediaThumbnailLock(lazyLoadingAllExiftoolVersionOfMediaFile);
+                AddQueueLazyLoadingMapNomnatatimLock(lazyLoadingAllExiftoolVersionOfMediaFile, forceReloadUsingReverseGeocoder: false);
+                StartThreads();
             }
-
-            AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(lazyLoadingAllExiftoolVersionOfMediaFile);
-            AddQueueLazyLoadningMediaThumbnailLock(lazyLoadingAllExiftoolVersionOfMediaFile);
-            AddQueueLazyLoadingMapNomnatatimLock(lazyLoadingAllExiftoolVersionOfMediaFile, forceReloadUsingReverseGeocoder: false);
-            StartThreads();
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
+            }
         }
         #endregion
 
         #region LazyLoading - Add - All Sources / No History / Metadata And Region Thumbnails - AddQueue - (Read order: Cache, Database, Source)
         public void AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(FileEntryAttribute fileEntryAttribute)
         {
-            List<FileEntryAttribute> fileEntryAttributes = new List<FileEntryAttribute>();
-            fileEntryAttributes.Add(fileEntryAttribute);
-            AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(fileEntryAttributes);
+            try
+            {
+                List<FileEntryAttribute> fileEntryAttributes = new List<FileEntryAttribute>();
+                fileEntryAttributes.Add(fileEntryAttribute);
+                AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(fileEntryAttributes);
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
+            }
         }
         #endregion
 
         #region LazyLoading - Add - All Sources / Current File Written Date / Metadata And Region Thumbnails - AddQueue - (Read order: Cache, Database, Source)
         public void AddQueueLazyLoadning_AllSources_CurrentWrittenDate_UseCurrentFileDate_MetadataAndRegionThumbnailsLock(HashSet<FileEntry> fileEntries, FileEntryVersion fileEntryVersion)
         {
-            List<FileEntryAttribute> fileEntryAttributes = new List<FileEntryAttribute>();
-            foreach (FileEntry fileEntry in fileEntries)
+            try
             {
-                #region Add to list, if file exist and use current written date 
-                DateTime dateTime = FileHandler.GetLastWriteTime(fileEntry.FileFullPath, waitAndRetry: IsFileInTemporaryUnavailableLock(fileEntry.FileFullPath));
-                if (dateTime > FileHandler.MinimumFileSystemDateTime) //If file not exist, written date becomes MinimumFileSystemDateTime
+                List<FileEntryAttribute> fileEntryAttributes = new List<FileEntryAttribute>();
+                foreach (FileEntry fileEntry in fileEntries)
                 {
-                    if (!FileHandler.DidTouchedFileTimeoutDuringDownload(fileEntry.FileFullPath))
+                    #region Add to list, if file exist and use current written date 
+                    DateTime dateTime = FileHandler.GetLastWriteTime(fileEntry.FileFullPath, waitAndRetry: IsFileInTemporaryUnavailableLock(fileEntry.FileFullPath));
+                    if (dateTime > FileHandler.MinimumFileSystemDateTime) //If file not exist, written date becomes MinimumFileSystemDateTime
                     {
-                        FileEntry fileEntryCurrent = new FileEntry(fileEntry.FileFullPath, dateTime);
-                        if (fileEntry.LastWriteDateTime != dateTime) ImageListView_UpdateItemThumbnailUpdateAllInvoke(fileEntryCurrent);
-                        fileEntryAttributes.Add(new FileEntryAttribute(fileEntryCurrent, fileEntryVersion));
+                        if (!FileHandler.DidTouchedFileTimeoutDuringDownload(fileEntry.FileFullPath))
+                        {
+                            FileEntry fileEntryCurrent = new FileEntry(fileEntry.FileFullPath, dateTime);
+                            if (fileEntry.LastWriteDateTime != dateTime) ImageListView_UpdateItemThumbnailUpdateAllInvoke(fileEntryCurrent);
+                            fileEntryAttributes.Add(new FileEntryAttribute(fileEntryCurrent, fileEntryVersion));
+                        }
+                        else
+                        {
+                            //DEBUG
+                        }
                     }
                     else
                     {
-                        //DEBUG
+                        //DEBUG - FIle not exist anymore
                     }
-                } else
-                {
-                    //DEBUG - FIle not exist anymore
+                    #endregion
                 }
-                #endregion 
+                AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(fileEntryAttributes);
             }
-            AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(fileEntryAttributes);
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
+            }
         }
         #endregion
 
         #region LazyLoading - Add - All Sources / No History / Metadata And Region Thumbnails - AddQueue - (Read order: Cache, Database, Source)
         public void AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(List<FileEntryAttribute> fileEntryAttributes)
         {
-            if (fileEntryAttributes == null) return;
-            lock (commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnailsLock)
+            try
             {
-                foreach (FileEntryAttribute fileEntryAttribute in fileEntryAttributes)
+                if (fileEntryAttributes == null) return;
+                lock (commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnailsLock)
                 {
-                    AddQueueLazyLoadningSelectedFilesLock(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.Queue));
-                    if (commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnails.Contains(fileEntryAttribute))
-                        commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnails.Remove(fileEntryAttribute);
-                    commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnails.Insert(0, fileEntryAttribute);
+                    foreach (FileEntryAttribute fileEntryAttribute in fileEntryAttributes)
+                    {
+                        AddQueueLazyLoadningSelectedFilesLock(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.Queue));
+                        if (commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnails.Contains(fileEntryAttribute))
+                            commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnails.Remove(fileEntryAttribute);
+                        commonQueueLazyLoadingAllSourcesAllMetadataAndRegionThumbnails.Insert(0, fileEntryAttribute);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
             }
         }
         #endregion
@@ -876,13 +1170,21 @@ namespace PhotoTagsSynchronizer
         #region Media Thumbnail - LazyLoading - Add Read Queue - (Read order: Cache, Database, Source)
         public void AddQueueLazyLoadningMediaThumbnailLock(List<FileEntryAttribute> fileEntryAttributes)
         {
-            if (fileEntryAttributes == null) return;
-            lock (commonQueueLazyLoadingMediaThumbnailLock)
+            try
             {
-                foreach (FileEntryAttribute fileEntryAttribute in fileEntryAttributes)
+                if (fileEntryAttributes == null) return;
+                lock (commonQueueLazyLoadingMediaThumbnailLock)
                 {
-                    if (!commonQueueLazyLoadingMediaThumbnail.Contains(fileEntryAttribute)) commonQueueLazyLoadingMediaThumbnail.Add(fileEntryAttribute);
+                    foreach (FileEntryAttribute fileEntryAttribute in fileEntryAttributes)
+                    {
+                        if (!commonQueueLazyLoadingMediaThumbnail.Contains(fileEntryAttribute)) commonQueueLazyLoadingMediaThumbnail.Add(fileEntryAttribute);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
             }
         }
         #endregion
@@ -890,10 +1192,18 @@ namespace PhotoTagsSynchronizer
         #region Media Thumbnail - LazyLoading - Add Read Queue - (Read order: Cache, Database, Source)
         public void AddQueueLazyLoadningMediaThumbnailLock(FileEntryAttribute fileEntryAttribute)
         {
-            if (fileEntryAttribute == null) return;
-            lock (commonQueueLazyLoadingMediaThumbnailLock)
+            try
             {
-                if (!commonQueueLazyLoadingMediaThumbnail.Contains(fileEntryAttribute)) commonQueueLazyLoadingMediaThumbnail.Add(fileEntryAttribute);                
+                if (fileEntryAttribute == null) return;
+                lock (commonQueueLazyLoadingMediaThumbnailLock)
+                {
+                    if (!commonQueueLazyLoadingMediaThumbnail.Contains(fileEntryAttribute)) commonQueueLazyLoadingMediaThumbnail.Add(fileEntryAttribute);
+                }
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
             }
         }
         #endregion
@@ -983,28 +1293,36 @@ namespace PhotoTagsSynchronizer
         /// <param name="fileEntry"></param>
         public void AddQueueReadFromSourceExiftoolLock(FileEntry fileEntry, bool alsoAddToTheEnd = false)
         {
-            if (FileHandler.DidTouchedFileTimeoutDuringDownload(fileEntry.FileFullPath))
+            try
             {
-                //DEBUG
-                return; 
-            }
-            lock (commonQueueReadMetadataFromSourceExiftoolLock)
-            {
-                AddQueueLazyLoadningSelectedFilesLock(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
+                if (FileHandler.DidTouchedFileTimeoutDuringDownload(fileEntry.FileFullPath))
+                {
+                    //DEBUG
+                    return;
+                }
+                lock (commonQueueReadMetadataFromSourceExiftoolLock)
+                {
+                    AddQueueLazyLoadningSelectedFilesLock(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
 
-                if (alsoAddToTheEnd)
-                {
-                    
-                    if (commonQueueReadMetadataFromSourceExiftool.IndexOf(fileEntry) == commonQueueReadMetadataFromSourceExiftool.LastIndexOf(fileEntry))
-                        commonQueueReadMetadataFromSourceExiftool.Add(fileEntry);
+                    if (alsoAddToTheEnd)
+                    {
+
+                        if (commonQueueReadMetadataFromSourceExiftool.IndexOf(fileEntry) == commonQueueReadMetadataFromSourceExiftool.LastIndexOf(fileEntry))
+                            commonQueueReadMetadataFromSourceExiftool.Add(fileEntry);
+                    }
+                    else
+                    {
+                        bool existInQueue = IsFolderInQueueReadAndSaveMetadataFromSourceExiftoolLock(fileEntry.FileFullPath);
+                        if (!existInQueue) commonQueueReadMetadataFromSourceExiftool.Add(fileEntry);
+                    }
                 }
-                else
-                {
-                    bool existInQueue = IsFolderInQueueReadAndSaveMetadataFromSourceExiftoolLock(fileEntry.FileFullPath);
-                    if (!existInQueue) commonQueueReadMetadataFromSourceExiftool.Add(fileEntry);
-                }
+                RemoveError(fileEntry.FileFullPath);
             }
-            RemoveError(fileEntry.FileFullPath);
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
+            }
         }
         #endregion
 
@@ -1574,11 +1892,18 @@ namespace PhotoTagsSynchronizer
             }            
         }
         #endregion
-        
+
         #region Exiftool - VerifyMetadata - Add Queue
         public void AddQueueVerifyMetadataLock(Metadata metadataToVerifyAfterSavedByExiftool)
         {
-            lock (exiftoolSave_QueueMetadataWrittenByExiftoolReadyToVerifyLock) exiftoolSave_QueueMetadataWrittenByExiftoolReadyToVerify.Add(metadataToVerifyAfterSavedByExiftool);
+            try {
+                lock (exiftoolSave_QueueMetadataWrittenByExiftoolReadyToVerifyLock) exiftoolSave_QueueMetadataWrittenByExiftoolReadyToVerify.Add(metadataToVerifyAfterSavedByExiftool);
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
+            }
         }
         #endregion
         
@@ -1589,10 +1914,26 @@ namespace PhotoTagsSynchronizer
         #region Exiftool - SaveMetadata UpdatedByUser - Add Queue
         public void AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(Metadata metadataToSave, Metadata metadataOriginal)
         {
-            lock (exiftoolSave_QueueSaveUsingExiftool_MetadataUpdatedByUserLock) exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUser.Add(metadataToSave);
-            lock (exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUserLock) exiftoolSave_QueueSaveUsingExiftool_MetadataOrigialBeforeUserUpdate.Add(metadataOriginal);
-            DeleteError(metadataToSave.FileFullPath);
-            DeleteError(metadataOriginal.FileFullPath);
+            try
+            {
+                lock (exiftoolSave_QueueSaveUsingExiftool_MetadataUpdatedByUserLock) exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUser.Add(metadataToSave);
+                if (metadataOriginal != null && metadataOriginal.FileFullPath == null)
+                {
+                    metadataOriginal.FileName = metadataToSave.FileName;
+                    metadataOriginal.FileDirectory = metadataToSave.FileDirectory;
+                    metadataOriginal.FileDateModified = metadataToSave.FileDateModified;
+                }
+                lock (exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUserLock) exiftoolSave_QueueSaveUsingExiftool_MetadataOrigialBeforeUserUpdate.Add(metadataOriginal);
+                if (metadataToSave != null && metadataToSave.FileName != null && metadataToSave.FileDirectory != null) 
+                    DeleteError(metadataToSave.FileFullPath);
+                if (metadataOriginal != null && metadataOriginal.FileName != null && metadataOriginal.FileDirectory != null)
+                    DeleteError(metadataOriginal.FileFullPath);
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
+            }
         }
         #endregion
 
@@ -2186,18 +2527,26 @@ namespace PhotoTagsSynchronizer
         #region Media Thumbnail - SaveToDatabase - Add Save Queue
         public void AddQueueSaveToDatabaseMediaThumbnailLock(FileEntryImage fileEntryImage)
         {
-            //Need to add to the end, due due read queue read potion [0] end delete after, not thread safe
-            lock (commonQueueSaveToDatabaseMediaThumbnailLock)
+            try
             {
-                if (!commonQueueSaveToDatabaseMediaThumbnail.Contains(fileEntryImage))
+                //Need to add to the end, due due read queue read potion [0] end delete after, not thread safe
+                lock (commonQueueSaveToDatabaseMediaThumbnailLock)
                 {
-                    commonQueueSaveToDatabaseMediaThumbnail.Add(fileEntryImage);
+                    if (!commonQueueSaveToDatabaseMediaThumbnail.Contains(fileEntryImage))
+                    {
+                        commonQueueSaveToDatabaseMediaThumbnail.Add(fileEntryImage);
+                    }
+                    else if (fileEntryImage.Image != null) //If image are already read, save it
+                    {
+                        int index = commonQueueSaveToDatabaseMediaThumbnail.IndexOf(fileEntryImage);
+                        if (index >= 0) commonQueueSaveToDatabaseMediaThumbnail[index].Image = fileEntryImage.Image; //Image has been found, updated the entry, so image will not be needed to load again.
+                    }
                 }
-                else if (fileEntryImage.Image != null) //If image are already read, save it
-                {
-                    int index = commonQueueSaveToDatabaseMediaThumbnail.IndexOf(fileEntryImage);
-                    if (index >= 0) commonQueueSaveToDatabaseMediaThumbnail[index].Image = fileEntryImage.Image; //Image has been found, updated the entry, so image will not be needed to load again.
-                }
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
             }
         }
         #endregion
@@ -2344,12 +2693,20 @@ namespace PhotoTagsSynchronizer
         /// <param name="fileEntry"></param>
         public void AddQueueReadFromSourceMetadataMicrosoftPhotosLock(FileEntry fileEntry)
         {
-            if (!GlobalData.doesMircosoftPhotosExists) return;
-            //Need to add to the end, due due read queue read potion [0] end delete after, not thread safe
-            lock (commonQueueReadMetadataFromSourceMicrosoftPhotosLock)
+            try
             {
-                AddQueueLazyLoadningSelectedFilesLock(new FileEntryBroker(fileEntry, MetadataBrokerType.MicrosoftPhotos));
-                if (!commonQueueReadMetadataFromSourceMicrosoftPhotos.Contains(fileEntry)) commonQueueReadMetadataFromSourceMicrosoftPhotos.Add(fileEntry);
+                if (!GlobalData.doesMircosoftPhotosExists) return;
+                //Need to add to the end, due due read queue read potion [0] end delete after, not thread safe
+                lock (commonQueueReadMetadataFromSourceMicrosoftPhotosLock)
+                {
+                    AddQueueLazyLoadningSelectedFilesLock(new FileEntryBroker(fileEntry, MetadataBrokerType.MicrosoftPhotos));
+                    if (!commonQueueReadMetadataFromSourceMicrosoftPhotos.Contains(fileEntry)) commonQueueReadMetadataFromSourceMicrosoftPhotos.Add(fileEntry);
+                }
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
             }
         }
         #endregion
@@ -2467,13 +2824,21 @@ namespace PhotoTagsSynchronizer
         /// <param name="fileEntry"></param>
         public void AddQueueReadFromSourceWindowsLivePhotoGalleryLock(FileEntry fileEntry)
         {
-            if (!GlobalData.doesWindowsLivePhotoGalleryExists) return;
-
-            //Need to add to the end, due due read queue read potion [0] end delete after, not thread safe
-            lock (commonQueueReadMetadataFromSourceWindowsLivePhotoGalleryLock)
+            try
             {
-                AddQueueLazyLoadningSelectedFilesLock(new FileEntryBroker(fileEntry, MetadataBrokerType.WindowsLivePhotoGallery));
-                if (!commonQueueReadMetadataFromSourceWindowsLivePhotoGallery.Contains(fileEntry)) commonQueueReadMetadataFromSourceWindowsLivePhotoGallery.Add(fileEntry);
+                if (!GlobalData.doesWindowsLivePhotoGalleryExists) return;
+
+                //Need to add to the end, due due read queue read potion [0] end delete after, not thread safe
+                lock (commonQueueReadMetadataFromSourceWindowsLivePhotoGalleryLock)
+                {
+                    AddQueueLazyLoadningSelectedFilesLock(new FileEntryBroker(fileEntry, MetadataBrokerType.WindowsLivePhotoGallery));
+                    if (!commonQueueReadMetadataFromSourceWindowsLivePhotoGallery.Contains(fileEntry)) commonQueueReadMetadataFromSourceWindowsLivePhotoGallery.Add(fileEntry);
+                }
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
             }
         }
         #endregion
@@ -2582,10 +2947,18 @@ namespace PhotoTagsSynchronizer
         #region RegionAndThumbnail - SaveToDatabase RegionAndThumbnail - AddQueue
         private void AddQueueSaveToDatabaseRegionAndThumbnailLock(Metadata metadata)
         {
-            //Need to add to the end, due due read queue read potion [0] end delete after, not thread safe
-            lock (commonQueueSaveToDatabaseRegionAndThumbnailLock)
+            try
             {
-                if (!commonQueueSaveToDatabaseRegionAndThumbnail.Contains(metadata)) commonQueueSaveToDatabaseRegionAndThumbnail.Add(new Metadata(metadata));
+                //Need to add to the end, due due read queue read potion [0] end delete after, not thread safe
+                lock (commonQueueSaveToDatabaseRegionAndThumbnailLock)
+                {
+                    if (!commonQueueSaveToDatabaseRegionAndThumbnail.Contains(metadata)) commonQueueSaveToDatabaseRegionAndThumbnail.Add(new Metadata(metadata));
+                }
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
             }
         }
         #endregion
@@ -2988,34 +3361,50 @@ namespace PhotoTagsSynchronizer
         #region Check ThreadQueues - IsFolderInQueueSaveToDatabaseRegionAndThumbnail
         public bool IsFolderInQueueSaveToDatabaseRegionAndThumbnailLock (string folder)
         {
-            bool folderInUse = false;
-            lock (commonQueueSaveToDatabaseRegionAndThumbnailLock)
-                foreach (Metadata metadata in commonQueueSaveToDatabaseRegionAndThumbnail)
-                {
-                    if (metadata.FileFullPath.StartsWith(folder))
+            try
+            {
+                bool folderInUse = false;
+                lock (commonQueueSaveToDatabaseRegionAndThumbnailLock)
+                    foreach (Metadata metadata in commonQueueSaveToDatabaseRegionAndThumbnail)
                     {
-                        folderInUse = true;
-                        break;
+                        if (metadata.FileFullPath.StartsWith(folder))
+                        {
+                            folderInUse = true;
+                            break;
+                        }
                     }
-                }
-            return folderInUse;
-        }
+                return folderInUse;
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
+                return false;
+            }
+}
         #endregion
 
         #region Check ThreadQueues - IsFileInQueueSaveToDatabaseRegionAndThumbnail
         public bool IsFileInQueueSaveToDatabaseRegionAndThumbnailLock(string fullFilename)
         {
             bool fileInUse = false;
-
-            lock (commonQueueSaveToDatabaseRegionAndThumbnailLock)
-                foreach (Metadata metadata in commonQueueSaveToDatabaseRegionAndThumbnail)
-                {
-                    if (FilesCutCopyPasteDrag.IsFilenameEqual(metadata.FileFullPath, fullFilename))
+            try
+            {
+                lock (commonQueueSaveToDatabaseRegionAndThumbnailLock)
+                    foreach (Metadata metadata in commonQueueSaveToDatabaseRegionAndThumbnail)
                     {
-                        fileInUse = true;
-                        break;
+                        if (FilesCutCopyPasteDrag.IsFilenameEqual(metadata.FileFullPath, fullFilename))
+                        {
+                            fileInUse = true;
+                            break;
+                        }
                     }
-                }
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
+            }
             return fileInUse;
         }
         #endregion
@@ -3024,16 +3413,23 @@ namespace PhotoTagsSynchronizer
         public bool IsFolderInQueueSaveToDatabaseMediaThumbnailLock(string folder)
         {
             bool folderInUse = false;
-
-            lock (commonQueueSaveToDatabaseMediaThumbnailLock)
-                foreach (FileEntryImage fileEntry in commonQueueSaveToDatabaseMediaThumbnail)
-                {
-                    if (fileEntry.FileFullPath.StartsWith(folder, comparisonType: StringComparison.OrdinalIgnoreCase))
+            try
+            {
+                lock (commonQueueSaveToDatabaseMediaThumbnailLock)
+                    foreach (FileEntryImage fileEntry in commonQueueSaveToDatabaseMediaThumbnail)
                     {
-                        folderInUse = true;
-                        break;
+                        if (fileEntry.FileFullPath.StartsWith(folder, comparisonType: StringComparison.OrdinalIgnoreCase))
+                        {
+                            folderInUse = true;
+                            break;
+                        }
                     }
-                }
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
+            }
             return folderInUse;
         }
         #endregion
@@ -3042,15 +3438,23 @@ namespace PhotoTagsSynchronizer
         public bool IsFileInQueueSaveToDatabaseMediaThumbnailLock(string fullFilename)
         {
             bool fileInUse = false;
-            lock (commonQueueSaveToDatabaseMediaThumbnailLock)
-                foreach (FileEntryImage fileEntry in commonQueueSaveToDatabaseMediaThumbnail)
-                {
-                    if (FilesCutCopyPasteDrag.IsFilenameEqual(fileEntry.FileFullPath, fullFilename))
+            try
+            {
+                lock (commonQueueSaveToDatabaseMediaThumbnailLock)
+                    foreach (FileEntryImage fileEntry in commonQueueSaveToDatabaseMediaThumbnail)
                     {
-                        fileInUse = true;
-                        break;
+                        if (FilesCutCopyPasteDrag.IsFilenameEqual(fileEntry.FileFullPath, fullFilename))
+                        {
+                            fileInUse = true;
+                            break;
+                        }
                     }
-                }
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
+            }
             return fileInUse; 
         }
         #endregion
@@ -3059,16 +3463,23 @@ namespace PhotoTagsSynchronizer
         public bool IsFolderInQueueReadMetadataFromSourceMicrosoftPhotosLock(string folder)
         {
             bool folderInUse = false;
-
-            lock (commonQueueReadMetadataFromSourceMicrosoftPhotosLock)
-                foreach (FileEntry fileEntry in commonQueueReadMetadataFromSourceMicrosoftPhotos)
-                {
-                    if (fileEntry.FileFullPath.StartsWith(folder, comparisonType: StringComparison.OrdinalIgnoreCase))
+            try
+            {
+                lock (commonQueueReadMetadataFromSourceMicrosoftPhotosLock)
+                    foreach (FileEntry fileEntry in commonQueueReadMetadataFromSourceMicrosoftPhotos)
                     {
-                        folderInUse = true;
-                        break;
+                        if (fileEntry.FileFullPath.StartsWith(folder, comparisonType: StringComparison.OrdinalIgnoreCase))
+                        {
+                            folderInUse = true;
+                            break;
+                        }
                     }
-                }
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
+            }
             return folderInUse;
         }
         #endregion
@@ -3077,17 +3488,24 @@ namespace PhotoTagsSynchronizer
         public bool IsFileInQueueReadMetadataFromSourceMicrosoftPhotosLock(string fullFilename)
         {
             bool fileInUse = false;
-
-            lock (commonQueueReadMetadataFromSourceMicrosoftPhotosLock)
+            try
             {
-                foreach (FileEntry fileEntry in commonQueueReadMetadataFromSourceMicrosoftPhotos)
+                lock (commonQueueReadMetadataFromSourceMicrosoftPhotosLock)
                 {
-                    if (FilesCutCopyPasteDrag.IsFilenameEqual(fileEntry.FileFullPath, fullFilename))
+                    foreach (FileEntry fileEntry in commonQueueReadMetadataFromSourceMicrosoftPhotos)
                     {
-                        fileInUse = true;
-                        break;
+                        if (FilesCutCopyPasteDrag.IsFilenameEqual(fileEntry.FileFullPath, fullFilename))
+                        {
+                            fileInUse = true;
+                            break;
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
             }
             return fileInUse;
         }
@@ -3097,18 +3515,24 @@ namespace PhotoTagsSynchronizer
         public bool IsFolderInQueueReadMetadataFromSourceWindowsLivePhotoGalleryLock(string folder)
         {
             bool folderInUse = false;
-            
-            if (!folderInUse)
-                lock (commonQueueReadMetadataFromSourceWindowsLivePhotoGalleryLock)
-                    foreach (FileEntry fileEntry in commonQueueReadMetadataFromSourceWindowsLivePhotoGallery)
-                    {
-                        if (fileEntry.FileFullPath.StartsWith(folder, comparisonType: StringComparison.OrdinalIgnoreCase))
+            try
+            {
+                if (!folderInUse)
+                    lock (commonQueueReadMetadataFromSourceWindowsLivePhotoGalleryLock)
+                        foreach (FileEntry fileEntry in commonQueueReadMetadataFromSourceWindowsLivePhotoGallery)
                         {
-                            folderInUse = true;
-                            break;
+                            if (fileEntry.FileFullPath.StartsWith(folder, comparisonType: StringComparison.OrdinalIgnoreCase))
+                            {
+                                folderInUse = true;
+                                break;
+                            }
                         }
-                    }
-            
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
+            }
             return folderInUse;
         }
         #endregion
@@ -3117,16 +3541,23 @@ namespace PhotoTagsSynchronizer
         public bool IsFileInQueueReadMetadataFromSourceWindowsLivePhotoGalleryLock(string fullFilename)
         {
             bool fileInUse = false;
-            lock (commonQueueReadMetadataFromSourceWindowsLivePhotoGalleryLock)
-                foreach (FileEntry fileEntry in commonQueueReadMetadataFromSourceWindowsLivePhotoGallery)
-                {
-                    if (FilesCutCopyPasteDrag.IsFilenameEqual(fileEntry.FileFullPath, fullFilename))
+            try
+            {
+                lock (commonQueueReadMetadataFromSourceWindowsLivePhotoGalleryLock)
+                    foreach (FileEntry fileEntry in commonQueueReadMetadataFromSourceWindowsLivePhotoGallery)
                     {
-                        fileInUse = true;
-                        break;
+                        if (FilesCutCopyPasteDrag.IsFilenameEqual(fileEntry.FileFullPath, fullFilename))
+                        {
+                            fileInUse = true;
+                            break;
+                        }
                     }
-                }
-            
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
+            }
             return fileInUse;
         }
         #endregion
@@ -3135,28 +3566,35 @@ namespace PhotoTagsSynchronizer
         public bool IsFolderInQueueReadAndSaveMetadataFromSourceExiftoolLock(string folder)
         {
             bool folderInUse = false;
-
-            if (!folderInUse)
-                lock (commonQueueReadMetadataFromSourceExiftoolLock)
-                    foreach (FileEntry fileEntry in commonQueueReadMetadataFromSourceExiftool)
-                    {
-                        if (fileEntry.FileFullPath.StartsWith(folder, comparisonType: StringComparison.OrdinalIgnoreCase))
+            try
+            {
+                if (!folderInUse)
+                    lock (commonQueueReadMetadataFromSourceExiftoolLock)
+                        foreach (FileEntry fileEntry in commonQueueReadMetadataFromSourceExiftool)
                         {
-                            folderInUse = true;
-                            break;
+                            if (fileEntry.FileFullPath.StartsWith(folder, comparisonType: StringComparison.OrdinalIgnoreCase))
+                            {
+                                folderInUse = true;
+                                break;
+                            }
                         }
-                    }
 
-            if (!folderInUse)
-                lock (exiftool_MediaFilesNotInDatabaseLock)
-                    foreach (FileEntry fileEntry in exiftool_MediaFilesNotInDatabase)
-                    {
-                        if (fileEntry.FileFullPath.StartsWith(folder, comparisonType: StringComparison.OrdinalIgnoreCase))
+                if (!folderInUse)
+                    lock (exiftool_MediaFilesNotInDatabaseLock)
+                        foreach (FileEntry fileEntry in exiftool_MediaFilesNotInDatabase)
                         {
-                            folderInUse = true;
-                            break;
+                            if (fileEntry.FileFullPath.StartsWith(folder, comparisonType: StringComparison.OrdinalIgnoreCase))
+                            {
+                                folderInUse = true;
+                                break;
+                            }
                         }
-                    }
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
+            }
             return folderInUse;
         }
         #endregion
@@ -3165,28 +3603,35 @@ namespace PhotoTagsSynchronizer
         public bool IsFileInQueueReadAndSaveMetadataFromSourceExiftoolLock(string fullFilename)
         {
             bool fileInUse = false;
-            
-            if (!fileInUse)
-                lock (commonQueueReadMetadataFromSourceExiftoolLock)
-                    foreach (FileEntry fileEntry in commonQueueReadMetadataFromSourceExiftool)
-                    {
-                        if (FilesCutCopyPasteDrag.IsFilenameEqual(fileEntry.FileFullPath, fullFilename))
+            try
+            {
+                if (!fileInUse)
+                    lock (commonQueueReadMetadataFromSourceExiftoolLock)
+                        foreach (FileEntry fileEntry in commonQueueReadMetadataFromSourceExiftool)
                         {
-                            fileInUse = true;
-                            break;
+                            if (FilesCutCopyPasteDrag.IsFilenameEqual(fileEntry.FileFullPath, fullFilename))
+                            {
+                                fileInUse = true;
+                                break;
+                            }
                         }
-                    }
 
-            if (!fileInUse)
-                lock (exiftool_MediaFilesNotInDatabaseLock)
-                    foreach (FileEntry fileEntry in exiftool_MediaFilesNotInDatabase)
-                    {
-                        if (FilesCutCopyPasteDrag.IsFilenameEqual(fileEntry.FileFullPath, fullFilename))
+                if (!fileInUse)
+                    lock (exiftool_MediaFilesNotInDatabaseLock)
+                        foreach (FileEntry fileEntry in exiftool_MediaFilesNotInDatabase)
                         {
-                            fileInUse = true;
-                            break;
+                            if (FilesCutCopyPasteDrag.IsFilenameEqual(fileEntry.FileFullPath, fullFilename))
+                            {
+                                fileInUse = true;
+                                break;
+                            }
                         }
-                    }
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
+            }
             return fileInUse;
         }
         #endregion
@@ -3195,40 +3640,47 @@ namespace PhotoTagsSynchronizer
         public bool IsFolderInQueueSaveUsingExiftoolMetadataLock(string folder)
         {
             bool folderInUse = false;
-
-            if (!folderInUse)
-                lock (exiftoolSave_QueueMetadataWrittenByExiftoolReadyToVerifyLock)
-                    foreach (Metadata metadata in exiftoolSave_QueueMetadataWrittenByExiftoolReadyToVerify)
-                    {
-                        if (metadata.FileFullPath.StartsWith(folder, comparisonType: StringComparison.OrdinalIgnoreCase))
+            try
+            {
+                if (!folderInUse)
+                    lock (exiftoolSave_QueueMetadataWrittenByExiftoolReadyToVerifyLock)
+                        foreach (Metadata metadata in exiftoolSave_QueueMetadataWrittenByExiftoolReadyToVerify)
                         {
-                            folderInUse = true;
-                            break;
+                            if (metadata.FileFullPath.StartsWith(folder, comparisonType: StringComparison.OrdinalIgnoreCase))
+                            {
+                                folderInUse = true;
+                                break;
+                            }
                         }
-                    }
 
-            if (!folderInUse)
-                lock (exiftoolSave_QueueSaveUsingExiftool_MetadataUpdatedByUserLock)
-                    foreach (Metadata metadata in exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUser)
-                    {
-                        if (metadata.FileFullPath.StartsWith(folder, comparisonType: StringComparison.OrdinalIgnoreCase))
+                if (!folderInUse)
+                    lock (exiftoolSave_QueueSaveUsingExiftool_MetadataUpdatedByUserLock)
+                        foreach (Metadata metadata in exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUser)
                         {
-                            folderInUse = true;
-                            break;
+                            if (metadata.FileFullPath.StartsWith(folder, comparisonType: StringComparison.OrdinalIgnoreCase))
+                            {
+                                folderInUse = true;
+                                break;
+                            }
                         }
-                    }
-            
 
-            if (!folderInUse)
-                lock (exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUserLock)
-                    foreach (Metadata metadata in exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser)
-                    {
-                        if (metadata.FileFullPath.StartsWith(folder, comparisonType: StringComparison.OrdinalIgnoreCase))
+
+                if (!folderInUse)
+                    lock (exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUserLock)
+                        foreach (Metadata metadata in exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser)
                         {
-                            folderInUse = true;
-                            break;
+                            if (metadata.FileFullPath.StartsWith(folder, comparisonType: StringComparison.OrdinalIgnoreCase))
+                            {
+                                folderInUse = true;
+                                break;
+                            }
                         }
-                    }
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
+            }
             return folderInUse;
         }
         #endregion
@@ -3237,16 +3689,24 @@ namespace PhotoTagsSynchronizer
         public bool IsFileInTemporaryUnavailableLock(string fullFilename)
         {
             bool fileInUse = false;
-            if (!fileInUse)
-                lock (exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUserLock)
-                    foreach (Metadata metadata in exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser)
-                    {
-                        if (FilesCutCopyPasteDrag.IsFilenameEqual(metadata.FileFullPath, fullFilename))
+            try
+            {
+                if (!fileInUse)
+                    lock (exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUserLock)
+                        foreach (Metadata metadata in exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser)
                         {
-                            fileInUse = true;
-                            break;
+                            if (FilesCutCopyPasteDrag.IsFilenameEqual(metadata.FileFullPath, fullFilename))
+                            {
+                                fileInUse = true;
+                                break;
+                            }
                         }
-                    }
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
+            }
             return fileInUse;
         }
         #endregion
@@ -3255,37 +3715,45 @@ namespace PhotoTagsSynchronizer
         public bool IsFileInQueueSaveUsingExiftoolMetadataLock(string fullFilename)
         {
             bool fileInUse = false;
-            if (!fileInUse)
-                lock (exiftoolSave_QueueMetadataWrittenByExiftoolReadyToVerifyLock)
-                    foreach (Metadata metadata in exiftoolSave_QueueMetadataWrittenByExiftoolReadyToVerify)
-                    {
-                        if (FilesCutCopyPasteDrag.IsFilenameEqual(metadata.FileFullPath, fullFilename))
+            try
+            {
+                if (!fileInUse)
+                    lock (exiftoolSave_QueueMetadataWrittenByExiftoolReadyToVerifyLock)
+                        foreach (Metadata metadata in exiftoolSave_QueueMetadataWrittenByExiftoolReadyToVerify)
                         {
-                            fileInUse = true;
-                            break;
+                            if (FilesCutCopyPasteDrag.IsFilenameEqual(metadata.FileFullPath, fullFilename))
+                            {
+                                fileInUse = true;
+                                break;
+                            }
                         }
-                    }
-            if (!fileInUse)                      
-                lock (exiftoolSave_QueueSaveUsingExiftool_MetadataUpdatedByUserLock)
-                    foreach (Metadata metadata in exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUser)
-                    {
-                        if (FilesCutCopyPasteDrag.IsFilenameEqual(metadata.FileFullPath, fullFilename))
+                if (!fileInUse)
+                    lock (exiftoolSave_QueueSaveUsingExiftool_MetadataUpdatedByUserLock)
+                        foreach (Metadata metadata in exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUser)
                         {
-                            fileInUse = true;
-                            break;
+                            if (FilesCutCopyPasteDrag.IsFilenameEqual(metadata.FileFullPath, fullFilename))
+                            {
+                                fileInUse = true;
+                                break;
+                            }
                         }
-                    }
-            
-            if (!fileInUse)
-                lock (exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUserLock)
-                    foreach (Metadata metadata in exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser)
-                    {
-                        if (FilesCutCopyPasteDrag.IsFilenameEqual(metadata.FileFullPath, fullFilename))
+
+                if (!fileInUse)
+                    lock (exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUserLock)
+                        foreach (Metadata metadata in exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser)
                         {
-                            fileInUse = true;
-                            break;
+                            if (FilesCutCopyPasteDrag.IsFilenameEqual(metadata.FileFullPath, fullFilename))
+                            {
+                                fileInUse = true;
+                                break;
+                            }
                         }
-                    }            
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
+            }
             return fileInUse;
         }
         #endregion
@@ -3355,10 +3823,17 @@ namespace PhotoTagsSynchronizer
         public bool IsFileInAnyQueueLock(HashSet<string> listOfFiles)
         {
             bool fileInUse = false;
+            try { 
             foreach (string fullFileName in listOfFiles)
             {
                 fileInUse = IsFileInAnyQueueLock(fullFileName);
                 if (fileInUse) break;
+            }
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
             }
             return fileInUse;
         }
@@ -3373,10 +3848,18 @@ namespace PhotoTagsSynchronizer
         public bool IsFileInAnyQueueLock(StringCollection fileList)
         {
             bool fileInUse = false;
-            foreach (string fileFullPath in fileList)
+            try
             {
-                fileInUse = IsFileInAnyQueueLock(fileFullPath);
-                if (fileInUse) break;
+                foreach (string fileFullPath in fileList)
+                {
+                    fileInUse = IsFileInAnyQueueLock(fileFullPath);
+                    if (fileInUse) break;
+                }
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
             }
             return fileInUse;
         }
@@ -3391,10 +3874,18 @@ namespace PhotoTagsSynchronizer
         public bool IsFileInAnyQueueLock(ImageListViewSelectedItemCollection imageListViewItems)
         {
             bool fileInUse = false;
-            foreach (ImageListViewItem imageListViewItem in imageListViewItems)
+            try
             {
-                fileInUse = IsFileInAnyQueueLock(imageListViewItem.FileFullPath);
-                if (fileInUse) break;
+                foreach (ImageListViewItem imageListViewItem in imageListViewItems)
+                {
+                    fileInUse = IsFileInAnyQueueLock(imageListViewItem.FileFullPath);
+                    if (fileInUse) break;
+                }
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
             }
             return fileInUse;
         }
@@ -3448,16 +3939,24 @@ namespace PhotoTagsSynchronizer
         #region Rename - AddQueueRenameMediaFilesLock
         public void AddQueueRenameMediaFilesLock(string fullFileName, string renameVariable)
         {
-            lock (commonQueueRenameMediaFilesLock)
+            try
             {
-                if (commonQueueRenameMediaFiles.ContainsKey(fullFileName))
+                lock (commonQueueRenameMediaFilesLock)
                 {
-                    commonQueueRenameMediaFiles[fullFileName] = renameVariable;
+                    if (commonQueueRenameMediaFiles.ContainsKey(fullFileName))
+                    {
+                        commonQueueRenameMediaFiles[fullFileName] = renameVariable;
+                    }
+                    else
+                    {
+                        commonQueueRenameMediaFiles.Add(fullFileName, renameVariable);
+                    }
                 }
-                else
-                {
-                    commonQueueRenameMediaFiles.Add(fullFileName, renameVariable);
-                }
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
             }
         }
         #endregion
@@ -3653,16 +4152,24 @@ namespace PhotoTagsSynchronizer
         #region AutoCorrect - AddQueueAutoCorrectLock
         public void AddQueueAutoCorrectLock(FileEntryBroker fileEntryBroker, AutoCorrectFormVaraibles autoCorrectFormVaraibles)
         {
-            lock (commonQueueAutoCorrectLock)
+            try
             {
-                if (commonQueueAutoCorrect.ContainsKey(fileEntryBroker))
+                lock (commonQueueAutoCorrectLock)
                 {
-                    commonQueueAutoCorrect[fileEntryBroker] = autoCorrectFormVaraibles;
+                    if (commonQueueAutoCorrect.ContainsKey(fileEntryBroker))
+                    {
+                        commonQueueAutoCorrect[fileEntryBroker] = autoCorrectFormVaraibles;
+                    }
+                    else
+                    {
+                        commonQueueAutoCorrect.Add(fileEntryBroker, autoCorrectFormVaraibles);
+                    }
                 }
-                else
-                {
-                    commonQueueAutoCorrect.Add(fileEntryBroker, autoCorrectFormVaraibles);
-                }
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
             }
         }
         #endregion
@@ -3813,10 +4320,18 @@ namespace PhotoTagsSynchronizer
         #region MapNomnatatim - LazyLoading - Add Read Queue
         public void AddQueueLazyLoadingMapNomnatatimLock(FileEntryAttribute fileEntryAttribute, bool forceReloadUsingReverseGeocoder)
         {
-            //Need to add to the end, due due read queue read potion [0] end delete after, not thread safe
-            lock (commonLazyLoadingMapNomnatatimLock)
+            try
             {
-                if (!commonLazyLoadingMapNomnatatim.ContainsKey(fileEntryAttribute)) commonLazyLoadingMapNomnatatim.Add(fileEntryAttribute, forceReloadUsingReverseGeocoder);
+                //Need to add to the end, due due read queue read potion [0] end delete after, not thread safe
+                lock (commonLazyLoadingMapNomnatatimLock)
+                {
+                    if (!commonLazyLoadingMapNomnatatim.ContainsKey(fileEntryAttribute)) commonLazyLoadingMapNomnatatim.Add(fileEntryAttribute, forceReloadUsingReverseGeocoder);
+                }
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
             }
         }
         #endregion
@@ -3825,13 +4340,21 @@ namespace PhotoTagsSynchronizer
         public void AddQueueLazyLoadingMapNomnatatimLock(List<FileEntryAttribute> fileEntryAttributes, bool forceReloadUsingReverseGeocoder)
         {
             if (fileEntryAttributes == null) return;
-            lock (commonLazyLoadingMapNomnatatimLock)
+            try
             {
-                foreach (FileEntryAttribute fileEntryAttribute in fileEntryAttributes)
+                lock (commonLazyLoadingMapNomnatatimLock)
                 {
-                    if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.CurrentVersionInDatabase && !commonLazyLoadingMapNomnatatim.ContainsKey(fileEntryAttribute)) 
-                        commonLazyLoadingMapNomnatatim.Add(fileEntryAttribute, forceReloadUsingReverseGeocoder);
+                    foreach (FileEntryAttribute fileEntryAttribute in fileEntryAttributes)
+                    {
+                        if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.CurrentVersionInDatabase && !commonLazyLoadingMapNomnatatim.ContainsKey(fileEntryAttribute))
+                            commonLazyLoadingMapNomnatatim.Add(fileEntryAttribute, forceReloadUsingReverseGeocoder);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                Logger.Error(ex);
             }
         }
         #endregion

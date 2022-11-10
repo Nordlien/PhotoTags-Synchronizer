@@ -27,15 +27,23 @@ namespace PhotoTagsSynchronizer
                 return;
             }
 
-            FileStatus fileStatus = FileHandler.GetFileStatus(fileEntry.FileFullPath);
-            if (fileStatus.FileExists)
+            try
             {
-                FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(fileEntry.FileFullPath, fileStatus.LastWrittenDateTime, FileEntryVersion.CurrentVersionInDatabase);
-                AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(fileEntryAttribute);
-            }
+                FileStatus fileStatus = FileHandler.GetFileStatus(fileEntry.FileFullPath);
+                if (fileStatus.FileExists)
+                {
+                    FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(fileEntry.FileFullPath, fileStatus.LastWrittenDateTime, FileEntryVersion.CurrentVersionInDatabase);
+                    AddQueueLazyLoadning_AllSources_NoHistory_MetadataAndRegionThumbnailsLock(fileEntryAttribute);
+                }
 
-            ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView1.Items, fileEntry.FileFullPath);
-            if (foundItem != null) foundItem.Update();   
+                ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView1.Items, fileEntry.FileFullPath);
+                if (foundItem != null) foundItem.Update();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
         }
         #endregion
 
@@ -48,13 +56,21 @@ namespace PhotoTagsSynchronizer
                 return;
             }
 
-            ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView1.Items, fileEntry.FileFullPath);
-            if (foundItem != null)
+            try
             {
-                if (foundItem.FileStatus.IsInCloud != fileStatus.IsInCloud ||
-                    foundItem.FileStatus.LastWrittenDateTime != fileStatus.LastWrittenDateTime) 
-                    foundItem.Update();
-            } 
+                ImageListViewItem foundItem = ImageListViewHandler.FindItem(imageListView1.Items, fileEntry.FileFullPath);
+                if (foundItem != null)
+                {
+                    if (foundItem.FileStatus.IsInCloud != fileStatus.IsInCloud ||
+                        foundItem.FileStatus.LastWrittenDateTime != fileStatus.LastWrittenDateTime)
+                        foundItem.Update();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
         }
         #endregion
 
@@ -204,61 +220,69 @@ namespace PhotoTagsSynchronizer
         #region ConvertMetadataToShellImageFileInfo
         private void ConvertMetadataToShellImageFileInfo(ref Utility.ShellImageFileInfo fileMetadata, Metadata metadata)
         {
-            #region Provided by FileInfo
-            fileMetadata.FileDateCreated = (DateTime)metadata.FileDateCreated;
-            fileMetadata.FileDateModified = (DateTime)metadata.FileDateModified;
-
-            #region SmartDate
-            DateTime? fileSmartDate = fileDateTimeReader.SmartDateTime(metadata.FileFullPath, fileMetadata.FileDateCreated, fileMetadata.FileDateModified);
-            fileMetadata.FileSmartDate = (fileSmartDate == null ? DateTime.MinValue : (DateTime)fileSmartDate);
-            #endregion
-
-            #region FileSize
-            if (metadata.FileSize != null) fileMetadata.FileSize = (long)metadata.FileSize;
-            else
+            try
             {
-                try
+                #region Provided by FileInfo
+                fileMetadata.FileDateCreated = (DateTime)metadata.FileDateCreated;
+                fileMetadata.FileDateModified = (DateTime)metadata.FileDateModified;
+
+                #region SmartDate
+                DateTime? fileSmartDate = fileDateTimeReader.SmartDateTime(metadata.FileFullPath, fileMetadata.FileDateCreated, fileMetadata.FileDateModified);
+                fileMetadata.FileSmartDate = (fileSmartDate == null ? DateTime.MinValue : (DateTime)fileSmartDate);
+                #endregion
+
+                #region FileSize
+                if (metadata.FileSize != null) fileMetadata.FileSize = (long)metadata.FileSize;
+                else
                 {
-                    if (File.Exists(metadata.FileFullPath)) fileMetadata.FileSize = new FileInfo(metadata.FileFullPath).Length;
+                    try
+                    {
+                        if (File.Exists(metadata.FileFullPath)) fileMetadata.FileSize = new FileInfo(metadata.FileFullPath).Length;
+                    }
+                    catch
+                    {
+                        fileMetadata.FileSize = long.MinValue;
+                    }
                 }
-                catch
-                {
-                    fileMetadata.FileSize = long.MinValue;
-                }
+                #endregion
+
+                fileMetadata.FileMimeType = metadata.FileMimeType;
+                fileMetadata.FileDirectory = metadata.FileDirectory;
+                #endregion
+
+                #region Provided by ShellImageFileInfo, MagickImage                                
+                fileMetadata.CameraMake = metadata.CameraMake;
+                fileMetadata.CameraModel = metadata.CameraModel;
+                if (metadata.MediaWidth != null && metadata.MediaHeight != null) fileMetadata.MediaDimensions = new Size((int)metadata.MediaWidth, (int)metadata.MediaHeight);
+                else fileMetadata.MediaDimensions = new Size(0, 0);
+                #endregion
+
+                #region Provided by MagickImage, Exiftool
+                if (metadata.MediaDateTaken != null) fileMetadata.MediaDateTaken = (DateTime)metadata.MediaDateTaken;
+                else fileMetadata.MediaDateTaken = DateTime.MinValue;
+                fileMetadata.MediaTitle = metadata.PersonalTitle;
+                fileMetadata.MediaDescription = metadata.PersonalDescription;
+                fileMetadata.MediaComment = metadata.PersonalComments;
+                fileMetadata.MediaAuthor = metadata.PersonalAuthor;
+                fileMetadata.MediaRating = (byte)(metadata.PersonalRating == null ? 0 : metadata.PersonalRating);
+                #endregion
+
+                #region Provided by Exiftool
+                fileMetadata.MediaAlbum = metadata.PersonalAlbum;
+                if (metadata.LocationDateTime != null) fileMetadata.LocationDateTime = (DateTime)metadata.LocationDateTime;
+                else fileMetadata.LocationDateTime = DateTime.MinValue;
+                fileMetadata.LocationTimeZone = metadata.LocationTimeZoneDescription;
+                fileMetadata.LocationName = metadata.LocationName;
+                fileMetadata.LocationRegionState = metadata.LocationState;
+                fileMetadata.LocationCity = metadata.LocationCity;
+                fileMetadata.LocationCountry = metadata.LocationCountry;
+                #endregion
             }
-            #endregion
-
-            fileMetadata.FileMimeType = metadata.FileMimeType;
-            fileMetadata.FileDirectory = metadata.FileDirectory;
-            #endregion
-
-            #region Provided by ShellImageFileInfo, MagickImage                                
-            fileMetadata.CameraMake = metadata.CameraMake;
-            fileMetadata.CameraModel = metadata.CameraModel;
-            if (metadata.MediaWidth != null && metadata.MediaHeight != null) fileMetadata.MediaDimensions = new Size((int)metadata.MediaWidth, (int)metadata.MediaHeight);
-            else fileMetadata.MediaDimensions = new Size(0, 0);
-            #endregion
-
-            #region Provided by MagickImage, Exiftool
-            if (metadata.MediaDateTaken != null) fileMetadata.MediaDateTaken = (DateTime)metadata.MediaDateTaken;
-            else fileMetadata.MediaDateTaken = DateTime.MinValue;
-            fileMetadata.MediaTitle = metadata.PersonalTitle;
-            fileMetadata.MediaDescription = metadata.PersonalDescription;
-            fileMetadata.MediaComment = metadata.PersonalComments;
-            fileMetadata.MediaAuthor = metadata.PersonalAuthor;
-            fileMetadata.MediaRating = (byte)(metadata.PersonalRating == null ? 0 : metadata.PersonalRating);
-            #endregion
-
-            #region Provided by Exiftool
-            fileMetadata.MediaAlbum = metadata.PersonalAlbum;
-            if (metadata.LocationDateTime != null) fileMetadata.LocationDateTime = (DateTime)metadata.LocationDateTime;
-            else fileMetadata.LocationDateTime = DateTime.MinValue;
-            fileMetadata.LocationTimeZone = metadata.LocationTimeZoneDescription;
-            fileMetadata.LocationName = metadata.LocationName;
-            fileMetadata.LocationRegionState = metadata.LocationState;
-            fileMetadata.LocationCity = metadata.LocationCity;
-            fileMetadata.LocationCountry = metadata.LocationCountry;
-            #endregion
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
         }
 
         #endregion 
@@ -686,8 +710,15 @@ namespace PhotoTagsSynchronizer
                 this.BeginInvoke(new Action<ImageListView>(ImageListViewSuspendLayoutInvoke), imageListView);
                 return;
             }
-
-            imageListView.SuspendLayout(); 
+            try
+            {
+                imageListView.SuspendLayout();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
         }
         #endregion
 
@@ -699,7 +730,15 @@ namespace PhotoTagsSynchronizer
                 this.BeginInvoke(new Action<ImageListView>(ImageListViewResumeLayoutInvoke), imageListView);
                 return;
             }
-            imageListView.ResumeLayout(); 
+            try
+            {
+                imageListView.ResumeLayout();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
         }
         #endregion
 
@@ -716,7 +755,7 @@ namespace PhotoTagsSynchronizer
             {
                 case KryptonPages.None:
                 case KryptonPages.kryptonPageFolderSearchFilterSearch:
-                case KryptonPages.kryptonPageFolderSearchFilterFilter:                
+                case KryptonPages.kryptonPageFolderSearchFilterFilter:
                 case KryptonPages.kryptonPageToolboxTags:
                 case KryptonPages.kryptonPageToolboxPeople:
                 case KryptonPages.kryptonPageToolboxMap:
@@ -741,11 +780,15 @@ namespace PhotoTagsSynchronizer
             {
                 if (addOnlySelectedItems && imageListViewSelectedItems != null) imageListViewFileEntryCopy = new HashSet<FileEntry>(imageListViewSelectedItems);
                 if (!addOnlySelectedItems && imageListViewItems != null) imageListViewFileEntryCopy = new HashSet<FileEntry>(imageListViewItems);
-            }
-            catch { }
 
-            Thread threadPopulateOpenWith = new Thread(() => { PopulateImageListViewOpenWithToolStripInvoke(imageListViewFileEntryCopy); });
-            threadPopulateOpenWith.Start();
+                Thread threadPopulateOpenWith = new Thread(() => { PopulateImageListViewOpenWithToolStripInvoke(imageListViewFileEntryCopy); });
+                threadPopulateOpenWith.Start();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
         }
         #endregion 
 
@@ -834,249 +877,264 @@ namespace PhotoTagsSynchronizer
         #region ImageListView - Fetch List Of Media Files - FromDatabase and Aggregate
         private void ImageListView_FetchListOfMediaFiles_FromDatabase_and_Aggregate()
         {
-            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
-            ClearAllQueues();
-            //GlobalData.SerachFilterResult = databaseAndCacheMetadataExiftool.ListAllSearch
-            //GlobalData.SearchFolder = false;
-            using (new WaitCursor())
-            {
-                #region DateTaken
-                bool useMediaTakenFrom = dateTimePickerSearchDateFrom.Checked;
-                DateTime mediaTakenFrom = new DateTime(dateTimePickerSearchDateFrom.Value.Year, dateTimePickerSearchDateFrom.Value.Month, dateTimePickerSearchDateFrom.Value.Day);
-                bool useMediaTakenTo = dateTimePickerSearchDateTo.Checked;
-                DateTime mediaTakenTo = new DateTime(dateTimePickerSearchDateTo.Value.Year, dateTimePickerSearchDateTo.Value.Month, dateTimePickerSearchDateTo.Value.Day).AddDays(1);
-                bool isMediaTakenNull = checkBoxSearchMediaTakenIsNull.Checked;
-                #endregion
-
-                #region Text tags
-                bool usePersonalAlbum = !string.IsNullOrWhiteSpace(comboBoxSearchAlbum.Text);
-                string personalAlbum = comboBoxSearchAlbum.SelectedIndex == 0 ? null : comboBoxSearchAlbum.Text;
-                bool usePersonalTitle = !string.IsNullOrWhiteSpace(comboBoxSearchTitle.Text);
-                string personalTitle = comboBoxSearchTitle.SelectedIndex == 0 ? null : comboBoxSearchTitle.Text;
-                bool usePersonalComments = !string.IsNullOrWhiteSpace(comboBoxSearchComments.Text);
-                string personalComments = comboBoxSearchComments.SelectedIndex == 0 ? null : comboBoxSearchComments.Text;
-                bool usePersonalDescription = !string.IsNullOrWhiteSpace(comboBoxSearchDescription.Text);
-                string personalDescription = comboBoxSearchDescription.SelectedIndex == 0 ? null : comboBoxSearchDescription.Text;
-                bool useLocationName = !string.IsNullOrWhiteSpace(comboBoxSearchLocationName.Text);
-                string locationName = comboBoxSearchLocationName.SelectedIndex == 0 ? null : comboBoxSearchLocationName.Text;
-                bool useLocationCity = !string.IsNullOrWhiteSpace(comboBoxSearchLocationCity.Text);
-                string locationCity = comboBoxSearchLocationCity.SelectedIndex == 0 ? null : comboBoxSearchLocationCity.Text;
-                bool useLocationState = !string.IsNullOrWhiteSpace(comboBoxSearchLocationState.Text);
-                string locationState = comboBoxSearchLocationState.SelectedIndex == 0 ? null : comboBoxSearchLocationState.Text;
-                bool useLocationCountry = !string.IsNullOrWhiteSpace(comboBoxSearchLocationCountry.Text);
-                string locationCountry = comboBoxSearchLocationCountry.SelectedIndex == 0 ? null : comboBoxSearchLocationCountry.Text;
-                bool useAndBetweenTextTagFields = checkBoxSearchUseAndBetweenTextTagFields.Checked;
-                #endregion
-
-                #region Rating
-                bool isRatingNull = checkBoxSearchRatingEmpty.Checked;
-                bool hasRating0 = checkBoxSearchRating0.Checked;
-                bool hasRating1 = checkBoxSearchRating1.Checked;
-                bool hasRating2 = checkBoxSearchRating2.Checked;
-                bool hasRating3 = checkBoxSearchRating3.Checked;
-                bool hasRating4 = checkBoxSearchRating4.Checked;
-                bool hasRating5 = checkBoxSearchRating5.Checked;
-                #endregion
-
-                #region Region Names
-                bool useRegionNameList = checkedListBoxSearchPeople.CheckedItems.Count > 0;
-                bool needAllRegionNames = checkBoxSearchNeedAllNames.Checked;
-                bool withoutRegions = checkBoxSearchWithoutRegions.Checked;
-
-                List<string> regionNameList = new List<string>();
-                for (int index = 0; index < checkedListBoxSearchPeople.Items.Count; index++)
+            try {
+                if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+                ClearAllQueues();
+                //GlobalData.SerachFilterResult = databaseAndCacheMetadataExiftool.ListAllSearch
+                //GlobalData.SearchFolder = false;
+                using (new WaitCursor())
                 {
-                    if (checkedListBoxSearchPeople.GetItemChecked(index))
+                    #region DateTaken
+                    bool useMediaTakenFrom = dateTimePickerSearchDateFrom.Checked;
+                    DateTime mediaTakenFrom = new DateTime(dateTimePickerSearchDateFrom.Value.Year, dateTimePickerSearchDateFrom.Value.Month, dateTimePickerSearchDateFrom.Value.Day);
+                    bool useMediaTakenTo = dateTimePickerSearchDateTo.Checked;
+                    DateTime mediaTakenTo = new DateTime(dateTimePickerSearchDateTo.Value.Year, dateTimePickerSearchDateTo.Value.Month, dateTimePickerSearchDateTo.Value.Day).AddDays(1);
+                    bool isMediaTakenNull = checkBoxSearchMediaTakenIsNull.Checked;
+                    #endregion
+
+                    #region Text tags
+                    bool usePersonalAlbum = !string.IsNullOrWhiteSpace(comboBoxSearchAlbum.Text);
+                    string personalAlbum = comboBoxSearchAlbum.SelectedIndex == 0 ? null : comboBoxSearchAlbum.Text;
+                    bool usePersonalTitle = !string.IsNullOrWhiteSpace(comboBoxSearchTitle.Text);
+                    string personalTitle = comboBoxSearchTitle.SelectedIndex == 0 ? null : comboBoxSearchTitle.Text;
+                    bool usePersonalComments = !string.IsNullOrWhiteSpace(comboBoxSearchComments.Text);
+                    string personalComments = comboBoxSearchComments.SelectedIndex == 0 ? null : comboBoxSearchComments.Text;
+                    bool usePersonalDescription = !string.IsNullOrWhiteSpace(comboBoxSearchDescription.Text);
+                    string personalDescription = comboBoxSearchDescription.SelectedIndex == 0 ? null : comboBoxSearchDescription.Text;
+                    bool useLocationName = !string.IsNullOrWhiteSpace(comboBoxSearchLocationName.Text);
+                    string locationName = comboBoxSearchLocationName.SelectedIndex == 0 ? null : comboBoxSearchLocationName.Text;
+                    bool useLocationCity = !string.IsNullOrWhiteSpace(comboBoxSearchLocationCity.Text);
+                    string locationCity = comboBoxSearchLocationCity.SelectedIndex == 0 ? null : comboBoxSearchLocationCity.Text;
+                    bool useLocationState = !string.IsNullOrWhiteSpace(comboBoxSearchLocationState.Text);
+                    string locationState = comboBoxSearchLocationState.SelectedIndex == 0 ? null : comboBoxSearchLocationState.Text;
+                    bool useLocationCountry = !string.IsNullOrWhiteSpace(comboBoxSearchLocationCountry.Text);
+                    string locationCountry = comboBoxSearchLocationCountry.SelectedIndex == 0 ? null : comboBoxSearchLocationCountry.Text;
+                    bool useAndBetweenTextTagFields = checkBoxSearchUseAndBetweenTextTagFields.Checked;
+                    #endregion
+
+                    #region Rating
+                    bool isRatingNull = checkBoxSearchRatingEmpty.Checked;
+                    bool hasRating0 = checkBoxSearchRating0.Checked;
+                    bool hasRating1 = checkBoxSearchRating1.Checked;
+                    bool hasRating2 = checkBoxSearchRating2.Checked;
+                    bool hasRating3 = checkBoxSearchRating3.Checked;
+                    bool hasRating4 = checkBoxSearchRating4.Checked;
+                    bool hasRating5 = checkBoxSearchRating5.Checked;
+                    #endregion
+
+                    #region Region Names
+                    bool useRegionNameList = checkedListBoxSearchPeople.CheckedItems.Count > 0;
+                    bool needAllRegionNames = checkBoxSearchNeedAllNames.Checked;
+                    bool withoutRegions = checkBoxSearchWithoutRegions.Checked;
+
+                    List<string> regionNameList = new List<string>();
+                    for (int index = 0; index < checkedListBoxSearchPeople.Items.Count; index++)
                     {
-                        if (index == 0) regionNameList.Add(null);
-                        else
-                            regionNameList.Add(checkedListBoxSearchPeople.Items[index].ToString());
+                        if (checkedListBoxSearchPeople.GetItemChecked(index))
+                        {
+                            if (index == 0) regionNameList.Add(null);
+                            else
+                                regionNameList.Add(checkedListBoxSearchPeople.Items[index].ToString());
+                        }
                     }
+                    #endregion
+
+                    #region Keywords
+                    bool useKeywordList = !string.IsNullOrWhiteSpace(comboBoxSearchKeyword.Text);
+                    bool needAllKeywords = checkBoxSearchNeedAllKeywords.Checked;
+                    bool withoutKeywords = checkBoxSearchWithoutKeyword.Checked;
+
+                    List<string> keywords = new List<string>();
+                    keywords.AddRange(comboBoxSearchKeyword.Text.Split(';'));
+                    #endregion
+
+                    #region Warning
+                    bool checkIfHasExifWarning = checkBoxSearchHasWarning.Checked;
+                    #endregion
+
+                    #region Between Groups
+                    bool useAndBetweenGroups = checkBoxSerachFitsAllValues.Checked;
+                    #endregion
+
+                    #region Filename and Folder
+                    string searchDirectory = kryptonTextBoxSearchDirectory.Text;
+                    bool useSearchDirectory = !string.IsNullOrWhiteSpace(searchDirectory);
+                    if (useSearchDirectory) searchDirectory = searchDirectory.Replace("*", "%");
+
+                    string searchFilename = kryptonTextBoxSearchFilename.Text;
+                    bool useSearchFilename = !string.IsNullOrWhiteSpace(searchFilename);
+                    if (useSearchFilename) searchFilename = searchFilename.Replace("*", "%");
+                    #endregion
+
+                    LoadingItemsImageListView(1, 6);
+                    UpdateStatusImageListView("Searhing for match in database...");
+
+                    #region Read from Database
+
+                    bool useRegEx = kryptonCheckBoxSearchUseRegEx.Checked;
+
+                    int maxRowsInResult = Properties.Settings.Default.MaxRowsInSearchResult;
+
+                    GlobalData.SerachFilterResult = databaseAndCacheMetadataExiftool.ListAllSearch(MetadataBrokerType.ExifTool,
+                        useAndBetweenGroups, useRegEx,
+                        useMediaTakenFrom, mediaTakenFrom, useMediaTakenTo, mediaTakenTo, isMediaTakenNull,
+                        useAndBetweenTextTagFields,
+                        usePersonalAlbum, personalAlbum,
+                        usePersonalTitle, personalTitle,
+                        usePersonalComments, personalComments,
+                        usePersonalDescription, personalDescription,
+                        isRatingNull, hasRating0, hasRating1, hasRating2, hasRating3, hasRating4, hasRating5,
+                        useLocationName, locationName,
+                        useLocationCity, locationCity,
+                        useLocationState, locationState,
+                        useLocationCountry, locationCountry,
+                        useRegionNameList, needAllRegionNames, regionNameList, withoutRegions,
+                        useKeywordList, needAllKeywords, keywords, withoutKeywords,
+                        checkIfHasExifWarning, maxRowsInResult,
+                        useSearchDirectory, searchDirectory,
+                        useSearchFilename, searchFilename);
+                    GlobalData.SearchFolder = false;
+                    #endregion
                 }
-                #endregion
-
-                #region Keywords
-                bool useKeywordList = !string.IsNullOrWhiteSpace(comboBoxSearchKeyword.Text);
-                bool needAllKeywords = checkBoxSearchNeedAllKeywords.Checked;
-                bool withoutKeywords = checkBoxSearchWithoutKeyword.Checked;
-
-                List<string> keywords = new List<string>();
-                keywords.AddRange(comboBoxSearchKeyword.Text.Split(';'));
-                #endregion
-
-                #region Warning
-                bool checkIfHasExifWarning = checkBoxSearchHasWarning.Checked;
-                #endregion
-
-                #region Between Groups
-                bool useAndBetweenGroups = checkBoxSerachFitsAllValues.Checked;
-                #endregion
-
-                #region Filename and Folder
-                string searchDirectory = kryptonTextBoxSearchDirectory.Text;
-                bool useSearchDirectory = !string.IsNullOrWhiteSpace(searchDirectory);
-                if (useSearchDirectory) searchDirectory = searchDirectory.Replace("*", "%");
-
-                string searchFilename = kryptonTextBoxSearchFilename.Text;
-                bool useSearchFilename = !string.IsNullOrWhiteSpace(searchFilename);
-                if (useSearchFilename) searchFilename = searchFilename.Replace("*", "%");
-                #endregion
-
-                LoadingItemsImageListView(1, 6);
-                UpdateStatusImageListView("Searhing for match in database...");
-
-                #region Read from Database
-
-                bool useRegEx = kryptonCheckBoxSearchUseRegEx.Checked;
-
-                int maxRowsInResult = Properties.Settings.Default.MaxRowsInSearchResult;
-
-                GlobalData.SerachFilterResult = databaseAndCacheMetadataExiftool.ListAllSearch(MetadataBrokerType.ExifTool,
-                    useAndBetweenGroups, useRegEx,
-                    useMediaTakenFrom, mediaTakenFrom, useMediaTakenTo, mediaTakenTo, isMediaTakenNull,
-                    useAndBetweenTextTagFields,
-                    usePersonalAlbum, personalAlbum,
-                    usePersonalTitle, personalTitle,
-                    usePersonalComments, personalComments,
-                    usePersonalDescription, personalDescription,
-                    isRatingNull, hasRating0, hasRating1, hasRating2, hasRating3, hasRating4, hasRating5,
-                    useLocationName, locationName,
-                    useLocationCity, locationCity,
-                    useLocationState, locationState,
-                    useLocationCountry, locationCountry,
-                    useRegionNameList, needAllRegionNames, regionNameList, withoutRegions,
-                    useKeywordList, needAllKeywords, keywords, withoutKeywords,
-                    checkIfHasExifWarning, maxRowsInResult,
-                    useSearchDirectory, searchDirectory,
-                    useSearchFilename, searchFilename);
-                GlobalData.SearchFolder = false;
-                #endregion
+                ImageListView_Aggregate_FromDatabaseSearchResult_and_Aggregate(GlobalData.SerachFilterResult, true); //True = New search result needs to aggregate and poplate filters
             }
-            ImageListView_Aggregate_FromDatabaseSearchResult_and_Aggregate(GlobalData.SerachFilterResult, true); //True = New search result needs to aggregate and poplate filters
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
         }
         #endregion
 
         #region ImageListView_FetchListOfMediaFiles_FromDatabase_and_Aggregate_Search
         private void ImageListView_FetchListOfMediaFiles_FromDatabase_and_Aggregate_Search()
         {
-            if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
-            ClearAllQueues();
-
-            using (new WaitCursor())
+            try
             {
-                //GlobalData.SerachFilterResult = databaseAndCacheMetadataExiftool.ListAllSearch
-                //GlobalData.SearchFolder = false;
+                if (SaveBeforeContinue(true) == DialogResult.Cancel) return;
+                ClearAllQueues();
 
-                #region DateTaken
-                bool useMediaTakenFrom = false;
-                DateTime mediaTakenFrom = DateTime.Now;
-                bool useMediaTakenTo = false;
-                DateTime mediaTakenTo = DateTime.Now;
-                bool isMediaTakenNull = false;
-                #endregion
+                using (new WaitCursor())
+                {
+                    //GlobalData.SerachFilterResult = databaseAndCacheMetadataExiftool.ListAllSearch
+                    //GlobalData.SearchFolder = false;
 
-                string searchFor = "%" + kryptonRibbonGroupTextBoxToolsSearch.Text + "%";
+                    #region DateTaken
+                    bool useMediaTakenFrom = false;
+                    DateTime mediaTakenFrom = DateTime.Now;
+                    bool useMediaTakenTo = false;
+                    DateTime mediaTakenTo = DateTime.Now;
+                    bool isMediaTakenNull = false;
+                    #endregion
 
-                #region And/Or - Between Groups
-                bool useAndBetweenGroups = false;
-                #endregion
+                    string searchFor = "%" + kryptonRibbonGroupTextBoxToolsSearch.Text + "%";
 
-                #region And/Or - Beetween TextTags
-                bool useAndBetweenTextTagFields = false;
-                #endregion
+                    #region And/Or - Between Groups
+                    bool useAndBetweenGroups = false;
+                    #endregion
 
-                #region Text tags
-                bool usePersonalAlbum = true;
-                string personalAlbum = searchFor;
-                bool usePersonalTitle = true;
-                string personalTitle = searchFor;
-                bool usePersonalComments = true;
-                string personalComments = searchFor;
-                bool usePersonalDescription = true;
-                string personalDescription = searchFor;
-                bool useLocationName = true;
-                string locationName = searchFor;
-                bool useLocationCity = true;
-                string locationCity = searchFor;
-                bool useLocationState = true;
-                string locationState = searchFor;
-                bool useLocationCountry = true;
-                string locationCountry = searchFor;
-                #endregion
+                    #region And/Or - Beetween TextTags
+                    bool useAndBetweenTextTagFields = false;
+                    #endregion
 
-                #region Rating
-                bool isRatingNull = false;
-                bool hasRating0 = false;
-                bool hasRating1 = false;
-                bool hasRating2 = false;
-                bool hasRating3 = false;
-                bool hasRating4 = false;
-                bool hasRating5 = false;
-                #endregion
+                    #region Text tags
+                    bool usePersonalAlbum = true;
+                    string personalAlbum = searchFor;
+                    bool usePersonalTitle = true;
+                    string personalTitle = searchFor;
+                    bool usePersonalComments = true;
+                    string personalComments = searchFor;
+                    bool usePersonalDescription = true;
+                    string personalDescription = searchFor;
+                    bool useLocationName = true;
+                    string locationName = searchFor;
+                    bool useLocationCity = true;
+                    string locationCity = searchFor;
+                    bool useLocationState = true;
+                    string locationState = searchFor;
+                    bool useLocationCountry = true;
+                    string locationCountry = searchFor;
+                    #endregion
 
-                #region Region Names
-                bool useRegionNameList = true;
-                bool needAllRegionNames = false;
-                bool withoutRegions = false;
+                    #region Rating
+                    bool isRatingNull = false;
+                    bool hasRating0 = false;
+                    bool hasRating1 = false;
+                    bool hasRating2 = false;
+                    bool hasRating3 = false;
+                    bool hasRating4 = false;
+                    bool hasRating5 = false;
+                    #endregion
 
-                List<string> regionNameList = new List<string>();
-                regionNameList.Add(searchFor);
-                #endregion
+                    #region Region Names
+                    bool useRegionNameList = true;
+                    bool needAllRegionNames = false;
+                    bool withoutRegions = false;
 
-                #region Keywords
-                bool useKeywordList = true;
-                bool needAllKeywords = false;
-                bool withoutKeywords = false;
+                    List<string> regionNameList = new List<string>();
+                    regionNameList.Add(searchFor);
+                    #endregion
 
-                List<string> keywords = new List<string>();
-                keywords.Add(searchFor);
-                #endregion
+                    #region Keywords
+                    bool useKeywordList = true;
+                    bool needAllKeywords = false;
+                    bool withoutKeywords = false;
 
-                #region Warning
-                bool checkIfHasExifWarning = false;
-                #endregion
+                    List<string> keywords = new List<string>();
+                    keywords.Add(searchFor);
+                    #endregion
+
+                    #region Warning
+                    bool checkIfHasExifWarning = false;
+                    #endregion
 
 
-                #region Filename and Folder
-                string searchDirectory = null;
-                bool useSearchDirectory = false;
+                    #region Filename and Folder
+                    string searchDirectory = null;
+                    bool useSearchDirectory = false;
 
-                string searchFilename = searchFor;
-                bool useSearchFilename = true;
-                #endregion
+                    string searchFilename = searchFor;
+                    bool useSearchFilename = true;
+                    #endregion
 
-                LoadingItemsImageListView(1, 6);
-                UpdateStatusImageListView("Searhing for match in database...");
+                    LoadingItemsImageListView(1, 6);
+                    UpdateStatusImageListView("Searhing for match in database...");
 
-                #region Read from Database
+                    #region Read from Database
 
-                bool useRegEx = kryptonCheckBoxSearchUseRegEx.Checked;
+                    bool useRegEx = kryptonCheckBoxSearchUseRegEx.Checked;
 
-                int maxRowsInResult = Properties.Settings.Default.MaxRowsInSearchResult;
+                    int maxRowsInResult = Properties.Settings.Default.MaxRowsInSearchResult;
 
-                GlobalData.SerachFilterResult = databaseAndCacheMetadataExiftool.ListAllSearch(MetadataBrokerType.ExifTool,
-                    useAndBetweenGroups, useRegEx,
-                    useMediaTakenFrom, mediaTakenFrom, useMediaTakenTo, mediaTakenTo, isMediaTakenNull,
-                    useAndBetweenTextTagFields,
-                    usePersonalAlbum, personalAlbum,
-                    usePersonalTitle, personalTitle,
-                    usePersonalComments, personalComments,
-                    usePersonalDescription, personalDescription,
-                    isRatingNull, hasRating0, hasRating1, hasRating2, hasRating3, hasRating4, hasRating5,
-                    useLocationName, locationName,
-                    useLocationCity, locationCity,
-                    useLocationState, locationState,
-                    useLocationCountry, locationCountry,
-                    useRegionNameList, needAllRegionNames, regionNameList, withoutRegions,
-                    useKeywordList, needAllKeywords, keywords, withoutKeywords,
-                    checkIfHasExifWarning, maxRowsInResult,
-                    useSearchDirectory, searchDirectory,
-                    useSearchFilename, searchFilename);
-                GlobalData.SearchFolder = false;
-                #endregion
+                    GlobalData.SerachFilterResult = databaseAndCacheMetadataExiftool.ListAllSearch(MetadataBrokerType.ExifTool,
+                        useAndBetweenGroups, useRegEx,
+                        useMediaTakenFrom, mediaTakenFrom, useMediaTakenTo, mediaTakenTo, isMediaTakenNull,
+                        useAndBetweenTextTagFields,
+                        usePersonalAlbum, personalAlbum,
+                        usePersonalTitle, personalTitle,
+                        usePersonalComments, personalComments,
+                        usePersonalDescription, personalDescription,
+                        isRatingNull, hasRating0, hasRating1, hasRating2, hasRating3, hasRating4, hasRating5,
+                        useLocationName, locationName,
+                        useLocationCity, locationCity,
+                        useLocationState, locationState,
+                        useLocationCountry, locationCountry,
+                        useRegionNameList, needAllRegionNames, regionNameList, withoutRegions,
+                        useKeywordList, needAllKeywords, keywords, withoutKeywords,
+                        checkIfHasExifWarning, maxRowsInResult,
+                        useSearchDirectory, searchDirectory,
+                        useSearchFilename, searchFilename);
+                    GlobalData.SearchFolder = false;
+                    #endregion
 
+                }
+                ImageListView_Aggregate_FromDatabaseSearchResult_and_Aggregate(GlobalData.SerachFilterResult, true); //True = New search result needs to aggregate and poplate filters
             }
-            ImageListView_Aggregate_FromDatabaseSearchResult_and_Aggregate(GlobalData.SerachFilterResult, true); //True = New search result needs to aggregate and poplate filters
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
         }
         #endregion
 
@@ -1123,86 +1181,110 @@ namespace PhotoTagsSynchronizer
         #region ImageListView - Fetch List of Media Files - FromFolder and Aggregate
         private void ImageListView_FetchListOfMediaFiles_FromFolder_and_Aggregate(bool recursive, bool runPopulateFilter)
         {
-            if (GlobalData.IsApplicationClosing) return;
-
-            #region If already in progress, then stop and re-select new
-            if (GlobalData.IsPopulatingImageListViewFromFolderOrDatabaseList) //Remove old process and continue with new process
+            try
             {
-                UpdateStatusImageListView("Remove old queues...");
-                ImageListViewHandler.ClearAllAndCaches(imageListView1);
-                GlobalData.IsPopulatingImageListViewFromFolderOrDatabaseList = false;
-                GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
+                if (GlobalData.IsApplicationClosing) return;
+
+                #region If already in progress, then stop and re-select new
+                if (GlobalData.IsPopulatingImageListViewFromFolderOrDatabaseList) //Remove old process and continue with new process
+                {
+                    UpdateStatusImageListView("Remove old queues...");
+                    ImageListViewHandler.ClearAllAndCaches(imageListView1);
+                    GlobalData.IsPopulatingImageListViewFromFolderOrDatabaseList = false;
+                    GlobalData.DoNotTrigger_ImageListView_SelectionChanged = false;
+                }
+                #endregion
+
+                FileHandler.ClearOfflineFileTouched();
+                FileHandler.ClearOfflineFileTouchedFailed();
+
+                #region Read from Folder
+                string selectedFolder = GetSelectedNodeFullRealPath();
+                Properties.Settings.Default.LastFolder = GetSelectedNodeFullLinkPath();
+
+                LoadingItemsImageListView(1, 6);
+                UpdateStatusImageListView("Read files in folder: " + selectedFolder);
+
+                #region Read folder files - and - Populate ImageListView
+                IEnumerable<FileData> fileDatas = GetFilesInSelectedFolder(selectedFolder, recursive);
+                HashSet<FileEntry> fileEntries = ImageListView_Populate_ListOfMediaFiles_AddFilter(fileDatas, null, selectedFolder, runPopulateFilter);
+                #endregion
+
+                UpdateStatusImageListView("Check for OneDrive duplicate files in folder: " + selectedFolder);
+                #region Check for OneDrive duplicate files in folder
+
+
+                List<string> dublicatedFound = FixOneDriveIssues(fileEntries, out List<string> notFixed, oneDriveNetworkNames, fixError: false,
+                    moveToRecycleBin: Properties.Settings.Default.MoveToRecycleBin, databaseAndCacheMetadataExiftool);
+
+
+                if (dublicatedFound.Count > 0)
+                {
+                    string filesExampleFound = "";
+                    for (int fileIndex = 0; fileIndex < Math.Min(dublicatedFound.Count, 5); fileIndex++)
+                    {
+                        filesExampleFound += (string.IsNullOrWhiteSpace(filesExampleFound) ? "" : "\r\n") + dublicatedFound[fileIndex];
+                    }
+                    if (KryptonMessageBox.Show(dublicatedFound.Count + " OneDrive duplicated files found.\r\n" +
+                        "You can use the Tool: Remove OneDrive Duplicates.\r\n\r\n" +
+                        "Examples files:\r\n\r\n" + filesExampleFound + "\r\n\r\n" +
+                        "Select files where dulicates found?",
+                        "OneDrive duplicated files found.", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, showCtrlCopy: true) == DialogResult.OK)
+                    {
+                        ImageListView_SelectFiles(dublicatedFound);
+                    }
+                }
+
+                #endregion
+
+                #endregion
             }
-            #endregion
-
-            FileHandler.ClearOfflineFileTouched();
-            FileHandler.ClearOfflineFileTouchedFailed();
-
-            #region Read from Folder
-            string selectedFolder = GetSelectedNodeFullRealPath();
-            Properties.Settings.Default.LastFolder = GetSelectedNodeFullLinkPath();
-
-            LoadingItemsImageListView(1, 6);
-            UpdateStatusImageListView("Read files in folder: " + selectedFolder);
-
-            #region Read folder files - and - Populate ImageListView
-            IEnumerable<FileData> fileDatas = GetFilesInSelectedFolder(selectedFolder, recursive);
-            HashSet<FileEntry> fileEntries = ImageListView_Populate_ListOfMediaFiles_AddFilter(fileDatas, null, selectedFolder, runPopulateFilter);
-            #endregion
-
-            UpdateStatusImageListView("Check for OneDrive duplicate files in folder: " + selectedFolder);
-            #region Check for OneDrive duplicate files in folder
-
-            
-            List<string> dublicatedFound = FixOneDriveIssues(fileEntries, out List<string> notFixed, oneDriveNetworkNames, fixError: false,
-                moveToRecycleBin: Properties.Settings.Default.MoveToRecycleBin, databaseAndCacheMetadataExiftool);
-
-
-            if (dublicatedFound.Count > 0)
+            catch (Exception ex)
             {
-                string filesExampleFound = "";
-                for (int fileIndex = 0; fileIndex < Math.Min(dublicatedFound.Count, 5); fileIndex++)
-                {
-                    filesExampleFound += (string.IsNullOrWhiteSpace(filesExampleFound) ? "" : "\r\n") + dublicatedFound[fileIndex];
-                }
-                if (KryptonMessageBox.Show(dublicatedFound.Count + " OneDrive duplicated files found.\r\n" +
-                    "You can use the Tool: Remove OneDrive Duplicates.\r\n\r\n" +
-                    "Examples files:\r\n\r\n" + filesExampleFound + "\r\n\r\n" +
-                    "Select files where dulicates found?",
-                    "OneDrive duplicated files found.", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, showCtrlCopy: true) == DialogResult.OK)
-                {
-                    ImageListView_SelectFiles(dublicatedFound);
-                }
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
             }
-
-            #endregion
-
-            #endregion
         }
         #endregion
 
         #region ImageListView - Aggregate - Existing List of Media files - FromDatabaseSearchResult
         private void ImageListView_Aggregate_FromDatabaseSearchResult_and_Aggregate(HashSet<FileEntry> searchFilterResult, bool runPopulateFilter = true)
         {
-            if (GlobalData.IsApplicationClosing) return;
-            HashSet<FileEntry> _ = ImageListView_Populate_ListOfMediaFiles_AddFilter(null, searchFilterResult, null, runPopulateFilter);
+            try
+            {
+                if (GlobalData.IsApplicationClosing) return;
+                HashSet<FileEntry> _ = ImageListView_Populate_ListOfMediaFiles_AddFilter(null, searchFilterResult, null, runPopulateFilter);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
         }
         #endregion
 
         #region ImageListView - Aggregate - UsingFiltersOnExistingFiles
         private void ImageListView_Aggregate_UsingFiltersOnExistingFiles(KryptonTreeView treeView)
         {
-            if (treeView.Nodes == null) return;
-            if (treeView.Nodes[FilterVerifyer.Root] == null) return;
+            try
+            {
+                if (treeView.Nodes == null) return;
+                if (treeView.Nodes[FilterVerifyer.Root] == null) return;
 
-            FilterVerifyer filterVerifyerFolder = new FilterVerifyer();
-            filterVerifyerFolder.ReadValuesFromRootNodesWithChilds(treeView, FilterVerifyer.Root);
+                FilterVerifyer filterVerifyerFolder = new FilterVerifyer();
+                filterVerifyerFolder.ReadValuesFromRootNodesWithChilds(treeView, FilterVerifyer.Root);
 
-            if (GlobalData.SearchFolder)
-                ImageListView_FetchListOfMediaFiles_FromFolder_and_Aggregate(GlobalData.lastReadFolderWasRecursive, false); //False = No need populate filter, we are using filter
-            else
-                ImageListView_Aggregate_FromDatabaseSearchResult_and_Aggregate(GlobalData.SerachFilterResult, false); //False = No need populate filter, we are using filter
-            imageListView1.Focus();
+                if (GlobalData.SearchFolder)
+                    ImageListView_FetchListOfMediaFiles_FromFolder_and_Aggregate(GlobalData.lastReadFolderWasRecursive, false); //False = No need populate filter, we are using filter
+                else
+                    ImageListView_Aggregate_FromDatabaseSearchResult_and_Aggregate(GlobalData.SerachFilterResult, false); //False = No need populate filter, we are using filter
+                imageListView1.Focus();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
         }
         #endregion
 
@@ -1409,13 +1491,21 @@ namespace PhotoTagsSynchronizer
         #region ImageListView - Rename Item - Invoke
         private void ImageListView_Rename_Invoke(ImageListView imageListView, string oldFullFilename, string newFullFilename)
         {
-            if (InvokeRequired)
+            try
             {
-                this.BeginInvoke(new Action<ImageListView, string, string>(ImageListView_Rename_Invoke), imageListView, oldFullFilename, newFullFilename);
-                return;
+                if (InvokeRequired)
+                {
+                    this.BeginInvoke(new Action<ImageListView, string, string>(ImageListView_Rename_Invoke), imageListView, oldFullFilename, newFullFilename);
+                    return;
+                }
+                ImageListViewItem imageListViewItem = ImageListViewHandler.FindItem(imageListView.Items, oldFullFilename);
+                if (imageListViewItem != null) imageListViewItem.FileFullPath = newFullFilename;
             }
-            ImageListViewItem imageListViewItem = ImageListViewHandler.FindItem(imageListView.Items, oldFullFilename);
-            if (imageListViewItem != null) imageListViewItem.FileFullPath = newFullFilename;
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+            }
         }
         #endregion
 
