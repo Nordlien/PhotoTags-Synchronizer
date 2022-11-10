@@ -893,31 +893,37 @@ namespace Exiftool
                                     case "FileName":
                                     case "File Name":
                                         string longFilename;
-                                        if (shortfilesNames.ContainsKey(shortFilename)) longFilename = shortfilesNames[shortFilename];
-                                        if (String.Compare(metadata.FileName, parameter, comparisonType: StringComparison.OrdinalIgnoreCase) != 0) //Convert short windows 8 filename to windows NT long filename
+                                        if (exifToolData.Region == "File:System")
                                         {
-                                            exifToolData.Parameter = Path.GetFileName(NativeMethods.LongFileName(Path.Combine(metadata.FileDirectory, parameter)));
-                                            if (String.Compare(metadata.FileName, exifToolData.Parameter, comparisonType: StringComparison.OrdinalIgnoreCase) != 0) //Check if shortname been renamed during process and point to diffent long name
+                                            if (shortfilesNames.ContainsKey(shortFilename)) longFilename = shortfilesNames[shortFilename];
+                                            if (String.Compare(metadata.FileName, parameter, comparisonType: StringComparison.OrdinalIgnoreCase) != 0) //Convert short windows 8 filename to windows NT long filename
                                             {
-                                                metadata.Broker = MetadataBrokerType.Empty;
-                                                //throw new Exception("Filename doesn't match between Exiftool and reading of file, that means something went wrong with using exif tool and therefor crash");
+                                                exifToolData.Parameter = Path.GetFileName(NativeMethods.LongFileName(Path.Combine(metadata.FileDirectory, parameter)));
+                                                if (String.Compare(metadata.FileName, exifToolData.Parameter, comparisonType: StringComparison.OrdinalIgnoreCase) != 0) //Check if shortname been renamed during process and point to diffent long name
+                                                {
+                                                    metadata.Broker = MetadataBrokerType.Empty;
+                                                    //throw new Exception("Filename doesn't match between Exiftool and reading of file, that means something went wrong with using exif tool and therefor crash");
+                                                }
                                             }
+                                            ConvertAndCheckStringFromString(exifToolData, oldExifToolFileName, CompositeTags.FileName, ref metadata.errors);
+                                            oldExifToolFileName = new ExiftoolData(exifToolData, metadata.FileName, true);
                                         }
-                                        ConvertAndCheckStringFromString(exifToolData, oldExifToolFileName, CompositeTags.FileName, ref metadata.errors);
-                                        oldExifToolFileName = new ExiftoolData(exifToolData, metadata.FileName, true);
                                         break;
                                     case CompositeTags.Directory:
-                                        if (metadata.FileDirectory != parameter) //Convert short windows 8 directory name to windows NT long filename
+                                        if (exifToolData.Region == "File:System")
                                         {
-                                            exifToolData.Parameter = Path.GetDirectoryName(NativeMethods.LongFileName(Path.Combine(parameter, metadata.FileName)));
-                                            if (metadata.FileDirectory != exifToolData.Parameter) //Check if shortname been renamed during process and point to difffent long name
+                                            if (metadata.FileDirectory != parameter) //Convert short windows 8 directory name to windows NT long filename
                                             {
-                                                metadata.Broker = MetadataBrokerType.Empty;
-                                                //throw new Exception("Filename doesn't match between Exiftool and reading of file, that means something went wrong with using exif tool and therefor crash");
+                                                exifToolData.Parameter = Path.GetDirectoryName(NativeMethods.LongFileName(Path.Combine(parameter, metadata.FileName)));
+                                                if (metadata.FileDirectory != exifToolData.Parameter) //Check if shortname been renamed during process and point to difffent long name
+                                                {
+                                                    metadata.Broker = MetadataBrokerType.Empty;
+                                                    //throw new Exception("Filename doesn't match between Exiftool and reading of file, that means something went wrong with using exif tool and therefor crash");
+                                                }
                                             }
+                                            ConvertAndCheckStringFromString(exifToolData, oldExifToolFilePath, CompositeTags.Directory, ref metadata.errors);
+                                            oldExifToolFileName = new ExiftoolData(exifToolData, metadata.FileDirectory, true);
                                         }
-                                        ConvertAndCheckStringFromString(exifToolData, oldExifToolFilePath, CompositeTags.Directory, ref metadata.errors);
-                                        oldExifToolFileName = new ExiftoolData(exifToolData, metadata.FileDirectory, true);
                                         break;
                                     case CompositeTags.FileModificationDateTime:
                                     case "FileModifyDate":
