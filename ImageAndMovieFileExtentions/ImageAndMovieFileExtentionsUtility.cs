@@ -9,6 +9,10 @@ using System.Globalization;
 using Manina.Windows.Forms;
 using FileHandeling;
 using System.Threading;
+using System.Diagnostics;
+using ApplicationAssociations;
+using NLog;
+using Krypton.Toolkit;
 
 namespace ImageAndMovieFileExtentions
 {
@@ -28,6 +32,7 @@ namespace ImageAndMovieFileExtentions
             Filename = filename;
         }
     }
+
 
     public static class ImageAndMovieFileExtentionsUtility 
     {
@@ -131,6 +136,67 @@ namespace ImageAndMovieFileExtentions
             return imageReturn;
         }
         #endregion
+
+        public static Image GetVideoThumbnail(string videoFile)
+        {
+            Image bitmap = null;
+            string thumbnail = ""; 
+
+            try
+            {
+                #region Find path to exiftool
+                String cmd = NativeMethods.GetFullPathOfFile("ffmpeg.exe");
+                if (cmd == null)
+                {
+                    Logger.Debug("Get video thumbnail read: ffmpeg.exe not found");
+                }
+                #endregion
+
+                thumbnail =  FileHandeling.FileHandler.GetLocalApplicationDataTempPath("exiftool_" + Guid.NewGuid() + ".jpg");
+
+                var arguments = " -itsoffset -1  -i " + '"' + videoFile + '"' + " -vcodec mjpeg -vframes 1 -an -f rawvideo " + '"' + thumbnail + '"';
+
+                var startInfo = new ProcessStartInfo
+                {
+                    WindowStyle = ProcessWindowStyle.Hidden,
+                    FileName = cmd,
+                    Arguments = arguments,
+                };
+
+                var process = new Process
+                {
+                    StartInfo = startInfo
+                };
+
+
+                //ApplicationActivation.ProcessRun(path, cmd, true);
+
+                process.Start();
+                if (process.WaitForExit(5000))
+                {
+                    if (File.Exists(thumbnail))
+                    {
+                        var ms = new MemoryStream(File.ReadAllBytes(thumbnail));
+                        bitmap = Image.FromStream(ms);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                bitmap = null;
+                Logger.Error(ex);
+            } finally
+            {
+                try
+                {
+                    if (!string.IsNullOrEmpty(thumbnail)) File.Delete(thumbnail);
+                }
+                catch { }
+            }
+
+            return bitmap;
+        }
+
 
         #region RoateImage
         public static void RoateImage(string fullFilename, double degress)
