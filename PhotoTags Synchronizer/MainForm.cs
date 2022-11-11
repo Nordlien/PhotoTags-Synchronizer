@@ -1212,6 +1212,17 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
+
+
+        private void kryptonRibbonGroupButtonHomeHelpUserGuide_Click(object sender, EventArgs e)
+        {
+            ApplicationAssociations.ApplicationActivation.OpenUserGuide();
+        }
+
+        private void kryptonRibbonGroupButtonToolsHelpUserGuide_Click(object sender, EventArgs e)
+        {
+            ApplicationAssociations.ApplicationActivation.OpenUserGuide();
+        }
     }
 }
 

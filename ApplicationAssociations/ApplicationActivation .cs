@@ -427,7 +427,10 @@ namespace ApplicationAssociations
         }
         #endregion 
 
-
+        static public void OpenUserGuide()
+        {
+            System.Diagnostics.Process.Start("https://nordlien.github.io/PhotoTags-Synchronizer/"); // will automaticaly redirect the user to his default web browser
+        }
     }
 
 }

@@ -319,6 +319,9 @@ namespace PhotoTagsSynchronizer
             }
         }
 
-        
+        private void linkLabelHomepage_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            ApplicationAssociations.ApplicationActivation.OpenUserGuide();
+        }
     }
 }

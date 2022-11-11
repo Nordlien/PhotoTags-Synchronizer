@@ -42,9 +42,11 @@
             this.tabPageDelayReading = new System.Windows.Forms.TabPage();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.tabPageImportLocation = new System.Windows.Forms.TabPage();
+            this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.pictureBox4 = new System.Windows.Forms.PictureBox();
+            this.linkLabelHomepage = new System.Windows.Forms.LinkLabel();
+            this.label1 = new System.Windows.Forms.Label();
             this.tabControlMessages.SuspendLayout();
             this.tabPageWarning.SuspendLayout();
             this.tabPageKeepYourTags.SuspendLayout();
@@ -54,15 +56,15 @@
             this.tabPageDelayReading.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.tabPageImportLocation.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             this.SuspendLayout();
             // 
             // labelStatus
             // 
             this.labelStatus.AutoSize = true;
-            this.labelStatus.Location = new System.Drawing.Point(92, 44);
+            this.labelStatus.Location = new System.Drawing.Point(92, 54);
             this.labelStatus.Name = "labelStatus";
             this.labelStatus.Size = new System.Drawing.Size(70, 13);
             this.labelStatus.TabIndex = 0;
@@ -107,7 +109,7 @@
             // checkBoxCloseWarning
             // 
             this.checkBoxCloseWarning.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.checkBoxCloseWarning.Location = new System.Drawing.Point(365, 9);
+            this.checkBoxCloseWarning.Location = new System.Drawing.Point(95, 26);
             this.checkBoxCloseWarning.Margin = new System.Windows.Forms.Padding(4);
             this.checkBoxCloseWarning.Name = "checkBoxCloseWarning";
             this.checkBoxCloseWarning.Size = new System.Drawing.Size(231, 24);
@@ -216,6 +218,16 @@
             this.tabPageImportLocation.Text = "ImportLocation";
             this.tabPageImportLocation.UseVisualStyleBackColor = true;
             // 
+            // pictureBox4
+            // 
+            this.pictureBox4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBox4.Image = global::PhotoTagsSynchronizer.Properties.Resources.Hint_ImportGPSLocations;
+            this.pictureBox4.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox4.Name = "pictureBox4";
+            this.pictureBox4.Size = new System.Drawing.Size(580, 150);
+            this.pictureBox4.TabIndex = 1;
+            this.pictureBox4.TabStop = false;
+            // 
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.pictureBox1);
@@ -235,15 +247,25 @@
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
-            // pictureBox4
+            // linkLabelHomepage
             // 
-            this.pictureBox4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox4.Image = global::PhotoTagsSynchronizer.Properties.Resources.Hint_ImportGPSLocations;
-            this.pictureBox4.Location = new System.Drawing.Point(3, 3);
-            this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(580, 150);
-            this.pictureBox4.TabIndex = 1;
-            this.pictureBox4.TabStop = false;
+            this.linkLabelHomepage.AutoSize = true;
+            this.linkLabelHomepage.Location = new System.Drawing.Point(238, 9);
+            this.linkLabelHomepage.Name = "linkLabelHomepage";
+            this.linkLabelHomepage.Size = new System.Drawing.Size(253, 13);
+            this.linkLabelHomepage.TabIndex = 7;
+            this.linkLabelHomepage.TabStop = true;
+            this.linkLabelHomepage.Text = "https://nordlien.github.io/PhotoTags-Synchronizer/";
+            this.linkLabelHomepage.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelHomepage_LinkClicked);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(92, 9);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(111, 13);
+            this.label1.TabIndex = 8;
+            this.label1.Text = "Need help? Open link:";
             // 
             // FormSplash
             // 
@@ -253,6 +275,8 @@
             this.CausesValidation = false;
             this.ClientSize = new System.Drawing.Size(599, 277);
             this.ControlBox = false;
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.linkLabelHomepage);
             this.Controls.Add(this.tabControlMessages);
             this.Controls.Add(this.checkBoxCloseWarning);
             this.Controls.Add(this.progressBar);
@@ -280,9 +304,9 @@
             this.tabPageDelayReading.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             this.tabPageImportLocation.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             this.tabPage1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -307,5 +331,7 @@
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.PictureBox pictureBox4;
+        private System.Windows.Forms.LinkLabel linkLabelHomepage;
+        private System.Windows.Forms.Label label1;
     }
 }
