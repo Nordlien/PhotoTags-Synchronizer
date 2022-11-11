@@ -2702,7 +2702,7 @@ namespace PhotoTagsSynchronizer
             try
             {
                 logFilename = GetLogFileName("logfile");
-                if (string.IsNullOrWhiteSpace(logFilename)) logFilename = "PhotoTagsSynchronizer_Log.txt";
+                if (string.IsNullOrWhiteSpace(logFilename)) logFilename = FileHandler.GetLocalApplicationDataTempPath("PhotoTagsSynchronizer_Log.txt");
                 if (!File.Exists(logFilename)) FileHandler.CombineApplicationPathWithFilename(logFilename);
             }
             catch { }
@@ -2722,6 +2722,7 @@ namespace PhotoTagsSynchronizer
                 string configFilename = FileHandler.CombineApplicationPathWithFilename("Pipe\\NLog.config");
                 try
                 {
+                    if (!File.Exists(configFilename)) configFilename = FileHandler.CombineApplicationPathWithFilename("Pipe\\NLog.config");
                     if (!File.Exists(configFilename)) configFilename = FileHandler.CombineApplicationPathWithFilename("Pipe\\net48\\NLog.config");
                     if (!File.Exists(configFilename)) configFilename = FileHandler.CombineApplicationPathWithFilename("Pipe\\WindowsLivePhotoGalleryServer.exe.NLog");
                     if (!File.Exists(configFilename)) configFilename = FileHandler.CombineApplicationPathWithFilename("Pipe\\net48\\WindowsLivePhotoGalleryServer.exe.NLog");
@@ -2741,7 +2742,9 @@ namespace PhotoTagsSynchronizer
             catch { }
 
             if (!File.Exists(logFilename)) logFilename = FileHandler.CombineApplicationPathWithFilename("Pipe\\WindowsLivePhotoGalleryServer_Log.txt");            
-            if (!File.Exists(logFilename)) logFilename = FileHandler.CombineApplicationPathWithFilename("Pipe\\net48\\WindowsLivePhotoGalleryServer_Log.txt");            
+            if (!File.Exists(logFilename)) logFilename = FileHandler.CombineApplicationPathWithFilename("Pipe\\net48\\WindowsLivePhotoGalleryServer_Log.txt");
+            if (!File.Exists(logFilename)) logFilename = FileHandler.GetLocalApplicationDataTempPath("WindowsLivePhotoGalleryServer_Log.txt");
+
             return logFilename;
         }
         #endregion 
@@ -2754,7 +2757,15 @@ namespace PhotoTagsSynchronizer
             {
                 if (File.Exists(logFilename))
                 {
-                    fastColoredTextBoxShowLog.OpenFile(logFilename, Encoding.UTF8); //OpenBindingFile stopped to work, started to encounter: The output char buffer is too small to contain the decoded characters, encoding 'Unicode (UTF-8)' fallback 'System.Text.DecoderReplacementFallback'.
+                    string fileContent = "";
+                    using (var f = new FileStream(logFilename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                    using (var s = new StreamReader(f))
+                    {
+                        fileContent = s.ReadToEnd();
+                    }
+
+                    fastColoredTextBoxShowLog.Text = fileContent;
+                    //fastColoredTextBoxShowLog.OpenFile(logFilename, Encoding.UTF8); //OpenBindingFile stopped to work, started to encounter: The output char buffer is too small to contain the decoded characters, encoding 'Unicode (UTF-8)' fallback 'System.Text.DecoderReplacementFallback'.
                     fastColoredTextBoxShowLog.IsChanged = false;
                     fastColoredTextBoxShowLog.ClearUndo();
                     GC.Collect();
@@ -2772,7 +2783,16 @@ namespace PhotoTagsSynchronizer
                 
                 if (File.Exists(logFilename))
                 {
-                    fastColoredTextBoxShowPipe32Log.OpenFile(logFilename, Encoding.UTF8); //OpenBindingFile stopped to work, started to encounter: The output char buffer is too small to contain the decoded characters, encoding 'Unicode (UTF-8)' fallback 'System.Text.DecoderReplacementFallback'.
+                    string fileContentServer = "";
+                    using (var f = new FileStream(logFilename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                    using (var s = new StreamReader(f))
+                    {
+                        fileContentServer = s.ReadToEnd();
+                    }
+
+                    fastColoredTextBoxShowPipe32Log.Text = fileContentServer;
+
+                    //fastColoredTextBoxShowPipe32Log.OpenFile(logFilename, Encoding.UTF8); //OpenBindingFile stopped to work, started to encounter: The output char buffer is too small to contain the decoded characters, encoding 'Unicode (UTF-8)' fallback 'System.Text.DecoderReplacementFallback'.
                     fastColoredTextBoxShowPipe32Log.IsChanged = false;
                     fastColoredTextBoxShowPipe32Log.ClearUndo();
                     GC.Collect();

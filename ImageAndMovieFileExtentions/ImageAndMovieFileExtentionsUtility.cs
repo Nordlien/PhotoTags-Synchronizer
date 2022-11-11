@@ -13,6 +13,7 @@ using System.Diagnostics;
 using ApplicationAssociations;
 using NLog;
 using Krypton.Toolkit;
+using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace ImageAndMovieFileExtentions
 {
@@ -137,9 +138,12 @@ namespace ImageAndMovieFileExtentions
         }
         #endregion
 
+        static readonly object ffmpegLock = new object();
+
         public static Image GetVideoThumbnail(string videoFile)
         {
             Image bitmap = null;
+
             string thumbnail = ""; 
 
             try
@@ -154,30 +158,36 @@ namespace ImageAndMovieFileExtentions
 
                 thumbnail =  FileHandeling.FileHandler.GetLocalApplicationDataTempPath("exiftool_" + Guid.NewGuid() + ".jpg");
 
-                var arguments = " -itsoffset -1  -i " + '"' + videoFile + '"' + " -vcodec mjpeg -vframes 1 -an -f rawvideo " + '"' + thumbnail + '"';
-
-                var startInfo = new ProcessStartInfo
+                //using (var fs = File.Open(videoFile, FileMode.Open, FileAccess.ReadWrite))
                 {
-                    WindowStyle = ProcessWindowStyle.Hidden,
-                    FileName = cmd,
-                    Arguments = arguments,
-                };
-
-                var process = new Process
-                {
-                    StartInfo = startInfo
-                };
-
-
-                //ApplicationActivation.ProcessRun(path, cmd, true);
-
-                process.Start();
-                if (process.WaitForExit(5000))
-                {
-                    if (File.Exists(thumbnail))
+                    lock (ffmpegLock)
                     {
-                        var ms = new MemoryStream(File.ReadAllBytes(thumbnail));
-                        bitmap = Image.FromStream(ms);
+                        var arguments = " -itsoffset -1  -i " + '"' + videoFile + '"' + " -vcodec mjpeg -vframes 1 -an -f rawvideo " + '"' + thumbnail + '"';
+
+                        var startInfo = new ProcessStartInfo
+                        {
+                            WindowStyle = ProcessWindowStyle.Hidden,
+                            FileName = cmd,
+                            Arguments = arguments,
+                        };
+
+                        var process = new Process
+                        {
+                            StartInfo = startInfo
+                        };
+
+
+                        //ApplicationActivation.ProcessRun(path, cmd, true);
+
+                        process.Start();
+                        if (process.WaitForExit(5000))
+                        {
+                            if (File.Exists(thumbnail))
+                            {
+                                var ms = new MemoryStream(File.ReadAllBytes(thumbnail));
+                                bitmap = Image.FromStream(ms);
+                            }
+                        }
                     }
                 }
             }

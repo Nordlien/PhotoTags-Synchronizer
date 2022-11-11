@@ -411,20 +411,24 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 #region Exception Handling
-                Logger.Error(ex, "imageListView1_RetrieveItemMetadataDetails");
-                if (e.FileMetadata == null) e.FileMetadata = new Utility.ShellImageFileInfo();
-                e.FileMetadata.DisplayName = Path.GetFileName(e.FileName);
-                e.FileMetadata.FileDirectory = Path.GetDirectoryName(e.FileName);
-
-                if (!string.IsNullOrWhiteSpace(e.FileName))
+                try
                 {
-                    FileStatus fileStatus = FileHandler.GetFileStatus(
-                        e.FileName, checkLockedStatus: true,
-                        hasErrorOccured: true, errorMessage: ex.Message,
-                        exiftoolProcessStatus: ExiftoolProcessStatus.FileInaccessibleOrError);
-                    e.FileMetadata.FileStatus = fileStatus;
-                    e.FileMetadata.SetPropertyStatusOnAll(PropertyStatus.IsSet);
+                    Logger.Error(ex, "imageListView1_RetrieveItemMetadataDetails");
+                    if (e.FileMetadata == null) e.FileMetadata = new Utility.ShellImageFileInfo();
+                    e.FileMetadata.DisplayName = Path.GetFileName(e.FileName);
+                    e.FileMetadata.FileDirectory = Path.GetDirectoryName(e.FileName);
+
+                    if (!string.IsNullOrWhiteSpace(e.FileName))
+                    {
+                        FileStatus fileStatus = FileHandler.GetFileStatus(
+                            e.FileName, checkLockedStatus: true,
+                            hasErrorOccured: true, errorMessage: ex.Message,
+                            exiftoolProcessStatus: ExiftoolProcessStatus.FileInaccessibleOrError);
+                        e.FileMetadata.FileStatus = fileStatus;
+                        e.FileMetadata.SetPropertyStatusOnAll(PropertyStatus.IsSet);
+                    }
                 }
+                catch { }
                 #endregion
             }
         }
@@ -508,15 +512,19 @@ namespace PhotoTagsSynchronizer
                 }
             } catch (Exception ex)
             {
-                if (!string.IsNullOrWhiteSpace(e.FileName))
+                try
                 {
-                    FileStatus fileStatusError = FileHandler.GetFileStatus(
-                        e.FileName, checkLockedStatus: true, hasErrorOccured: true, errorMessage: ex.Message);
-                    ImageListView_UpdateItemFileStatusInvoke(e.FileName, fileStatusError);
-                }
+                    if (!string.IsNullOrWhiteSpace(e.FileName))
+                    {
+                        FileStatus fileStatusError = FileHandler.GetFileStatus(
+                            e.FileName, checkLockedStatus: true, hasErrorOccured: true, errorMessage: ex.Message);
+                        ImageListView_UpdateItemFileStatusInvoke(e.FileName, fileStatusError);
+                    }
 
-                Logger.Warn(ex, "imageListView1_RetrieveItemThumbnail failed on: " + e.FileName);
-                e.Thumbnail = (Image)Properties.Resources.ImageListViewLoadErrorGeneral;
+                    Logger.Warn(ex, "imageListView1_RetrieveItemThumbnail failed on: " + e.FileName);
+                    e.Thumbnail = (Image)Properties.Resources.ImageListViewLoadErrorGeneral;
+                }
+                catch { }
             }
         }
         #endregion
@@ -551,14 +559,18 @@ namespace PhotoTagsSynchronizer
             #region Error Handling
             catch (IOException ioex) //Set an error picture, OneDrive problems
             {
-                if (!string.IsNullOrWhiteSpace(e.FullFilePath))
+                try
                 {
-                    FileStatus fileStatusError = FileHandler.GetFileStatus(
-                        e.FullFilePath, checkLockedStatus: true, hasErrorOccured: true, errorMessage: ioex.Message);
-                    ImageListView_UpdateItemFileStatusInvoke(e.FullFilePath, fileStatusError);
-                }
+                    if (!string.IsNullOrWhiteSpace(e.FullFilePath))
+                    {
+                        FileStatus fileStatusError = FileHandler.GetFileStatus(
+                            e.FullFilePath, checkLockedStatus: true, hasErrorOccured: true, errorMessage: ioex.Message);
+                        ImageListView_UpdateItemFileStatusInvoke(e.FullFilePath, fileStatusError);
+                    }
 
-                e.LoadedImage = (Image)Properties.Resources.ImageListViewLoadErrorOneDriveNotRunning;
+                    e.LoadedImage = (Image)Properties.Resources.ImageListViewLoadErrorOneDriveNotRunning;
+                }
+                catch { }
             }
             catch (Exception ex)
             {

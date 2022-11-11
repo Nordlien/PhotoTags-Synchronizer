@@ -11,7 +11,6 @@ namespace PhotoTagsSynchronizer
             InitializeComponent();
             try
             {
-                
                 richTextBox1.LoadFile(FileHandeling.FileHandler.CombineApplicationPathWithFilename("About.rtf"));
             }
             catch { }

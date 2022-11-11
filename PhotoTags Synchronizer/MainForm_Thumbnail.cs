@@ -150,10 +150,12 @@ namespace PhotoTagsSynchronizer
                 {
                     if (ImageAndMovieFileExtentionsUtility.IsVideoFormat(fullFilePath))
                     {
-                        
+                        Logger.Error("DEBUG:  in - ImageAndMovieFileExtentionsUtility.GetVideoThumbnail");
 
-                        image = ImageAndMovieFileExtentionsUtility.GetVideoThumbnail(fullFilePath);
+                        if (!FileHandler.IsFileLockedForRead(fullFilePath, 100))
+                            image = ImageAndMovieFileExtentionsUtility.GetVideoThumbnail(fullFilePath);
 
+                        Logger.Error("DEBUG: out - ImageAndMovieFileExtentionsUtility.GetVideoThumbnail");
                         //var ffMpeg = new NReco.VideoConverter.FFMpegConverter();
                         //using (Stream memoryStream = new MemoryStream())
                         //{
@@ -193,13 +195,19 @@ namespace PhotoTagsSynchronizer
             {
                 if (ImageAndMovieFileExtentionsUtility.IsVideoFormat(fullFilePath))
                 {
+                    Logger.Error("DEBUG:  in - LoadMediaCoverArtThumbnail");
+
                     #region Load Video Thumbnail Poster
+                    Logger.Error("DEBUG:  in - LoadMediaCoverArtThumbnail.WindowsPropertyReader.GetThumbnail");
                     WindowsProperty.WindowsPropertyReader windowsPropertyReader = new WindowsProperty.WindowsPropertyReader();                    
                     image = windowsPropertyReader.GetThumbnail(fullFilePath);
+                    Logger.Error("DEBUG: out - LoadMediaCoverArtThumbnail.WindowsPropertyReader.GetThumbnail");
 
                     //DO NOT READ FROM FILE - WHEN NOT ALLOWED TO READ CLOUD FILES
                     if (image == null && !fileStatus.IsInCloudOrVirtualOrOffline) image = LoadMediaCoverArtPosterWithCache(fullFilePath);
                     #endregion
+
+                    Logger.Error("DEBUG: out - LoadMediaCoverArtThumbnail");
                 }
                 else if (ImageAndMovieFileExtentionsUtility.IsImageFormat(fullFilePath))
                 {
