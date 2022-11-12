@@ -409,7 +409,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {

@@ -114,21 +114,21 @@ namespace PhotoTagsSynchronizer
                 {
                     if (!DataGridViewHandler.IsColumnSelected(dataGridView, e.ColumnIndex))
                     {
-                        KryptonMessageBox.Show("You need to select a name cell for current media file.", "Missing selection on media file", MessageBoxButtons.OK, MessageBoxIcon.Information, showCtrlCopy: true);
+                        KryptonMessageBox.Show("You need to select a name cell for current media file.", "Missing selection on media file", MessageBoxButtons.OK, KryptonMessageBoxIcon.Information, showCtrlCopy: true);
                         return;
                     }
 
                     DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, e.ColumnIndex);
                     if (dataGridViewGenericColumn == null || dataGridViewGenericColumn.ReadWriteAccess != ReadWriteAccess.AllowCellReadAndWrite)
                     {
-                        KryptonMessageBox.Show("You can only change region on current version on media file, not on historical or error log.", "Not correct column type", MessageBoxButtons.OK, MessageBoxIcon.Information, showCtrlCopy: true);
+                        KryptonMessageBox.Show("You can only change region on current version on media file, not on historical or error log.", "Not correct column type", MessageBoxButtons.OK, KryptonMessageBoxIcon.Information, showCtrlCopy: true);
                         return;
                     }
 
                     List<int> selectedRows = DataGridViewHandler.GetRowSelected(dataGridView);
                     if (selectedRows.Count != 1)
                     {
-                        KryptonMessageBox.Show("You can only create a region for one name cell at once.", "Wrong number of selection", MessageBoxButtons.OK, MessageBoxIcon.Information, showCtrlCopy: true);
+                        KryptonMessageBox.Show("You can only create a region for one name cell at once.", "Wrong number of selection", MessageBoxButtons.OK, KryptonMessageBoxIcon.Information, showCtrlCopy: true);
                         return;
                     }
                     else
@@ -138,7 +138,7 @@ namespace PhotoTagsSynchronizer
 
                         if (dataGridViewGenericRow == null || dataGridViewGenericRow.IsHeader)
                         {
-                            KryptonMessageBox.Show("The selected cell can't be changed, need select another cell.", "Wrong cell selected", MessageBoxButtons.OK, MessageBoxIcon.Information, showCtrlCopy: true);
+                            KryptonMessageBox.Show("The selected cell can't be changed, need select another cell.", "Wrong cell selected", MessageBoxButtons.OK, KryptonMessageBoxIcon.Information, showCtrlCopy: true);
                             return;
                         }
                     }
@@ -146,7 +146,7 @@ namespace PhotoTagsSynchronizer
                     Image image = dataGridViewGenericColumn.Thumbnail;
                     if (image == null)
                     {
-                        KryptonMessageBox.Show("No media has been load, please wait or reload the media to fetch thumbnail image.", "Not media has been loaded", MessageBoxButtons.OK, MessageBoxIcon.Information, showCtrlCopy: true);
+                        KryptonMessageBox.Show("No media has been load, please wait or reload the media to fetch thumbnail image.", "Not media has been loaded", MessageBoxButtons.OK, KryptonMessageBoxIcon.Information, showCtrlCopy: true);
                         return;
                     }
 
@@ -229,7 +229,7 @@ namespace PhotoTagsSynchronizer
                         } else
                         {
                             Logger.Error("Was not able to updated the region thumbnail. Poster was failed to load.");
-                            KryptonMessageBox.Show("Was not able to updated the region thumbnail.\r\nPoster was failed to load.", "", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
+                            KryptonMessageBox.Show("Was not able to updated the region thumbnail.\r\nPoster was failed to load.", "", MessageBoxButtons.OK, KryptonMessageBoxIcon.Warning, showCtrlCopy: true);
                         }
                         DataGridViewHandler.InvalidateCellColumnHeader(dataGridView, dataGridViewCell.ColumnIndex);
                     }
@@ -238,7 +238,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "UpdateRegionThumbnail");
-                KryptonMessageBox.Show("Was not able to updated the region thumbnail.\r\n\r\n" + ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Was not able to updated the region thumbnail.\r\n\r\n" + ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion 
@@ -285,7 +285,7 @@ namespace PhotoTagsSynchronizer
                     }
                     else
                     {
-                        KryptonMessageBox.Show("Couldn't create a region. No region selection was made.", "No region selected", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
+                        KryptonMessageBox.Show("Couldn't create a region. No region selection was made.", "No region selected", MessageBoxButtons.OK, KryptonMessageBoxIcon.Warning, showCtrlCopy: true);
                         peopleMouseDownColumn = int.MinValue;
                     }
 
@@ -953,7 +953,7 @@ namespace PhotoTagsSynchronizer
                         else
                         {
                             Logger.Warn("Region selector was not able to load poster.");
-                            KryptonMessageBox.Show("Region selector was not able to load poster.", "Not able to load poster...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                            KryptonMessageBox.Show("Region selector was not able to load poster.", "Not able to load poster...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                         }
                         
                     }
@@ -964,7 +964,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "RegionSelectorLoadAndSelect");
-                KryptonMessageBox.Show("Region selector was not able to start.\r\n\r\n" + ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Region selector was not able to start.\r\n\r\n" + ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion 

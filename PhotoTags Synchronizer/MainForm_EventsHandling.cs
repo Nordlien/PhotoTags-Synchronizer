@@ -135,7 +135,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -159,7 +159,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -183,7 +183,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -245,7 +245,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -268,7 +268,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -294,7 +294,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -327,7 +327,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -350,7 +350,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -374,7 +374,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -436,7 +436,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -459,7 +459,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -485,7 +485,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -518,7 +518,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -542,7 +542,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -566,7 +566,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -628,7 +628,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -653,7 +653,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -701,7 +701,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -719,7 +719,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 Logger.Error(ex);
             }
         }
@@ -746,7 +746,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -770,7 +770,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -832,7 +832,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -878,7 +878,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -896,7 +896,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 Logger.Error(ex);
             }
         }
@@ -916,7 +916,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 Logger.Error(ex);
             }
         }
@@ -943,7 +943,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -967,7 +967,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -1029,7 +1029,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -1055,7 +1055,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -1078,7 +1078,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 Logger.Error(ex);
             }
         }
@@ -1106,7 +1106,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -1130,7 +1130,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -1192,7 +1192,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -1238,7 +1238,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -1257,7 +1257,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 Logger.Error(ex);
             }
         }
@@ -1277,7 +1277,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 Logger.Error(ex);
             }
         }
@@ -1315,7 +1315,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -1344,7 +1344,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -1365,7 +1365,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -1409,7 +1409,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -1438,7 +1438,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -1468,7 +1468,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -1490,7 +1490,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -1517,7 +1517,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -1602,7 +1602,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 Logger.Error(ex);
             }
         }
@@ -1638,7 +1638,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -1661,7 +1661,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -1685,7 +1685,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -1709,7 +1709,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 Logger.Error(ex);
             }
         }
@@ -1751,7 +1751,7 @@ namespace PhotoTagsSynchronizer
                 {
                     Logger.Error(ex);
                     KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                        "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                        "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 }
                 finally
                 {
@@ -1797,7 +1797,7 @@ namespace PhotoTagsSynchronizer
                         ),
                         "Result after running OneDrive duplicated tool.",
                         (notFixed.Count == 0 ? MessageBoxButtons.OK : MessageBoxButtons.YesNo),
-                        MessageBoxIcon.Question, showCtrlCopy: true) == DialogResult.Yes)
+                        KryptonMessageBoxIcon.Question, showCtrlCopy: true) == DialogResult.Yes)
                     {
                         ImageListView_SelectFiles(notFixed);
                     }
@@ -1822,7 +1822,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 Logger.Error(ex);
             }
         }
@@ -1867,7 +1867,7 @@ namespace PhotoTagsSynchronizer
                 {
                     Logger.Error(ex);
                     KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                        "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                        "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 }
                 finally
                 {
@@ -1913,7 +1913,7 @@ namespace PhotoTagsSynchronizer
                         ),
                         "Result after running OneDrive duplicated tool.",
                         (notFixed.Count == 0 ? MessageBoxButtons.OK : MessageBoxButtons.YesNo),
-                        MessageBoxIcon.Question, showCtrlCopy: true) == DialogResult.Yes)
+                        KryptonMessageBoxIcon.Question, showCtrlCopy: true) == DialogResult.Yes)
                     {
                         ImageListView_SelectFiles(notFixed);
                     }
@@ -1938,7 +1938,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 Logger.Error(ex);
             }
         }
@@ -1969,7 +1969,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -1990,7 +1990,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -2011,7 +2011,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -2073,7 +2073,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -2094,7 +2094,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -2107,7 +2107,7 @@ namespace PhotoTagsSynchronizer
                 string folder = GetNodeFolderRealPath(treeViewFolderBrowser1.SelectedNode as TreeNodePath);
                 if (!Directory.Exists (folder))
                 {
-                    KryptonMessageBox.Show("Not a valid folder selected. Try select anoter folder.\r\nSelected system folder: " + (string.IsNullOrWhiteSpace(folder) ? "Unknown" : folder), "Invalid folder selection...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
+                    KryptonMessageBox.Show("Not a valid folder selected. Try select anoter folder.\r\nSelected system folder: " + (string.IsNullOrWhiteSpace(folder) ? "Unknown" : folder), "Invalid folder selection...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Warning, showCtrlCopy: true);
                     return;
                 }
 
@@ -2120,7 +2120,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
 }
         #endregion
@@ -2142,7 +2142,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -2158,7 +2158,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -2174,7 +2174,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -2189,7 +2189,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -2205,7 +2205,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -2221,7 +2221,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -2245,7 +2245,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -2261,7 +2261,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -2277,7 +2277,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -2308,7 +2308,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -2335,7 +2335,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -2356,7 +2356,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -2378,7 +2378,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -2440,7 +2440,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -2461,7 +2461,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -2474,7 +2474,7 @@ namespace PhotoTagsSynchronizer
                 string folder = GetNodeFolderRealPath(treeViewFolderBrowser1.SelectedNode as TreeNodePath);
                 if (!Directory.Exists(folder))
                 {
-                    KryptonMessageBox.Show("Not a valid folder selected. Try select anoter folder.\r\nSelected system folder: " + (string.IsNullOrWhiteSpace(folder) ? "Unknown" : folder), "Invalid folder...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
+                    KryptonMessageBox.Show("Not a valid folder selected. Try select anoter folder.\r\nSelected system folder: " + (string.IsNullOrWhiteSpace(folder) ? "Unknown" : folder), "Invalid folder...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Warning, showCtrlCopy: true);
                     return;
                 }
 
@@ -2488,7 +2488,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
 
         }
@@ -2507,7 +2507,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -2523,7 +2523,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -2539,7 +2539,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -2555,7 +2555,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -2571,7 +2571,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -2587,7 +2587,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -2603,7 +2603,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
 }
         #endregion
@@ -2618,7 +2618,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -2634,7 +2634,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion 
@@ -2650,7 +2650,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -2673,7 +2673,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -2693,7 +2693,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -2714,7 +2714,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -2776,7 +2776,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -2817,7 +2817,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -2835,7 +2835,7 @@ namespace PhotoTagsSynchronizer
 
                     if (!Directory.Exists(targetFolder))
                     {
-                        KryptonMessageBox.Show("Not a valid target folder selected. Try select anoter folder.\r\nSelected system folder: " + (string.IsNullOrWhiteSpace(targetFolder) ? "Unknown" : targetFolder), "Invalid folder...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
+                        KryptonMessageBox.Show("Not a valid target folder selected. Try select anoter folder.\r\nSelected system folder: " + (string.IsNullOrWhiteSpace(targetFolder) ? "Unknown" : targetFolder), "Invalid folder...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Warning, showCtrlCopy: true);
                         return;
                     }
 
@@ -2846,7 +2846,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -2866,7 +2866,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -2886,7 +2886,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -2902,7 +2902,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -2918,7 +2918,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -2934,7 +2934,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -2950,7 +2950,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -2973,7 +2973,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -2993,7 +2993,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -3016,7 +3016,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -3066,7 +3066,7 @@ namespace PhotoTagsSynchronizer
                     catch (Exception ex)
                     {
                         Logger.Error(ex);
-                        KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                        KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                     }
                     finally
                     {
@@ -3077,7 +3077,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -3100,7 +3100,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -3121,7 +3121,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -3142,7 +3142,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -3204,7 +3204,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -3220,11 +3220,11 @@ namespace PhotoTagsSynchronizer
                     HashSet<string> selectedFiles = ImageListViewHandler.GetFilesSelectedItemsCache(imageListView1);
                     if (IsFileInAnyQueueLock(selectedFiles))
                     {
-                        KryptonMessageBox.Show("Can't delete files. Files are being used, you need wait until process is finished.", "File in queue...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
+                        KryptonMessageBox.Show("Can't delete files. Files are being used, you need wait until process is finished.", "File in queue...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Warning, showCtrlCopy: true);
                         return;
                     }
 
-                    if (KryptonMessageBox.Show("Are you sure you will delete the files", "Files will be deleted!", MessageBoxButtons.YesNo, MessageBoxIcon.Question, showCtrlCopy: true) == DialogResult.Yes)
+                    if (KryptonMessageBox.Show("Are you sure you will delete the files", "Files will be deleted!", MessageBoxButtons.YesNo, KryptonMessageBoxIcon.Question, showCtrlCopy: true) == DialogResult.Yes)
                     {
                         using (new WaitCursor())
                         {
@@ -3238,13 +3238,13 @@ namespace PhotoTagsSynchronizer
                 }
                 catch (Exception ex)
                 {
-                    KryptonMessageBox.Show(ex.Message, "Syntax error", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    KryptonMessageBox.Show(ex.Message, "Syntax error", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 }
             }
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
 
             imageListView1.Focus();
@@ -3261,13 +3261,13 @@ namespace PhotoTagsSynchronizer
                 string folder = GetSelectedNodeFullRealPath();
                 if (folder == null || !Directory.Exists(folder))
                 {
-                    KryptonMessageBox.Show("Can't delete folder. No valid folder selected.", "Invalid folder...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
+                    KryptonMessageBox.Show("Can't delete folder. No valid folder selected.", "Invalid folder...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Warning, showCtrlCopy: true);
                     return;
                 }
 
                 if (IsFolderInAnyQueueLock(folder))
                 {
-                    KryptonMessageBox.Show("Can't delete folder. Files in folder is been used, you need wait until process is finished.", "File are in queue....", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    KryptonMessageBox.Show("Can't delete folder. Files in folder is been used, you need wait until process is finished.", "File are in queue....", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                     return;
                 }
 
@@ -3280,7 +3280,7 @@ namespace PhotoTagsSynchronizer
                         (KryptonMessageBox.Show("You are about to delete the folder:\r\n\r\n" +
                         folder + "\r\n\r\n" +
                         "There are " + (fileAndFolderEntriesCount.Length == 51 ? " over 50+" : fileAndFolderEntriesCount.Length.ToString()) + " files found.\r\n\r\n" +
-                        "Procced?", "Are you sure?", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, showCtrlCopy: true) == DialogResult.OK)
+                        "Procced?", "Are you sure?", MessageBoxButtons.OKCancel, KryptonMessageBoxIcon.Question, showCtrlCopy: true) == DialogResult.OK)
                         )
                     {
                         using (new WaitCursor())
@@ -3313,7 +3313,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -3332,7 +3332,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -3352,7 +3352,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion 
@@ -3368,7 +3368,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion 
@@ -3384,7 +3384,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion 
@@ -3400,7 +3400,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion 
@@ -3416,7 +3416,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -3437,7 +3437,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -3457,7 +3457,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -3473,7 +3473,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -3500,7 +3500,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -3527,7 +3527,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -3548,7 +3548,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -3608,7 +3608,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -3627,7 +3627,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -3647,7 +3647,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -3663,7 +3663,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion 
@@ -3679,7 +3679,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -3695,7 +3695,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -3711,7 +3711,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -3732,7 +3732,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -3752,7 +3752,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -3768,7 +3768,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -3791,7 +3791,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -3818,7 +3818,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -3838,7 +3838,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -3898,7 +3898,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -3919,7 +3919,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -3939,7 +3939,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -3955,7 +3955,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion 
@@ -3971,7 +3971,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -3987,7 +3987,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -4003,7 +4003,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -4024,7 +4024,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -4044,7 +4044,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -4060,7 +4060,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -4082,7 +4082,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -4109,7 +4109,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -4129,7 +4129,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -4192,7 +4192,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -4208,7 +4208,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -4272,7 +4272,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -4291,7 +4291,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -4311,7 +4311,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -4327,7 +4327,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion 
@@ -4343,7 +4343,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -4359,7 +4359,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -4375,7 +4375,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -4396,7 +4396,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -4412,7 +4412,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -4428,7 +4428,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -4450,7 +4450,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -4477,7 +4477,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -4497,7 +4497,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -4557,7 +4557,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -4576,7 +4576,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -4596,7 +4596,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion 
@@ -4612,7 +4612,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion 
@@ -4628,7 +4628,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -4644,7 +4644,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion 
@@ -4660,7 +4660,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -4680,7 +4680,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -4700,7 +4700,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -4716,7 +4716,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -4738,7 +4738,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -4765,7 +4765,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -4825,7 +4825,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -4841,7 +4841,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -4857,7 +4857,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -4873,7 +4873,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -4889,7 +4889,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -4905,7 +4905,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -4921,7 +4921,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -4937,7 +4937,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -4953,7 +4953,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -4969,7 +4969,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -4985,7 +4985,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -5008,7 +5008,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -5068,7 +5068,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -5084,7 +5084,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
 }
         #endregion
@@ -5100,7 +5100,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -5116,7 +5116,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion 
@@ -5132,7 +5132,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -5148,7 +5148,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -5164,7 +5164,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -5180,7 +5180,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -5196,7 +5196,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -5212,7 +5212,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -5228,7 +5228,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -5251,7 +5251,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -5311,7 +5311,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -5327,7 +5327,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -5343,7 +5343,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -5359,7 +5359,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion 
@@ -5375,7 +5375,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -5391,7 +5391,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -5407,7 +5407,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -5423,7 +5423,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -5439,7 +5439,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -5455,7 +5455,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -5471,7 +5471,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -5494,7 +5494,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -5515,7 +5515,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -5535,7 +5535,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion 
@@ -5591,7 +5591,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -5609,7 +5609,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -5625,7 +5625,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion 
@@ -5641,7 +5641,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion 
@@ -5657,7 +5657,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -5673,7 +5673,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -5689,7 +5689,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -5705,7 +5705,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -5721,7 +5721,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -5737,7 +5737,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -5753,7 +5753,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -5776,7 +5776,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -5797,7 +5797,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -5857,7 +5857,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -5874,7 +5874,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -5890,7 +5890,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -5906,7 +5906,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -5922,7 +5922,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -5938,7 +5938,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -5954,7 +5954,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -5970,7 +5970,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -5986,7 +5986,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -6002,7 +6002,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -6018,7 +6018,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -6041,7 +6041,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -6062,7 +6062,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -6124,7 +6124,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -6137,7 +6137,7 @@ namespace PhotoTagsSynchronizer
                 string folder = GetSelectedNodeFullRealPath();
                 if (folder == null || !Directory.Exists(folder))
                 {
-                    KryptonMessageBox.Show("Can't copy folder name. Not a valid folder selected.", "Invalid folder", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    KryptonMessageBox.Show("Can't copy folder name. Not a valid folder selected.", "Invalid folder", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                     return;
                 }
                 Clipboard.SetText(folder);
@@ -6145,7 +6145,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion 
@@ -6165,7 +6165,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -6248,7 +6248,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion 
@@ -6267,7 +6267,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -6283,7 +6283,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -6299,7 +6299,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -6363,7 +6363,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion 
@@ -6380,7 +6380,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -6397,7 +6397,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -6461,7 +6461,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -6478,7 +6478,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -6495,7 +6495,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -6542,7 +6542,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -6589,7 +6589,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -6640,7 +6640,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -6687,7 +6687,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -6734,7 +6734,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -6781,7 +6781,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -6828,7 +6828,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -6853,20 +6853,20 @@ namespace PhotoTagsSynchronizer
                     switch (ActiveKryptonPage)
                     {
                         case KryptonPages.None:
-                            KryptonMessageBox.Show("No active View is selected. You need to select a view so application knows what View to save.", "Nothing to save...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
+                            KryptonMessageBox.Show("No active View is selected. You need to select a view so application knows what View to save.", "Nothing to save...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Warning, showCtrlCopy: true);
                             break;
                         case KryptonPages.kryptonPageFolderSearchFilterFolder:
-                            KryptonMessageBox.Show("'Folders view' is avtive. You need to select diffrent view so application knows what View to save.", "Nothing to save...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
+                            KryptonMessageBox.Show("'Folders view' is avtive. You need to select diffrent view so application knows what View to save.", "Nothing to save...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Warning, showCtrlCopy: true);
                             break;
                         case KryptonPages.kryptonPageFolderSearchFilterSearch:
-                            KryptonMessageBox.Show("'Search view' is avtive. You need to select diffrent view so application knows what View to save.", "Nothing to save...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
+                            KryptonMessageBox.Show("'Search view' is avtive. You need to select diffrent view so application knows what View to save.", "Nothing to save...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Warning, showCtrlCopy: true);
 
                             break;
                         case KryptonPages.kryptonPageFolderSearchFilterFilter:
-                            KryptonMessageBox.Show("'Filter view' is avtive. You need to select diffrent view so application knows what View to save.", "Nothing to save...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
+                            KryptonMessageBox.Show("'Filter view' is avtive. You need to select diffrent view so application knows what View to save.", "Nothing to save...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Warning, showCtrlCopy: true);
                             break;
                         case KryptonPages.kryptonPageMediaFiles:
-                            KryptonMessageBox.Show("'Show Media Files view' is avtive. You need to select diffrent view so application knows what View to save.", "Nothing to save...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
+                            KryptonMessageBox.Show("'Show Media Files view' is avtive. You need to select diffrent view so application knows what View to save.", "Nothing to save...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Warning, showCtrlCopy: true);
                             break;
                         case KryptonPages.kryptonPageToolboxTags:
                         case KryptonPages.kryptonPageToolboxPeople:
@@ -6876,10 +6876,10 @@ namespace PhotoTagsSynchronizer
                             GlobalData.IsAgregatedProperties = false;
                             break;
                         case KryptonPages.kryptonPageToolboxExiftool:
-                            KryptonMessageBox.Show("'Exiftool view' is avtive. You need to select diffrent view so application knows what View to save.", "Nothing to save...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
+                            KryptonMessageBox.Show("'Exiftool view' is avtive. You need to select diffrent view so application knows what View to save.", "Nothing to save...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Warning, showCtrlCopy: true);
                             break;
                         case KryptonPages.kryptonPageToolboxWarnings:
-                            KryptonMessageBox.Show("'Exiftool Warnings' view is avtive. You need to select diffrent view so application knows what View to save.", "Nothing to save...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
+                            KryptonMessageBox.Show("'Exiftool Warnings' view is avtive. You need to select diffrent view so application knows what View to save.", "Nothing to save...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Warning, showCtrlCopy: true);
                             break;
                         case KryptonPages.kryptonPageToolboxProperties:
                             SaveProperties();
@@ -6900,7 +6900,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -6966,7 +6966,7 @@ namespace PhotoTagsSynchronizer
 
                 if (metadataListOriginalExiftool.Count != metadataListFromDataGridView.Count)
                 {
-                    KryptonMessageBox.Show("Error occure", "Can't read and macth the data...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
+                    KryptonMessageBox.Show("Error occure", "Can't read and macth the data...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Warning, showCtrlCopy: true);
                     return;
                 }
                 
@@ -7023,7 +7023,7 @@ namespace PhotoTagsSynchronizer
                         "Can't find any value that was changed.\r\n" +
                         "Compatibility Check and Fix can replace values back to original values.\t\n" +
                         (useAutoCorrect ? "Please note AutoCorrect can have changed back information." : ""),
-                        "Nothing to save...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
+                        "Nothing to save...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Warning, showCtrlCopy: true);
                     return;
                 }
                 ThreadSaveUsingExiftoolToMedia();
@@ -7031,7 +7031,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -7089,7 +7089,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -7159,7 +7159,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
 
         }
@@ -7226,7 +7226,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -7241,7 +7241,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -7257,7 +7257,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -7276,7 +7276,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -7342,7 +7342,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -7357,7 +7357,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -7374,7 +7374,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
 
@@ -7394,7 +7394,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
 
@@ -7467,7 +7467,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -7484,7 +7484,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion 
@@ -7499,7 +7499,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion 
@@ -7514,7 +7514,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -7540,7 +7540,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -7563,7 +7563,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -7615,7 +7615,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -7630,7 +7630,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -7656,7 +7656,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -7680,7 +7680,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -7733,7 +7733,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -7748,7 +7748,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -7774,7 +7774,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -7797,7 +7797,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -7849,7 +7849,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
 }
         #endregion
@@ -7864,7 +7864,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -7890,7 +7890,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -7913,7 +7913,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -7936,7 +7936,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -7998,7 +7998,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -8013,7 +8013,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -8029,7 +8029,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion 
@@ -8045,7 +8045,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion 
@@ -8061,7 +8061,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -8077,7 +8077,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -8093,7 +8093,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -8109,7 +8109,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -8125,7 +8125,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -8141,7 +8141,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -8157,7 +8157,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -8173,7 +8173,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -8189,7 +8189,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -8215,7 +8215,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -8239,7 +8239,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -8301,7 +8301,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -8317,7 +8317,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -8334,7 +8334,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -8361,7 +8361,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -8380,7 +8380,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -8395,7 +8395,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
 
@@ -8424,7 +8424,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion 
@@ -8441,7 +8441,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -8485,7 +8485,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error);
             }
         }
         #endregion
@@ -8501,7 +8501,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -8517,7 +8517,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -8533,7 +8533,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -8549,7 +8549,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -8565,7 +8565,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
 }
         #endregion
@@ -8581,7 +8581,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -8597,7 +8597,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -8613,7 +8613,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -8629,7 +8629,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -8683,7 +8683,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -8705,7 +8705,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -8729,7 +8729,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -8754,7 +8754,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -8771,7 +8771,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -8824,7 +8824,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -8846,7 +8846,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -8868,7 +8868,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -8930,7 +8930,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -8952,7 +8952,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -8976,7 +8976,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -9001,12 +9001,12 @@ namespace PhotoTagsSynchronizer
                     catch (Exception ex) { errorMessage += (errorMessage == "" ? "" : "\r\n") + ex.Message; }
                 }
 
-                if (errorMessage != "") KryptonMessageBox.Show(errorMessage, "Failed to start application process...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                if (errorMessage != "") KryptonMessageBox.Show(errorMessage, "Failed to start application process...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -9020,13 +9020,13 @@ namespace PhotoTagsSynchronizer
                 string folder = GetSelectedNodeFullRealPath();
                 if (folder == null || !Directory.Exists(folder))
                 {
-                    KryptonMessageBox.Show("Can't open folder location. Not a valid folder selected.", "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
+                    KryptonMessageBox.Show("Can't open folder location. Not a valid folder selected.", "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Warning, showCtrlCopy: true);
                     return;
                 }
                 ApplicationActivation.ShowFolderInEplorer(folder);
             }
             catch (Exception ex) { 
-                KryptonMessageBox.Show(ex.Message, "Failed to start application process...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Failed to start application process...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -9094,7 +9094,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error starting ActionFileSystemVerbOpen...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error starting ActionFileSystemVerbOpen...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -9113,7 +9113,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -9137,7 +9137,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -9161,7 +9161,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -9185,7 +9185,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -9261,12 +9261,12 @@ namespace PhotoTagsSynchronizer
                     catch (Exception ex) { errorMessage += (errorMessage == "" ? "" : "\r\n") + ex.Message; }
                 }
 
-                if (errorMessage != "") KryptonMessageBox.Show(errorMessage, "Failed to start application process...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                if (errorMessage != "") KryptonMessageBox.Show(errorMessage, "Failed to start application process...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error starting ActionFileSystemVerbOpen...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error starting ActionFileSystemVerbOpen...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -9328,7 +9328,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -9344,7 +9344,7 @@ namespace PhotoTagsSynchronizer
                 }
                 catch (Exception ex)
                 {
-                    KryptonMessageBox.Show("Can execute file. Error: " + ex.Message, "Can execute file", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    KryptonMessageBox.Show("Can execute file. Error: " + ex.Message, "Can execute file", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 }
             }   
         }
@@ -9361,7 +9361,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -9423,7 +9423,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -9445,7 +9445,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -9468,7 +9468,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -9490,7 +9490,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
 
         }
@@ -9553,7 +9553,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -9572,7 +9572,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -9596,7 +9596,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -9619,7 +9619,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -9643,12 +9643,12 @@ namespace PhotoTagsSynchronizer
                     catch (Exception ex) { errorMessage += (errorMessage == "" ? "" : "\r\n") + ex.Message; }
                 }
 
-                if (errorMessage != "") KryptonMessageBox.Show(errorMessage, "Failed to start application process...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                if (errorMessage != "") KryptonMessageBox.Show(errorMessage, "Failed to start application process...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -9710,7 +9710,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -9732,7 +9732,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -9756,7 +9756,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -9793,7 +9793,7 @@ namespace PhotoTagsSynchronizer
                     FormSplash.UpdateStatus("Create AutoCorrect file...");
                     #region AutoCorrect
                     AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
-                    if (autoCorrect == null) KryptonMessageBox.Show("AutoCorrect: " + Properties.Settings.Default.AutoCorrect, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    if (autoCorrect == null) KryptonMessageBox.Show("AutoCorrect: " + Properties.Settings.Default.AutoCorrect, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                     float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
                     float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
                     int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
@@ -9864,7 +9864,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -9926,7 +9926,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -9957,7 +9957,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -9989,7 +9989,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -10022,7 +10022,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -10043,7 +10043,7 @@ namespace PhotoTagsSynchronizer
                     string selectedFolder = GetSelectedNodeFullRealPath();
                     if (selectedFolder == null || !Directory.Exists(selectedFolder))
                     {
-                        KryptonMessageBox.Show("Can't run AutoCorrect. Not a valid folder selected.", "Invalid folder...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
+                        KryptonMessageBox.Show("Can't run AutoCorrect. Not a valid folder selected.", "Invalid folder...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Warning, showCtrlCopy: true);
                         return;
                     }
 
@@ -10059,7 +10059,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -10183,7 +10183,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -10213,7 +10213,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -10244,7 +10244,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -10285,7 +10285,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -10312,7 +10312,7 @@ namespace PhotoTagsSynchronizer
                         string selectedFolder = GetSelectedNodeFullRealPath();
                         if (selectedFolder == null || !Directory.Exists(selectedFolder))
                         {
-                            KryptonMessageBox.Show("Can't run AutoCorrect. Not a valid folder selected.", "Invalid folder...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
+                            KryptonMessageBox.Show("Can't run AutoCorrect. Not a valid folder selected.", "Invalid folder...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Warning, showCtrlCopy: true);
                             return;
                         }
                         IEnumerable<FileData> fileDatas = ImageAndMovieFileExtentionsUtility.GetFilesByEnumerableFast(selectedFolder, false);
@@ -10328,7 +10328,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -10400,7 +10400,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -10458,7 +10458,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -10482,7 +10482,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -10503,7 +10503,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -10556,7 +10556,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -10585,7 +10585,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             } 
             finally
             {
@@ -10615,7 +10615,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion 
@@ -10639,7 +10639,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -10692,7 +10692,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -10714,7 +10714,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -10737,7 +10737,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -10758,7 +10758,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -10790,7 +10790,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -10819,7 +10819,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -10861,7 +10861,7 @@ namespace PhotoTagsSynchronizer
                 string folder = GetSelectedNodeFullRealPath();
                 if (folder == null || !Directory.Exists(folder))
                 {
-                    KryptonMessageBox.Show("Can't reload folder. Not a valid folder selected.", "Invalid folder...", MessageBoxButtons.OK, MessageBoxIcon.Warning, showCtrlCopy: true);
+                    KryptonMessageBox.Show("Can't reload folder. Not a valid folder selected.", "Invalid folder...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Warning, showCtrlCopy: true);
                     return;
                 }
 
@@ -10884,7 +10884,7 @@ namespace PhotoTagsSynchronizer
                         (filesCount == 0 ? "" : "Files count: " + filesCount + "\r\n") +
                         (foldersCount == 0 ? "" : "Folders count: " + foldersCount + "\r\n"),
                         "You are going to delete all metadata in folder",
-                        MessageBoxButtons.YesNo, MessageBoxIcon.Warning, showCtrlCopy: true) == DialogResult.Yes)
+                        MessageBoxButtons.YesNo, KryptonMessageBoxIcon.Warning, showCtrlCopy: true) == DialogResult.Yes)
                     {
                         
                         Thread thread = new Thread(() =>
@@ -10903,7 +10903,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -10931,7 +10931,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -10964,7 +10964,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -10995,7 +10995,7 @@ namespace PhotoTagsSynchronizer
                 catch (Exception ex)
                 {
                     Logger.Error(ex, "");
-                    KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 }
             }
             else
@@ -11004,7 +11004,7 @@ namespace PhotoTagsSynchronizer
                     (GlobalData.isRunningWinSmode ? "Your Windows is running Windows 10 S / 11 S mode.\r\n" +
                     "The Chromium Web Browser doesn't support this mode.\r\n\r\n" : "") +
                     "\r\nCan't run WebScraper tool on your windows integrity policies.\r\n",
-                    "Syntax Error", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Syntax Error", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -11028,7 +11028,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -11124,7 +11124,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -11152,7 +11152,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -11176,7 +11176,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -11197,7 +11197,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -11224,7 +11224,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -11250,7 +11250,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -11339,7 +11339,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -11385,7 +11385,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -11437,7 +11437,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -11483,7 +11483,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -11539,7 +11539,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -11554,7 +11554,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
 
@@ -11567,7 +11567,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
 
@@ -11580,7 +11580,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -11599,7 +11599,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -11640,7 +11640,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -11681,7 +11681,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -11702,7 +11702,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -11718,7 +11718,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -11735,7 +11735,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
 
@@ -11750,7 +11750,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -11792,7 +11792,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
 
             }
         }
@@ -11844,7 +11844,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -11867,7 +11867,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                //KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                //KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -11889,7 +11889,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -11913,7 +11913,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -11937,7 +11937,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -11961,7 +11961,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -11985,7 +11985,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -12100,7 +12100,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                //KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                //KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -12192,7 +12192,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                //KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                //KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -12329,7 +12329,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             } finally
             {
                 isSortingImageListView = false;
@@ -12355,7 +12355,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -12379,7 +12379,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -12403,7 +12403,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -12427,7 +12427,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -12451,7 +12451,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -12475,7 +12475,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -12499,7 +12499,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -12523,7 +12523,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -12547,7 +12547,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -12571,7 +12571,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -12595,7 +12595,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -12619,7 +12619,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -12642,7 +12642,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -12666,7 +12666,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -12690,7 +12690,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -12714,7 +12714,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -12738,7 +12738,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -12768,7 +12768,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -12792,7 +12792,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -12816,7 +12816,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {

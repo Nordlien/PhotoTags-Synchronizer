@@ -275,7 +275,7 @@ namespace PhotoTagsSynchronizer
                         catch (Exception ex)
                         {
                             KryptonMessageBox.Show("Was not able to delete the file: " + fileEntry.FileFullPath + "\r\n\r\n" + ex.Message,
-                                "Deleting file failed", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                                "Deleting file failed", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                         }
                     }
                 }
@@ -284,7 +284,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {

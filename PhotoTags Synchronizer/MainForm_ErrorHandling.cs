@@ -61,7 +61,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 Logger.Error(ex);
             }
         }
@@ -95,7 +95,7 @@ namespace PhotoTagsSynchronizer
             } 
             catch (Exception ex) 
             {
-                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 Logger.Error(ex);
             }
         }
@@ -129,7 +129,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 Logger.Error(ex);
             }
         }
@@ -146,7 +146,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 Logger.Error(ex);
             }
         }
@@ -162,7 +162,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 Logger.Error(ex);
             }
         }
@@ -189,7 +189,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Syntax error.", "Exception message: " + ex.Message + "\r\n", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 Logger.Error(ex);
             }
             try

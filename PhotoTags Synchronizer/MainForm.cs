@@ -137,7 +137,7 @@ namespace PhotoTagsSynchronizer
                 }
                 catch (Exception ex)
                 {
-                    KryptonMessageBox.Show(ex.Message, "Was not able to load VLC player", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    KryptonMessageBox.Show(ex.Message, "Was not able to load VLC player", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                     return;
                 }
                 #endregion
@@ -358,7 +358,7 @@ namespace PhotoTagsSynchronizer
                 }
                 catch (Exception ex)
                 {
-                    KryptonMessageBox.Show(ex.Message, "Was not able to start the database...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    KryptonMessageBox.Show(ex.Message, "Was not able to start the database...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                     Close();
                     return;
                 }
@@ -750,7 +750,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show(ex.Message, "Form Constructor failed", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Form Constructor failed", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 return;
             }
         }
@@ -787,7 +787,7 @@ namespace PhotoTagsSynchronizer
                         "You have unsaved changes in DataGridView\r\n" : "") +
                     "\r\nAre you sure you will close application?",
                     "Press Ok will quit application and changed will get lost.\r\n" +
-                    "Press Cancel and return back to application.", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning, showCtrlCopy: true) == DialogResult.Cancel)
+                    "Press Cancel and return back to application.", MessageBoxButtons.OKCancel, KryptonMessageBoxIcon.Warning, showCtrlCopy: true) == DialogResult.Cancel)
                 {
                     isClosingProcesAlreadyStarted = false;
                     e.Cancel = true;
@@ -810,7 +810,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show(ex.Message, "Can't save settings, Metadata Group Priorities", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Can't save settings, Metadata Group Priorities", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
 
             try
@@ -876,7 +876,7 @@ namespace PhotoTagsSynchronizer
                 }
                 catch (Exception ex)
                 {
-                    KryptonMessageBox.Show(ex.Message, "Can't save settings", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    KryptonMessageBox.Show(ex.Message, "Can't save settings", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 }
                 //---------------------------------------------------------
 
@@ -945,7 +945,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show(ex.Message, "Problems during close all threads and other process during closing application", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Problems during close all threads and other process during closing application", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
 
             isClosingProcesAlreadyStarted = false;
@@ -1003,14 +1003,14 @@ namespace PhotoTagsSynchronizer
                     }
                     catch (Exception ee)
                     {
-                        KryptonMessageBox.Show(Application.ProductName + "\r\n\r\n" + ee.Message, "Initialize folder tree failed...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                        KryptonMessageBox.Show(Application.ProductName + "\r\n\r\n" + ee.Message, "Initialize folder tree failed...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                     }
 
                     GlobalData.DoNotTrigger_TreeViewFolder_BeforeAndAfterSelect = false;
                 }
                 catch (Exception ex)
                 {
-                    KryptonMessageBox.Show(ex.Message, "Initialize folder tree failed...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    KryptonMessageBox.Show(ex.Message, "Initialize folder tree failed...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 }
                 #endregion
 
@@ -1024,7 +1024,7 @@ namespace PhotoTagsSynchronizer
                 }
                 catch (Exception ex)
                 {
-                    KryptonMessageBox.Show(ex.Message, "Populate search failed...", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    KryptonMessageBox.Show(ex.Message, "Populate search failed...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 }
                 #endregion
 
@@ -1060,7 +1060,7 @@ namespace PhotoTagsSynchronizer
                             (GlobalData.doesMircosoftPhotosExists ? "Mircosoft Photos (Connected)\r\n" : "Mircosoft Photos (Not connected)\r\n") +
                             (GlobalData.doesMircosoftPhotosHaveData ? "" : "Mircosoft Photos (Doesn't contains data)\r\n") +
                             (GlobalData.doesWindowsLivePhotoGalleryExists ? "Windows Live Photo Gallery (Connected)" : "Windows Live Photo Gallery (Not connected)\r\n"),
-                            "PhotoTags-Synchronizer works better with...", MessageBoxButtons.OK, MessageBoxIcon.Information, showCtrlCopy: true);
+                            "PhotoTags-Synchronizer works better with...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Information, showCtrlCopy: true);
                         Properties.Settings.Default.ShowDatabaseNotFoundWarning = false;
                     }
                 }
@@ -1068,7 +1068,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show(ex.Message, "Form Load failed", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Form Load failed", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 return;
             }
         }

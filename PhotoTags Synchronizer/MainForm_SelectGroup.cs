@@ -101,7 +101,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -197,7 +197,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -299,7 +299,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -329,7 +329,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -354,7 +354,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -385,7 +385,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -483,7 +483,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {

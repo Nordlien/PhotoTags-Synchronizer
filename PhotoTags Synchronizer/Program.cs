@@ -97,7 +97,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show(ex.Message, "Was not able to load VLC player", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Was not able to load VLC player", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 return;
             }
             Application.Run(mainForm);

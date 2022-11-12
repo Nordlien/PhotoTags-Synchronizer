@@ -346,14 +346,14 @@ namespace PhotoTagsSynchronizer
                     KryptonMessageBox.Show(
                         (GlobalData.isRunningWinSmode ? "Your Windows is running Windows 10 S / 11 S mode.\r\n" +
                         "The Chromium Web Browser doesn't support this mode.\r\n\r\n" : "") +
-                        ex.Message, "Syntax Error", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                        ex.Message, "Syntax Error", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 }
             }
             catch (Exception ex)
             {
                 //Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -455,7 +455,7 @@ namespace PhotoTagsSynchronizer
             {
                 //Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, MessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
