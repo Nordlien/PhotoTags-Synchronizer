@@ -172,7 +172,7 @@
     <PackageReference Include="NLog">
       <Version>5.0.5</Version>
     </PackageReference>
-    <PackageReference Include="Nominatim.API" Version="2.0.0" />
+    <PackageReference Include="Nominatim.API" Version="1.6.1" />
     <PackageReference Include="NReco.VideoConverter">
       <Version>1.1.4</Version>
     </PackageReference>
