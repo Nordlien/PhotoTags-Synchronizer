@@ -167,12 +167,12 @@
     <PackageReference Include="Krypton.Ribbon" Version="65.22.6.152" />
     <PackageReference Include="Krypton.Toolkit" Version="65.22.6.152" />
     <PackageReference Include="Krypton.Workspace" Version="65.22.6.152" />
-    <PackageReference Include="LibVLCSharp.WinForms" Version="3.6.6" />
+    <PackageReference Include="LibVLCSharp.WinForms" Version="3.6.7" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="NLog">
-      <Version>5.0.1</Version>
+      <Version>5.0.5</Version>
     </PackageReference>
-    <PackageReference Include="Nominatim.API" Version="1.6.1" />
+    <PackageReference Include="Nominatim.API" Version="2.0.0" />
     <PackageReference Include="NReco.VideoConverter">
       <Version>1.1.4</Version>
     </PackageReference>

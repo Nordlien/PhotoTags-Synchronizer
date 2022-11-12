@@ -56,8 +56,8 @@
   
   <ItemGroup>
     <PackageReference Include="GeoTimeZone" Version="4.1.0" />
-    <PackageReference Include="TimeZoneConverter" Version="5.0.0" />
-    <PackageReference Include="TimeZoneNames" Version="5.0.1" />
+    <PackageReference Include="TimeZoneConverter" Version="6.0.1" />
+    <PackageReference Include="TimeZoneNames" Version="6.0.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LocationNames\LocationNames.csproj" />
