@@ -12,6 +12,8 @@ using System.Windows.Forms;
 using WinProps;
 using Microsoft.WindowsAPICodePack.Shell;
 using PropertyKey = WinProps.PropertyKey;
+using ShellThumbs;
+using static System.Windows.Forms.Design.AxImporter;
 
 namespace WindowsProperty
 {
@@ -263,55 +265,71 @@ namespace WindowsProperty
         #region GetThumbnail
         public Image GetThumbnail(string fullFileName)
         {
-            Bitmap image = null;
-            if (File.Exists(fullFileName))
+            try
             {
-                ShellFile shellFile = ShellFile.FromFilePath(fullFileName);
-                try
-                {
-                    shellFile.Thumbnail.FormatOption = ShellThumbnailFormatOption.ThumbnailOnly;
-                    image = shellFile.Thumbnail.ExtraLargeBitmap;
-
-                }
-                catch (Exception ex)
-                {
-                    Logger.Trace("Shell Thumbnail failed " + fullFileName + " " + ex.Message);
-                }
-
-                try
-                {
-                    if (image == null) image = shellFile.Thumbnail.LargeBitmap;
-                }
-                catch (Exception ex)
-                {
-                    Logger.Trace("Shell Thumbnail failed " + fullFileName + " " + ex.Message);
-                }
-
-                try
-                {
-                    if (image == null) image = shellFile.Thumbnail.MediumBitmap;
-                }
-                catch (Exception ex)
-                {
-                    Logger.Trace("Shell Thumbnail failed " + fullFileName + " " + ex.Message);
-                }
-
-                try
-                {
-                    if (image == null) image = shellFile.Thumbnail.SmallBitmap;
-                }
-                catch (Exception ex)
-                {
-                    Logger.Trace("Shell Thumbnail failed " + fullFileName + " " + ex.Message);
-                }
+                ThumbnailOptions options = ThumbnailOptions.BiggerSizeOk | ThumbnailOptions.ThumbnailOnly | ThumbnailOptions.Win8ScaleUp;
+                Bitmap resultBitmap = WindowsThumbnailProvider.GetThumbnail(fullFileName, 256, 256, options);
+                return resultBitmap;
             }
-            else
-            {
-                Logger.Error("File doesn't exist anymore. " + fullFileName);
+            catch 
+            { 
+                return null;
             }
-
-            return image;
         }
+
+        //Was need to remove this, because this randomly crash running as Windows App, but not as an normal Win32 applications
+        //public Image GetThumbnail(string fullFileName)
+        //{
+        //    Bitmap image = null;
+        //    if (File.Exists(fullFileName))
+        //    {
+        //        ShellFile shellFile = ShellFile.FromFilePath(fullFileName);
+        //        try
+        //        {
+        //            shellFile.Thumbnail.FormatOption = ShellThumbnailFormatOption.ThumbnailOnly;
+        //            image = shellFile.Thumbnail.ExtraLargeBitmap;
+
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            Logger.Trace("Shell Thumbnail failed " + fullFileName + " " + ex.Message);
+        //        }
+
+        //        try
+        //        {
+        //            if (image == null) image = shellFile.Thumbnail.LargeBitmap;
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            Logger.Trace("Shell Thumbnail failed " + fullFileName + " " + ex.Message);
+        //        }
+
+        //        try
+        //        {
+        //            if (image == null) image = shellFile.Thumbnail.MediumBitmap;
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            Logger.Trace("Shell Thumbnail failed " + fullFileName + " " + ex.Message);
+        //        }
+
+        //        //---- Was need to remove this, because this randomly crash on this area running as Windows App, but not as an normal Win32 applications
+        //        //try
+        //        //{
+        //        //    if (image == null) image = shellFile.Thumbnail.SmallBitmap;
+        //        //}
+        //        //catch (Exception ex)
+        //        //{
+        //        //    Logger.Trace("Shell Thumbnail failed " + fullFileName + " " + ex.Message);
+        //        //}
+        //    }
+        //    else
+        //    {
+        //        Logger.Error("File doesn't exist anymore. " + fullFileName);
+        //    }
+
+        //    return image;
+        //}
         #endregion
     }
 

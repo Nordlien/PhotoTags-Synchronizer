@@ -4,6 +4,7 @@
     <OutputType>Library</OutputType>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <Platforms>AnyCPU;x86;x64</Platforms>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <!--BaseOutputPath>..\Bin\</BaseOutputPath-->
     <!--BaseIntermediateOutputPath>..\Obj\</BaseIntermediateOutputPath-->
   </PropertyGroup>

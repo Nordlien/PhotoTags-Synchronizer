@@ -150,22 +150,20 @@ namespace PhotoTagsSynchronizer
                 {
                     if (ImageAndMovieFileExtentionsUtility.IsVideoFormat(fullFilePath))
                     {
-                        Logger.Error("DEBUG:  in - ImageAndMovieFileExtentionsUtility.GetVideoThumbnail");
+                        //--- Get Video Thumbnail - Alternative 1
+                        var ffMpeg = new NReco.VideoConverter.FFMpegConverter();
+                        using (Stream memoryStream = new MemoryStream())
+                        {
+                            ffMpeg.GetVideoThumbnail(fullFilePath, memoryStream);
 
-                        if (!FileHandler.IsFileLockedForRead(fullFilePath, 100))
-                            image = ImageAndMovieFileExtentionsUtility.GetVideoThumbnail(fullFilePath);
+                            if (memoryStream.Length > 0) image = Image.FromStream(memoryStream);
+                            else image = null;
+                        }
 
-                        Logger.Error("DEBUG: out - ImageAndMovieFileExtentionsUtility.GetVideoThumbnail");
-                        //var ffMpeg = new NReco.VideoConverter.FFMpegConverter();
-                        //using (Stream memoryStream = new MemoryStream())
-                        //{
-                        //    ffMpeg.GetVideoThumbnail(fullFilePath, memoryStream);
+                        //--- Get Video Thumbnail - Alternative 2
+                        //if (!FileHandler.IsFileLockedForRead(fullFilePath, 100))
+                        //    image = ImageAndMovieFileExtentionsUtility.GetVideoThumbnail(fullFilePath);
 
-                        //    if (memoryStream.Length > 100) image = Image.FromStream(memoryStream);
-                        //    else if (memoryStream.Length < 1000) 
-                        //        image = null;
-                        //    else image = null;
-                        //}
                     }
                     else if (ImageAndMovieFileExtentionsUtility.IsImageFormat(fullFilePath))
                     {
@@ -188,6 +186,7 @@ namespace PhotoTagsSynchronizer
         #endregion 
 
         #region Thumbnail - LoadMediaCoverArtThumbnail
+        static object windowsPropertyWindowsPropertyReaderLock = new object();
         private Image LoadMediaCoverArtThumbnail(string fullFilePath, Size maxSize, FileStatus fileStatus)
         {
             Image image = null;
@@ -195,19 +194,20 @@ namespace PhotoTagsSynchronizer
             {
                 if (ImageAndMovieFileExtentionsUtility.IsVideoFormat(fullFilePath))
                 {
-                    Logger.Error("DEBUG:  in - LoadMediaCoverArtThumbnail");
-
                     #region Load Video Thumbnail Poster
-                    Logger.Error("DEBUG:  in - LoadMediaCoverArtThumbnail.WindowsPropertyReader.GetThumbnail");
-                    WindowsProperty.WindowsPropertyReader windowsPropertyReader = new WindowsProperty.WindowsPropertyReader();                    
-                    image = windowsPropertyReader.GetThumbnail(fullFilePath);
-                    Logger.Error("DEBUG: out - LoadMediaCoverArtThumbnail.WindowsPropertyReader.GetThumbnail");
+                    lock (windowsPropertyWindowsPropertyReaderLock)
+                    {
+                        try
+                        {
+                            WindowsProperty.WindowsPropertyReader windowsPropertyReader = new WindowsProperty.WindowsPropertyReader();
+                            image = windowsPropertyReader.GetThumbnail(fullFilePath);
+                        }
+                        catch { }
+                    }
 
                     //DO NOT READ FROM FILE - WHEN NOT ALLOWED TO READ CLOUD FILES
                     if (image == null && !fileStatus.IsInCloudOrVirtualOrOffline) image = LoadMediaCoverArtPosterWithCache(fullFilePath);
                     #endregion
-
-                    Logger.Error("DEBUG: out - LoadMediaCoverArtThumbnail");
                 }
                 else if (ImageAndMovieFileExtentionsUtility.IsImageFormat(fullFilePath))
                 {
