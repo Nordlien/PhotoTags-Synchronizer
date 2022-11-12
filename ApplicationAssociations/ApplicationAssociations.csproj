@@ -68,9 +68,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="6.0.7" />
+    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="7.0.0" />
     <PackageReference Include="Microsoft.WindowsAPICodePack.Shell" Version="1.1.0" />
-    <PackageReference Include="NLog" Version="5.0.1" />
+    <PackageReference Include="NLog" Version="5.0.5" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PhotoTagsCommonComponets\PhotoTagsCommonComponets.csproj" />
