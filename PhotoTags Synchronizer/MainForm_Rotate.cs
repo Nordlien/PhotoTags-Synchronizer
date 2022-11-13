@@ -97,7 +97,7 @@ namespace PhotoTagsSynchronizer
 
                 if (coverted) //Replicate metadata and save back to media file
                 {
-                    Metadata metadataOriginal = new Metadata(MetadataBrokerType.Empty);
+                    Metadata metadataOriginal = new Metadata(metadata);
 
                     if (metadata != null)
                     {
