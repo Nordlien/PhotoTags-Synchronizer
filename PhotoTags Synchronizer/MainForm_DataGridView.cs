@@ -1976,6 +1976,9 @@ namespace PhotoTagsSynchronizer
         #region DataGridView - Rename Header - Database
         private void Database_Rename(string oldDirectory, string oldFilename, string newDirectory, string newFilename)
         {
+            Logger.Trace("Rename  in: " + oldDirectory + "\\" + oldFilename + (System.IO.File.Exists(System.IO.Path.Combine(oldDirectory, oldFilename)) ? "(exitst)" : " ") +
+                " -> " + newDirectory + "\\" + newFilename + " " + (System.IO.File.Exists(System.IO.Path.Combine(newDirectory , newFilename)) ? "(exitst)" : "(not exist)"));
+
             databaseAndCacheThumbnailPoster.Move(oldDirectory, oldFilename, newDirectory, newFilename);
             if (!databaseAndCacheMetadataExiftool.Move(oldDirectory, oldFilename, newDirectory, newFilename))
             {
@@ -1983,6 +1986,8 @@ namespace PhotoTagsSynchronizer
                 databaseAndCacheThumbnailPoster.Move(oldDirectory, oldFilename, newDirectory, newFilename);
                 databaseAndCacheMetadataExiftool.Move(oldDirectory, oldFilename, newDirectory, newFilename);
             }
+            Logger.Trace("Rename out: " + oldDirectory + "\\" + oldFilename + (System.IO.File.Exists(System.IO.Path.Combine(oldDirectory, oldFilename)) ? "(exitst)" : "(not exist)") +
+                " -> " + newDirectory + "\\" + newFilename + " " + (System.IO.File.Exists(System.IO.Path.Combine(newDirectory, newFilename)) ? "(exitst)" : "(not exist)"));
         }
         #endregion
 

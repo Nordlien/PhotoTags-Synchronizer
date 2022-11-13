@@ -2641,6 +2641,13 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region Metadata Write - Reset
+        private void kryptonButtonMetadataReset_Click(object sender, EventArgs e)
+        {
+            fastColoredTextBoxMetadataWriteTags.Text = Properties.Settings.Default.WriteMetadataTagsReset;
+        }
+        #endregion
+
         #region Metadata Write - Insert Variable from after Selected in Combobox
         private void comboBoxMetadataWriteStandardTags_SelectionChangeCommitted(object sender, EventArgs e)
         {
@@ -3568,10 +3575,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        private void kryptonButtonMetadataReset_Click(object sender, EventArgs e)
-        {
-            fastColoredTextBoxMetadataWriteTags.Text = Properties.Settings.Default.WriteMetadataTagsReset;
-        }
+        
     }
 }
 

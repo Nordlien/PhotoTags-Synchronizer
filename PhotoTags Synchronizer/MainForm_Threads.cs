@@ -1919,6 +1919,13 @@ namespace PhotoTagsSynchronizer
                 lock (exiftoolSave_QueueSaveUsingExiftool_MetadataUpdatedByUserLock) exiftoolSave_QueueSaveUsingExiftool_MetadataToSaveUpdatedByUser.Add(metadataToSave);
                 if (metadataOriginal != null && metadataOriginal.FileFullPath == null)
                 {
+                    Logger.Trace("AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock in: " + 
+                        metadataToSave.FileFullPath + (System.IO.File.Exists(metadataToSave.FileFullPath) ? "(exitst)" : " ") +
+                        " " +
+                        (metadataOriginal == null ? "metadataOriginal == null " : "") +
+                        (metadataOriginal?.FileName == null ? "metadataOriginal?.FileName == null " : "")
+                        );
+
                     metadataOriginal.FileName = metadataToSave.FileName;
                     metadataOriginal.FileDirectory = metadataToSave.FileDirectory;
                     metadataOriginal.FileDateModified = metadataToSave.FileDateModified;
