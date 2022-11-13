@@ -6936,7 +6936,7 @@ namespace PhotoTagsSynchronizer
                         string oldFullFilename = metadataToSave.FileFullPath;
                         string newDirectory = metadataToSave.FileDirectory;
                         string newFilename = oldFilename;
-                        string newFullFilename = oldFullFilename; 
+                        string newFullFilename; 
                         do
                         {
                             newFilename = Path.GetFileNameWithoutExtension(newFilename) + filenamePostfix + Path.GetExtension(newFilename);
@@ -7011,6 +7011,9 @@ namespace PhotoTagsSynchronizer
                             changesFound = true;
 
                             MicrosoftLocationHack(ref metadataToSave, metadataListOriginalExiftool[index], Properties.Settings.Default.MicosoftOneDriveLocationHackUse, Properties.Settings.Default.MicosoftOneDriveLocationHackPostfix);
+
+                            Logger.Trace("SaveDataGridViewMetadata: ToSave: " + metadataToSave.FileFullPath + " " + (System.IO.File.Exists(metadataToSave.FileFullPath) ? "(exitst)" : " ") +
+                                " -> " + metadataListOriginalExiftool[index].FileFullPath + " " + (System.IO.File.Exists(metadataListOriginalExiftool[index].FileFullPath) ? "(exitst)" : " "));
                             DataGridView_Populate_CompatibilityCheckedMetadataToSave(metadataToSave, FileEntryVersion.MetadataToSave);
                             AddQueueSaveUsingExiftoolMetadataUpdatedByUserLock(metadataToSave, metadataListOriginalExiftool[index]);
                         }
