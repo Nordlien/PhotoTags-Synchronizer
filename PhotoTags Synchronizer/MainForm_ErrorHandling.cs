@@ -1,22 +1,11 @@
-﻿using DataGridViewGeneric;
-using Exiftool;
-using FileDateTime;
+﻿using Exiftool;
 using FileHandeling;
 using Krypton.Toolkit;
 using Manina.Windows.Forms;
-using MetadataLibrary;
 using NLog;
 using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Diagnostics;
-using System.Drawing;
 using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Thumbnails;
-using static Manina.Windows.Forms.ImageListView;
 
 namespace PhotoTagsSynchronizer
 {
