@@ -286,78 +286,195 @@ namespace PhotoTagsSynchronizer
 
         public void Init()
         {
-            DialogResult = DialogResult.Cancel;
+            try
+            {
+                DialogResult = DialogResult.Cancel;
 
-            isPopulation = true;
-            PopulateApplication();
+                isPopulation = true;
 
-            //Metadata Filename Date formats
-            fastColoredTextBoxConfigFilenameDateFormats.Text = Properties.Settings.Default.RenameDateFormats;
-
-            //Metadata Read
-            PopulateMetadataReadToolStripMenu();
-            CopyMetadataReadPrioity(MetadataReadPrioity.MetadataPrioityDictionary, metadataPrioityDictionaryCopy);
-            PopulateMetadataRead(dataGridViewMetadataReadPriority);
-
-            //WebScraping
-            numericUpDownWaitEventPageLoadedTimeout.Value = Properties.Settings.Default.WaitEventPageLoadedTimeout;
-            numericUpDownWaitEventPageStartLoadingTimeout.Value = Properties.Settings.Default.WaitEventPageStartLoadingTimeout;
-            //textBox.Text = Properties.Settings.Default.WebScraperScript;
-            textBoxWebScrapingStartPages.Text = Properties.Settings.Default.WebScraperStartPages;
-            numericUpDownWebScrapingDelayInPageScriptToRun.Value = Properties.Settings.Default.WebScrapingDelayInPageScriptToRun;
-            numericUpDownWebScrapingDelayOurScriptToRun.Value = Properties.Settings.Default.WebScrapingDelayOurScriptToRun;
-            numericUpDownWebScrapingPageDownCount.Value = Properties.Settings.Default.WebScrapingPageDownCount;
-            numericUpDownWebScrapingRetry.Value = Properties.Settings.Default.WebScrapingRetry;
-            numericUpDownJavaScriptExecuteTimeout.Value = Properties.Settings.Default.JavaScriptExecuteTimeout;
-            kryptonTextBoxWebScraperSearchTagUrlPrefix.Text = Properties.Settings.Default.WebScraperSearchTagUrlPrefix;
-
-            //Camera Owner 
-            PopulateMetadataCameraOwner(dataGridViewCameraOwner);
-
-            //Location Names
-            PopulateMetadataLocationNames(dataGridViewLocationNames);
-            isSettingDefaultComboxValuesZoomLevel = true;
-            comboBoxMapZoomLevel.SelectedIndex = Properties.Settings.Default.SettingLocationZoomLevel;
-            isSettingDefaultComboxValuesZoomLevel = false;
-
-            //AutoCorrect
-            DataGridViewHandler dataGridViewHandler = new DataGridViewHandler(dataGridViewAutoKeywords, (KryptonPalette)kryptonManager1.GlobalPalette, "AutoKeywords", "AutoKeywords", DataGridViewSize.ConfigSize, allowUserToAddRow: true);
-            autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
-            PopulateAutoCorrectPoperties();
+                try
+                {
+                    kryptonComboBoxLogLogLevel.Text = Properties.Settings.Default.LogLevel;
+                }
+                catch (Exception ex)
+                {
+                    KryptonMessageBox.Show("Failed to load config.\r\n\r\n" + ex.Message, "Failed to load config", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                }
 
 
-            //AutoKeywords
-            LoadAutoKeywords();
+                try
+                {
+                    PopulateApplication();
+                }
+                catch (Exception ex)
+                {
+                    KryptonMessageBox.Show("Failed to load config.\r\n\r\n" + ex.Message, "Failed to load config", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                }
 
-            //Metadata Write
-            fastColoredTextBoxHandlerKeywordAdd = new FastColoredTextBoxHandler(fastColoredTextBoxMetadataWriteKeywordAdd, true, MetadataReadPrioity.MetadataPrioityDictionary);
-            fastColoredTextBoxHandlerKeywordWriteTags = new FastColoredTextBoxHandler(fastColoredTextBoxMetadataWriteTags, false, MetadataReadPrioity.MetadataPrioityDictionary);
+                //Metadata Filename Date formats
+                try
+                {
+                    fastColoredTextBoxConfigFilenameDateFormats.Text = Properties.Settings.Default.RenameDateFormats;
+                }
+                catch (Exception ex)
+                {
+                    KryptonMessageBox.Show("Failed to load config.\r\n\r\n" + ex.Message, "Failed to load config", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                }
 
-            //Convert and Merge
-            PopulateConvertAndMerge();
+                //Metadata Read
 
-            PopulateMetadataWritePoperties();
-            isPopulation = false;
+                try
+                {
+                    PopulateMetadataReadToolStripMenu();
+                    CopyMetadataReadPrioity(MetadataReadPrioity.MetadataPrioityDictionary, metadataPrioityDictionaryCopy);
+                    PopulateMetadataRead(dataGridViewMetadataReadPriority);
+                }
+                catch (Exception ex)
+                {
+                    KryptonMessageBox.Show("Failed to load config.\r\n\r\n" + ex.Message, "Failed to load config", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                }
 
-            //Chromecast
+                //WebScraping
+                try
+                {
+                    numericUpDownWaitEventPageLoadedTimeout.Value = Properties.Settings.Default.WaitEventPageLoadedTimeout;
+                    numericUpDownWaitEventPageStartLoadingTimeout.Value = Properties.Settings.Default.WaitEventPageStartLoadingTimeout;
+                    //textBox.Text = Properties.Settings.Default.WebScraperScript;
+                    textBoxWebScrapingStartPages.Text = Properties.Settings.Default.WebScraperStartPages;
+                    numericUpDownWebScrapingDelayInPageScriptToRun.Value = Properties.Settings.Default.WebScrapingDelayInPageScriptToRun;
+                    numericUpDownWebScrapingDelayOurScriptToRun.Value = Properties.Settings.Default.WebScrapingDelayOurScriptToRun;
+                    numericUpDownWebScrapingPageDownCount.Value = Properties.Settings.Default.WebScrapingPageDownCount;
+                    numericUpDownWebScrapingRetry.Value = Properties.Settings.Default.WebScrapingRetry;
+                    numericUpDownJavaScriptExecuteTimeout.Value = Properties.Settings.Default.JavaScriptExecuteTimeout;
+                    kryptonTextBoxWebScraperSearchTagUrlPrefix.Text = Properties.Settings.Default.WebScraperSearchTagUrlPrefix;
+                }
+                catch (Exception ex)
+                {
+                    KryptonMessageBox.Show("Failed to load config.\r\n\r\n" + ex.Message, "Failed to load config", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                }
 
-            SelectBestMatchCombobox(comboBoxChromecastImageFormat, Properties.Settings.Default.ChromecastImageOutputFormat); //E.g. .JPEG
-            SelectBestMatchComboboxReselution(comboBoxChromecastImageResolution, Properties.Settings.Default.ChromecastImageOutputResolutionWidth, Properties.Settings.Default.ChromecastImageOutputResolutionHeight);
 
-            SelectBestMatchCombobox(comboBoxChromecastVideoTransporter, Properties.Settings.Default.ChromecastTransporter);
+                //Camera Owner 
+                try
+                {
+                    PopulateMetadataCameraOwner(dataGridViewCameraOwner);
+                }
+                catch (Exception ex)
+                {
+                    KryptonMessageBox.Show("Failed to load config.\r\n\r\n" + ex.Message, "Failed to load config", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                }
 
-            comboBoxChromecastAgruments.Text = Properties.Settings.Default.ChromecastAgruments;
-            comboBoxChromecastUrl.Text = Properties.Settings.Default.ChromecastUrl;
-            comboBoxChromecastAudioCodec.Text = Properties.Settings.Default.ChromecastAudioCodec;
-            comboBoxChromecastVideoCodec.Text = Properties.Settings.Default.ChromecastVideoCodec;
 
-            kryptonTextBoxCEFWebSettingsUserAgent.Text = Properties.Settings.Default.BrowserSettingsUserAgent;
-            kryptonCheckBoxCEFWebSettingsDisableGPU.Enabled = Properties.Settings.Default.BrowserSettingsDisableGPU;
-            kryptonCheckBoxCEFWebSettingsEnableMediaStream.Enabled = Properties.Settings.Default.BrowserSettingsEnableMediaStream;
-            kryptonCheckBoxCEFWebSettingsJavaScript.Enabled = Properties.Settings.Default.BrowserSettingsJavaScript;
-            kryptonCheckBoxCEFWebSettingsWebGL.Enabled = Properties.Settings.Default.BrowserSettingsEnableMediaStream;
-            //Show log
-            ShowLogs();
+                //Location Names
+                try
+                {
+                    PopulateMetadataLocationNames(dataGridViewLocationNames);
+                    isSettingDefaultComboxValuesZoomLevel = true;
+                    comboBoxMapZoomLevel.SelectedIndex = Properties.Settings.Default.SettingLocationZoomLevel;
+                    isSettingDefaultComboxValuesZoomLevel = false;
+                }
+                catch (Exception ex)
+                {
+                    KryptonMessageBox.Show("Failed to load config.\r\n\r\n" + ex.Message, "Failed to load config", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                }
+
+
+                //AutoCorrect
+                try
+                {
+                    DataGridViewHandler dataGridViewHandler = new DataGridViewHandler(dataGridViewAutoKeywords, (KryptonPalette)kryptonManager1.GlobalPalette, "AutoKeywords", "AutoKeywords", DataGridViewSize.ConfigSize, allowUserToAddRow: true);
+                    autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
+                    PopulateAutoCorrectPoperties();
+                }
+                catch (Exception ex)
+                {
+                    KryptonMessageBox.Show("Failed to load config.\r\n\r\n" + ex.Message, "Failed to load config", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                }
+
+
+
+                //AutoKeywords
+                try
+                {
+                    LoadAutoKeywords();
+                }
+                catch (Exception ex)
+                {
+                    KryptonMessageBox.Show("Failed to load config.\r\n\r\n" + ex.Message, "Failed to load config", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                }
+
+
+                //Metadata Write
+                try
+                {
+                    fastColoredTextBoxHandlerKeywordAdd = new FastColoredTextBoxHandler(fastColoredTextBoxMetadataWriteKeywordAdd, true, MetadataReadPrioity.MetadataPrioityDictionary);
+                    fastColoredTextBoxHandlerKeywordWriteTags = new FastColoredTextBoxHandler(fastColoredTextBoxMetadataWriteTags, false, MetadataReadPrioity.MetadataPrioityDictionary);
+
+                }
+                catch (Exception ex)
+                {
+                    KryptonMessageBox.Show("Failed to load config.\r\n\r\n" + ex.Message, "Failed to load config", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                }
+
+                //Convert and Merge
+                try
+                {
+                    PopulateConvertAndMerge();
+                }
+                catch (Exception ex)
+                {
+                    KryptonMessageBox.Show("Failed to load config.\r\n\r\n" + ex.Message, "Failed to load config", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                }
+
+                try
+                {
+                    PopulateMetadataWritePoperties();
+                }
+                catch (Exception ex)
+                {
+                    KryptonMessageBox.Show("Failed to load config.\r\n\r\n" + ex.Message, "Failed to load config", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                }
+
+                //Chromecast
+                try
+                {
+                    SelectBestMatchCombobox(comboBoxChromecastImageFormat, Properties.Settings.Default.ChromecastImageOutputFormat); //E.g. .JPEG
+                    SelectBestMatchComboboxReselution(comboBoxChromecastImageResolution, Properties.Settings.Default.ChromecastImageOutputResolutionWidth, Properties.Settings.Default.ChromecastImageOutputResolutionHeight);
+
+                    SelectBestMatchCombobox(comboBoxChromecastVideoTransporter, Properties.Settings.Default.ChromecastTransporter);
+
+                    comboBoxChromecastAgruments.Text = Properties.Settings.Default.ChromecastAgruments;
+                    comboBoxChromecastUrl.Text = Properties.Settings.Default.ChromecastUrl;
+                    comboBoxChromecastAudioCodec.Text = Properties.Settings.Default.ChromecastAudioCodec;
+                    comboBoxChromecastVideoCodec.Text = Properties.Settings.Default.ChromecastVideoCodec;
+
+                    kryptonTextBoxCEFWebSettingsUserAgent.Text = Properties.Settings.Default.BrowserSettingsUserAgent;
+                    kryptonCheckBoxCEFWebSettingsDisableGPU.Enabled = Properties.Settings.Default.BrowserSettingsDisableGPU;
+                    kryptonCheckBoxCEFWebSettingsEnableMediaStream.Enabled = Properties.Settings.Default.BrowserSettingsEnableMediaStream;
+                    kryptonCheckBoxCEFWebSettingsJavaScript.Enabled = Properties.Settings.Default.BrowserSettingsJavaScript;
+                    kryptonCheckBoxCEFWebSettingsWebGL.Enabled = Properties.Settings.Default.BrowserSettingsEnableMediaStream;
+                }
+                catch (Exception ex)
+                {
+                    KryptonMessageBox.Show("Failed to load config.\r\n\r\n" + ex.Message, "Failed to load config", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                }
+
+                try
+                {
+                    //Show log
+                    ShowLogs();
+                }
+                catch (Exception ex)
+                {
+                    KryptonMessageBox.Show("Failed to load config.\r\n\r\n" + ex.Message, "Failed to load config", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                }
+
+                isPopulation = false;
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show("Failed to load config.\r\n\r\n" + ex.Message, "Failed to load config", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+            }
         }
         #endregion 
 
@@ -374,6 +491,9 @@ namespace PhotoTagsSynchronizer
             try
             {
                 SavePaletteSettings();
+
+                //Log Level
+                Properties.Settings.Default.LogLevel = kryptonComboBoxLogLogLevel.Text;
 
                 //Application
                 Properties.Settings.Default.ApplicationThumbnail = ThumbnailSizes[comboBoxApplicationThumbnailSizes.SelectedIndex];
@@ -594,6 +714,8 @@ namespace PhotoTagsSynchronizer
         #region PopulateApplication()
         public void PopulateApplication()
         {
+
+            //Application
             for (int i = 0; i < ThumbnailSizes.Length; i++)
             {
                 comboBoxApplicationThumbnailSizes.Items.Add(ThumbnailSizes[i].ToString());
@@ -3445,6 +3567,11 @@ namespace PhotoTagsSynchronizer
             SetWriteXtraAtomEnabled(checkBoxWriteXtraAtomOnMediaFile.Checked);
         }
         #endregion
+
+        private void kryptonButtonMetadataReset_Click(object sender, EventArgs e)
+        {
+            fastColoredTextBoxMetadataWriteTags.Text = Properties.Settings.Default.WriteMetadataTagsReset;
+        }
     }
 }
 

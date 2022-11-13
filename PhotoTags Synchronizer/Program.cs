@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Security.Permissions;
 using System.Threading;
 using System.Windows.Forms;
@@ -8,12 +9,55 @@ using CefSharp;
 using CefSharp.WinForms;
 using FileHandeling;
 using Krypton.Toolkit;
+using NLog;
 
 namespace PhotoTagsSynchronizer
 {
     static class Program
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
+        private static void SetNlogLogLevel(LogLevel newMinLoglevel)
+        {
+            // Uncomment these to enable NLog logging. NLog exceptions are swallowed by default.
+            ////NLog.Common.InternalLogger.LogFile = @"C:\Temp\nlog.debug.log";
+            ////NLog.Common.InternalLogger.LogLevel = LogLevel.Debug;
+
+            if (newMinLoglevel == LogLevel.Off)
+            {
+                LogManager.SuspendLogging();
+            }
+            else
+            {
+                if (!LogManager.IsLoggingEnabled()) LogManager.ResumeLogging();
+
+                foreach (var rule in LogManager.Configuration.LoggingRules)
+                {
+                    // Iterate over all levels up to and including the target, (re)enabling them.
+
+                    bool targetFound = false;
+                    foreach (var target in rule.Targets)
+                    {
+                        if (target.Name == "logfile") targetFound = true;
+                    }
+                    if (targetFound)
+                    {
+                        foreach (var logLevel in NLog.LogLevel.AllLevels)
+                        {
+                            if (logLevel.Ordinal >= newMinLoglevel.Ordinal)
+                            {
+                                rule.EnableLoggingForLevel(logLevel);
+                            } else
+                            {
+                                rule.DisableLoggingForLevel(logLevel);
+                            }
+                        }
+                    }
+                }
+            }
+
+            LogManager.ReconfigExistingLoggers();
+        }
 
         /// <summary>
         /// The main entry point for the application.
@@ -44,6 +88,33 @@ namespace PhotoTagsSynchronizer
 
                 try
                 {
+                    switch (Properties.Settings.Default.LogLevel.ToUpper())
+                    {
+                        case "OFF":
+                            SetNlogLogLevel(LogLevel.Off);
+                            break;
+                        case "TRACE":
+                            SetNlogLogLevel(LogLevel.Trace);
+                            break;
+                        case "DEBUG":
+                            SetNlogLogLevel(LogLevel.Debug);
+                            break;
+                        case "INFO":
+                            SetNlogLogLevel(LogLevel.Info);
+                            break;
+                        case "WARN":
+                            SetNlogLogLevel(LogLevel.Warn);
+                            break;
+                        case "ERROR":
+                            SetNlogLogLevel(LogLevel.Error);
+                            break;
+                        case "FATAL":
+                            SetNlogLogLevel(LogLevel.Fatal);
+                            break;
+                    }
+
+                    if (string.IsNullOrEmpty(Properties.Settings.Default.WriteMetadataTags)) Properties.Settings.Default.WriteMetadataTags = Properties.Settings.Default.WriteMetadataTagsReset;
+
                     FormSplash.UpdateStatus("Initialize ChromiumWebBrowser - 1/4..."); //2 
                     CefSharpSettings.SubprocessExitIfParentProcessClosed = true;
 
