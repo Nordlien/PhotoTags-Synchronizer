@@ -26,6 +26,7 @@ using Krypton.Navigator;
 using FileDateTime;
 using ColumnNamesAndWidth;
 using System.IO;
+using NLog;
 
 namespace PhotoTagsSynchronizer
 {
@@ -1222,6 +1223,101 @@ namespace PhotoTagsSynchronizer
         private void kryptonRibbonGroupButtonToolsHelpUserGuide_Click(object sender, EventArgs e)
         {
             ApplicationAssociations.ApplicationActivation.OpenUserGuide();
+        }
+
+
+        private static void SetNlogLogLevel(NLog.LogLevel newMinLoglevel)
+        {
+            // Uncomment these to enable NLog logging. NLog exceptions are swallowed by default.
+            ////NLog.Common.InternalLogger.LogFile = @"C:\Temp\nlog.debug.log";
+            ////NLog.Common.InternalLogger.LogLevel = LogLevel.Debug;
+
+            if (newMinLoglevel == NLog.LogLevel.Off)
+            {
+                NLog.LogManager.SuspendLogging();
+            }
+            else
+            {
+                if (!NLog.LogManager.IsLoggingEnabled()) NLog.LogManager.ResumeLogging();
+
+                foreach (var rule in NLog.LogManager.Configuration.LoggingRules)
+                {
+                    // Iterate over all levels up to and including the target, (re)enabling them.
+
+                    bool targetFound = false;
+                    foreach (var target in rule.Targets)
+                    {
+                        if (target.Name == "logfile") targetFound = true;
+                    }
+                    if (targetFound)
+                    {
+                        foreach (var logLevel in NLog.LogLevel.AllLevels)
+                        {
+                            if (logLevel.Ordinal >= newMinLoglevel.Ordinal)
+                            {
+                                rule.EnableLoggingForLevel(logLevel);
+                            }
+                            else
+                            {
+                                rule.DisableLoggingForLevel(logLevel);
+                            }
+                        }
+                    }
+                }
+            }
+
+            LogManager.ReconfigExistingLoggers();
+        }
+
+        public static void UpdateSettings()
+        {
+            #region Setting - LogLevel
+            try
+            {
+                switch (Properties.Settings.Default.LogLevel.ToUpper())
+                {
+                    case "OFF":
+                        SetNlogLogLevel(NLog.LogLevel.Off);
+                        break;
+                    case "TRACE":
+                        SetNlogLogLevel(NLog.LogLevel.Trace);
+                        break;
+                    case "DEBUG":
+                        SetNlogLogLevel(NLog.LogLevel.Debug);
+                        break;
+                    case "INFO":
+                        SetNlogLogLevel(NLog.LogLevel.Info);
+                        break;
+                    case "WARN":
+                        SetNlogLogLevel(NLog.LogLevel.Warn);
+                        break;
+                    case "ERROR":
+                        SetNlogLogLevel(NLog.LogLevel.Error);
+                        break;
+                    case "FATAL":
+                        SetNlogLogLevel(NLog.LogLevel.Fatal);
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "UpdateSettings failed. ");
+            }
+            #endregion
+
+            #region WriteMetadataTags
+            try
+            {
+                if (string.IsNullOrEmpty(Properties.Settings.Default.WriteMetadataTags.Trim()))
+                {
+                    Properties.Settings.Default.WriteMetadataTags = Properties.Settings.Default.WriteMetadataTagsReset;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "UpdateSettings failed. ");
+            }
+            #endregion
         }
     }
 }

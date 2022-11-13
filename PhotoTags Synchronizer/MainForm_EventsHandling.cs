@@ -11060,7 +11060,7 @@ namespace PhotoTagsSynchronizer
                     }
                     if (config.ShowDialog() != DialogResult.Cancel)
                     {
-                        
+                        UpdateSettings();
 
                         //Thumbnail
                         ThumbnailSaveSize = Properties.Settings.Default.ApplicationThumbnail;

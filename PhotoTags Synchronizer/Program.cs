@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -16,48 +17,8 @@ namespace PhotoTagsSynchronizer
     static class Program
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
-
-        private static void SetNlogLogLevel(LogLevel newMinLoglevel)
-        {
-            // Uncomment these to enable NLog logging. NLog exceptions are swallowed by default.
-            ////NLog.Common.InternalLogger.LogFile = @"C:\Temp\nlog.debug.log";
-            ////NLog.Common.InternalLogger.LogLevel = LogLevel.Debug;
-
-            if (newMinLoglevel == LogLevel.Off)
-            {
-                LogManager.SuspendLogging();
-            }
-            else
-            {
-                if (!LogManager.IsLoggingEnabled()) LogManager.ResumeLogging();
-
-                foreach (var rule in LogManager.Configuration.LoggingRules)
-                {
-                    // Iterate over all levels up to and including the target, (re)enabling them.
-
-                    bool targetFound = false;
-                    foreach (var target in rule.Targets)
-                    {
-                        if (target.Name == "logfile") targetFound = true;
-                    }
-                    if (targetFound)
-                    {
-                        foreach (var logLevel in NLog.LogLevel.AllLevels)
-                        {
-                            if (logLevel.Ordinal >= newMinLoglevel.Ordinal)
-                            {
-                                rule.EnableLoggingForLevel(logLevel);
-                            } else
-                            {
-                                rule.DisableLoggingForLevel(logLevel);
-                            }
-                        }
-                    }
-                }
-            }
-
-            LogManager.ReconfigExistingLoggers();
-        }
+        
+        
 
         /// <summary>
         /// The main entry point for the application.
@@ -76,45 +37,23 @@ namespace PhotoTagsSynchronizer
             */
             try
             {
+
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
 
                 FormSplash.ShowSplashScreen("PhotoTags Synchronizer - Loading...", 21, Properties.Settings.Default.CloseWarningWindowsAutomatically, true);
-                FormSplash.UpdateStatus("Initialize DLL files..."); //1 
+                FormSplash.UpdateStatus("Initialize DLL files and load config..."); //1 
+
+                Properties.Settings.Default.SettingsLoaded += Default_SettingsLoaded;
+                Properties.Settings.Default.SettingChanging += Default_SettingChanging;
 
                 //Monitor parent process exit and close subprocesses if parent process exits first
                 //This will at some point in the future becomes the default
 
 
+
                 try
                 {
-                    switch (Properties.Settings.Default.LogLevel.ToUpper())
-                    {
-                        case "OFF":
-                            SetNlogLogLevel(LogLevel.Off);
-                            break;
-                        case "TRACE":
-                            SetNlogLogLevel(LogLevel.Trace);
-                            break;
-                        case "DEBUG":
-                            SetNlogLogLevel(LogLevel.Debug);
-                            break;
-                        case "INFO":
-                            SetNlogLogLevel(LogLevel.Info);
-                            break;
-                        case "WARN":
-                            SetNlogLogLevel(LogLevel.Warn);
-                            break;
-                        case "ERROR":
-                            SetNlogLogLevel(LogLevel.Error);
-                            break;
-                        case "FATAL":
-                            SetNlogLogLevel(LogLevel.Fatal);
-                            break;
-                    }
-
-                    if (string.IsNullOrEmpty(Properties.Settings.Default.WriteMetadataTags)) Properties.Settings.Default.WriteMetadataTags = Properties.Settings.Default.WriteMetadataTagsReset;
-
                     FormSplash.UpdateStatus("Initialize ChromiumWebBrowser - 1/4..."); //2 
                     CefSharpSettings.SubprocessExitIfParentProcessClosed = true;
 
@@ -127,6 +66,7 @@ namespace PhotoTagsSynchronizer
                     {
                         GlobalData.isRunningWinSmode = true;
                     }
+
 
                     if (!GlobalData.isRunningWinSmode)
                     {
@@ -174,8 +114,21 @@ namespace PhotoTagsSynchronizer
             Application.Run(mainForm);
         }
 
+        
+
+        private static void Default_SettingChanging(object sender, SettingChangingEventArgs e)
+        {
+            //UpdateSettings();
+        }
+
+        private static void Default_SettingsLoaded(object sender, SettingsLoadedEventArgs e)
+        {
+            MainForm.UpdateSettings();
+        }
+
         public static MainForm mainForm = null;
 
+        #region Form1_UIThreadException
         // Handle the UI exceptions by showing a dialog box, and asking the user whether or not they wish to abort execution.
         private static void Form1_UIThreadException(object sender, ThreadExceptionEventArgs t)
         {
@@ -209,7 +162,9 @@ namespace PhotoTagsSynchronizer
             }
             catch { }
         }
+        #endregion
 
+        #region CurrentDomain_UnhandledException
         // Handle the UI exceptions by showing a dialog box, and asking the user whether or not they wish to abort execution.
         // NOTE: This exception cannot be kept from terminating the application - it can only log the event, and inform the user about it.
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
@@ -244,7 +199,9 @@ namespace PhotoTagsSynchronizer
                 }
             }
         }
+        #endregion
 
+        #region ShowThreadExceptionDialog
         // Creates the error message and displays it.
         private static DialogResult ShowThreadExceptionDialog(string title, Exception e)
         {
@@ -257,5 +214,6 @@ namespace PhotoTagsSynchronizer
             catch { }
             return MessageBox.Show(errorMsg, title, MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Stop);
         }
+        #endregion
     }
 }
