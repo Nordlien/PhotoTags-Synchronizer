@@ -6947,7 +6947,7 @@ namespace PhotoTagsSynchronizer
 
                         ImageListView_Rename_Invoke(imageListView1, oldFullFilename, newFullFilename);
                         DataGridView_Rename_Invoke(oldFullFilename, newFullFilename);
-                        Database_Rename(oldDirectory, oldFilename, newDirectory, newFullFilename);
+                        Database_Rename(oldDirectory, oldFilename, newDirectory, newFilename);
                     }
                 }
             }
