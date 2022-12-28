@@ -10,6 +10,7 @@ using System.Threading;
 using System.Windows.Forms;
 using Krypton.Toolkit;
 using FileHandeling;
+using ImageAndMovieFileExtentions;
 
 namespace PhotoTagsSynchronizer
 {
@@ -50,27 +51,7 @@ namespace PhotoTagsSynchronizer
                     try
                     {
                         timerSaveProgessRemoveProgress.Start();
-
-                        var ffMpeg = new NReco.VideoConverter.FFMpegConverter();
-                        durationMpegVideoConvertion = new TimeSpan(-1);
-
-                        ffMpeg.ConvertProgress += FfMpeg_ConvertProgress;
-                        ffMpeg.LogReceived += FfMpeg_LogReceived;
-                        switch (rotateDegrees)
-                        {
-                            case 90:
-                                ffMpeg.Invoke("-y -i \"" + fileEntry.FileFullPath + "\" -vf \"transpose=1\" \"" + tempOutputfile + "\"");
-                                break;
-                            case 180:
-                                ffMpeg.Invoke("-y -i \"" + fileEntry.FileFullPath + "\" -vf \"transpose=2,transpose=2\" \"" + tempOutputfile + "\"");
-                                break;
-                            case 270:
-                                ffMpeg.Invoke("-y -i \"" + fileEntry.FileFullPath + "\" -vf \"transpose=2\" \"" + tempOutputfile + "\"");
-                                break;
-                            default:
-                                throw new NotImplementedException();
-                        }
-
+                        coverted =  ImageAndMovieFileExtentionsUtility.RotateVideo(fileEntry.FileFullPath, tempOutputfile, rotateDegrees);
                         coverted = true;
                     }
                     catch (Exception ex)
@@ -170,8 +151,12 @@ namespace PhotoTagsSynchronizer
                         "Can't start rotate of media files yet.", MessageBoxButtons.YesNo, KryptonMessageBoxIcon.Exclamation, showCtrlCopy: true);
 
                 }
-                else if (MessageBox.Show("Rotating will overwrite original images. Are you sure you want to continue?",
-                  "PhotoTagsSynchronizerApplication", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
+                else if (MessageBox.Show(
+                    "You are in progress to start rotate media file(s)\r\n" +
+                    "The rotating process will happend in the background, and may take a while...\r\n\r\n" +
+                    "PS... Rotating will overwrite original media files.\r\n\r\n" +
+                    "Are you sure you want to continue?",
+                    "Rotate?", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
                 {
 
 
@@ -259,101 +244,6 @@ namespace PhotoTagsSynchronizer
                 Logger.Error(ex);
                 KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
-        }
-
-        private void MmpegProgress(string data)
-        {
-            try
-            {
-                if (InvokeRequired)
-                {
-                    this.BeginInvoke(new Action<string>(MmpegProgress), data);
-                    return;
-                }
-
-                stopwatchRemoveSaveProgressbar.Restart();
-
-                //  Duration: 00:00:06.96, start: 0.000000, bitrate: 2446 kb/s
-                if (data.StartsWith("  Duration:") && data.Contains("start:") && data.Contains("bitrate:"))
-                {
-
-
-                    int startIndex = data.IndexOf("Duration:") + "Duration:".Length;
-                    int endIndex = data.IndexOf(", start:");
-                    if (startIndex >= 0 && endIndex > startIndex)
-                    {
-                        string durationString = data.Substring(startIndex, endIndex - startIndex);
-
-                        bool didParase = false;
-                        if (TimeSpan.TryParse(durationString, CultureInfo.InvariantCulture, out TimeSpan result))
-                        {
-                            durationMpegVideoConvertion = result;
-                            didParase = true;
-                        }
-                        else if (TimeSpan.TryParse(durationString, CultureInfo.CurrentCulture, out TimeSpan result2))
-                        {
-                            durationMpegVideoConvertion = result2;
-                            didParase = true;
-                        }
-                        if (didParase)
-                        {
-                            ProgressbarSaveAndConvertProgress(true, 0, 0, (int)durationMpegVideoConvertion.TotalMilliseconds, "ffmmpeg rotate");
-                        }
-                    }
-                }
-
-                //frame=   68 fps= 17 q=29.0 size=       0kB time=00:00:02.35 bitrate=   0.2kbits/s speed=0.601x 
-                if (data.StartsWith("frame=") && data.Contains("fps=") && data.Contains("time=") && data.Contains("bitrate="))
-                {
-                    int startIndex = data.IndexOf("time=") + "time=".Length;
-                    int endIndex = data.IndexOf(" bitrate=");
-
-                    if (startIndex >= 0 && endIndex > startIndex)
-                    {
-                        TimeSpan locationMpegVideoConvertion = new TimeSpan();
-                        string progressTimeString = data.Substring(startIndex, endIndex - startIndex);
-
-                        bool didParase = false;
-                        if (TimeSpan.TryParse(progressTimeString, CultureInfo.InvariantCulture, out TimeSpan result))
-                        {
-                            didParase = true;
-                            locationMpegVideoConvertion = result;
-                        }
-                        else if (TimeSpan.TryParse(progressTimeString, CultureInfo.CurrentCulture, out TimeSpan result2))
-                        {
-                            didParase = true;
-                            locationMpegVideoConvertion = result2;
-                        }
-                        if (didParase)
-                        {
-                            ProgressbarSaveAndConvertProgress(true, (int)durationMpegVideoConvertion.TotalMilliseconds);
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
-            }
-        }
-
-        private void FfMpeg_LogReceived(object sender, NReco.VideoConverter.FFMpegLogEventArgs e)
-        {
-            try
-            {
-                MmpegProgress(e.Data);
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
-            }
-        }
-
-
-        private void FfMpeg_ConvertProgress(object sender, NReco.VideoConverter.ConvertProgressEventArgs e)
-        {
         }
         #endregion
 

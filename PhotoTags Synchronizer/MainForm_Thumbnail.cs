@@ -151,18 +151,18 @@ namespace PhotoTagsSynchronizer
                     if (ImageAndMovieFileExtentionsUtility.IsVideoFormat(fullFilePath))
                     {
                         //--- Get Video Thumbnail - Alternative 1
-                        var ffMpeg = new NReco.VideoConverter.FFMpegConverter();
-                        using (Stream memoryStream = new MemoryStream())
-                        {
-                            ffMpeg.GetVideoThumbnail(fullFilePath, memoryStream);
+                        //var ffMpeg = new NReco.VideoConverter.FFMpegConverter();
+                        //using (Stream memoryStream = new MemoryStream())
+                        //{
+                        //    ffMpeg.GetVideoThumbnail(fullFilePath, memoryStream);
 
-                            if (memoryStream.Length > 0) image = Image.FromStream(memoryStream);
-                            else image = null;
-                        }
+                        //    if (memoryStream.Length > 0) image = Image.FromStream(memoryStream);
+                        //    else image = null;
+                        //}
 
-                        //--- Get Video Thumbnail - Alternative 2
-                        //if (!FileHandler.IsFileLockedForRead(fullFilePath, 100))
-                        //    image = ImageAndMovieFileExtentionsUtility.GetVideoThumbnail(fullFilePath);
+                        //---Get Video Thumbnail -Alternative 2
+                        if (!FileHandler.IsFileLockedForRead(fullFilePath, 100))
+                            image = ImageAndMovieFileExtentionsUtility.GetVideoThumbnail(fullFilePath);
 
                     }
                     else if (ImageAndMovieFileExtentionsUtility.IsImageFormat(fullFilePath))

@@ -54,7 +54,7 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="SharpKml.Core" Version="5.2.0" />
   </ItemGroup>
   <ItemGroup>

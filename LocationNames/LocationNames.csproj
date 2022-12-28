@@ -58,8 +58,8 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Mono.Data.Sqlite" Version="1.0.61" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="NLog" Version="5.0.5" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+    <PackageReference Include="NLog" Version="5.1.0" />
     <PackageReference Include="Nominatim.API" Version="1.6.1" />
   </ItemGroup>
 </Project>

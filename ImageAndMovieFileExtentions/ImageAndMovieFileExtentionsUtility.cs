@@ -140,9 +140,11 @@ namespace ImageAndMovieFileExtentions
 
         static readonly object ffmpegLock = new object();
 
+        #region GetVideoThumbnail
         public static Image GetVideoThumbnail(string videoFile)
         {
             Image bitmap = null;
+            Logger.Trace("GetVideoThumbnail started: " + videoFile);
 
             string thumbnail = ""; 
 
@@ -199,14 +201,205 @@ namespace ImageAndMovieFileExtentions
             {
                 try
                 {
-                    if (!string.IsNullOrEmpty(thumbnail)) File.Delete(thumbnail);
+                    if (!string.IsNullOrEmpty(thumbnail))
+                    {
+                        File.Delete(thumbnail);
+                        Logger.Trace("GetVideoThumbnail created: " + thumbnail);
+                    }
                 }
                 catch { }
             }
-
+            Logger.Trace("GetVideoThumbnail ended: " + videoFile);
             return bitmap;
         }
+        #endregion 
 
+        #region GetVideoThumbnail
+        public static bool RotateVideo(string sourceFile, string outputFile, int rotateDegrees)
+        {
+            Logger.Trace("Rotate Video started: " + sourceFile + " " + outputFile);
+
+            bool completed = false;
+            //var ffMpeg = new NReco.VideoConverter.FFMpegConverter();
+            //durationMpegVideoConvertion = new TimeSpan(-1);
+
+            //ffMpeg.ConvertProgress += FfMpeg_ConvertProgress;
+            //ffMpeg.LogReceived += FfMpeg_LogReceived;
+            //switch (rotateDegrees)
+            //{
+            //    case 90:
+            //        ffMpeg.Invoke("-y -i \"" + fileEntry.FileFullPath + "\" -vf \"transpose=1\" \"" + tempOutputfile + "\"");
+            //        break;
+            //    case 180:
+            //        ffMpeg.Invoke("-y -i \"" + fileEntry.FileFullPath + "\" -vf \"transpose=2,transpose=2\" \"" + tempOutputfile + "\"");
+            //        break;
+            //    case 270:
+            //        ffMpeg.Invoke("-y -i \"" + fileEntry.FileFullPath + "\" -vf \"transpose=2\" \"" + tempOutputfile + "\"");
+            //        break;
+            //    default:
+            //        throw new NotImplementedException();
+            //}
+
+            try
+            {
+                #region Find path to exiftool
+                String cmd = NativeMethods.GetFullPathOfFile("ffmpeg.exe");
+                if (cmd == null)
+                {
+                    Logger.Debug("Rotate video: ffmpeg.exe not found");
+                    return completed;
+                }
+                #endregion
+
+                lock (ffmpegLock)
+                {
+                    var arguments = "";
+
+                    switch (rotateDegrees)
+                    {
+                        case 90:
+                            arguments = "-y -i \"" + sourceFile + "\" -vf \"transpose=1\" \"" + outputFile + "\"";
+                            break;
+                        case 180:
+                            arguments = "-y -i \"" + sourceFile + "\" -vf \"transpose=2,transpose=2\" \"" + outputFile + "\"";
+                            break;
+                        case 270:
+                            arguments = "-y -i \"" + sourceFile + "\" -vf \"transpose=2\" \"" + outputFile + "\"";
+                            break;
+                        default:
+                            throw new NotImplementedException();
+                    }
+
+                    var startInfo = new ProcessStartInfo
+                    {
+                        WindowStyle = ProcessWindowStyle.Hidden,
+                        FileName = cmd,
+                        Arguments = arguments,
+                    };
+
+                    var process = new Process
+                    {
+                        StartInfo = startInfo
+                    };
+
+
+                    //ApplicationActivation.ProcessRun(path, cmd, true);
+
+                    process.Start();
+                    if (process.WaitForExit(6000 * 60))
+                    {
+                        if (File.Exists(outputFile))
+                        {
+                            completed = true;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                completed = false;
+                Logger.Error(ex);
+            }
+
+            Logger.Trace("Rotate Video ended: " + sourceFile + " " + outputFile);
+            return completed;
+        }
+
+        //private void MmpegProgress(string data)
+        //{
+        //    try
+        //    {
+        //        if (InvokeRequired)
+        //        {
+        //            this.BeginInvoke(new Action<string>(MmpegProgress), data);
+        //            return;
+        //        }
+
+        //        stopwatchRemoveSaveProgressbar.Restart();
+
+        //        //  Duration: 00:00:06.96, start: 0.000000, bitrate: 2446 kb/s
+        //        if (data.StartsWith("  Duration:") && data.Contains("start:") && data.Contains("bitrate:"))
+        //        {
+
+
+        //            int startIndex = data.IndexOf("Duration:") + "Duration:".Length;
+        //            int endIndex = data.IndexOf(", start:");
+        //            if (startIndex >= 0 && endIndex > startIndex)
+        //            {
+        //                string durationString = data.Substring(startIndex, endIndex - startIndex);
+
+        //                bool didParase = false;
+        //                if (TimeSpan.TryParse(durationString, CultureInfo.InvariantCulture, out TimeSpan result))
+        //                {
+        //                    durationMpegVideoConvertion = result;
+        //                    didParase = true;
+        //                }
+        //                else if (TimeSpan.TryParse(durationString, CultureInfo.CurrentCulture, out TimeSpan result2))
+        //                {
+        //                    durationMpegVideoConvertion = result2;
+        //                    didParase = true;
+        //                }
+        //                if (didParase)
+        //                {
+        //                    ProgressbarSaveAndConvertProgress(true, 0, 0, (int)durationMpegVideoConvertion.TotalMilliseconds, "ffmmpeg rotate");
+        //                }
+        //            }
+        //        }
+
+        //        //frame=   68 fps= 17 q=29.0 size=       0kB time=00:00:02.35 bitrate=   0.2kbits/s speed=0.601x 
+        //        if (data.StartsWith("frame=") && data.Contains("fps=") && data.Contains("time=") && data.Contains("bitrate="))
+        //        {
+        //            int startIndex = data.IndexOf("time=") + "time=".Length;
+        //            int endIndex = data.IndexOf(" bitrate=");
+
+        //            if (startIndex >= 0 && endIndex > startIndex)
+        //            {
+        //                TimeSpan locationMpegVideoConvertion = new TimeSpan();
+        //                string progressTimeString = data.Substring(startIndex, endIndex - startIndex);
+
+        //                bool didParase = false;
+        //                if (TimeSpan.TryParse(progressTimeString, CultureInfo.InvariantCulture, out TimeSpan result))
+        //                {
+        //                    didParase = true;
+        //                    locationMpegVideoConvertion = result;
+        //                }
+        //                else if (TimeSpan.TryParse(progressTimeString, CultureInfo.CurrentCulture, out TimeSpan result2))
+        //                {
+        //                    didParase = true;
+        //                    locationMpegVideoConvertion = result2;
+        //                }
+        //                if (didParase)
+        //                {
+        //                    ProgressbarSaveAndConvertProgress(true, (int)durationMpegVideoConvertion.TotalMilliseconds);
+        //                }
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Logger.Error(ex);
+        //        KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+        //    }
+        //}
+
+        //private void FfMpeg_LogReceived(object sender, NReco.VideoConverter.FFMpegLogEventArgs e)
+        //{
+        //    try
+        //    {
+        //        MmpegProgress(e.Data);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Logger.Error(ex);
+        //        KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+        //    }
+        //}
+
+
+        //private void FfMpeg_ConvertProgress(object sender, NReco.VideoConverter.ConvertProgressEventArgs e)
+        //{
+        //}
+        #endregion 
 
         #region RoateImage
         public static void RoateImage(string fullFilename, double degress)
