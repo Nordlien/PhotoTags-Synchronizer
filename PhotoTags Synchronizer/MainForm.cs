@@ -27,6 +27,12 @@ using FileDateTime;
 using ColumnNamesAndWidth;
 using System.IO;
 using NLog;
+using SharpKml.Dom.GX;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.Collections;
+using SharpKml.Dom.Atom;
+using SharpKml.Dom;
+using System.Net.Sockets;
 
 namespace PhotoTagsSynchronizer
 {
@@ -59,9 +65,9 @@ namespace PhotoTagsSynchronizer
         private string nameDataGridViewTagsAndKeywords;
         private List<string> oneDriveNetworkNames = new List<string>();
 
-        private ProgressBar progressBarBackground = new ProgressBar();
-        private ProgressBar progressBarSaveConvert = new ProgressBar();
-        private ProgressBar progressBarLazyLoading = new ProgressBar();
+        private System.Windows.Forms.ProgressBar progressBarBackground = new System.Windows.Forms.ProgressBar();
+        private System.Windows.Forms.ProgressBar progressBarSaveConvert = new System.Windows.Forms.ProgressBar();
+        private System.Windows.Forms.ProgressBar progressBarLazyLoading = new System.Windows.Forms.ProgressBar();
 
         private ShowWhatColumns showWhatColumns;
 
@@ -1319,6 +1325,90 @@ namespace PhotoTagsSynchronizer
             }
             #endregion
         }
+
+        private void kryptonRibbonGroupButtonCopyOldMicrosoftPhotosDatabaseToLegacy_Click(object sender, EventArgs e)
+        {
+            if (KryptonMessageBox.Show(
+                "Microsoft Windows Photos exist in 3 versions.\r\n" +
+                "\r\n" +
+                "The first version arrived in Windows 10, then Microsoft created a new version in 2023, but kept the old version and renamed it to Microsoft Photos Legacy.So if you used the oldest version, then Microsoft Photos Legacy doesn’t have all data from the oldest version.\r\n" +
+                "\r\n" +
+                "This tool will copy data from the first version of Microsoft Photo app, to Microsoft Photo Legacy app.\r\n" +
+                "\r\n"+
+                "Do you want to copy from old to Legacy app?",
+                "Copy Microsoft Photos database file!",
+                MessageBoxButtons.OKCancel, KryptonMessageBoxIcon.Warning, showCtrlCopy: true) == DialogResult.Cancel)
+            {
+                return;
+            }
+
+            try 
+            {
+                #region Make sure copy is posible
+                File.Copy(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                    "Packages\\" + SqliteDatabaseUtilities.MicrosoftWindowsPhotosWindows10old + "\\LocalState\\MediaDb.v1.sqlite"),
+                    Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                    "Packages\\" + SqliteDatabaseUtilities.MicrosoftWindowsPhotosWindows11Legacy + "\\LocalState\\MediaDb.v1.sqlite.temp"), true);
+                #endregion
+
+                #region Make sure backup is possible
+                File.Move (
+                    Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                    "Packages\\" + SqliteDatabaseUtilities.MicrosoftWindowsPhotosWindows11Legacy + "\\LocalState\\MediaDb.v1.sqlite"),
+                    Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                    "Packages\\" + SqliteDatabaseUtilities.MicrosoftWindowsPhotosWindows11Legacy + "\\LocalState\\MediaDb.v1.sqlite.backup"));
+
+                try
+                {
+                    File.Move(
+                        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                        "Packages\\" + SqliteDatabaseUtilities.MicrosoftWindowsPhotosWindows11Legacy + "\\LocalState\\MediaDb.v1.sqlite-shm"),
+                        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                        "Packages\\" + SqliteDatabaseUtilities.MicrosoftWindowsPhotosWindows11Legacy + "\\LocalState\\MediaDb.v1.sqlite-shm.backup"));
+                } catch 
+                {
+                    //Ignore errors
+                }
+
+                try
+                {
+                    File.Move(
+                        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                        "Packages\\" + SqliteDatabaseUtilities.MicrosoftWindowsPhotosWindows11Legacy + "\\LocalState\\MediaDb.v1.sqlite-wal"),
+                        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                        "Packages\\" + SqliteDatabaseUtilities.MicrosoftWindowsPhotosWindows11Legacy + "\\LocalState\\MediaDb.v1.sqlite-wal.backup"));
+                } catch
+                {
+                    //Ignore errors
+                }
+                #endregion
+
+                #region Use the backup
+                File.Move(
+                    Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                    "Packages\\" + SqliteDatabaseUtilities.MicrosoftWindowsPhotosWindows11Legacy + "\\LocalState\\MediaDb.v1.sqlite.temp"),
+                    Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                    "Packages\\" + SqliteDatabaseUtilities.MicrosoftWindowsPhotosWindows11Legacy + "\\LocalState\\MediaDb.v1.sqlite"));
+                #endregion
+
+                KryptonMessageBox.Show("The database from Old Microsoft WIndows Photos app was copied to Microsoft Windows Photos Legacy app", "Copying Microsoft Photos database done", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+            }
+            catch (Exception ex) {
+                string helpText = "";
+                if (ex.HResult == -2147024864)
+                {
+                    helpText = "\r\n\r\n" +
+                        "Microsoft Windows Photos are been used.\r\n" +
+                        "Therefore the files is locked and can be moved.\r\n" +
+                        "Try to stop both the Microsoft Microsoft Photos and \r\n" +
+                        "Microsoft Microsoft Photos Legacy app and then retry...\r\n";
+
+                }
+                KryptonMessageBox.Show(ex.Message + helpText, "Copying Microsoft Photos database failed", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+            }
+
+        }
+
     }
 }
 

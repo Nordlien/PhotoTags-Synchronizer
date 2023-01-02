@@ -239,7 +239,10 @@ namespace MicrosoftPhotos
                                 dbToolsMicrosoftReader.ConvertFromDBValString(reader["TagVariant_Text"]), 
                                 (float)dbToolsMicrosoftReader.ConvertFromDBValFloat(reader["ItemTags_Confidence"])
                                 );
-                            metadata.PersonalKeywordTagsAddIfNotExists(keywordTag);
+                            if (keywordTag != null && keywordTag.Keyword != null)
+                            {
+                                metadata.PersonalKeywordTagsAddIfNotExists(keywordTag);
+                            } 
                         }
                     }
 

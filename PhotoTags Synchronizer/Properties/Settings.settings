@@ -1361,5 +1361,8 @@ riff=UTF8
 {OriginalFileFullPath}
 -execute</Value>
     </Setting>
+    <Setting Name="MicrosoftXtraAtomExtensions" Type="System.String" Scope="User">
+      <Value Profile="(Default)">.AVI,.JPG,.JPEG,.PNG,.WMF,.AVI,.MPEG,.MPG,.MP4</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

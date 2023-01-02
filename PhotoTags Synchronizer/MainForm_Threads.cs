@@ -2232,8 +2232,8 @@ namespace PhotoTagsSynchronizer
                                         {
                                             UpdateStatusAction("Write Xtra Atom to " + exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser.Count + " media files...");
                                             writeXtraAtom_FilesUpdated = ExiftoolWriter.WriteXtraAtom(
-                                                exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser, exiftoolSave_QueueSubset_MetadataOrigialBeforeUserUpdate, 
-                                                allowedFileNameDateTimeFormats, networkNames, GPStag,
+                                                exiftoolSave_QueueSubset_MetadataToSaveUpdatedByUser, exiftoolSave_QueueSubset_MetadataOrigialBeforeUserUpdate,
+                                                allowedFileNameDateTimeFormats, Properties.Settings.Default.MicrosoftXtraAtomExtensions, networkNames, GPStag,
                                                 writeXtraAtomAlbumVariable, writeXtraAtomAlbumVideo,
                                                 writeXtraAtomCategoriesVariable, writeXtraAtomCategoriesVideo,
                                                 writeXtraAtomCommentVariable, writeXtraAtomCommentPicture, writeXtraAtomCommentVideo,

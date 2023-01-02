@@ -26,6 +26,7 @@ using System.Reflection;
 using PhotoTagsCommonComponets;
 using Krypton.Toolkit;
 using System.Xml.Linq;
+using SqliteDatabase;
 
 namespace PhotoTagsSynchronizer
 {
@@ -459,6 +460,15 @@ namespace PhotoTagsSynchronizer
                     KryptonMessageBox.Show("Failed to load config.\r\n\r\n" + ex.Message, "Failed to load config", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 }
 
+
+                try
+                {
+                    textBoxWriteXtraAtomExtension.Text = Properties.Settings.Default.MicrosoftXtraAtomExtensions;
+                }
+                catch
+                {
+
+                }
                 try
                 {
                     //Show log
@@ -591,6 +601,8 @@ namespace PhotoTagsSynchronizer
                 Properties.Settings.Default.MicosoftOneDriveLocationHackPostfix = 
                     (string.IsNullOrWhiteSpace(kryptonTextBoxMicrosoftPhotosLocationHackPostfix.Text.Trim()) ? "-GPS-" :
                     kryptonTextBoxMicrosoftPhotosLocationHackPostfix.Text);
+
+                Properties.Settings.Default.MicrosoftXtraAtomExtensions = textBoxWriteXtraAtomExtension.Text;
                 //Camera Owner 
                 SaveMetadataCameraOwner(dataGridViewCameraOwner);
 

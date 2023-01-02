@@ -14,6 +14,7 @@ using System;
 using System.IO;
 using System.Diagnostics;
 using System.Drawing;
+using System.Configuration;
 
 namespace SqliteDatabase
 {
@@ -353,10 +354,43 @@ namespace SqliteDatabase
         }
         #endregion
 
+
+        
+
+        public static string MicrosoftWindowsPhotosWindows10old = "Microsoft.Windows.Photos_8wekyb3d8bbwe";
+        public static string MicrosoftWindowsPhotosWindows11new = "Microsoft.Windows.Photos_2022.31120.6008.0_x64__8wekyb3d8bbwe";
+        public static string MicrosoftWindowsPhotosWindows11Legacy = "Microsoft.PhotosLegacy_8wekyb3d8bbwe";
+
         #region GetMicrosoftPhotosDatabaseOriginalFile
         public static string GetMicrosoftPhotosDatabaseOriginalFile()
         {
-            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Packages\\Microsoft.Windows.Photos_8wekyb3d8bbwe\\LocalState\\MediaDb.v1.sqlite");
+            if (File.Exists(GetMicrosoftPhotosDatabaseWindows11LegacyOriginalFile())) return GetMicrosoftPhotosDatabaseWindows11LegacyOriginalFile();
+            if (File.Exists(GetMicrosoftPhotosDatabaseWindows11newOriginalFile())) return GetMicrosoftPhotosDatabaseWindows11newOriginalFile();
+            return GetMicrosoftPhotosDatabaseWindows10OldOriginalFile();
+        }
+        #endregion
+
+        #region GetMicrosoftPhotosDatabaseOriginalFile
+        public static string GetMicrosoftPhotosDatabaseWindows10OldOriginalFile()
+        {
+            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), 
+                "Packages\\" + MicrosoftWindowsPhotosWindows10old + "\\LocalState\\MediaDb.v1.sqlite");
+        }
+        #endregion
+
+        #region GetMicrosoftPhotosDatabaseOriginalFile
+        public static string GetMicrosoftPhotosDatabaseWindows11LegacyOriginalFile()
+        {
+            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), 
+                "Packages\\" + MicrosoftWindowsPhotosWindows11Legacy + "\\LocalState\\MediaDb.v1.sqlite");
+        }
+        #endregion
+
+        #region GetMicrosoftPhotosDatabaseOriginalFile
+        public static string GetMicrosoftPhotosDatabaseWindows11newOriginalFile()
+        {
+            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), 
+                "Packages\\" + MicrosoftWindowsPhotosWindows11new + "\\LocalState\\MediaDb.v1.sqlite");
         }
         #endregion
 

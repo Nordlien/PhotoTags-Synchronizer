@@ -43,7 +43,8 @@ namespace Exiftool
 
         #region WriteXtraAtom
         public static List<FileEntry> WriteXtraAtom(
-            List<Metadata> metadataListToWrite, List<Metadata> metadataListOriginal, List<string> allowedFileNameDateTimeFormats, List<string> computerNames, string GPStag,
+            List<Metadata> metadataListToWrite, List<Metadata> metadataListOriginal, List<string> allowedFileNameDateTimeFormats, string allowedExtentions,
+            List<string> computerNames, string GPStag,
             string writeXtraAtomAlbumVariable, bool writeXtraAtomAlbumVideo,
             string writeXtraAtomCategoriesVariable, bool writeXtraAtomCategoriesVideo,
             string writeXtraAtomCommentVariable, bool writeXtraAtomCommentPicture, bool writeXtraAtomCommentVideo,
@@ -71,81 +72,85 @@ namespace Exiftool
                 Logger.Debug("WriteXtraAtom - " + metadataToWrite.FileFullPath);
                 if (metadataToWrite == metadataOriginal) continue; //No changes found in data, No data to write
 
-                #region Is Video or Image format?
-                bool isVideoFormat = false;
-                bool isImageFormat = false;
-
-                if (ImageAndMovieFileExtentionsUtility.IsImageFormat(metadataToWrite.FileFullPath))
+                if (ImageAndMovieFileExtentionsUtility.IsInExtentions(metadataToWrite.FileFullPath, allowedExtentions))
                 {
-                    isVideoFormat = false;
-                    isImageFormat = true;
-                }
-                else if (ImageAndMovieFileExtentionsUtility.IsVideoFormat(metadataToWrite.FileFullPath))
-                {
-                    isVideoFormat = true;
-                    isImageFormat = false;
-                }
-                #endregion 
+                    #region Is Video or Image format?
+                    bool isVideoFormat = false;
+                    bool isImageFormat = false;
 
-                #region Replace Variable 
-                string writeXtraAtomAlbumReult = metadataToWrite.ReplaceVariablesWrittenByUser(writeXtraAtomAlbumVariable, allowedFileNameDateTimeFormats, computerNames, GPStag);
-                string writeXtraAtomCategoriesResult = metadataToWrite.ReplaceVariablesWrittenByUser(writeXtraAtomCategoriesVariable, allowedFileNameDateTimeFormats, computerNames, GPStag);
-                string writeXtraAtomCommentResult = metadataToWrite.ReplaceVariablesWrittenByUser(writeXtraAtomCommentVariable, allowedFileNameDateTimeFormats, computerNames, GPStag);
-                string writeXtraAtomKeywordsResult = metadataToWrite.ReplaceVariablesWrittenByUser(writeXtraAtomKeywordsVariable, allowedFileNameDateTimeFormats, computerNames, GPStag);
-                string writeXtraAtomSubjectResult = metadataToWrite.ReplaceVariablesWrittenByUser(writeXtraAtomSubjectVariable, allowedFileNameDateTimeFormats, computerNames, GPStag);
-                string writeXtraAtomSubtitleResult = metadataToWrite.ReplaceVariablesWrittenByUser(writeXtraAtomSubtitleVariable, allowedFileNameDateTimeFormats, computerNames, GPStag);
-                string writeXtraAtomArtistResult = metadataToWrite.ReplaceVariablesWrittenByUser(writeXtraAtomArtistVariable, allowedFileNameDateTimeFormats, computerNames, GPStag);
-                #endregion
-
-                #region Write Xtra Atrom using Property Writer
-                if (writeXtraAtomKeywordsPicture || writeXtraAtomKeywordsVideo || writeXtraAtomCategoriesVideo || writeXtraAtomAlbumVideo || writeXtraAtomSubtitleVideo ||
-                    writeXtraAtomArtistVideo || writeXtraAtomSubjectVideo || writeXtraAtomCommentVideo || writeXtraAtomRatingVideo ||
-                    writeXtraAtomSubjectPicture || writeXtraAtomCommentPicture || writeXtraAtomRatingPicture)
-                {
-
-                    try
+                    if (ImageAndMovieFileExtentionsUtility.IsImageFormat(metadataToWrite.FileFullPath))
                     {
-                        Logger.Debug("WriteXtraAtom - Start write XtraAtom: " + metadataToWrite.FileFullPath);
+                        isVideoFormat = false;
+                        isImageFormat = true;
+                    }
+                    else if (ImageAndMovieFileExtentionsUtility.IsVideoFormat(metadataToWrite.FileFullPath))
+                    {
+                        isVideoFormat = true;
+                        isImageFormat = false;
+                    }
+                    #endregion
 
-                        if (File.Exists(metadataToWrite.FileFullPath))
+                    #region Replace Variable 
+                    string writeXtraAtomAlbumReult = metadataToWrite.ReplaceVariablesWrittenByUser(writeXtraAtomAlbumVariable, allowedFileNameDateTimeFormats, computerNames, GPStag);
+                    string writeXtraAtomCategoriesResult = metadataToWrite.ReplaceVariablesWrittenByUser(writeXtraAtomCategoriesVariable, allowedFileNameDateTimeFormats, computerNames, GPStag);
+                    string writeXtraAtomCommentResult = metadataToWrite.ReplaceVariablesWrittenByUser(writeXtraAtomCommentVariable, allowedFileNameDateTimeFormats, computerNames, GPStag);
+                    string writeXtraAtomKeywordsResult = metadataToWrite.ReplaceVariablesWrittenByUser(writeXtraAtomKeywordsVariable, allowedFileNameDateTimeFormats, computerNames, GPStag);
+                    string writeXtraAtomSubjectResult = metadataToWrite.ReplaceVariablesWrittenByUser(writeXtraAtomSubjectVariable, allowedFileNameDateTimeFormats, computerNames, GPStag);
+                    string writeXtraAtomSubtitleResult = metadataToWrite.ReplaceVariablesWrittenByUser(writeXtraAtomSubtitleVariable, allowedFileNameDateTimeFormats, computerNames, GPStag);
+                    string writeXtraAtomArtistResult = metadataToWrite.ReplaceVariablesWrittenByUser(writeXtraAtomArtistVariable, allowedFileNameDateTimeFormats, computerNames, GPStag);
+                    #endregion
+
+                    #region Write Xtra Atrom using Property Writer
+                    if (writeXtraAtomKeywordsPicture || writeXtraAtomKeywordsVideo || writeXtraAtomCategoriesVideo || writeXtraAtomAlbumVideo || writeXtraAtomSubtitleVideo ||
+                        writeXtraAtomArtistVideo || writeXtraAtomSubjectVideo || writeXtraAtomCommentVideo || writeXtraAtomRatingVideo ||
+                        writeXtraAtomSubjectPicture || writeXtraAtomCommentPicture || writeXtraAtomRatingPicture)
+                    {
+
+                        try
                         {
-                            using (WindowsPropertyWriter windowsPropertyWriter = new WindowsPropertyWriter(metadataToWrite.FileFullPath))
+                            Logger.Debug("WriteXtraAtom - Start write XtraAtom: " + metadataToWrite.FileFullPath);
+
+                            if (File.Exists(metadataToWrite.FileFullPath))
                             {
-                                if (isVideoFormat)
+                                using (WindowsPropertyWriter windowsPropertyWriter = new WindowsPropertyWriter(metadataToWrite.FileFullPath))
                                 {
-                                    if (writeXtraAtomCategoriesVideo) windowsPropertyWriter.WriteCategories(string.IsNullOrEmpty(writeXtraAtomCategoriesResult) ? null : writeXtraAtomCategoriesResult);
-                                    if (writeXtraAtomAlbumVideo) windowsPropertyWriter.WriteAlbum(string.IsNullOrEmpty(writeXtraAtomAlbumReult) ? null : writeXtraAtomAlbumReult);
-                                    if (writeXtraAtomSubtitleVideo) windowsPropertyWriter.WriteSubtitle_Description(string.IsNullOrEmpty(writeXtraAtomSubtitleResult) ? null : writeXtraAtomSubtitleResult);
-                                    if (writeXtraAtomArtistVideo) windowsPropertyWriter.WriteArtist_Author(string.IsNullOrEmpty(writeXtraAtomArtistResult) ? null : writeXtraAtomArtistResult);
-                                    if (writeXtraAtomSubjectVideo) windowsPropertyWriter.WriteSubject_Description(string.IsNullOrEmpty(writeXtraAtomSubjectResult) ? null : writeXtraAtomSubjectResult);
-                                    if (writeXtraAtomCommentVideo) windowsPropertyWriter.WriteComment(string.IsNullOrEmpty(writeXtraAtomCommentResult) ? null : writeXtraAtomCommentResult);
-                                    if (writeXtraAtomRatingVideo) windowsPropertyWriter.WriteRating((metadataToWrite.PersonalRatingPercent == null ? (int)0 : (int)metadataToWrite.PersonalRatingPercent));
-                                    if (writeXtraAtomKeywordsVideo) windowsPropertyWriter.WriteKeywords(string.IsNullOrEmpty(writeXtraAtomKeywordsResult) ? null : writeXtraAtomKeywordsResult);
-                                }
-                                else if (isImageFormat)
-                                {
-                                    if (writeXtraAtomSubjectPicture) windowsPropertyWriter.WriteSubject_Description(string.IsNullOrEmpty(writeXtraAtomSubjectResult) ? null : writeXtraAtomSubjectResult);
-                                    if (writeXtraAtomCommentPicture) windowsPropertyWriter.WriteComment(string.IsNullOrEmpty(writeXtraAtomCommentResult) ? null : writeXtraAtomCommentResult);
-                                    if (writeXtraAtomRatingPicture) windowsPropertyWriter.WriteRating((metadataToWrite.PersonalRatingPercent == null ? (int)0 : (int)metadataToWrite.PersonalRatingPercent));
-                                    if (writeXtraAtomKeywordsPicture) windowsPropertyWriter.WriteKeywords(string.IsNullOrEmpty(writeXtraAtomKeywordsResult) ? null : writeXtraAtomKeywordsResult);
-                                }
+                                    if (isVideoFormat)
+                                    {
+                                        if (writeXtraAtomCategoriesVideo) windowsPropertyWriter.WriteCategories(string.IsNullOrEmpty(writeXtraAtomCategoriesResult) ? null : writeXtraAtomCategoriesResult);
+                                        if (writeXtraAtomAlbumVideo) windowsPropertyWriter.WriteAlbum(string.IsNullOrEmpty(writeXtraAtomAlbumReult) ? null : writeXtraAtomAlbumReult);
+                                        if (writeXtraAtomSubtitleVideo) windowsPropertyWriter.WriteSubtitle_Description(string.IsNullOrEmpty(writeXtraAtomSubtitleResult) ? null : writeXtraAtomSubtitleResult);
+                                        if (writeXtraAtomArtistVideo) windowsPropertyWriter.WriteArtist_Author(string.IsNullOrEmpty(writeXtraAtomArtistResult) ? null : writeXtraAtomArtistResult);
+                                        if (writeXtraAtomSubjectVideo) windowsPropertyWriter.WriteSubject_Description(string.IsNullOrEmpty(writeXtraAtomSubjectResult) ? null : writeXtraAtomSubjectResult);
+                                        if (writeXtraAtomCommentVideo) windowsPropertyWriter.WriteComment(string.IsNullOrEmpty(writeXtraAtomCommentResult) ? null : writeXtraAtomCommentResult);
+                                        if (writeXtraAtomRatingVideo) windowsPropertyWriter.WriteRating((metadataToWrite.PersonalRatingPercent == null ? (int)0 : (int)metadataToWrite.PersonalRatingPercent));
+                                        if (writeXtraAtomKeywordsVideo) windowsPropertyWriter.WriteKeywords(string.IsNullOrEmpty(writeXtraAtomKeywordsResult) ? null : writeXtraAtomKeywordsResult);
+                                    }
+                                    else if (isImageFormat)
+                                    {
+                                        if (writeXtraAtomSubjectPicture) windowsPropertyWriter.WriteSubject_Description(string.IsNullOrEmpty(writeXtraAtomSubjectResult) ? null : writeXtraAtomSubjectResult);
+                                        if (writeXtraAtomCommentPicture) windowsPropertyWriter.WriteComment(string.IsNullOrEmpty(writeXtraAtomCommentResult) ? null : writeXtraAtomCommentResult);
+                                        if (writeXtraAtomRatingPicture) windowsPropertyWriter.WriteRating((metadataToWrite.PersonalRatingPercent == null ? (int)0 : (int)metadataToWrite.PersonalRatingPercent));
+                                        if (writeXtraAtomKeywordsPicture) windowsPropertyWriter.WriteKeywords(string.IsNullOrEmpty(writeXtraAtomKeywordsResult) ? null : writeXtraAtomKeywordsResult);
+                                    }
 
-                                windowsPropertyWriter.Close();
+                                    windowsPropertyWriter.Close();
 
-                                filesUpdatedByXtraAtom.Add(new FileEntry(metadataToWrite.FileFullPath, FileHandler.GetLastWriteTime(metadataToWrite.FileFullPath, waitAndRetry: false)));
+                                    filesUpdatedByXtraAtom.Add(new FileEntry(metadataToWrite.FileFullPath, FileHandler.GetLastWriteTime(metadataToWrite.FileFullPath, waitAndRetry: false)));
+                                }
                             }
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        string error = "Failed to write Microsoft's own Xtra Atom Propery on file.: " + metadataToWrite.FileFullPath;
-                        Logger.Error(ex, error);
-                        writeXtraAtomErrorMessageForFile.Add(metadataToWrite.FileFullPath, error);
-                    }
+                        catch (Exception ex)
+                        {
+                            string error = "Failed to write Microsoft's own Xtra Atom Propery on file.: " + metadataToWrite.FileFullPath;
+                            Logger.Error(ex, error);
+                            writeXtraAtomErrorMessageForFile.Add(metadataToWrite.FileFullPath, error);
+                        }
 
-                } else
-                {
-                    Logger.Debug("WriteXtraAtom - nothing to updated: " + metadataToWrite.FileFullPath);
+                    }
+                    else
+                    {
+                        Logger.Debug("WriteXtraAtom - nothing to updated: " + metadataToWrite.FileFullPath);
+                    }
                 }
                 #endregion
 

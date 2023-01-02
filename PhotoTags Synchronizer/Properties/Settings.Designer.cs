@@ -2915,5 +2915,17 @@ explorer ms-photos?filename=""{FileFullPath}""")]
                 this["WriteMetadataTagsReset"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(".AVI,.JPG,.JPEG,.PNG,.WMF,.AVI,.MPEG,.MPG,.MP4")]
+        public string MicrosoftXtraAtomExtensions {
+            get {
+                return ((string)(this["MicrosoftXtraAtomExtensions"]));
+            }
+            set {
+                this["MicrosoftXtraAtomExtensions"] = value;
+            }
+        }
     }
 }

@@ -14,6 +14,8 @@ using ApplicationAssociations;
 using NLog;
 using Krypton.Toolkit;
 using Microsoft.WindowsAPICodePack.Dialogs;
+using System.Web;
+using System.Linq;
 
 namespace ImageAndMovieFileExtentions
 {
@@ -983,6 +985,15 @@ namespace ImageAndMovieFileExtentions
             if (filename == "..") return false;
             return imageFormats.Contains(Path.GetExtension(filename).ToUpper());
         }
+        #endregion
+
+        #region
+        public static bool IsInExtentions(string filename, string extentions)
+        {
+            HashSet<string> extentionHashSet = extentions.ToUpper().Split(',', ';').ToHashSet();            
+            return extentionHashSet.Contains(Path.GetExtension(filename).ToUpper());
+        }
+
         #endregion
 
         #region IsMediaFormat
