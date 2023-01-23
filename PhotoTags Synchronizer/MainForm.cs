@@ -754,6 +754,7 @@ namespace PhotoTagsSynchronizer
                 #endregion
 
                 MaximizeOrRestoreWorkspaceMainCellAndChilds();
+
             }
             catch (Exception ex)
             {
@@ -1406,7 +1407,6 @@ namespace PhotoTagsSynchronizer
                 }
                 KryptonMessageBox.Show(ex.Message + helpText, "Copying Microsoft Photos database failed", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
-
         }
 
     }
