@@ -74,7 +74,7 @@ namespace PhotoTagsSynchronizer
                         var settings = new CefSettings()
                         {
                             //By default CefSharp will use an in-memory cache, you need to specify a Cache Folder to persist data
-                            CachePath = FileHandler.GetLocalApplicationDataPath("BrowserCache", false, null),
+                            CachePath = FileHandler.GetLocalApplicationDataPath("BrowserCache", deleteOldTempFile: false),
                             //UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101 Firefox/68.0" - NOT WORK
                             //UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0 - Not tested
                             //UserAgent = "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:54.0) Gecko/20100101 Firefox/54.0" //Works

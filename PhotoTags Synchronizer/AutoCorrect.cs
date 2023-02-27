@@ -130,7 +130,7 @@ namespace PhotoTagsSynchronizer
         public static DataSet ReadDataSetFromXML()
         {
             ClearCache();
-            string path = FileHandler.GetLocalApplicationDataPath(Filename, false, null);
+            string path = FileHandler.GetLocalApplicationDataPath(Filename, deleteOldTempFile: false);
             return ReadDataSetFromXML(path);
         }
         #endregion

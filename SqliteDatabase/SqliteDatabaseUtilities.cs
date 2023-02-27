@@ -50,15 +50,15 @@ namespace SqliteDatabase
         public static string LastKnownCommand { get; set;  } = "";
 
         #region SqliteDatabaseUtilities(DatabaseType type)
-        public SqliteDatabaseUtilities(DatabaseType type)
+        public SqliteDatabaseUtilities(DatabaseType type, string localApplicationData)
         {
             if (type == DatabaseType.SqliteMicrosoftPhotos)
             {
-                ConnectMicrosoftPhotosDatabase();
+                ConnectMicrosoftPhotosDatabase(localApplicationData);
             }
             else
             {
-                ConnectSqliteCacheDatabase("metadata.db3");
+                ConnectSqliteCacheDatabase("metadata.db3", localApplicationData);
             }
         }
         #endregion
@@ -343,9 +343,9 @@ namespace SqliteDatabase
         #endregion
 
         #region GetMicrosoftPhotosDatabaseBackupFile
-        public static string GetMicrosoftPhotosDatabaseBackupFile()
+        public static string GetMicrosoftPhotosDatabaseBackupFile(string localApplicationData)
         {
-            string databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PhotoTagsSynchronizer");
+            string databasePath = localApplicationData;
             if (!Directory.Exists(databasePath))
             {
                 Directory.CreateDirectory(databasePath);
@@ -364,43 +364,41 @@ namespace SqliteDatabase
         #region GetMicrosoftPhotosDatabaseOriginalFile
         public static string GetMicrosoftPhotosDatabaseOriginalFile()
         {
-            if (File.Exists(GetMicrosoftPhotosDatabaseWindows11LegacyOriginalFile())) return GetMicrosoftPhotosDatabaseWindows11LegacyOriginalFile();
-            if (File.Exists(GetMicrosoftPhotosDatabaseWindows11newOriginalFile())) return GetMicrosoftPhotosDatabaseWindows11newOriginalFile();
-            return GetMicrosoftPhotosDatabaseWindows10OldOriginalFile();
+            string localApplicationData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            if (File.Exists(GetMicrosoftPhotosDatabaseWindows11LegacyOriginalFile(localApplicationData))) return GetMicrosoftPhotosDatabaseWindows11LegacyOriginalFile(localApplicationData);
+            if (File.Exists(GetMicrosoftPhotosDatabaseWindows11newOriginalFile(localApplicationData))) return GetMicrosoftPhotosDatabaseWindows11newOriginalFile(localApplicationData);
+            return GetMicrosoftPhotosDatabaseWindows10OldOriginalFile(localApplicationData);
         }
         #endregion
 
         #region GetMicrosoftPhotosDatabaseOriginalFile
-        public static string GetMicrosoftPhotosDatabaseWindows10OldOriginalFile()
+        public static string GetMicrosoftPhotosDatabaseWindows10OldOriginalFile(string localApplicationData)
         {
-            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), 
-                "Packages\\" + MicrosoftWindowsPhotosWindows10old + "\\LocalState\\MediaDb.v1.sqlite");
+            return Path.Combine(localApplicationData, "Packages\\" + MicrosoftWindowsPhotosWindows10old + "\\LocalState\\MediaDb.v1.sqlite");
         }
         #endregion
 
         #region GetMicrosoftPhotosDatabaseOriginalFile
-        public static string GetMicrosoftPhotosDatabaseWindows11LegacyOriginalFile()
+        public static string GetMicrosoftPhotosDatabaseWindows11LegacyOriginalFile(string localApplicationData)
         {
-            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), 
-                "Packages\\" + MicrosoftWindowsPhotosWindows11Legacy + "\\LocalState\\MediaDb.v1.sqlite");
+            return Path.Combine(localApplicationData, "Packages\\" + MicrosoftWindowsPhotosWindows11Legacy + "\\LocalState\\MediaDb.v1.sqlite");
         }
         #endregion
 
         #region GetMicrosoftPhotosDatabaseOriginalFile
-        public static string GetMicrosoftPhotosDatabaseWindows11newOriginalFile()
+        public static string GetMicrosoftPhotosDatabaseWindows11newOriginalFile(string localApplicationData)
         {
-            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), 
-                "Packages\\" + MicrosoftWindowsPhotosWindows11new + "\\LocalState\\MediaDb.v1.sqlite");
+            return Path.Combine(localApplicationData, "Packages\\" + MicrosoftWindowsPhotosWindows11new + "\\LocalState\\MediaDb.v1.sqlite");
         }
         #endregion
 
         #region Connect Microsoft Phontos Database
-        public void ConnectMicrosoftPhotosDatabase()  //TODO Move this out of here
+        public void ConnectMicrosoftPhotosDatabase(string localApplicationData)  //TODO Move this out of here
         {
 
             if (ConnectionDatabase == null)
             {
-                string destinationFile = GetMicrosoftPhotosDatabaseBackupFile();
+                string destinationFile = GetMicrosoftPhotosDatabaseBackupFile(localApplicationData);
 
                 string sourceFile = GetMicrosoftPhotosDatabaseOriginalFile();
                 try
@@ -452,11 +450,11 @@ namespace SqliteDatabase
         #endregion
 
         #region Connect and create Metadata Database
-        public void ConnectSqliteCacheDatabase(string databasename)
+        public void ConnectSqliteCacheDatabase(string databasename, string localApplicationData)
         {
             // This is the query which will create a new table in our database file with three columns. An auto increment column called "ID", and two NVARCHAR type columns with the names "Key" and "Value"
 
-            databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PhotoTagsSynchronizer");
+            databasePath = localApplicationData;
             if (!Directory.Exists(databasePath))
             {
                 Directory.CreateDirectory(databasePath);

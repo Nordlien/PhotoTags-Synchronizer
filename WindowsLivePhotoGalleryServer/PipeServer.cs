@@ -19,6 +19,7 @@ namespace WindowsLivePhotoGalleryServer
         #region PipeServer
         public PipeServer(string pipeName)
         {
+
             stopwatchLastCommand.Start();
             string databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PhotoTagsSynchronizer");
             string destinationFile = Path.Combine(databasePath, "Pictures.pd6");

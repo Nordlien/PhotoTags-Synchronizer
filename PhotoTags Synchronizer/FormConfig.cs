@@ -538,6 +538,7 @@ namespace PhotoTagsSynchronizer
                 Properties.Settings.Default.CacheFolderWebScraperDataSets = checkBoxCacheFolderWebScraperDataSets.Checked;
 
                 Properties.Settings.Default.ExiftoolMaximumWriteBach = (int)kryptonNumericUpDownMaximumWriteBachExiftool.Value;
+
                 //Config Debug
                 Properties.Settings.Default.ApplicationDebugExiftoolReadShowCliWindow = checkBoxApplicationExiftoolReadShowCliWindow.Checked;
                 Properties.Settings.Default.ApplicationDebugExiftoolWriteShowCliWindow = checkBoxApplicationExiftoolWriteShowCliWindow.Checked;
@@ -546,6 +547,13 @@ namespace PhotoTagsSynchronizer
                 Properties.Settings.Default.ApplicationDebugBackgroundThreadPrioity = comboBoxApplicationDebugBackgroundThreadPrioity.SelectedIndex;
                 //Layout
                 //Properties.Settings.Default.ApplicationDarkMode = checkBoxApplicationDarkMode.Checked;
+
+
+                FileHandler.SetLocalApplicationDataPath(kryptonTextBoxApplicationTempDataFolder.Text);
+                //kryptonTextBoxApplicationTempDataFolder.Text = FileHandler.GetLocalApplicationDataPath("");
+                Properties.Settings.Default.TempDataFolder = FileHandler.GetLocalApplicationDataPath("");
+                
+                
 
                 //AutoCorrect
                 GetAutoCorrectPoperties();
@@ -779,6 +787,8 @@ namespace PhotoTagsSynchronizer
             comboBoxApplicationDebugBackgroundThreadPrioity.SelectedIndex = Properties.Settings.Default.ApplicationDebugBackgroundThreadPrioity;
             //Layout
             //checkBoxApplicationDarkMode.Checked = Properties.Settings.Default.ApplicationDarkMode;
+
+            kryptonTextBoxApplicationTempDataFolder.Text = Properties.Settings.Default.TempDataFolder;
         }
         #endregion 
 
@@ -1165,7 +1175,7 @@ namespace PhotoTagsSynchronizer
                 if (dataGridViewAutoKeywords.Rows.Count > 1)
                 {
                     DataSet dataSet = AutoKeywordHandler.ReadDataGridView(dataGridViewAutoKeywords);
-                    if (dataSet != null) dataSet.WriteXml(FileHandler.GetLocalApplicationDataPath("AutoKeywords.xml", false, this));
+                    if (dataSet != null) dataSet.WriteXml(FileHandler.GetLocalApplicationDataPath("AutoKeywords.xml", deleteOldTempFile: false));
                 }
             }
             catch (Exception ex)
@@ -2843,7 +2853,7 @@ namespace PhotoTagsSynchronizer
             try
             {
                 logFilename = GetLogFileName("logfile");
-                if (string.IsNullOrWhiteSpace(logFilename)) logFilename = FileHandler.GetLocalApplicationDataTempPath("PhotoTagsSynchronizer_Log.txt");
+                if (string.IsNullOrWhiteSpace(logFilename)) logFilename = FileHandler.GetLocalApplicationDataPath("PhotoTagsSynchronizer_Log.txt");
                 if (!File.Exists(logFilename)) FileHandler.CombineApplicationPathWithFilename(logFilename);
             }
             catch { }
@@ -2884,7 +2894,7 @@ namespace PhotoTagsSynchronizer
 
             if (!File.Exists(logFilename)) logFilename = FileHandler.CombineApplicationPathWithFilename("Pipe\\WindowsLivePhotoGalleryServer_Log.txt");            
             if (!File.Exists(logFilename)) logFilename = FileHandler.CombineApplicationPathWithFilename("Pipe\\net48\\WindowsLivePhotoGalleryServer_Log.txt");
-            if (!File.Exists(logFilename)) logFilename = FileHandler.GetLocalApplicationDataTempPath("WindowsLivePhotoGalleryServer_Log.txt");
+            if (!File.Exists(logFilename)) logFilename = FileHandler.GetLocalApplicationDataPath("WindowsLivePhotoGalleryServer_Log.txt");
 
             return logFilename;
         }
@@ -3324,7 +3334,7 @@ namespace PhotoTagsSynchronizer
         {
             if (isPaletteProperyChanged)
             {
-                string paletteProperyFile = FileHandeling.FileHandler.GetLocalApplicationDataPath("Palette.xml", true, this);
+                string paletteProperyFile = FileHandeling.FileHandler.GetLocalApplicationDataPath("Palette.xml", deleteOldTempFile: true);
                 ((KryptonPalette)kryptonManager1.GlobalPalette).Export(paletteProperyFile, false);
                 KryptonPaletteHandler.PaletteFilename = paletteProperyFile;
             }
@@ -3585,9 +3595,24 @@ namespace PhotoTagsSynchronizer
         {
             SetWriteXtraAtomEnabled(checkBoxWriteXtraAtomOnMediaFile.Checked);
         }
+
         #endregion
 
-        
+        private void kryptonButtonApplicationTempDataFolder_Click(object sender, EventArgs e) {
+            FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
+            folderBrowserDialog.RootFolder = Environment.SpecialFolder.MyComputer;
+
+            DialogResult result = folderBrowserDialog.ShowDialog();
+            if (result == DialogResult.OK) 
+            {
+                FileHandler.SetLocalApplicationDataPath(folderBrowserDialog.SelectedPath);
+                Properties.Settings.Default.TempDataFolder = folderBrowserDialog.SelectedPath;
+
+                kryptonTextBoxApplicationTempDataFolder.Text = FileHandler.GetLocalApplicationDataPath("");
+
+            }
+
+        }
     }
 }
 

@@ -160,7 +160,7 @@ namespace ImageAndMovieFileExtentions
                 }
                 #endregion
 
-                thumbnail =  FileHandeling.FileHandler.GetLocalApplicationDataTempPath("exiftool_" + Guid.NewGuid() + ".jpg");
+                thumbnail =  FileHandeling.FileHandler.GetLocalApplicationDataPath("exiftool_" + Guid.NewGuid() + ".jpg");
 
                 //using (var fs = File.Open(videoFile, FileMode.Open, FileAccess.ReadWrite))
                 {

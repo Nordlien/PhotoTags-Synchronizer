@@ -305,6 +305,9 @@ namespace PhotoTagsSynchronizer
                 }
                 #endregion
 
+                FileHandeling.FileHandler.SetLocalApplicationDataPath(Properties.Settings.Default.TempDataFolder);
+                Properties.Settings.Default.TempDataFolder = FileHandeling.FileHandler.GetLocalApplicationDataPath("");
+
                 #region Loading ImageListView renderers
                 FormSplash.UpdateStatus("Loading ImageListView renderers...");
 
@@ -361,7 +364,7 @@ namespace PhotoTagsSynchronizer
                 FormSplash.UpdateStatus("Initialize database: connect...");
                 try
                 {
-                    databaseUtilitiesSqliteMetadata = new SqliteDatabaseUtilities(DatabaseType.SqliteMetadataDatabase);
+                    databaseUtilitiesSqliteMetadata = new SqliteDatabaseUtilities(DatabaseType.SqliteMetadataDatabase, FileHandeling.FileHandler.GetLocalApplicationDataPath(""));
                 }
                 catch (Exception ex)
                 {
@@ -429,10 +432,11 @@ namespace PhotoTagsSynchronizer
                 try
                 {
                     if (!File.Exists(SqliteDatabaseUtilities.GetMicrosoftPhotosDatabaseOriginalFile()) &&
-                    !File.Exists(SqliteDatabaseUtilities.GetMicrosoftPhotosDatabaseBackupFile())) GlobalData.doesMircosoftPhotosExists = false;
+                    !File.Exists(SqliteDatabaseUtilities.GetMicrosoftPhotosDatabaseBackupFile(
+                        FileHandeling.FileHandler.GetLocalApplicationDataPath("")))) GlobalData.doesMircosoftPhotosExists = false;
 
-                    if (GlobalData.doesMircosoftPhotosExists) databaseMicrosoftPhotos = new MicrosoftPhotosReader();
-                    if (!File.Exists(SqliteDatabaseUtilities.GetMicrosoftPhotosDatabaseBackupFile())) GlobalData.doesMircosoftPhotosExists = false;
+                    if (GlobalData.doesMircosoftPhotosExists) databaseMicrosoftPhotos = new MicrosoftPhotosReader(FileHandeling.FileHandler.GetLocalApplicationDataPath(""));
+                    if (!File.Exists(SqliteDatabaseUtilities.GetMicrosoftPhotosDatabaseBackupFile(FileHandeling.FileHandler.GetLocalApplicationDataPath("")))) GlobalData.doesMircosoftPhotosExists = false;
 
                     try
                     {
@@ -1327,6 +1331,7 @@ namespace PhotoTagsSynchronizer
             #endregion
         }
 
+        #region kryptonRibbonGroupButtonCopyOldMicrosoftPhotosDatabaseToLegacy_Click
         private void kryptonRibbonGroupButtonCopyOldMicrosoftPhotosDatabaseToLegacy_Click(object sender, EventArgs e)
         {
             if (KryptonMessageBox.Show(
@@ -1392,7 +1397,7 @@ namespace PhotoTagsSynchronizer
                     "Packages\\" + SqliteDatabaseUtilities.MicrosoftWindowsPhotosWindows11Legacy + "\\LocalState\\MediaDb.v1.sqlite"));
                 #endregion
 
-                KryptonMessageBox.Show("The database from Old Microsoft WIndows Photos app was copied to Microsoft Windows Photos Legacy app", "Copying Microsoft Photos database done", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("The database from Old Microsoft Windows Photos app was copied to Microsoft Windows Photos Legacy app", "Copying Microsoft Photos database done", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             catch (Exception ex) {
                 string helpText = "";
@@ -1408,8 +1413,10 @@ namespace PhotoTagsSynchronizer
                 KryptonMessageBox.Show(ex.Message + helpText, "Copying Microsoft Photos database failed", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
-
+        #endregion
     }
+
+
 }
 
 

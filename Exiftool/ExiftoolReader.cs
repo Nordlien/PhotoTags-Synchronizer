@@ -613,7 +613,7 @@ namespace Exiftool
             if (useArguFile)
             {
                 bool filesFound = false;
-                exiftoolArgFileFullpath = FileHandler.GetLocalApplicationDataPath("exiftool_" + Guid.NewGuid() + ".txt", true, null);
+                exiftoolArgFileFullpath = FileHandler.GetLocalApplicationDataPath("exiftool_" + Guid.NewGuid() + ".txt", deleteOldTempFile: true);
                 using (StreamWriter sw = new StreamWriter(exiftoolArgFileFullpath, false, Encoding.UTF8))
                 {
                     

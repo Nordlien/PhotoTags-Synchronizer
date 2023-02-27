@@ -9,10 +9,106 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms;
+using System.Security.AccessControl;
+using System.Security.Principal;
 
 namespace FileHandeling
 {
+    
+
+    /// <summary>
+    /// Simplifies the creation of folders in the CommonApplicationData folder
+    /// and setting of permissions for all users.
+    /// </summary>
+    public class CommonApplicationData {
+        private string applicationFolder;
+        private string companyFolder;
+        private static readonly string directory =
+            Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+
+        /// <summary>
+        /// Creates a new instance of this class creating the specified company and application folders
+        /// if they don't already exist and optionally allows write/modify to all users.
+        /// </summary>
+        /// <param name="companyFolder">The name of the company's folder (normally the company name).</param>
+        /// <param name="applicationFolder">The name of the application's folder (normally the application name).</param>
+        /// <remarks>If the application folder already exists then permissions if requested are NOT altered.</remarks>
+        public CommonApplicationData(string companyFolder, string applicationFolder)
+            : this(companyFolder, applicationFolder, false) { }
+        /// <summary>
+        /// Creates a new instance of this class creating the specified company and application folders
+        /// if they don't already exist and optionally allows write/modify to all users.
+        /// </summary>
+        /// <param name="companyFolder">The name of the company's folder (normally the company name).</param>
+        /// <param name="applicationFolder">The name of the application's folder (normally the application name).</param>
+        /// <param name="allUsers">true to allow write/modify to all users; otherwise, false.</param>
+        /// <remarks>If the application folder already exists then permissions if requested are NOT altered.</remarks>
+        public CommonApplicationData(string companyFolder, string applicationFolder, bool allUsers) {
+            this.applicationFolder = applicationFolder;
+            this.companyFolder = companyFolder;
+            CreateFolders(allUsers);
+        }
+
+        /// <summary>
+        /// Gets the path of the application's data folder.
+        /// </summary>
+        public string ApplicationFolderPath {
+            get { return Path.Combine(CompanyFolderPath, applicationFolder); }
+        }
+        /// <summary>
+        /// Gets the path of the company's data folder.
+        /// </summary>
+        public string CompanyFolderPath {
+            get { return Path.Combine(directory, companyFolder); }
+        }
+
+        private void CreateFolders(bool allUsers) {
+            DirectoryInfo directoryInfo;
+            DirectorySecurity directorySecurity;
+            AccessRule rule;
+            SecurityIdentifier securityIdentifier = new SecurityIdentifier
+                (WellKnownSidType.BuiltinUsersSid, null);
+            if (!Directory.Exists(CompanyFolderPath)) {
+                directoryInfo = Directory.CreateDirectory(CompanyFolderPath);
+                bool modified;
+                directorySecurity = directoryInfo.GetAccessControl();
+                rule = new FileSystemAccessRule(
+                        securityIdentifier,
+                        FileSystemRights.Write |
+                        FileSystemRights.ReadAndExecute |
+                        FileSystemRights.Modify,
+                        AccessControlType.Allow);
+                directorySecurity.ModifyAccessRule(AccessControlModification.Add, rule, out modified);
+                directoryInfo.SetAccessControl(directorySecurity);
+            }
+            if (!Directory.Exists(ApplicationFolderPath)) {
+                directoryInfo = Directory.CreateDirectory(ApplicationFolderPath);
+                if (allUsers) {
+                    bool modified;
+                    directorySecurity = directoryInfo.GetAccessControl();
+                    rule = new FileSystemAccessRule(
+                        securityIdentifier,
+                        FileSystemRights.Write |
+                        FileSystemRights.ReadAndExecute |
+                        FileSystemRights.Modify,
+                        InheritanceFlags.ContainerInherit |
+                        InheritanceFlags.ObjectInherit,
+                        PropagationFlags.InheritOnly,
+                        AccessControlType.Allow);
+                    directorySecurity.ModifyAccessRule(AccessControlModification.Add, rule, out modified);
+                    directoryInfo.SetAccessControl(directorySecurity);
+                }
+            }
+        }
+        /// <summary>
+        /// Returns the path of the application's data folder.
+        /// </summary>
+        /// <returns>The path of the application's data folder.</returns>
+        public override string ToString() {
+            return ApplicationFolderPath;
+        }
+    }
+
     public static class FileHandler
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
@@ -598,13 +694,59 @@ namespace FileHandeling
         }
         #endregion
 
+
+        #region CreateFolders
+        private static void CreateFoldersWithUserAccessRights(string ApplicationFolderPath, bool allUsers = true) {
+            DirectoryInfo directoryInfo;
+            DirectorySecurity directorySecurity;
+            AccessRule rule;
+            SecurityIdentifier securityIdentifier = new SecurityIdentifier
+                (WellKnownSidType.BuiltinUsersSid, null);
+            
+            if (!Directory.Exists(ApplicationFolderPath)) {
+                directoryInfo = Directory.CreateDirectory(ApplicationFolderPath);
+                if (allUsers) {
+                    bool modified;
+                    directorySecurity = directoryInfo.GetAccessControl();
+                    rule = new FileSystemAccessRule(
+                        securityIdentifier,
+                        FileSystemRights.Write |
+                        FileSystemRights.ReadAndExecute |
+                        FileSystemRights.Modify,
+                        InheritanceFlags.ContainerInherit |
+                        InheritanceFlags.ObjectInherit,
+                        PropagationFlags.InheritOnly,
+                        AccessControlType.Allow);
+                    directorySecurity.ModifyAccessRule(AccessControlModification.Add, rule, out modified);
+                    directoryInfo.SetAccessControl(directorySecurity);
+                }
+            }
+        }
+        #endregion
+
+        #region SetLocalApplicationDataPath
+        private static string applicationDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PhotoTagsSynchronizer");
+        public static void SetLocalApplicationDataPath(string newLocalApplicationDataPath) 
+        {
+            if (Directory.Exists(newLocalApplicationDataPath)) 
+            {
+                applicationDataPath = newLocalApplicationDataPath;
+            }
+            else 
+            {
+                applicationDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PhotoTagsSynchronizer");
+            }
+        }
+        #endregion
+
         #region GetLocalApplicationDataPath
-        public static string GetLocalApplicationDataPath(string tempfilename, bool deleteOldTempFile, Form formOwner = null)
+        public static string GetLocalApplicationDataPath(string tempfilename, bool deleteOldTempFile = false)
         {
             //Create directory, filename and remove old arg file
 
-            string exiftoolArgFileDirecory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PhotoTagsSynchronizer");
-            if (!Directory.Exists(exiftoolArgFileDirecory)) Directory.CreateDirectory(exiftoolArgFileDirecory);
+            string exiftoolArgFileDirecory = applicationDataPath;
+            if (!Directory.Exists(exiftoolArgFileDirecory)) CreateFoldersWithUserAccessRights(exiftoolArgFileDirecory);
+
             string exiftoolArgFileFullPath = Path.Combine(exiftoolArgFileDirecory, tempfilename);
             try
             {
@@ -617,16 +759,16 @@ namespace FileHandeling
             return exiftoolArgFileFullPath;
         }
 
-        public static string GetLocalApplicationDataTempPath(string tempfilename)
-        {
-            //Create directory, filename and remove old arg file
+        //public static string GetLocalApplicationDataTempPath(string tempfilename)
+        //{
+        //    //Create directory, filename and remove old arg file
 
-            string tempFileDirecory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PhotoTagsSynchronizer");
-            if (!Directory.Exists(tempFileDirecory)) Directory.CreateDirectory(tempFileDirecory);
-            string tempFileFullPath = Path.Combine(tempFileDirecory, tempfilename);
+        //    string tempFileDirecory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PhotoTagsSynchronizer");
+        //    if (!Directory.Exists(tempFileDirecory)) Directory.CreateDirectory(tempFileDirecory);
+        //    string tempFileFullPath = Path.Combine(tempFileDirecory, tempfilename);
             
-            return tempFileFullPath;
-        }
+        //    return tempFileFullPath;
+        //}
         #endregion
 
         #region CombineApplicationPathWithFilename

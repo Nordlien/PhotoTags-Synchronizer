@@ -21,9 +21,9 @@ namespace MicrosoftPhotos
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
         private SqliteDatabaseUtilities dbToolsMicrosoftReader;
-        public MicrosoftPhotosReader()
+        public MicrosoftPhotosReader(string localApplicationData)
         {
-            dbToolsMicrosoftReader = new SqliteDatabaseUtilities(DatabaseType.SqliteMicrosoftPhotos);
+            dbToolsMicrosoftReader = new SqliteDatabaseUtilities(DatabaseType.SqliteMicrosoftPhotos, localApplicationData);
         }
 
         public Metadata Read(MetadataBrokerType broker, string fullFilePath)

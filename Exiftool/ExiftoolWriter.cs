@@ -10,6 +10,7 @@ using WindowsProperty;
 using ApplicationAssociations;
 using FileHandeling;
 using System.Threading;
+using System.Web.UI.Design.WebControls;
 
 namespace Exiftool
 {
@@ -215,11 +216,19 @@ namespace Exiftool
             {
                 Logger.Debug("WriteMetadata: started");
                 //Create directory, filename and remove old arg file
-                string exiftoolArgFileFullpath = FileHandler.GetLocalApplicationDataPath("exiftool_arg.txt", true, null);
+                string exiftoolArgFileFullpath = FileHandler.GetLocalApplicationDataPath("exiftool_arg.txt", deleteOldTempFile: true);
 
-                using (StreamWriter sw = new StreamWriter(exiftoolArgFileFullpath, false, Encoding.UTF8))
-                {
-                    sw.WriteLine(resultReplaceVariables);
+                try {
+                    using (StreamWriter sw = new StreamWriter(exiftoolArgFileFullpath, false, Encoding.UTF8)) {
+                        sw.WriteLine(resultReplaceVariables);
+                    }
+                } catch (Exception ex) {
+                    throw new Exception(
+                        "Was not able to write to the " + exiftoolArgFileFullpath + " file.\r\n" +
+                        "Without this access the application will not work.\r\n" +
+                        "Possible solutions:\r\n" +
+                        "1. Go to this application Tools, Config, Application, and Folders and then set a new temporary data folder with correct access rights.\r\n" +
+                        "or\r\n2. Check access rights on the files and folder.\r\n\r\n", ex);
                 }
 
                 #region Exiftool Write

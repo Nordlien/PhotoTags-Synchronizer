@@ -1364,5 +1364,8 @@ riff=UTF8
     <Setting Name="MicrosoftXtraAtomExtensions" Type="System.String" Scope="User">
       <Value Profile="(Default)">.AVI,.JPG,.JPEG,.PNG,.WMF,.AVI,.MPEG,.MPG,.MP4</Value>
     </Setting>
+    <Setting Name="TempDataFolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>
