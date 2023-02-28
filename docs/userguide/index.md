@@ -12,6 +12,34 @@
 - How to do [WebScraping](webscraping)
 - What's on the [Ribbon](ribbon)
 
+## Help Content
+- [Autocorrect](autocorrect/index.md)
+- [Config](config/index.md)
+- [Convert and merge](convert-and-merge/index.md)
+- [Chromecast](mediapreview-chromecast/index.md)
+- [Database cleanin](database-cleaning/index.md)
+- [Date](date/index.md)
+- [Exiftool](exiftool/index.md)
+- [Filters](filters/index.md)
+- [Gridview](gridview/index.md)
+- [Imagelistview](imagelistview/index.md)
+- [Import gps locations](import-gps-locations/index.md)
+- [Keywords](keywords/index.md)
+- [Location analytics](location-analytics/index.md)
+- [Map](map/index.md)
+- [Mediapreview](mediapreview-chromecast/index.md)
+- [People](people/index.md)
+- [Properties](properties/index.md)
+- [Renametool](renametool/index.md)
+- [Ribbon](ribbon/index.md)
+- [Runbatch](runbatch/index.md)
+- [Save](save/index.md)
+- [Themes](themes/index.md)
+- [Userinterface](userinterface/index.md)
+- [Warnings](warnings/index.md)
+- [Webscraping](webscraping/index.md)
+- [Windows security alert](windows-security-alert/index.md)
+
 ## Help group by the Panel Layout
 
 [Filters & Search panel](filters)|[Image List View panel](imagelistview)|[Grid view panel](gridview)
@@ -28,6 +56,7 @@
 .|Open file location|.
 .|Rotate 90 180, 270 degree |.
 .|[Media preview and chromecast](mediapreview-chromecast) |.
+
 
 
 

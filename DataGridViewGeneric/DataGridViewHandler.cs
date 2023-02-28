@@ -324,11 +324,7 @@ namespace DataGridViewGeneric
         #region DataGridView Handling 
 
         #region DataGridView Handling - Constructor
-        public DataGridViewHandler(DataGridView dataGridView, KryptonPalette palette, string dataGridViewName, string topLeftHeaderCellName,
-            DataGridViewSize cellSize, bool allowUserToAddRow) : this
-            (dataGridView, palette, dataGridViewName, topLeftHeaderCellName, cellSize, null, null, null, allowUserToAddRow)
-        {
-        }
+        
 
         #region DataGridViewInit
         public static void DataGridViewInit(DataGridView dataGridView, bool allowUserToAddRows)
@@ -392,6 +388,11 @@ namespace DataGridViewGeneric
             dataGridView.KeyDown += DataGridView_KeyDown;
         }
         #endregion 
+
+        public DataGridViewHandler(DataGridView dataGridView, KryptonPalette palette, string dataGridViewName, string topLeftHeaderCellName,
+            DataGridViewSize cellSize, bool allowUserToAddRow) : this
+            (dataGridView, palette, dataGridViewName, topLeftHeaderCellName, cellSize, null, null, null, allowUserToAddRow) {
+        }
 
         public DataGridViewHandler(DataGridView dataGridView, KryptonPalette palette, string dataGridViewName, string topLeftHeaderCellName, 
             DataGridViewSize cellSize, List<ColumnNameAndWidth> columnNameAndWidthsLarge, List<ColumnNameAndWidth> columnNameAndWidthsMedium, 

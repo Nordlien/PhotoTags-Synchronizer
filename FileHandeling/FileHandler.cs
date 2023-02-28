@@ -672,17 +672,6 @@ namespace FileHandeling
             }
             return exiftoolArgFileFullPath;
         }
-
-        //public static string GetLocalApplicationDataTempPath(string tempfilename)
-        //{
-        //    //Create directory, filename and remove old arg file
-
-        //    string tempFileDirecory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PhotoTagsSynchronizer");
-        //    if (!Directory.Exists(tempFileDirecory)) Directory.CreateDirectory(tempFileDirecory);
-        //    string tempFileFullPath = Path.Combine(tempFileDirecory, tempfilename);
-            
-        //    return tempFileFullPath;
-        //}
         #endregion
 
         #region CombineApplicationPathWithFilename
