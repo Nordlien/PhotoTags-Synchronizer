@@ -2838,7 +2838,8 @@ namespace MetadataLibrary
 
                 #region SELECT Name, Count(1) AS CountNames FROM MediaPersonalRegions
                 string sqlCommand =
-                "SELECT Name, Count(1) AS CountNames FROM MediaPersonalRegions WHERE Broker = @Broker GROUP BY Name";
+                //"SELECT Name, Count(1) AS CountNames FROM MediaPersonalRegions WHERE Broker = @Broker GROUP BY Name";
+                "SELECT Name, CountNames FROM (SELECT Name, Broker, Count(1) AS CountNames FROM MediaPersonalRegions GROUP BY Name) WHERE Broker = 1"; //Use index
 
                 using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransactionSelect))
                 {

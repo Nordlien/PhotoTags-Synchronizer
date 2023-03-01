@@ -492,7 +492,8 @@ namespace SqliteDatabase
             connectionDatabase.Open();                             // Open the connection to the database
 
             string sqlCommand;
-            
+
+            #region If database don exist
             if (!doesDatabaseExist)
             {
                 sqlCommand =
@@ -696,8 +697,33 @@ namespace SqliteDatabase
                 }
                 #endregion
             }
+            #endregion
+
+            //try {
+
+            //    bool indexFound = false;
+
+            //    sqlCommand = "SELECT count(*) FROM sqlite_master WHERE type='index' and name='MediaPersonalRegions'";
+               
+            //    using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, this.connectionDatabase)) {
+                    
+            //        using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader()) {
+            //            if (reader.Read()) indexFound = true;
+            //        }
+            //    }
+
+            //    if (!indexFound) {
+            //        sqlCommand = "CREATE INDEX MediaPersonalRegionsBrokerNames ON MediaPersonalRegions (Broker ASC, Name ASC)";
+            //        using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, this.connectionDatabase)) {
+            //            commandDatabase.ExecuteNonQuery();                  // Execute the query
+            //        }
+            //    }
+            //}
+            //catch (Exception ex) {
+            //    Logger.Warn(ex);
+            //}
         }
-#endregion
+        #endregion
 
         #region Database Close
         public void DatabaseClose()
