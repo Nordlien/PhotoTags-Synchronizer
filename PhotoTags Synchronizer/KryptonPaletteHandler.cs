@@ -23,11 +23,15 @@ namespace PhotoTagsSynchronizer
             kryptonForm.UseDropShadow = enableDropShadow;
             if (isSystemPalette)
             {
+                System.Drawing.Font defaultFont = new System.Drawing.Font("Microsoft Sans Serif", 9, System.Drawing.FontStyle.Regular);
                 switch (((KryptonPalette)newKryptonPalette).BasePaletteMode)
                 {
                     case PaletteMode.Office2007Black:
                     case PaletteMode.Office2010Black:
                     case PaletteMode.Office365Black:
+                        ((KryptonPalette)kryptonManager.GlobalPalette).Common.StateCommon.Content.ShortText.Font = defaultFont;
+                        ((KryptonPalette)kryptonManager.GlobalPalette).Common.StateCommon.Content.LongText.Font = defaultFont;
+                        ((KryptonPalette)kryptonManager.GlobalPalette).GridStyles.GridCommon.StateCommon.DataCell.Content.Font = defaultFont;
                         //ColumnHeader - Normal - 0
                         ((KryptonPalette)kryptonManager.GlobalPalette).GridStyles.GridCommon.StateCommon.HeaderColumn.Back.Color1 = DataGridViewHandler.ColorBackHeaderNormal(null);
                         ((KryptonPalette)kryptonManager.GlobalPalette).GridStyles.GridCommon.StateCommon.HeaderColumn.Content.Color1 = DataGridViewHandler.ColorTextHeaderNormal(null);
@@ -81,6 +85,10 @@ namespace PhotoTagsSynchronizer
                     case PaletteMode.SparkleBlue:
                     case PaletteMode.SparkleOrange:
                     case PaletteMode.SparklePurple:
+                        ((KryptonPalette)kryptonManager.GlobalPalette).Common.StateCommon.Content.ShortText.Font = defaultFont;
+                        ((KryptonPalette)kryptonManager.GlobalPalette).Common.StateCommon.Content.LongText.Font = defaultFont;
+                        ((KryptonPalette)kryptonManager.GlobalPalette).GridStyles.GridCommon.StateCommon.DataCell.Content.Font = defaultFont;
+
                         //ColumnHeader - Normal - 0
                         ((KryptonPalette)kryptonManager.GlobalPalette).GridStyles.GridCommon.StateCommon.HeaderColumn.Back.Color1 = DataGridViewHandler.ColorBackHeaderNormal(null);
                         ((KryptonPalette)kryptonManager.GlobalPalette).GridStyles.GridCommon.StateCommon.HeaderColumn.Content.Color1 = DataGridViewHandler.ColorTextHeaderNormal(null);
