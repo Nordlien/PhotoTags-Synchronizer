@@ -33,6 +33,9 @@ using System.Collections;
 using SharpKml.Dom.Atom;
 using SharpKml.Dom;
 using System.Net.Sockets;
+using GoogleCast;
+using System.Runtime.Remoting.Messaging;
+using CefSharp.DevTools.CacheStorage;
 
 namespace PhotoTagsSynchronizer
 {
@@ -152,6 +155,9 @@ namespace PhotoTagsSynchronizer
                 #region Initialize components
                 FormSplash.UpdateStatus("Initialize components...");
                 InitializeComponent();
+                //this.Refresh();
+                //CalculatePanelSize(this);
+                
                 #endregion
 
                 #region InitializeComponent - Krypton
@@ -674,7 +680,11 @@ namespace PhotoTagsSynchronizer
                 catch { }
                 #endregion
 
+                
                 this.ResumeLayout();
+                
+                CalculatePanelSize(this, 115);
+
                 #endregion
 
                 #region OneDriveNetworkNames - for automatic remove
@@ -769,11 +779,37 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
+        #region
+        private void CalculatePanelSize(KryptonForm sender, int kryptonRibbonHeight) 
+        {
+            panelMain.Top = kryptonRibbonHeight; //kryptonRibbonMain.Height + 1;
+            panelMain.Left = 1;
+
+            panelMain.Height = ((KryptonForm)sender).Height - (
+                kryptonRibbonMain.Height +
+                kryptonStatusStrip1.Height +
+                ((KryptonForm)sender).RealWindowBorders.Top +
+                ((KryptonForm)sender).RealWindowBorders.Bottom);
+            panelMain.Width = ((KryptonForm)sender).Width - ((KryptonForm)sender).RealWindowBorders.Left - ((KryptonForm)sender).RealWindowBorders.Right;
+
+            //
+
+            dataGridViewTagsAndKeywords.Top = 0;
+            dataGridViewTagsAndKeywords.Left = 0;
+            dataGridViewTagsAndKeywords.Width = kryptonPageToolboxTagsKeywords.Width;
+            dataGridViewTagsAndKeywords.Height = kryptonPageToolboxTagsKeywords.Height;
+
+        }
+
+        #endregion 
+
         #region Resize and restore windows size when reopen application
         private void MainForm_Resize(object sender, EventArgs e)
         {
             if (isFormLoading) return;
             _previousWindowsState = this.WindowState;
+
+            CalculatePanelSize((KryptonForm)sender, kryptonRibbonMain.Height);
         }
 
         private void MainForm_Activated(object sender, EventArgs e)
@@ -977,6 +1013,7 @@ namespace PhotoTagsSynchronizer
             this.Size = Properties.Settings.Default.MainFormSize;
             this.Location = Properties.Settings.Default.MainFormLocation;
             this.Activate();
+            
 
             imageListView1.Focus();
         }
@@ -1047,6 +1084,9 @@ namespace PhotoTagsSynchronizer
                 MaximizeOrRestoreWorkspaceMainCellAndChilds();
                 SetNavigatorModeSearch((NavigatorMode)Properties.Settings.Default.WorkspaceCellFolderSearchFilterNavigatorMode);
 
+                CalculatePanelSize(this, kryptonRibbonMain.Height);
+                this.Refresh();
+
                 #region Show About Page
                 if (Properties.Settings.Default.ShowAboutPage)
                 {
@@ -1077,6 +1117,7 @@ namespace PhotoTagsSynchronizer
                     }
                 }
                 #endregion 
+
             }
             catch (Exception ex)
             {
@@ -1147,7 +1188,7 @@ namespace PhotoTagsSynchronizer
 
         private void kryptonPageToolboxTagsDetails_Resize(object sender, EventArgs e)
         {
-            tableLayoutPanelTags.Width = Math.Max(kryptonPageToolboxTagsDetails.Width - 25, tableLayoutPanelTags.MinimumSize.Width);
+            //tableLayoutPanelTags.Width = Math.Max(kryptonPageToolboxTagsDetails.Width - 25, tableLayoutPanelTags.MinimumSize.Width);
         }
 
         private void RefreshHackSearchFilter()
@@ -1413,7 +1454,12 @@ namespace PhotoTagsSynchronizer
                 KryptonMessageBox.Show(ex.Message + helpText, "Copying Microsoft Photos database failed", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
+
         #endregion
+
+        private void kryptonRibbonMain_Resize(object sender, EventArgs e) {
+            
+        }
     }
 
 

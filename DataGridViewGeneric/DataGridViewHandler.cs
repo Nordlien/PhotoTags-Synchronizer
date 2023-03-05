@@ -7,7 +7,6 @@ using System.Drawing;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Threading;
 using System.Windows.Forms;
 using FileHandeling;
 using ColumnNamesAndWidth;
@@ -371,7 +370,8 @@ namespace DataGridViewGeneric
             dataGridViewGenericData.ColumnNameAndWidthsLarge = columnNameAndWidthsLarge;
             dataGridViewGenericData.ColumnNameAndWidthsMedium = columnNameAndWidthsMedium;
             dataGridViewGenericData.ColumnNameAndWidthsSmall = columnNameAndWidthsSmall;
-            dataGridViewGenericData.CellHeight = CalculateCellHeightBaseOnFont(dataGridView.DefaultCellStyle.Font); 
+
+            dataGridViewGenericData.CellHeight = CalculateCellHeightBaseOnFont(dataGridView); 
             dataGridView.TopLeftHeaderCell.Value = topLeftHeaderCellName;
             dataGridView.TopLeftHeaderCell.Tag = dataGridViewGenericData;
         }
@@ -391,7 +391,7 @@ namespace DataGridViewGeneric
             dataGridView.CurrentCellDirtyStateChanged += DataGridView_CurrentCellDirtyStateChanged;
             dataGridView.KeyDown += DataGridView_KeyDown;
         }
-        #endregion 
+        #endregion
 
         public DataGridViewHandler(DataGridView dataGridView, KryptonPalette palette, string dataGridViewName, string topLeftHeaderCellName,
             DataGridViewSize cellSize, bool allowUserToAddRow) : this
@@ -424,7 +424,7 @@ namespace DataGridViewGeneric
             dataGridView.DefaultCellStyle.ForeColor = ColorTextCellNormal(dataGridView);
 
             //dataGridViewGenericData.CellHeight = (dataGridView.DefaultCellStyle.Font.Height <= 24 ? 24 : dataGridView.DefaultCellStyle.Font.Height + 2);
-            dataGridViewGenericData.CellHeight = CalculateCellHeightBaseOnFont(dataGridView.DefaultCellStyle.Font);
+            dataGridViewGenericData.CellHeight = CalculateCellHeightBaseOnFont(dataGridView);
 
             dataGridView.Rows.Clear();
             dataGridView.Columns.Clear();
@@ -490,7 +490,7 @@ namespace DataGridViewGeneric
                 case DataGridViewSize.Large | DataGridViewSize.RenameConvertAndMergeSize:
                     return cellHight; //Rename Grid*/
                 case DataGridViewSize.ConfigSize:
-                    return cellHight;
+                    return cellHight; 
                 default:
                     throw new Exception("Not implemented");
             }
@@ -627,11 +627,14 @@ namespace DataGridViewGeneric
         }
         #endregion
 
-        private static int CalculateCellHeightBaseOnFont(Font font) 
+        private static int CalculateCellHeightBaseOnFont(DataGridView dataGridView) 
         {
+            Font font = dataGridView.DefaultCellStyle.Font;
+            
             // 18.398438 = 16.0 * 2355 / 2048
             float lineSpacing = font.FontFamily.GetLineSpacing(font.Style);
             int lineSpacingPixel = (int)(font.Size * (lineSpacing / font.FontFamily.GetEmHeight(font.Style)));
+
             ////infoString = "The line spacing is " + lineSpacing + " design units, " +   lineSpacingPixel + " pixels.";
 
 
@@ -646,17 +649,27 @@ namespace DataGridViewGeneric
             //int descentPixel =
             //   (int)(font.Size * descent / font.FontFamily.GetEmHeight(font.Style));
 
-            int cellHeight = lineSpacingPixel + 9;
+            float deviceDpi = 96;
+            Graphics g = dataGridView.Parent.CreateGraphics();
+            try {
+                deviceDpi = g.DpiX;
+            }
+            finally {
+                g.Dispose();
+            }
 
+            //int deviceDpi = (int)(dx / 96);
+
+            int cellHeight = (int)((lineSpacingPixel + 9) * (deviceDpi / 96));
             return (cellHeight <= 24 ? 24 : cellHeight);
-
         }
 
         #region DataGridView Handling - GetCellRowHeight
         public static int GetCellRowHeight(DataGridView dataGridView)
         {
             DataGridViewGenericData dataGridViewGenericData = (DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag;            
-            return GetCellHeigth(GetDataGridSizeLargeMediumSmall(dataGridView), (dataGridViewGenericData == null ? CalculateCellHeightBaseOnFont(dataGridView.DefaultCellStyle.Font) : dataGridViewGenericData.CellHeight));
+            return GetCellHeigth(GetDataGridSizeLargeMediumSmall(dataGridView), (dataGridViewGenericData == null ? 
+                CalculateCellHeightBaseOnFont(dataGridView) : dataGridViewGenericData.CellHeight));
         }
         #endregion
 
