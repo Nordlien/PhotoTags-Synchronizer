@@ -1019,7 +1019,7 @@ namespace PhotoTagsSynchronizer
             this.tableLayoutPanelSerachSearch.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelSerachSearch.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelSerachSearch.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanelSerachSearch.Size = new System.Drawing.Size(297, 1143);
+            this.tableLayoutPanelSerachSearch.Size = new System.Drawing.Size(280, 1143);
             this.tableLayoutPanelSerachSearch.TabIndex = 29;
             // 
             // groupBoxSearchPeople
@@ -1035,7 +1035,7 @@ namespace PhotoTagsSynchronizer
             // groupBoxSearchPeople.Panel
             // 
             this.groupBoxSearchPeople.Panel.Controls.Add(this.tableLayoutPanelSearchPeople);
-            this.groupBoxSearchPeople.Size = new System.Drawing.Size(289, 315);
+            this.groupBoxSearchPeople.Size = new System.Drawing.Size(272, 315);
             this.groupBoxSearchPeople.TabIndex = 27;
             this.groupBoxSearchPeople.Values.Heading = "People:";
             // 
@@ -1395,7 +1395,7 @@ namespace PhotoTagsSynchronizer
             // groupBoxSearchKeywords.Panel
             // 
             this.groupBoxSearchKeywords.Panel.Controls.Add(this.tableLayoutPanelSearchKeywords);
-            this.groupBoxSearchKeywords.Size = new System.Drawing.Size(289, 141);
+            this.groupBoxSearchKeywords.Size = new System.Drawing.Size(272, 141);
             this.groupBoxSearchKeywords.TabIndex = 9;
             this.groupBoxSearchKeywords.Values.Heading = "Keywords";
             // 
@@ -1494,7 +1494,7 @@ namespace PhotoTagsSynchronizer
             // groupBoxSearchMediaTaken.Panel
             // 
             this.groupBoxSearchMediaTaken.Panel.Controls.Add(this.tableLayoutPanelSearchMediaTaken);
-            this.groupBoxSearchMediaTaken.Size = new System.Drawing.Size(289, 105);
+            this.groupBoxSearchMediaTaken.Size = new System.Drawing.Size(272, 105);
             this.groupBoxSearchMediaTaken.TabIndex = 9;
             this.groupBoxSearchMediaTaken.Values.Heading = "Media taken:";
             // 
@@ -1599,7 +1599,7 @@ namespace PhotoTagsSynchronizer
             // groupBoxSearchExtra.Panel
             // 
             this.groupBoxSearchExtra.Panel.Controls.Add(this.tableLayoutPanelSearchAttributes);
-            this.groupBoxSearchExtra.Size = new System.Drawing.Size(289, 52);
+            this.groupBoxSearchExtra.Size = new System.Drawing.Size(272, 52);
             this.groupBoxSearchExtra.TabIndex = 9;
             this.groupBoxSearchExtra.Values.Heading = "Attributes:";
             // 
@@ -1643,7 +1643,7 @@ namespace PhotoTagsSynchronizer
             // groupBoxSearchRating.Panel
             // 
             this.groupBoxSearchRating.Panel.Controls.Add(this.tableLayoutPanelSearchRating);
-            this.groupBoxSearchRating.Size = new System.Drawing.Size(289, 52);
+            this.groupBoxSearchRating.Size = new System.Drawing.Size(272, 52);
             this.groupBoxSearchRating.TabIndex = 10;
             this.groupBoxSearchRating.Values.Heading = "Rating";
             // 
@@ -1761,7 +1761,7 @@ namespace PhotoTagsSynchronizer
             // groupBoxSearchFileSystem.Panel
             // 
             this.groupBoxSearchFileSystem.Panel.Controls.Add(this.tableLayoutPanelSearchFileSystem);
-            this.groupBoxSearchFileSystem.Size = new System.Drawing.Size(289, 82);
+            this.groupBoxSearchFileSystem.Size = new System.Drawing.Size(272, 82);
             this.groupBoxSearchFileSystem.TabIndex = 28;
             this.groupBoxSearchFileSystem.Values.Heading = "FileSystem";
             // 
@@ -1963,7 +1963,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageFolderSearchFilterFilter.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.kryptonPageFolderSearchFilterFilter.MinimumSize = new System.Drawing.Size(58, 58);
             this.kryptonPageFolderSearchFilterFilter.Name = "kryptonPageFolderSearchFilterFilter";
-            this.kryptonPageFolderSearchFilterFilter.Size = new System.Drawing.Size(474, 572);
+            this.kryptonPageFolderSearchFilterFilter.Size = new System.Drawing.Size(382, 352);
             this.kryptonPageFolderSearchFilterFilter.Text = "Filter";
             this.kryptonPageFolderSearchFilterFilter.TextDescription = "Filter media files from serach or folder selected";
             this.kryptonPageFolderSearchFilterFilter.TextTitle = "Filter";
@@ -1985,7 +1985,7 @@ namespace PhotoTagsSynchronizer
             treeNode1.Text = "Filter";
             this.treeViewFilter.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode1});
-            this.treeViewFilter.Size = new System.Drawing.Size(473, 569);
+            this.treeViewFilter.Size = new System.Drawing.Size(381, 349);
             this.treeViewFilter.TabIndex = 0;
             this.treeViewFilter.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeViewFilter_AfterCheck);
             this.treeViewFilter.BeforeCheck += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeViewFilter_BeforeCheck);
@@ -4287,11 +4287,11 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonTabSelect,
             this.kryptonRibbonTabTools,
             this.kryptonRibbonTabPreview});
+            this.kryptonRibbonMain.SelectedContext = null;
             this.kryptonRibbonMain.SelectedTab = this.kryptonRibbonTabHome;
             this.kryptonRibbonMain.Size = new System.Drawing.Size(1168, 115);
             this.kryptonRibbonMain.TabIndex = 12;
             this.kryptonRibbonMain.SelectedTabChanged += new System.EventHandler(this.kryptonRibbonMain_SelectedTabChanged);
-            this.kryptonRibbonMain.Resize += new System.EventHandler(this.kryptonRibbonMain_Resize);
             // 
             // kryptonRibbonQATButtonSave
             // 

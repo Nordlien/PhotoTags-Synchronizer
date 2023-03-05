@@ -419,7 +419,8 @@ namespace PhotoTagsSynchronizer
                 foreach (string node in sortedNodes)
                 {
                     if (StopPopulate) break;
-                    treeView.Nodes[keyRoot].Nodes[key].Nodes.Add(node, FilterVerifyer.GetTreeNodeText(GlobalData.SearchFolder, node, false));
+                    if (!treeView.Nodes[keyRoot].Nodes[key].Nodes.ContainsKey(node))
+                        treeView.Nodes[keyRoot].Nodes[key].Nodes.Add(node, FilterVerifyer.GetTreeNodeText(GlobalData.SearchFolder, node, false));
                 }
             }
             catch { 

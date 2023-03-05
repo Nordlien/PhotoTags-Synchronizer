@@ -1457,9 +1457,8 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-        private void kryptonRibbonMain_Resize(object sender, EventArgs e) {
-            
-        }
+
+        
     }
 
 
