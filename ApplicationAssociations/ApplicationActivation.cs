@@ -270,7 +270,7 @@ namespace ApplicationAssociations
         #endregion
 
         #region ProcessRun(string command, string arguments, bool waitForExit)
-        public static void ProcessRun(string command, string arguments, bool waitForExit)
+        public static void ProcessRun(string command, string arguments, bool waitForExit, bool createNoWindow = false)
         {
             using (var process = new Process
             {
@@ -282,7 +282,7 @@ namespace ApplicationAssociations
                     RedirectStandardOutput = false,
                     RedirectStandardError = false,
                     RedirectStandardInput = false,
-                    CreateNoWindow = false
+                    CreateNoWindow = createNoWindow
                 }
             })
             {

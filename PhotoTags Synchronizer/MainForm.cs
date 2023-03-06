@@ -36,6 +36,7 @@ using System.Net.Sockets;
 using GoogleCast;
 using System.Runtime.Remoting.Messaging;
 using CefSharp.DevTools.CacheStorage;
+using ApplicationAssociations;
 
 namespace PhotoTagsSynchronizer
 {
@@ -1075,6 +1076,20 @@ namespace PhotoTagsSynchronizer
                 {
                     KryptonMessageBox.Show(ex.Message, "Populate search failed...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 }
+                #endregion
+
+                #region Compile Exiftool Hack
+                /*
+                |ERROR|PhotoTagsSynchronizer.MainForm|ThreadCollectMetadataExiftool - 
+	            Running Exiftool failed.|System.Exception: Encode/Encoding.pm did not return a true value at C:/Perl/lib/Encode.pm line 265.
+	            Compilation failed in require at C:/Perl/lib/Archive/Zip/Archive.pm line 21.
+	            BEGIN failed--compilation aborted at C:/Perl/lib/Archive/Zip/Archive.pm line 24.
+	            Compilation failed in require at C:/Perl/lib/Archive/Zip.pm line 265.
+	            Compilation failed in require at -e line 165.
+                */
+                String path = NativeMethods.GetFullPathOfFile("exiftool.exe");
+                ApplicationActivation.ProcessRun(path, "-ver", false, true);
+
                 #endregion
 
                 ImageListView_FetchListOfMediaFiles_FromFolder_and_Aggregate(false, true);

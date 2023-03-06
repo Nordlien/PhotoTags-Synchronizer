@@ -38,7 +38,7 @@ namespace PhotoTagsSynchronizer
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Filter");
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Filter");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.panelMain = new Krypton.Toolkit.KryptonPanel();
             this.kryptonWorkspaceMain = new Krypton.Workspace.KryptonWorkspace();
@@ -1980,11 +1980,11 @@ namespace PhotoTagsSynchronizer
             this.treeViewFilter.Location = new System.Drawing.Point(1, 0);
             this.treeViewFilter.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.treeViewFilter.Name = "treeViewFilter";
-            treeNode4.Name = "NodeFolder";
-            treeNode4.Tag = "Filter";
-            treeNode4.Text = "Filter";
+            treeNode5.Name = "NodeFolder";
+            treeNode5.Tag = "Filter";
+            treeNode5.Text = "Filter";
             this.treeViewFilter.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode4});
+            treeNode5});
             this.treeViewFilter.Size = new System.Drawing.Size(381, 352);
             this.treeViewFilter.TabIndex = 0;
             this.treeViewFilter.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeViewFilter_AfterCheck);
@@ -4540,7 +4540,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonRibbonGroupHomeSave,
             this.kryptonRibbonGroupHomeHelp});
             this.kryptonRibbonTabHome.KeyTip = "H";
-            this.kryptonRibbonTabHome.Text = "B";
+            this.kryptonRibbonTabHome.Text = "Home";
             // 
             // kryptonRibbonGroupHomeClipboard
             // 
