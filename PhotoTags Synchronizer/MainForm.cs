@@ -492,10 +492,10 @@ namespace PhotoTagsSynchronizer
                     try
                     {
                         FormSplash.UpdateStatus("Configure ChromiumWebBrowser...");
-                        browser = new ChromiumWebBrowser("https://www.openstreetmap.org/")
-                        {
-                            Dock = DockStyle.Fill,
-                        };
+                        browser = new ChromiumWebBrowser("https://www.openstreetmap.org/");
+                        //{
+                        //    Dock = DockStyle.Fill,
+                        //};
                     }
                     catch (Exception ex)
                     {
@@ -1197,8 +1197,8 @@ namespace PhotoTagsSynchronizer
 
         private void kryptonPageFolderSearchFilterSearch_Resize(object sender, EventArgs e)
         {
-            tableLayoutPanelSerachSearch.Width = Math.Max(kryptonPageFolderSearchFilterSearch.Width - 25, tableLayoutPanelSearchKeywords.MinimumSize.Width + 5);
-            tableLayoutPanelSerachActions.Width = tableLayoutPanelSerachSearch.Width;
+            //tableLayoutPanelSerachSearch.Width = Math.Max(kryptonPageFolderSearchFilterSearch.Width - 25, tableLayoutPanelSearchKeywords.MinimumSize.Width + 5);
+            //tableLayoutPanelSerachActions.Width = tableLayoutPanelSerachSearch.Width;
         }
 
         private void kryptonPageToolboxTagsDetails_Resize(object sender, EventArgs e)
