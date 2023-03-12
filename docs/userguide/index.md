@@ -31,6 +31,7 @@
 - [People](people/index.md)
 - [Properties](properties/index.md)
 - [Renametool](renametool/index.md)
+- [Resizing workspace](resizing-wokspace/index.md)
 - [Ribbon](ribbon/index.md)
 - [Runbatch](runbatch/index.md)
 - [Save](save/index.md)
