@@ -47,6 +47,7 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.linkLabelHomepage = new System.Windows.Forms.LinkLabel();
             this.label1 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tabControlMessages.SuspendLayout();
             this.tabPageWarning.SuspendLayout();
             this.tabPageKeepYourTags.SuspendLayout();
@@ -59,24 +60,27 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // labelStatus
             // 
             this.labelStatus.AutoSize = true;
-            this.labelStatus.Location = new System.Drawing.Point(92, 54);
+            this.labelStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelStatus.Location = new System.Drawing.Point(33, 64);
             this.labelStatus.Name = "labelStatus";
-            this.labelStatus.Size = new System.Drawing.Size(70, 13);
+            this.labelStatus.Size = new System.Drawing.Size(84, 16);
             this.labelStatus.TabIndex = 0;
             this.labelStatus.Text = "Processing...";
             this.labelStatus.UseWaitCursor = true;
             // 
             // progressBar
             // 
-            this.progressBar.Location = new System.Drawing.Point(92, 73);
+            this.tableLayoutPanel1.SetColumnSpan(this.progressBar, 2);
+            this.progressBar.Location = new System.Drawing.Point(33, 82);
             this.progressBar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(399, 23);
+            this.progressBar.Size = new System.Drawing.Size(518, 23);
             this.progressBar.TabIndex = 1;
             this.progressBar.UseWaitCursor = true;
             // 
@@ -92,7 +96,7 @@
             this.textBoxWarning.Multiline = true;
             this.textBoxWarning.Name = "textBoxWarning";
             this.textBoxWarning.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxWarning.Size = new System.Drawing.Size(573, 121);
+            this.textBoxWarning.Size = new System.Drawing.Size(570, 98);
             this.textBoxWarning.TabIndex = 2;
             this.textBoxWarning.Visible = false;
             // 
@@ -108,11 +112,12 @@
             // 
             // checkBoxCloseWarning
             // 
-            this.checkBoxCloseWarning.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.checkBoxCloseWarning.Location = new System.Drawing.Point(95, 26);
+            this.checkBoxCloseWarning.AutoSize = true;
+            this.checkBoxCloseWarning.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxCloseWarning.Location = new System.Drawing.Point(179, 40);
             this.checkBoxCloseWarning.Margin = new System.Windows.Forms.Padding(4);
             this.checkBoxCloseWarning.Name = "checkBoxCloseWarning";
-            this.checkBoxCloseWarning.Size = new System.Drawing.Size(231, 24);
+            this.checkBoxCloseWarning.Size = new System.Drawing.Size(239, 20);
             this.checkBoxCloseWarning.TabIndex = 4;
             this.checkBoxCloseWarning.Text = "Close warning window automatically";
             this.checkBoxCloseWarning.Visible = false;
@@ -120,16 +125,17 @@
             // 
             // tabControlMessages
             // 
+            this.tableLayoutPanel1.SetColumnSpan(this.tabControlMessages, 3);
             this.tabControlMessages.Controls.Add(this.tabPageWarning);
             this.tabControlMessages.Controls.Add(this.tabPageKeepYourTags);
             this.tabControlMessages.Controls.Add(this.tabPageInternetAccess);
             this.tabControlMessages.Controls.Add(this.tabPageDelayReading);
             this.tabControlMessages.Controls.Add(this.tabPageImportLocation);
             this.tabControlMessages.Controls.Add(this.tabPage1);
-            this.tabControlMessages.Location = new System.Drawing.Point(2, 97);
+            this.tabControlMessages.Location = new System.Drawing.Point(3, 110);
             this.tabControlMessages.Name = "tabControlMessages";
             this.tabControlMessages.SelectedIndex = 0;
-            this.tabControlMessages.Size = new System.Drawing.Size(594, 182);
+            this.tabControlMessages.Size = new System.Drawing.Size(591, 159);
             this.tabControlMessages.TabIndex = 6;
             // 
             // tabPageWarning
@@ -139,7 +145,7 @@
             this.tabPageWarning.Location = new System.Drawing.Point(4, 22);
             this.tabPageWarning.Name = "tabPageWarning";
             this.tabPageWarning.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageWarning.Size = new System.Drawing.Size(586, 156);
+            this.tabPageWarning.Size = new System.Drawing.Size(583, 133);
             this.tabPageWarning.TabIndex = 0;
             this.tabPageWarning.Text = "Warning";
             this.tabPageWarning.UseVisualStyleBackColor = true;
@@ -250,7 +256,7 @@
             // linkLabelHomepage
             // 
             this.linkLabelHomepage.AutoSize = true;
-            this.linkLabelHomepage.Location = new System.Drawing.Point(238, 9);
+            this.linkLabelHomepage.Location = new System.Drawing.Point(178, 20);
             this.linkLabelHomepage.Name = "linkLabelHomepage";
             this.linkLabelHomepage.Size = new System.Drawing.Size(253, 13);
             this.linkLabelHomepage.TabIndex = 7;
@@ -261,11 +267,39 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(92, 9);
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(33, 20);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(111, 13);
+            this.label1.Size = new System.Drawing.Size(139, 16);
             this.label1.TabIndex = 8;
             this.label1.Text = "Need help? Open link:";
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel1.ColumnCount = 3;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Controls.Add(this.label1, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.tabControlMessages, 0, 5);
+            this.tableLayoutPanel1.Controls.Add(this.linkLabelHomepage, 2, 1);
+            this.tableLayoutPanel1.Controls.Add(this.progressBar, 1, 4);
+            this.tableLayoutPanel1.Controls.Add(this.labelStatus, 1, 3);
+            this.tableLayoutPanel1.Controls.Add(this.checkBoxCloseWarning, 2, 2);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(2, 3);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 6;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(597, 272);
+            this.tableLayoutPanel1.TabIndex = 9;
             // 
             // FormSplash
             // 
@@ -274,12 +308,7 @@
             this.CausesValidation = false;
             this.ClientSize = new System.Drawing.Size(599, 277);
             this.ControlBox = false;
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.linkLabelHomepage);
-            this.Controls.Add(this.tabControlMessages);
-            this.Controls.Add(this.checkBoxCloseWarning);
-            this.Controls.Add(this.progressBar);
-            this.Controls.Add(this.labelStatus);
+            this.Controls.Add(this.tableLayoutPanel1);
             this.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -306,8 +335,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             this.tabPage1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -332,5 +362,6 @@
         private System.Windows.Forms.PictureBox pictureBox4;
         private System.Windows.Forms.LinkLabel linkLabelHomepage;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
     }
 }
