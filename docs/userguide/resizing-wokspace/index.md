@@ -1,10 +1,9 @@
 {% include header.md %}
 
-# Save
+# Resizing workspace
 
-![Save](../toolstrip/toolstrip-save.png)
+![Resizing Workspace](resizing-workspace.png)
 
-After a edit anything in [Grid View](../gridview) can be saved. using save button. 
-Select new media files will cancel all your changes.
+You can resize your workspace so it fit your needs.
 
 {% include footer.md %}
