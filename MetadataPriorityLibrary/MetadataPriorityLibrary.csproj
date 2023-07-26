@@ -56,8 +56,8 @@
   
   <ItemGroup>
     <PackageReference Include="GeoTimeZone" Version="4.1.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
-    <PackageReference Include="NLog" Version="5.1.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="NLog" Version="5.2.2" />
     <PackageReference Include="TimeZoneConverter" Version="6.0.1" />
     <PackageReference Include="TimeZoneNames" Version="6.0.0" />
   </ItemGroup>

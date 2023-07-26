@@ -56,7 +56,7 @@
   <ItemGroup>
     <PackageReference Include="Krypton.Navigator" Version="70.22.11.312" />
     <PackageReference Include="Krypton.Toolkit" Version="70.22.11.312" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ColumnNamesAndWidth\ColumnNamesAndWidth.csproj" />
