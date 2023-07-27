@@ -1827,7 +1827,9 @@ namespace PhotoTagsSynchronizer
             listviewX = (ListViewItem)x;
             listviewY = (ListViewItem)y;
 
-            if (listviewX.SubItems[ColumnToSort].Tag is DateTime && listviewY.SubItems[ColumnToSort].Tag is DateTime)
+            if (listviewX.SubItems.Count <= ColumnToSort || listviewY.SubItems.Count <= ColumnToSort)
+                compareResult = 0;
+            else if (listviewX.SubItems[ColumnToSort].Tag is DateTime && listviewY.SubItems[ColumnToSort].Tag is DateTime)
             {
                 compareResult = DateTime.Compare((DateTime)listviewX.SubItems[ColumnToSort].Tag, (DateTime)listviewY.SubItems[ColumnToSort].Tag);
             }
