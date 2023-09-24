@@ -111,7 +111,7 @@ namespace PhotoTagsSynchronizer
                 comboBoxSearchKeyword.Items.Clear();
                 comboBoxSearchKeyword.Items.Add("Example1;Example2");
 
-                List<string> albums = databaseAndCacheMetadataExiftool.ListAllPersonalAlbumsCache(MetadataBrokerType.ExifTool);
+                List<string> albums = databaseAndCacheMetadataExiftool.ListAllPersonalAlbumsCache(MetadataBrokerType.UserSavedData);
                 albums.Sort();
                 FilterReplaceNullWithIsNotDefineText(albums, addIsNotDefined: true, addEmpty: true, moveEmptyToTop: true);
                 comboBoxSearchAlbum.SuspendLayout();
@@ -126,7 +126,7 @@ namespace PhotoTagsSynchronizer
                 //comboBoxSearchAuthor.Items.Clear();
                 //comboBoxSearchAuthor.Items.AddRange(authors.ToArray());
 
-                List<string> comments = databaseAndCacheMetadataExiftool.ListAllPersonalCommentsCache(MetadataBrokerType.ExifTool);
+                List<string> comments = databaseAndCacheMetadataExiftool.ListAllPersonalCommentsCache(MetadataBrokerType.UserSavedData);
                 comments.Sort();
                 FilterReplaceNullWithIsNotDefineText(comments, addIsNotDefined: true, addEmpty: true, moveEmptyToTop: true);
                 comboBoxSearchComments.SuspendLayout();
@@ -135,7 +135,7 @@ namespace PhotoTagsSynchronizer
                 comboBoxSearchComments.Items.AddRange(comments.ToArray());
                 comboBoxSearchComments.ResumeLayout();
 
-                List<string> descriptions = databaseAndCacheMetadataExiftool.ListAllPersonalDescriptionsCache(MetadataBrokerType.ExifTool);
+                List<string> descriptions = databaseAndCacheMetadataExiftool.ListAllPersonalDescriptionsCache(MetadataBrokerType.UserSavedData);
                 descriptions.Sort();
                 FilterReplaceNullWithIsNotDefineText(descriptions, addIsNotDefined: true, addEmpty: true, moveEmptyToTop: true);
                 comboBoxSearchDescription.SuspendLayout();
@@ -144,7 +144,7 @@ namespace PhotoTagsSynchronizer
                 comboBoxSearchDescription.Items.AddRange(descriptions.ToArray());
                 comboBoxSearchDescription.ResumeLayout();
 
-                List<string> titles = databaseAndCacheMetadataExiftool.ListAllPersonalTitlesCache(MetadataBrokerType.ExifTool);
+                List<string> titles = databaseAndCacheMetadataExiftool.ListAllPersonalTitlesCache(MetadataBrokerType.UserSavedData);
                 titles.Sort();
                 FilterReplaceNullWithIsNotDefineText(titles, addIsNotDefined: true, addEmpty: true, moveEmptyToTop: true);
                 comboBoxSearchTitle.SuspendLayout();
@@ -153,7 +153,7 @@ namespace PhotoTagsSynchronizer
                 comboBoxSearchTitle.Items.AddRange(titles.ToArray());
                 comboBoxSearchTitle.ResumeLayout();
 
-                List<string> locations = databaseAndCacheMetadataExiftool.ListAllLocationNamesCache(MetadataBrokerType.ExifTool);
+                List<string> locations = databaseAndCacheMetadataExiftool.ListAllLocationNamesCache(MetadataBrokerType.UserSavedData);
                 locations.Sort();
                 FilterReplaceNullWithIsNotDefineText(locations, addIsNotDefined: true, addEmpty: true, moveEmptyToTop: true);
                 comboBoxSearchLocationName.SuspendLayout();
@@ -162,7 +162,7 @@ namespace PhotoTagsSynchronizer
                 comboBoxSearchLocationName.Items.AddRange(locations.ToArray());
                 comboBoxSearchLocationName.ResumeLayout();
 
-                List<string> cities = databaseAndCacheMetadataExiftool.ListAllLocationCitiesCache(MetadataBrokerType.ExifTool);
+                List<string> cities = databaseAndCacheMetadataExiftool.ListAllLocationCitiesCache(MetadataBrokerType.UserSavedData);
                 cities.Sort();
                 FilterReplaceNullWithIsNotDefineText(cities, addIsNotDefined: true, addEmpty: true, moveEmptyToTop: true);
                 comboBoxSearchLocationCity.SuspendLayout();
@@ -171,7 +171,7 @@ namespace PhotoTagsSynchronizer
                 comboBoxSearchLocationCity.Items.AddRange(cities.ToArray());
                 comboBoxSearchLocationCity.ResumeLayout();
 
-                List<string> states = databaseAndCacheMetadataExiftool.ListAllLocationStatesCache(MetadataBrokerType.ExifTool);
+                List<string> states = databaseAndCacheMetadataExiftool.ListAllLocationStatesCache(MetadataBrokerType.UserSavedData);
                 states.Sort();
                 FilterReplaceNullWithIsNotDefineText(states, addIsNotDefined: true, addEmpty: true, moveEmptyToTop: true);
                 comboBoxSearchLocationState.SuspendLayout();
@@ -180,7 +180,7 @@ namespace PhotoTagsSynchronizer
                 comboBoxSearchLocationState.Items.AddRange(states.ToArray());
                 comboBoxSearchLocationState.ResumeLayout();
 
-                List<string> countries = databaseAndCacheMetadataExiftool.ListAllLocationCountriesCache(MetadataBrokerType.ExifTool);
+                List<string> countries = databaseAndCacheMetadataExiftool.ListAllLocationCountriesCache(MetadataBrokerType.UserSavedData);
                 countries.Sort();
                 FilterReplaceNullWithIsNotDefineText(countries, addIsNotDefined: true, addEmpty: true, moveEmptyToTop: true);
                 comboBoxSearchLocationCountry.SuspendLayout();
@@ -189,8 +189,9 @@ namespace PhotoTagsSynchronizer
                 comboBoxSearchLocationCountry.Items.AddRange(countries.ToArray());
                 comboBoxSearchLocationCountry.ResumeLayout();
 
-                List<string> peoples = databaseAndCacheMetadataExiftool.ListAllPersonalRegionNameCache(MetadataBrokerType.ExifTool);
+                List<string> peoples = databaseAndCacheMetadataExiftool.ListAllPersonalRegionNameCache(MetadataBrokerType.UserSavedData);
                 peoples.Sort();
+
                 FilterReplaceNullWithIsNotDefineText(peoples, addIsNotDefined: true, addEmpty: false, moveEmptyToTop: false);
                 checkedListBoxSearchPeople.SuspendLayout();
                 checkedListBoxSearchPeople.Items.Clear();

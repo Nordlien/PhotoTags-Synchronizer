@@ -2839,7 +2839,7 @@ namespace MetadataLibrary
                 #region SELECT Name, Count(1) AS CountNames FROM MediaPersonalRegions
                 string sqlCommand =
                 //"SELECT Name, Count(1) AS CountNames FROM MediaPersonalRegions WHERE Broker = @Broker GROUP BY Name";
-                "SELECT Name, CountNames FROM (SELECT Name, Broker, Count(1) AS CountNames FROM MediaPersonalRegions GROUP BY Name) WHERE Broker = 1"; //Use index
+                "SELECT Name, CountNames FROM (SELECT Name, Broker, Count(1) AS CountNames FROM MediaPersonalRegions GROUP BY Name) WHERE Broker | @Broker = @Broker"; //Use index
 
                 using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, sqlTransactionSelect))
                 {
@@ -3016,6 +3016,7 @@ namespace MetadataLibrary
         public List<string> ListAllPersonalRegionName(int topCount = int.MaxValue, List<string> namesdontIncludeList1 = null, List<string> namesdontIncludeList2 = null, bool includeEmpty = false)
         {
             Dictionary<StringNullable, int> allRegionCounts = new Dictionary<StringNullable, int>();
+            allRegionCounts = MergeRegionNameCount(allRegionCounts, ListAllPersonalRegionNameCountCache(MetadataBrokerType.UserSavedData));
             allRegionCounts = MergeRegionNameCount(allRegionCounts, ListAllPersonalRegionNameCountCache(MetadataBrokerType.ExifTool));
             allRegionCounts = MergeRegionNameCount(allRegionCounts, ListAllPersonalRegionNameCountCache(MetadataBrokerType.WebScraping));
             allRegionCounts = MergeRegionNameCount(allRegionCounts, ListAllPersonalRegionNameCountCache(MetadataBrokerType.WindowsLivePhotoGallery));
