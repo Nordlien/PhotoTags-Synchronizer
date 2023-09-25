@@ -52,6 +52,7 @@ namespace GoogleLocationHistory
             if (File.Exists(fileNamePath))
             {
                 Mono.Data.Sqlite.SqliteTransaction sqlTransaction;
+                int fallbackCounter = 0;
                 do
                 {
                     sqlTransaction = dbTools.TransactionBegin();
@@ -73,7 +74,7 @@ namespace GoogleLocationHistory
                     #endregion
                     
                     dbTools.TransactionCommit(sqlTransaction);
-                } while (!dbTools.TransactionCommit(sqlTransaction)) ;
+                } while (fallbackCounter++ < 10 && !dbTools.TransactionCommit(sqlTransaction)) ;
             }
         }
         #endregion
