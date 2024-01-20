@@ -154,10 +154,10 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="cef.redist.x64" Version="117.2.2" />
-    <PackageReference Include="cef.redist.x86" Version="117.2.2" />
-    <PackageReference Include="CefSharp.Common" Version="117.2.20" />
-    <PackageReference Include="CefSharp.WinForms" Version="117.2.20" />
+    <PackageReference Include="cef.redist.x64" Version="120.2.7" />
+    <PackageReference Include="cef.redist.x86" Version="120.2.7" />
+    <PackageReference Include="CefSharp.Common" Version="120.2.70" />
+    <PackageReference Include="CefSharp.WinForms" Version="120.2.70" />
     <PackageReference Include="CyotekImageBox">
       <Version>1.3.1</Version>
     </PackageReference>
@@ -167,7 +167,7 @@
     <PackageReference Include="Krypton.Ribbon" Version="70.22.11.312" />
     <PackageReference Include="Krypton.Toolkit" Version="70.22.11.312" />
     <PackageReference Include="Krypton.Workspace" Version="70.22.11.312" />
-    <PackageReference Include="LibVLCSharp.WinForms" Version="3.8.0" />
+    <PackageReference Include="LibVLCSharp.WinForms" Version="3.8.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="NLog">
       <Version>5.2.4</Version>
@@ -177,7 +177,7 @@
       <Version>1.2.1</Version>
     </PackageReference>
     <PackageReference Include="VCRuntime.CefSharp.140" Version="1.0.5" />
-    <PackageReference Include="VideoLAN.LibVLC.Windows" Version="3.0.18" />
+    <PackageReference Include="VideoLAN.LibVLC.Windows" Version="3.0.20" />
   </ItemGroup>
   
   <ItemGroup>
