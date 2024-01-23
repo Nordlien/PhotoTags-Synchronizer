@@ -26,7 +26,7 @@ namespace DataGridViewGeneric
         public string DataGridViewName { get; set; } = "";
         public DataGridViewSize CellSize { get; set; } = DataGridViewSize.Medium;
         public int CellHeight { get; set; } = 24;
-        public KryptonPalette KryptonPalette { get; set; } = null;
+        public KryptonCustomPaletteBase KryptonCustomPaletteBase { get; set; } = null;
         public List<ColumnNameAndWidth> ColumnNameAndWidthsLarge { get; set; }
         public List<ColumnNameAndWidth> ColumnNameAndWidthsMedium { get; set; }
         public List<ColumnNameAndWidth> ColumnNameAndWidthsSmall { get; set; }

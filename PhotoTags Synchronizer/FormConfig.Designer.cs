@@ -345,7 +345,7 @@ namespace PhotoTagsSynchronizer
             this.buttonOffice2007White = new Krypton.Toolkit.KryptonButton();
             this.buttonOffice2010White = new Krypton.Toolkit.KryptonButton();
             this.buttonSparkleBlue = new Krypton.Toolkit.KryptonButton();
-            this.buttonOffice365White = new Krypton.Toolkit.KryptonButton();
+            this.buttonMicrosoft365White = new Krypton.Toolkit.KryptonButton();
             this.buttonOffice2003 = new Krypton.Toolkit.KryptonButton();
             this.kryptonButtonApplicationThemesExport = new Krypton.Toolkit.KryptonButton();
             this.buttonOffice2010Silver = new Krypton.Toolkit.KryptonButton();
@@ -354,9 +354,9 @@ namespace PhotoTagsSynchronizer
             this.buttonOffice2007Blue = new Krypton.Toolkit.KryptonButton();
             this.buttonOffice2010Black = new Krypton.Toolkit.KryptonButton();
             this.buttonOffice2010Blue = new Krypton.Toolkit.KryptonButton();
-            this.buttonOffice365Silver = new Krypton.Toolkit.KryptonButton();
-            this.buttonOffice365Black = new Krypton.Toolkit.KryptonButton();
-            this.buttonOffice365Blue = new Krypton.Toolkit.KryptonButton();
+            this.buttonMicrosoft365Silver = new Krypton.Toolkit.KryptonButton();
+            this.buttonMicrosoft365Black = new Krypton.Toolkit.KryptonButton();
+            this.buttonMicrosoft365Blue = new Krypton.Toolkit.KryptonButton();
             this.kryptonButtonApplicationThemesImport = new Krypton.Toolkit.KryptonButton();
             this.buttonSystem = new Krypton.Toolkit.KryptonButton();
             this.buttonDarkMode = new Krypton.Toolkit.KryptonButton();
@@ -4689,7 +4689,7 @@ namespace PhotoTagsSynchronizer
             this.C.Controls.Add(this.buttonOffice2007White, 0, 17);
             this.C.Controls.Add(this.buttonOffice2010White, 0, 13);
             this.C.Controls.Add(this.buttonSparkleBlue, 0, 19);
-            this.C.Controls.Add(this.buttonOffice365White, 0, 9);
+            this.C.Controls.Add(this.buttonMicrosoft365White, 0, 9);
             this.C.Controls.Add(this.buttonOffice2003, 0, 18);
             this.C.Controls.Add(this.kryptonButtonApplicationThemesExport, 0, 0);
             this.C.Controls.Add(this.buttonOffice2010Silver, 0, 12);
@@ -4698,9 +4698,9 @@ namespace PhotoTagsSynchronizer
             this.C.Controls.Add(this.buttonOffice2007Blue, 0, 15);
             this.C.Controls.Add(this.buttonOffice2010Black, 0, 10);
             this.C.Controls.Add(this.buttonOffice2010Blue, 0, 11);
-            this.C.Controls.Add(this.buttonOffice365Silver, 0, 8);
-            this.C.Controls.Add(this.buttonOffice365Black, 0, 6);
-            this.C.Controls.Add(this.buttonOffice365Blue, 0, 7);
+            this.C.Controls.Add(this.buttonMicrosoft365Silver, 0, 8);
+            this.C.Controls.Add(this.buttonMicrosoft365Black, 0, 6);
+            this.C.Controls.Add(this.buttonMicrosoft365Blue, 0, 7);
             this.C.Controls.Add(this.kryptonButtonApplicationThemesImport, 0, 1);
             this.C.Controls.Add(this.buttonSystem, 0, 2);
             this.C.Controls.Add(this.buttonDarkMode, 0, 3);
@@ -4785,15 +4785,15 @@ namespace PhotoTagsSynchronizer
             this.buttonSparkleBlue.Values.Text = "Sparkle - Blue";
             this.buttonSparkleBlue.Click += new System.EventHandler(this.buttonSparkleBlue_Click);
             // 
-            // buttonOffice365White
+            // buttonMicrosoft365White
             // 
-            this.buttonOffice365White.CornerRoundingRadius = -1F;
-            this.buttonOffice365White.Location = new System.Drawing.Point(3, 263);
-            this.buttonOffice365White.Name = "buttonOffice365White";
-            this.buttonOffice365White.Size = new System.Drawing.Size(138, 27);
-            this.buttonOffice365White.TabIndex = 32;
-            this.buttonOffice365White.Values.Text = "Office 365 - White";
-            this.buttonOffice365White.Click += new System.EventHandler(this.buttonOffice365White_Click);
+            this.buttonMicrosoft365White.CornerRoundingRadius = -1F;
+            this.buttonMicrosoft365White.Location = new System.Drawing.Point(3, 263);
+            this.buttonMicrosoft365White.Name = "buttonMicrosoft365White";
+            this.buttonMicrosoft365White.Size = new System.Drawing.Size(138, 27);
+            this.buttonMicrosoft365White.TabIndex = 32;
+            this.buttonMicrosoft365White.Values.Text = "Office 365 - White";
+            this.buttonMicrosoft365White.Click += new System.EventHandler(this.buttonMicrosoft365White_Click);
             // 
             // buttonOffice2003
             // 
@@ -4876,35 +4876,35 @@ namespace PhotoTagsSynchronizer
             this.buttonOffice2010Blue.Values.Text = "Office 2010 - Blue";
             this.buttonOffice2010Blue.Click += new System.EventHandler(this.buttonOffice2010Blue_Click);
             // 
-            // buttonOffice365Silver
+            // buttonMicrosoft365Silver
             // 
-            this.buttonOffice365Silver.CornerRoundingRadius = -1F;
-            this.buttonOffice365Silver.Location = new System.Drawing.Point(3, 230);
-            this.buttonOffice365Silver.Name = "buttonOffice365Silver";
-            this.buttonOffice365Silver.Size = new System.Drawing.Size(138, 27);
-            this.buttonOffice365Silver.TabIndex = 30;
-            this.buttonOffice365Silver.Values.Text = "Office 365 - Silver";
-            this.buttonOffice365Silver.Click += new System.EventHandler(this.buttonOffice365Silver_Click);
+            this.buttonMicrosoft365Silver.CornerRoundingRadius = -1F;
+            this.buttonMicrosoft365Silver.Location = new System.Drawing.Point(3, 230);
+            this.buttonMicrosoft365Silver.Name = "buttonMicrosoft365Silver";
+            this.buttonMicrosoft365Silver.Size = new System.Drawing.Size(138, 27);
+            this.buttonMicrosoft365Silver.TabIndex = 30;
+            this.buttonMicrosoft365Silver.Values.Text = "Office 365 - Silver";
+            this.buttonMicrosoft365Silver.Click += new System.EventHandler(this.buttonMicrosoft365Silver_Click);
             // 
-            // buttonOffice365Black
+            // buttonMicrosoft365Black
             // 
-            this.buttonOffice365Black.CornerRoundingRadius = -1F;
-            this.buttonOffice365Black.Location = new System.Drawing.Point(3, 164);
-            this.buttonOffice365Black.Name = "buttonOffice365Black";
-            this.buttonOffice365Black.Size = new System.Drawing.Size(138, 27);
-            this.buttonOffice365Black.TabIndex = 31;
-            this.buttonOffice365Black.Values.Text = "Office 365 - Black";
-            this.buttonOffice365Black.Click += new System.EventHandler(this.buttonOffice365Black_Click);
+            this.buttonMicrosoft365Black.CornerRoundingRadius = -1F;
+            this.buttonMicrosoft365Black.Location = new System.Drawing.Point(3, 164);
+            this.buttonMicrosoft365Black.Name = "buttonMicrosoft365Black";
+            this.buttonMicrosoft365Black.Size = new System.Drawing.Size(138, 27);
+            this.buttonMicrosoft365Black.TabIndex = 31;
+            this.buttonMicrosoft365Black.Values.Text = "Office 365 - Black";
+            this.buttonMicrosoft365Black.Click += new System.EventHandler(this.buttonMicrosoft365Black_Click);
             // 
-            // buttonOffice365Blue
+            // buttonMicrosoft365Blue
             // 
-            this.buttonOffice365Blue.CornerRoundingRadius = -1F;
-            this.buttonOffice365Blue.Location = new System.Drawing.Point(3, 197);
-            this.buttonOffice365Blue.Name = "buttonOffice365Blue";
-            this.buttonOffice365Blue.Size = new System.Drawing.Size(138, 27);
-            this.buttonOffice365Blue.TabIndex = 29;
-            this.buttonOffice365Blue.Values.Text = "Office 365 - Blue";
-            this.buttonOffice365Blue.Click += new System.EventHandler(this.buttonOffice365Blue_Click);
+            this.buttonMicrosoft365Blue.CornerRoundingRadius = -1F;
+            this.buttonMicrosoft365Blue.Location = new System.Drawing.Point(3, 197);
+            this.buttonMicrosoft365Blue.Name = "buttonMicrosoft365Blue";
+            this.buttonMicrosoft365Blue.Size = new System.Drawing.Size(138, 27);
+            this.buttonMicrosoft365Blue.TabIndex = 29;
+            this.buttonMicrosoft365Blue.Values.Text = "Office 365 - Blue";
+            this.buttonMicrosoft365Blue.Click += new System.EventHandler(this.buttonMicrosoft365Blue_Click);
             // 
             // kryptonButtonApplicationThemesImport
             // 
@@ -5266,7 +5266,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageApplicationThemesProperties.Name = "kryptonPageApplicationThemesProperties";
             this.kryptonPageApplicationThemesProperties.Size = new System.Drawing.Size(254, 438);
             this.kryptonPageApplicationThemesProperties.Text = "Properties";
-            this.kryptonPageApplicationThemesProperties.TextDescription = "Properties for Selected KryptonPalette";
+            this.kryptonPageApplicationThemesProperties.TextDescription = "Properties for Selected KryptonCustomPaletteBase";
             this.kryptonPageApplicationThemesProperties.TextTitle = "Properties";
             this.kryptonPageApplicationThemesProperties.ToolTipTitle = "Page ToolTip";
             this.kryptonPageApplicationThemesProperties.UniqueName = "413847226e614dae94f8b51de04f255f";
@@ -9648,10 +9648,10 @@ namespace PhotoTagsSynchronizer
         private KryptonButton buttonOffice2010White;
         private KryptonButton buttonDarkMode;
         private KryptonButton buttonOffice2013White;
-        private KryptonButton buttonOffice365White;
-        private KryptonButton buttonOffice365Black;
-        private KryptonButton buttonOffice365Silver;
-        private KryptonButton buttonOffice365Blue;
+        private KryptonButton buttonMicrosoft365White;
+        private KryptonButton buttonMicrosoft365Black;
+        private KryptonButton buttonMicrosoft365Silver;
+        private KryptonButton buttonMicrosoft365Blue;
         private KryptonContextMenu kryptonContextMenuPalette;
         private KryptonButton kryptonButtonShowContectMenu;
         private KryptonDataGridView kryptonDataGridViewShowPalette;

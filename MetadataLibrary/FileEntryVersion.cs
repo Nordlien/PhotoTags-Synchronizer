@@ -288,7 +288,6 @@ namespace MetadataLibrary
                         case FileEntryVersion.ExtractedNowUsingMicrosoftPhotos:         //DataGridView Column
                         case FileEntryVersion.ExtractedNowUsingWebScraping:             //DataGridView Column
                             return FileEntryVersionCompare.Update_Status_FileNotFound;
-                            break;
                         #endregion
 
                         #region Queue: File not Exist - DataGridView: ToSave - Result: Depends on LastWriteDateTime
@@ -312,7 +311,7 @@ namespace MetadataLibrary
                             #endregion
                     }
                     #endregion
-                    break;
+
                 case FileEntryVersion.ExtractedNowUsingExiftoolTimeout:                 //From queue                
                 case FileEntryVersion.ExtractedNowUsingExiftoolWithError:               //From queue
                     #region Queue From Failed

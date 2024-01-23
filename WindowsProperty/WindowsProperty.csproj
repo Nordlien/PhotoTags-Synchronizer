@@ -60,7 +60,7 @@
     <ProjectReference Include="..\WinProps\WinProps.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="NLog" Version="5.2.4" />
+    <PackageReference Include="NLog" Version="5.2.8" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Windows.Forms" />

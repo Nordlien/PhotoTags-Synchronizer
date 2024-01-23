@@ -75,9 +75,9 @@
     <EmbeddedResource Include="ImageListView.bmp" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Krypton.Toolkit" Version="70.22.11.312" />
+    <PackageReference Include="Krypton.Toolkit" Version="80.23.11.321" />
     <PackageReference Include="NLog">
-      <Version>5.2.4</Version>
+      <Version>5.2.8</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

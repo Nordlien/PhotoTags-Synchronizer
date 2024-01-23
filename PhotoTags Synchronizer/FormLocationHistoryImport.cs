@@ -45,7 +45,7 @@ namespace PhotoTagsSynchronizer
 
             if (comboBoxUserAccount.Text.Trim() == "")
             {
-                KryptonMessageBox.Show("You need to enter a name for the import", "Name is missing...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Warning, showCtrlCopy: true);
+                KryptonMessageBox.Show("You need to enter a name for the import", "Name is missing...", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Warning, showCtrlCopy: true);
                 return;
             }
 
@@ -78,7 +78,7 @@ namespace PhotoTagsSynchronizer
                 }
                 catch (Exception ex)
                 {
-                    KryptonMessageBox.Show("Can't save settings\r\n\r\n" + ex.Message, "Save settings failed...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                    KryptonMessageBox.Show("Can't save settings\r\n\r\n" + ex.Message, "Save settings failed...", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 }
 
                 string jsonFilename = openFileDialog1.FileName;
@@ -94,7 +94,7 @@ namespace PhotoTagsSynchronizer
                 }
                 catch (Exception ex)
                 {
-                    KryptonMessageBox.Show("Can't save settings.\r\n\r\n" + ex.Message, "Save settings failed...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                    KryptonMessageBox.Show("Can't save settings.\r\n\r\n" + ex.Message, "Save settings failed...", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 }
 
                 this.Enabled = false;

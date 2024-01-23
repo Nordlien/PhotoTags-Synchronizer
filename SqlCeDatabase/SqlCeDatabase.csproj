@@ -55,9 +55,9 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="NLog" Version="5.2.4" />
+    <PackageReference Include="NLog" Version="5.2.8" />
     <PackageReference Include="System.Data.Common" Version="4.3.0" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
   </ItemGroup>
 </Project>

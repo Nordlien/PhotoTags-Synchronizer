@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
-<!--Created by exporting the settings of a KryptonPalette instance.-->
+<!--Created by exporting the settings of a KryptonCustomPaletteBase instance.-->
 <!--For more information about Krypton visit https://github.com/Krypton-Suite/Standard-Toolkit-->
 <!--WARNING: Modifying this file may render it invalid for importing.-->
-<KryptonPalette Version="19" Generated="Friday, 24 September 2021, 09:15">
+<KryptonCustomPaletteBase Version="19" Generated="Friday, 24 September 2021, 09:15">
   <Properties>
     <ButtonSpecs>
       <FormClose>
@@ -892,8 +892,8 @@
       </ToolStrip>
       <UseRoundedEdges Type="InheritBool" Value="False" />
     </ToolMenuStatus>
-    <CustomisedKryptonPaletteFilePath Type="String" Value="C:\Users\nordl\source\repos\GUI\Theme-Palettes-master\Palettes\Visual Studio\PhotoTags Synchronizer Dark mode.xml" />
+    <CustomisedKryptonCustomPaletteBaseFilePath Type="String" Value="C:\Users\nordl\source\repos\GUI\Theme-Palettes-master\Palettes\Visual Studio\PhotoTags Synchronizer Dark mode.xml" />
     <BasePaletteMode Type="PaletteMode" Value="Professional - System" />
   </Properties>
   <Images />
-</KryptonPalette>
+</KryptonCustomPaletteBase>

@@ -1077,13 +1077,13 @@ Dimensions</Value>
     <Setting Name="PreviewSlideshowInterval" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">2000</Value>
     </Setting>
-    <Setting Name="KryptonPaletteDropShadow" Type="System.Boolean" Scope="User">
+    <Setting Name="KryptonCustomPaletteBaseDropShadow" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="KryptonPaletteFullFilename" Type="System.String" Scope="User">
+    <Setting Name="KryptonCustomPaletteBaseFullFilename" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="KryptonPaletteName" Type="System.String" Scope="User">
+    <Setting Name="KryptonCustomPaletteBaseName" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="WorkspaceToolboxTagsMaximizedCell" Type="System.String" Scope="User">

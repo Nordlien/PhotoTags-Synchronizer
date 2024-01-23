@@ -26,7 +26,7 @@ namespace PhotoTagsSynchronizer
                 string folder = GetSelectedNodeFullRealPath();
                 if (folder == null || !Directory.Exists(folder))
                 {
-                    KryptonMessageBox.Show("Can't reach the folder. Not a valid folder selected.", "Invalid folder...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Warning, showCtrlCopy: true);
+                    KryptonMessageBox.Show("Can't reach the folder. Not a valid folder selected.", "Invalid folder...", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Warning, showCtrlCopy: true);
                     cachedFolder = "";
                     fileEntriesFolderCached = new HashSet<FileEntry>();
                     return fileEntriesFolderCached;
@@ -61,7 +61,7 @@ namespace PhotoTagsSynchronizer
             {
                 if (folder == null || !Directory.Exists(folder))
                 {
-                    KryptonMessageBox.Show("Can't reach the folder. Not a valid folder selected.", "Invalid folder...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Warning, showCtrlCopy: true);
+                    KryptonMessageBox.Show("Can't reach the folder. Not a valid folder selected.", "Invalid folder...", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Warning, showCtrlCopy: true);
                     return fileDatas;
                 }
                 fileDatas = ImageAndMovieFileExtentionsUtility.GetFilesByEnumerableFast(folder, recursive);
@@ -161,7 +161,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -258,7 +258,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -392,7 +392,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -471,7 +471,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -622,7 +622,7 @@ namespace PhotoTagsSynchronizer
                                     {
                                         Logger.Error(ex);
                                         KryptonMessageBox.Show(ex.Message + "\r\nWas trying to replace\r\n" + fileEntryOther.FileFullPath + "\r\n with\r\n" + fileEntrySource.FileFullPath,
-                                            "Was not able to remove duplicated file.", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                                            "Was not able to remove duplicated file.", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                                     }
                                 }
                                 else
@@ -642,7 +642,7 @@ namespace PhotoTagsSynchronizer
                                     {
                                         Logger.Error(ex);
                                         KryptonMessageBox.Show(ex.Message + "\r\n" + fileEntrySource.FileFullPath,
-                                            "Was not able to remove dubpliacted file.", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                                            "Was not able to remove dubpliacted file.", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                                     }
                                 }
                             }
@@ -650,7 +650,7 @@ namespace PhotoTagsSynchronizer
                             {
                                 Logger.Error(ex);
                                 KryptonMessageBox.Show(ex.Message + "\r\n" + fileEntryOther.FileFullPath + "\r\n" + fileEntrySource.FileFullPath,
-                                    "Was not able to remove the oldest of dubpliacted file.", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                                    "Was not able to remove the oldest of dubpliacted file.", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                             }
                             #endregion
                         }
@@ -674,7 +674,7 @@ namespace PhotoTagsSynchronizer
                             {
                                 Logger.Error(ex);
                                 KryptonMessageBox.Show(ex.Message + "\r\nWas trying to replace\r\n" + fileEntryOther.FileFullPath + "\r\n with\r\n" + fileEntrySource.FileFullPath,
-                                    "Was not able to remove duplicated file.", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                                    "Was not able to remove duplicated file.", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                             }
                             #endregion
                         }
@@ -695,7 +695,7 @@ namespace PhotoTagsSynchronizer
                             {
                                 Logger.Error(ex);
                                 KryptonMessageBox.Show(ex.Message + "\r\n" + fileEntrySource.FileFullPath,
-                                    "Was not able to remove dubpliacted file.", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                                    "Was not able to remove dubpliacted file.", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                             }
                             #endregion
                         }
@@ -717,7 +717,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             return foundOrRemovedFiles;
         }
@@ -779,7 +779,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             return foundOrRemovedFiles;
         }
@@ -874,7 +874,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             return foundOrRemovedFiles;
         }

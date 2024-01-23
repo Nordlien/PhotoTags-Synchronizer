@@ -15,7 +15,7 @@ namespace PhotoTagsSynchronizer
             if (formLocationHistoryAnalytics == null || formLocationHistoryAnalytics.IsDisposed) formLocationHistoryAnalytics = new FormLocationHistoryAnalytics();
             formLocationHistoryAnalytics.Owner = this;
             formLocationHistoryAnalytics.GoogleLocationHistoryDatabaseCache = databaseGoogleLocationHistory;
-            formLocationHistoryAnalytics.KryptonPalette = (KryptonPalette)kryptonManager1.GlobalPalette;
+            formLocationHistoryAnalytics.KryptonCustomPaletteBase = (KryptonCustomPaletteBase)kryptonManager1.GlobalPalette;
 
             if (formLocationHistoryAnalytics.WindowState == FormWindowState.Minimized) formLocationHistoryAnalytics.WindowState = FormWindowState.Normal;
             formLocationHistoryAnalytics.BringToFront();

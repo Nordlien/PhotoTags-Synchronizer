@@ -52,19 +52,19 @@ namespace PhotoTagsSynchronizer
             {
                 if (dragDropEffects == DragDropEffects.None)
                 {                    
-                    KryptonMessageBox.Show("Was not able to detect if you select copy or cut object that was pasted or dropped", "Warning...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Warning, showCtrlCopy: true);
+                    KryptonMessageBox.Show("Was not able to detect if you select copy or cut object that was pasted or dropped", "Warning...", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Warning, showCtrlCopy: true);
                     return;
                 }
 
                 if (!Directory.Exists(targetFolder))
                 {
-                    KryptonMessageBox.Show("Target folder is not a valid target folder.\r\nSelected system folder:" + targetNode?.FullPath == null ? "Unkown" : targetNode?.FullPath, "Warning...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Warning, showCtrlCopy: true);
+                    KryptonMessageBox.Show("Target folder is not a valid target folder.\r\nSelected system folder:" + targetNode?.FullPath == null ? "Unkown" : targetNode?.FullPath, "Warning...", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Warning, showCtrlCopy: true);
                     return;
                 }
 
                 if (IsFileInAnyQueueLock(sourceFilesAndFolders))
                 {
-                    KryptonMessageBox.Show("Can't " + dragDropEffects.ToString() + " files. Files are being used, you need wait until process is finished.", "Warning...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Warning, showCtrlCopy: true);
+                    KryptonMessageBox.Show("Can't " + dragDropEffects.ToString() + " files. Files are being used, you need wait until process is finished.", "Warning...", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Warning, showCtrlCopy: true);
                     return;
                 }
 
@@ -155,7 +155,7 @@ namespace PhotoTagsSynchronizer
                         "Source and destiation are the same.\r\n\r\n" +
                         "Target folder: " + targetFolder + "\r\n" +
                         fileMessage +
-                        folderMessage, "Warning...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Warning, showCtrlCopy: true);
+                        folderMessage, "Warning...", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Warning, showCtrlCopy: true);
                 }              
                 treeViewFolderBrowser1.Focus();
 
@@ -163,7 +163,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -181,7 +181,7 @@ namespace PhotoTagsSynchronizer
                     if (directoryInfo.Parent == null || sourceDirectory == null || !Directory.Exists(sourceDirectory))
                     {
                         e.CancelEdit = true;
-                        KryptonMessageBox.Show("Can't edit folder name. No valid folder selected.", "Invalid folder...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Warning, showCtrlCopy: true);
+                        KryptonMessageBox.Show("Can't edit folder name. No valid folder selected.", "Invalid folder...", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Warning, showCtrlCopy: true);
                         return;
                     }
                 }
@@ -189,7 +189,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
 
@@ -223,7 +223,7 @@ namespace PhotoTagsSynchronizer
                     }
                     else
                     {
-                        KryptonMessageBox.Show("Can't edit folder name. No valid folder selected.", "Invalid folder...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Warning, showCtrlCopy: true);
+                        KryptonMessageBox.Show("Can't edit folder name. No valid folder selected.", "Invalid folder...", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Warning, showCtrlCopy: true);
                     }
                     treeViewFolderBrowser1.ResumeLayout();
                     treeViewFolderBrowser1.Focus();
@@ -232,7 +232,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         private void treeViewFolderBrowser1_AfterLabelEdit(object sender, NodeLabelEditEventArgs e)
@@ -247,7 +247,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -277,7 +277,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
 
         }
@@ -300,7 +300,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -316,7 +316,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                KryptonMessageBox.Show(ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Syntax error...", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             return SetDropDropFileList(droplist);
         }
@@ -357,7 +357,7 @@ namespace PhotoTagsSynchronizer
                 SetDropDropFileList(""); //Removes error message for wrong Data in Clipboard
 
                 Logger.Error(ex, "folderTreeViewFolder_ItemDrag, Failed create drag and drop transfer data.");
-                KryptonMessageBox.Show("Failed create drag and drop transfer data. Error: " + ex.Message, "Syntax error...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Failed create drag and drop transfer data. Error: " + ex.Message, "Syntax error...", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 treeViewFolderBrowser1.Focus();
             }
         }
@@ -374,7 +374,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error(ex, "");
-                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion 

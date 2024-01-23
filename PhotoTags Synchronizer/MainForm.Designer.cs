@@ -1,4 +1,5 @@
-﻿using Manina.Windows.Forms;
+﻿using Krypton.Toolkit;
+using Manina.Windows.Forms;
 
 namespace PhotoTagsSynchronizer
 {
@@ -3974,7 +3975,7 @@ namespace PhotoTagsSynchronizer
             // 
             // kryptonManager1
             // 
-            this.kryptonManager1.GlobalPaletteMode = Krypton.Toolkit.PaletteModeManager.ProfessionalSystem;
+            //this.kryptonManager1.GlobalPaletteMode = ThemeManager.ReturnPaletteModeAsString(PaletteMode.Microsoft365Blue);
             // 
             // kryptonPage5
             // 

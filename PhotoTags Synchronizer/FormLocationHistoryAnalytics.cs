@@ -16,7 +16,7 @@ namespace PhotoTagsSynchronizer
     {
         #region Properties
         public GoogleLocationHistoryDatabaseCache GoogleLocationHistoryDatabaseCache { get; set; }
-        public KryptonPalette KryptonPalette { get; set; }
+        public KryptonCustomPaletteBase KryptonCustomPaletteBase { get; set; }
         public KryptonDataGridView DataGridViewLocationHistory { get { return kryptonDataGridViewLocationHistory; } }
         public DataGridView DataGridViewDateTime { get; set; }
         public DataGridView ActiveDataGridView { get; set; }
@@ -261,7 +261,7 @@ namespace PhotoTagsSynchronizer
         #region Location names - PopulateMetadataLocations - Clear
         public void PopulateMetadataLocationsClear(DataGridView dataGridView)
         {
-            DataGridViewHandler dataGridViewHandler = new DataGridViewHandler(dataGridView, KryptonPalette, "LocationDates", "Location dates", DataGridViewSize.ConfigSize, allowUserToAddRow: false);
+            DataGridViewHandler dataGridViewHandler = new DataGridViewHandler(dataGridView, KryptonCustomPaletteBase, "LocationDates", "Location dates", DataGridViewSize.ConfigSize, allowUserToAddRow: false);
             DataGridViewHandler.Clear(dataGridView, DataGridViewSize.ConfigSize);
             DataGridViewHandler.SetIsAgregated(dataGridView, true);
 
@@ -346,14 +346,14 @@ namespace PhotoTagsSynchronizer
                     KryptonMessageBox.Show(
                         (GlobalData.isRunningWinSmode ? "Your Windows is running Windows 10 S / 11 S mode.\r\n" +
                         "The Chromium Web Browser doesn't support this mode.\r\n\r\n" : "") +
-                        ex.Message, "Syntax Error", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                        ex.Message, "Syntax Error", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 }
             }
             catch (Exception ex)
             {
                 //Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {
@@ -455,7 +455,7 @@ namespace PhotoTagsSynchronizer
             {
                 //Logger.Error(ex);
                 KryptonMessageBox.Show("Unexpected error occur.\r\nException message:" + ex.Message + "\r\n",
-                    "Unexpected error occur", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                    "Unexpected error occur", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             finally
             {

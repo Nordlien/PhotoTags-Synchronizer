@@ -148,7 +148,7 @@ namespace PhotoTagsSynchronizer
                 }
                 catch (Exception ex)
                 {
-                    KryptonMessageBox.Show(ex.Message, "Was not able to load VLC player", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                    KryptonMessageBox.Show(ex.Message, "Was not able to load VLC player", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                     return;
                 }
                 #endregion
@@ -165,9 +165,9 @@ namespace PhotoTagsSynchronizer
 
                 fileDateTimeReader = new FileDateTimeReader(Properties.Settings.Default.RenameDateFormats);
 
-                KryptonPalette kryptonPalette = KryptonPaletteHandler.Load(Properties.Settings.Default.KryptonPaletteFullFilename, Properties.Settings.Default.KryptonPaletteName);
-                KryptonPaletteHandler.SetPalette(this, kryptonManager1, kryptonPalette, KryptonPaletteHandler.IsSystemPalette, Properties.Settings.Default.KryptonPaletteDropShadow);
-                KryptonPaletteHandler.SetImageListViewPalettes(kryptonManager1, imageListView1);
+                KryptonCustomPaletteBase KryptonCustomPaletteBase = KryptonCustomPaletteBaseHandler.Load(Properties.Settings.Default.KryptonCustomPaletteBaseFullFilename, Properties.Settings.Default.KryptonCustomPaletteBaseName);
+                KryptonCustomPaletteBaseHandler.SetPalette(this, kryptonManager1, KryptonCustomPaletteBase, KryptonCustomPaletteBaseHandler.IsSystemPalette, Properties.Settings.Default.KryptonCustomPaletteBaseDropShadow);
+                KryptonCustomPaletteBaseHandler.SetImageListViewPalettes(kryptonManager1, imageListView1);
 
                 this.kryptonRibbonGroupCustomControlToolsProgressBackground.CustomControl = progressBarBackground;
                 this.kryptonRibbonGroupCustomControlToolsProgressSave.CustomControl = progressBarSaveConvert;
@@ -375,7 +375,7 @@ namespace PhotoTagsSynchronizer
                 }
                 catch (Exception ex)
                 {
-                    KryptonMessageBox.Show(ex.Message, "Was not able to start the database...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                    KryptonMessageBox.Show(ex.Message, "Was not able to start the database...", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                     Close();
                     return;
                 }
@@ -549,35 +549,35 @@ namespace PhotoTagsSynchronizer
                 #region Setup Global Variables - Link Tab and DataGridView
                 //kryptonPageToolboxTags
                 kryptonPageToolboxTags.Tag = LinkTabAndDataGridViewNameTags;
-                GlobalData.dataGridViewHandlerTags = new DataGridViewHandler(dataGridViewTagsAndKeywords, (KryptonPalette)kryptonManager1.GlobalPalette,
+                GlobalData.dataGridViewHandlerTags = new DataGridViewHandler(dataGridViewTagsAndKeywords, (KryptonCustomPaletteBase)kryptonManager1.GlobalPalette,
                     LinkTabAndDataGridViewNameTags, "Metadata/Files", (DataGridViewSize)Properties.Settings.Default.CellSizeKeywords, allowUserToAddRow: true);
 
                 kryptonPageToolboxMap.Tag = LinkTabAndDataGridViewNameMap;
-                GlobalData.dataGridViewHandlerMap = new DataGridViewHandler(dataGridViewMap, (KryptonPalette)kryptonManager1.GlobalPalette,
+                GlobalData.dataGridViewHandlerMap = new DataGridViewHandler(dataGridViewMap, (KryptonCustomPaletteBase)kryptonManager1.GlobalPalette,
                     LinkTabAndDataGridViewNameMap, "Location/Files", (DataGridViewSize)Properties.Settings.Default.CellSizeMap, allowUserToAddRow: false);
 
                 kryptonPageToolboxPeople.Tag = LinkTabAndDataGridViewNamePeople;
-                GlobalData.dataGridViewHandlerPeople = new DataGridViewHandler(dataGridViewPeople, (KryptonPalette)kryptonManager1.GlobalPalette,
+                GlobalData.dataGridViewHandlerPeople = new DataGridViewHandler(dataGridViewPeople, (KryptonCustomPaletteBase)kryptonManager1.GlobalPalette,
                     LinkTabAndDataGridViewNamePeople, "Name/Files", (DataGridViewSize)Properties.Settings.Default.CellSizePeoples, allowUserToAddRow: true);
 
                 kryptonPageToolboxDates.Tag = LinkTabAndDataGridViewNameDates;
-                GlobalData.dataGridViewHandlerDates = new DataGridViewHandler(dataGridViewDate, (KryptonPalette)kryptonManager1.GlobalPalette,
+                GlobalData.dataGridViewHandlerDates = new DataGridViewHandler(dataGridViewDate, (KryptonCustomPaletteBase)kryptonManager1.GlobalPalette,
                     LinkTabAndDataGridViewNameDates, "Name/Files", (DataGridViewSize)Properties.Settings.Default.CellSizeDates, allowUserToAddRow: false);
 
                 kryptonPageToolboxExiftool.Tag = LinkTabAndDataGridViewNameExiftool;
-                GlobalData.dataGridViewHandlerExiftoolTags = new DataGridViewHandler(dataGridViewExiftool, (KryptonPalette)kryptonManager1.GlobalPalette,
+                GlobalData.dataGridViewHandlerExiftoolTags = new DataGridViewHandler(dataGridViewExiftool, (KryptonCustomPaletteBase)kryptonManager1.GlobalPalette,
                     LinkTabAndDataGridViewNameExiftool, "File/Tag Description", (DataGridViewSize)Properties.Settings.Default.CellSizeExiftool, allowUserToAddRow: false);
 
                 kryptonPageToolboxWarnings.Tag = LinkTabAndDataGridViewNameWarnings;
-                GlobalData.dataGridViewHandlerExiftoolWarning = new DataGridViewHandler(dataGridViewExiftoolWarning, (KryptonPalette)kryptonManager1.GlobalPalette,
+                GlobalData.dataGridViewHandlerExiftoolWarning = new DataGridViewHandler(dataGridViewExiftoolWarning, (KryptonCustomPaletteBase)kryptonManager1.GlobalPalette,
                     LinkTabAndDataGridViewNameWarnings, "File and version/Tag region and command", (DataGridViewSize)Properties.Settings.Default.CellSizeWarnings, allowUserToAddRow: false);
 
                 kryptonPageToolboxProperties.Tag = LinkTabAndDataGridViewNameProperties;
-                GlobalData.dataGridViewHandlerProperties = new DataGridViewHandler(dataGridViewProperties, (KryptonPalette)kryptonManager1.GlobalPalette,
+                GlobalData.dataGridViewHandlerProperties = new DataGridViewHandler(dataGridViewProperties, (KryptonCustomPaletteBase)kryptonManager1.GlobalPalette,
                     LinkTabAndDataGridViewNameProperties, "File/Properties", (DataGridViewSize)Properties.Settings.Default.CellSizeProperties, allowUserToAddRow: false);
 
                 kryptonPageToolboxRename.Tag = LinkTabAndDataGridViewNameRename;
-                GlobalData.dataGridViewHandlerRename = new DataGridViewHandler(dataGridViewRename, (KryptonPalette)kryptonManager1.GlobalPalette,
+                GlobalData.dataGridViewHandlerRename = new DataGridViewHandler(dataGridViewRename, (KryptonCustomPaletteBase)kryptonManager1.GlobalPalette,
                     LinkTabAndDataGridViewNameRename, "Filename/Values", ((DataGridViewSize)Properties.Settings.Default.CellSizeRename | DataGridViewSize.RenameConvertAndMergeSize),
                         ColumnNamesAndWidthHandler.ConvertConfigStringToColumnNameAndWidths(Properties.Settings.Default.ColumnNameAndWithsRenameLarge),
                         ColumnNamesAndWidthHandler.ConvertConfigStringToColumnNameAndWidths(Properties.Settings.Default.ColumnNameAndWithsRenameMedium),
@@ -585,7 +585,7 @@ namespace PhotoTagsSynchronizer
                     );
 
                 kryptonPageToolboxConvertAndMerge.Tag = LinkTabAndDataGridViewNameConvertAndMerge;
-                GlobalData.dataGridViewHandlerConvertAndMerge = new DataGridViewHandler(dataGridViewConvertAndMerge, (KryptonPalette)kryptonManager1.GlobalPalette,
+                GlobalData.dataGridViewHandlerConvertAndMerge = new DataGridViewHandler(dataGridViewConvertAndMerge, (KryptonCustomPaletteBase)kryptonManager1.GlobalPalette,
                     LinkTabAndDataGridViewNameConvertAndMerge, "Full path of media file",
                     ((DataGridViewSize)Properties.Settings.Default.CellSizeConvertAndMerge | DataGridViewSize.RenameConvertAndMergeSize),
                         ColumnNamesAndWidthHandler.ConvertConfigStringToColumnNameAndWidths(Properties.Settings.Default.ColumnNameAndWithsConvertAndMergeLarge),
@@ -773,7 +773,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show(ex.Message, "Form Constructor failed", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Form Constructor failed", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 return;
             }
         }
@@ -836,7 +836,7 @@ namespace PhotoTagsSynchronizer
                         "You have unsaved changes in DataGridView\r\n" : "") +
                     "\r\nAre you sure you will close application?",
                     "Press Ok will quit application and changed will get lost.\r\n" +
-                    "Press Cancel and return back to application.", MessageBoxButtons.OKCancel, KryptonMessageBoxIcon.Warning, showCtrlCopy: true) == DialogResult.Cancel)
+                    "Press Cancel and return back to application.", (KryptonMessageBoxButtons)MessageBoxButtons.OKCancel, KryptonMessageBoxIcon.Warning, showCtrlCopy: true) == DialogResult.Cancel)
                 {
                     isClosingProcesAlreadyStarted = false;
                     e.Cancel = true;
@@ -859,7 +859,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show(ex.Message, "Can't save settings, Metadata Group Priorities", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Can't save settings, Metadata Group Priorities", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
 
             try
@@ -925,7 +925,7 @@ namespace PhotoTagsSynchronizer
                 }
                 catch (Exception ex)
                 {
-                    KryptonMessageBox.Show(ex.Message, "Can't save settings", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                    KryptonMessageBox.Show(ex.Message, "Can't save settings", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 }
                 //---------------------------------------------------------
 
@@ -994,7 +994,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show(ex.Message, "Problems during close all threads and other process during closing application", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Problems during close all threads and other process during closing application", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
 
             isClosingProcesAlreadyStarted = false;
@@ -1053,14 +1053,14 @@ namespace PhotoTagsSynchronizer
                     }
                     catch (Exception ee)
                     {
-                        KryptonMessageBox.Show(Application.ProductName + "\r\n\r\n" + ee.Message, "Initialize folder tree failed...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                        KryptonMessageBox.Show(Application.ProductName + "\r\n\r\n" + ee.Message, "Initialize folder tree failed...", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                     }
 
                     GlobalData.DoNotTrigger_TreeViewFolder_BeforeAndAfterSelect = false;
                 }
                 catch (Exception ex)
                 {
-                    KryptonMessageBox.Show(ex.Message, "Initialize folder tree failed...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                    KryptonMessageBox.Show(ex.Message, "Initialize folder tree failed...", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 }
                 #endregion
 
@@ -1074,7 +1074,7 @@ namespace PhotoTagsSynchronizer
                 }
                 catch (Exception ex)
                 {
-                    KryptonMessageBox.Show(ex.Message, "Populate search failed...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                    KryptonMessageBox.Show(ex.Message, "Populate search failed...", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 }
                 #endregion
 
@@ -1127,7 +1127,7 @@ namespace PhotoTagsSynchronizer
                             (GlobalData.doesMircosoftPhotosExists ? "Mircosoft Photos (Connected)\r\n" : "Mircosoft Photos (Not connected)\r\n") +
                             (GlobalData.doesMircosoftPhotosHaveData ? "" : "Mircosoft Photos (Doesn't contains data)\r\n") +
                             (GlobalData.doesWindowsLivePhotoGalleryExists ? "Windows Live Photo Gallery (Connected)" : "Windows Live Photo Gallery (Not connected)\r\n"),
-                            "PhotoTags-Synchronizer works better with...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Information, showCtrlCopy: true);
+                            "PhotoTags-Synchronizer works better with...", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Information, showCtrlCopy: true);
                         Properties.Settings.Default.ShowDatabaseNotFoundWarning = false;
                     }
                 }
@@ -1136,7 +1136,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show(ex.Message, "Form Load failed", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "Form Load failed", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 return;
             }
         }
@@ -1399,7 +1399,7 @@ namespace PhotoTagsSynchronizer
                 "\r\n"+
                 "Do you want to copy from old to Legacy app?",
                 "Copy Microsoft Photos database file!",
-                MessageBoxButtons.OKCancel, KryptonMessageBoxIcon.Warning, showCtrlCopy: true) == DialogResult.Cancel)
+                (KryptonMessageBoxButtons)MessageBoxButtons.OKCancel, KryptonMessageBoxIcon.Warning, showCtrlCopy: true) == DialogResult.Cancel)
             {
                 return;
             }
@@ -1453,7 +1453,7 @@ namespace PhotoTagsSynchronizer
                     "Packages\\" + SqliteDatabaseUtilities.MicrosoftWindowsPhotosWindows11Legacy + "\\LocalState\\MediaDb.v1.sqlite"));
                 #endregion
 
-                KryptonMessageBox.Show("The database from Old Microsoft Windows Photos app was copied to Microsoft Windows Photos Legacy app", "Copying Microsoft Photos database done", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("The database from Old Microsoft Windows Photos app was copied to Microsoft Windows Photos Legacy app", "Copying Microsoft Photos database done", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
             catch (Exception ex) {
                 string helpText = "";
@@ -1466,7 +1466,7 @@ namespace PhotoTagsSynchronizer
                         "Microsoft Microsoft Photos Legacy app and then retry...\r\n";
 
                 }
-                KryptonMessageBox.Show(ex.Message + helpText, "Copying Microsoft Photos database failed", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message + helpText, "Copying Microsoft Photos database failed", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
 

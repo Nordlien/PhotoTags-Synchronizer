@@ -299,7 +299,7 @@ namespace PhotoTagsSynchronizer
                 }
                 catch (Exception ex)
                 {
-                    KryptonMessageBox.Show("Failed to load config.\r\n\r\n" + ex.Message, "Failed to load config", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                    KryptonMessageBox.Show("Failed to load config.\r\n\r\n" + ex.Message, "Failed to load config", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 }
 
 
@@ -309,7 +309,7 @@ namespace PhotoTagsSynchronizer
                 }
                 catch (Exception ex)
                 {
-                    KryptonMessageBox.Show("Failed to load config.\r\n\r\n" + ex.Message, "Failed to load config", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                    KryptonMessageBox.Show("Failed to load config.\r\n\r\n" + ex.Message, "Failed to load config", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 }
 
                 //Metadata Filename Date formats
@@ -319,7 +319,7 @@ namespace PhotoTagsSynchronizer
                 }
                 catch (Exception ex)
                 {
-                    KryptonMessageBox.Show("Failed to load config.\r\n\r\n" + ex.Message, "Failed to load config", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                    KryptonMessageBox.Show("Failed to load config.\r\n\r\n" + ex.Message, "Failed to load config", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 }
 
                 //Metadata Read
@@ -332,7 +332,7 @@ namespace PhotoTagsSynchronizer
                 }
                 catch (Exception ex)
                 {
-                    KryptonMessageBox.Show("Failed to load config.\r\n\r\n" + ex.Message, "Failed to load config", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                    KryptonMessageBox.Show("Failed to load config.\r\n\r\n" + ex.Message, "Failed to load config", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 }
 
                 //WebScraping
@@ -351,7 +351,7 @@ namespace PhotoTagsSynchronizer
                 }
                 catch (Exception ex)
                 {
-                    KryptonMessageBox.Show("Failed to load config.\r\n\r\n" + ex.Message, "Failed to load config", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                    KryptonMessageBox.Show("Failed to load config.\r\n\r\n" + ex.Message, "Failed to load config", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 }
 
 
@@ -362,7 +362,7 @@ namespace PhotoTagsSynchronizer
                 }
                 catch (Exception ex)
                 {
-                    KryptonMessageBox.Show("Failed to load config.\r\n\r\n" + ex.Message, "Failed to load config", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                    KryptonMessageBox.Show("Failed to load config.\r\n\r\n" + ex.Message, "Failed to load config", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 }
 
 
@@ -376,20 +376,20 @@ namespace PhotoTagsSynchronizer
                 }
                 catch (Exception ex)
                 {
-                    KryptonMessageBox.Show("Failed to load config.\r\n\r\n" + ex.Message, "Failed to load config", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                    KryptonMessageBox.Show("Failed to load config.\r\n\r\n" + ex.Message, "Failed to load config", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 }
 
 
                 //AutoCorrect
                 try
                 {
-                    DataGridViewHandler dataGridViewHandler = new DataGridViewHandler(dataGridViewAutoKeywords, (KryptonPalette)kryptonManager1.GlobalPalette, "AutoKeywords", "AutoKeywords", DataGridViewSize.ConfigSize, allowUserToAddRow: true);
+                    DataGridViewHandler dataGridViewHandler = new DataGridViewHandler(dataGridViewAutoKeywords, (KryptonCustomPaletteBase)kryptonManager1.GlobalPalette, "AutoKeywords", "AutoKeywords", DataGridViewSize.ConfigSize, allowUserToAddRow: true);
                     autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
                     PopulateAutoCorrectPoperties();
                 }
                 catch (Exception ex)
                 {
-                    KryptonMessageBox.Show("Failed to load config.\r\n\r\n" + ex.Message, "Failed to load config", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                    KryptonMessageBox.Show("Failed to load config.\r\n\r\n" + ex.Message, "Failed to load config", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 }
 
 
@@ -401,7 +401,7 @@ namespace PhotoTagsSynchronizer
                 }
                 catch (Exception ex)
                 {
-                    KryptonMessageBox.Show("Failed to load config.\r\n\r\n" + ex.Message, "Failed to load config", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                    KryptonMessageBox.Show("Failed to load config.\r\n\r\n" + ex.Message, "Failed to load config", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 }
 
 
@@ -414,7 +414,7 @@ namespace PhotoTagsSynchronizer
                 }
                 catch (Exception ex)
                 {
-                    KryptonMessageBox.Show("Failed to load config.\r\n\r\n" + ex.Message, "Failed to load config", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                    KryptonMessageBox.Show("Failed to load config.\r\n\r\n" + ex.Message, "Failed to load config", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 }
 
                 //Convert and Merge
@@ -424,7 +424,7 @@ namespace PhotoTagsSynchronizer
                 }
                 catch (Exception ex)
                 {
-                    KryptonMessageBox.Show("Failed to load config.\r\n\r\n" + ex.Message, "Failed to load config", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                    KryptonMessageBox.Show("Failed to load config.\r\n\r\n" + ex.Message, "Failed to load config", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 }
 
                 try
@@ -433,7 +433,7 @@ namespace PhotoTagsSynchronizer
                 }
                 catch (Exception ex)
                 {
-                    KryptonMessageBox.Show("Failed to load config.\r\n\r\n" + ex.Message, "Failed to load config", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                    KryptonMessageBox.Show("Failed to load config.\r\n\r\n" + ex.Message, "Failed to load config", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 }
 
                 //Chromecast
@@ -457,7 +457,7 @@ namespace PhotoTagsSynchronizer
                 }
                 catch (Exception ex)
                 {
-                    KryptonMessageBox.Show("Failed to load config.\r\n\r\n" + ex.Message, "Failed to load config", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                    KryptonMessageBox.Show("Failed to load config.\r\n\r\n" + ex.Message, "Failed to load config", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 }
 
 
@@ -476,14 +476,14 @@ namespace PhotoTagsSynchronizer
                 }
                 catch (Exception ex)
                 {
-                    KryptonMessageBox.Show("Failed to load config.\r\n\r\n" + ex.Message, "Failed to load config", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                    KryptonMessageBox.Show("Failed to load config.\r\n\r\n" + ex.Message, "Failed to load config", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 }
 
                 isPopulation = false;
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show("Failed to load config.\r\n\r\n" + ex.Message, "Failed to load config", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Failed to load config.\r\n\r\n" + ex.Message, "Failed to load config", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion 
@@ -665,7 +665,7 @@ namespace PhotoTagsSynchronizer
                 MetadataReadPrioity.WriteAlways();
             } catch (Exception ex)
             {
-                KryptonMessageBox.Show("Failed to save config.\r\n\r\n" + ex.Message, "Failed to save config", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Failed to save config.\r\n\r\n" + ex.Message, "Failed to save config", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 _ = this.BeginInvoke(new Action<Exception, string>(Logger.Error), ex, "buttonConfigSave_Click failed saving config.");
             }
 
@@ -1180,7 +1180,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show(ex.Message, "AutoKeywords failed to saved", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "AutoKeywords failed to saved", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 _ = this.BeginInvoke(new Action<Exception>(Logger.Error), ex); 
             }
         }
@@ -1197,7 +1197,7 @@ namespace PhotoTagsSynchronizer
                 DataGridViewHandler.FastAutoSizeRowsHeight(dataGridViewAutoKeywords, 0);
             } catch (Exception ex)
             {
-                KryptonMessageBox.Show(ex.Message, "AutoKeywords failed to saved", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show(ex.Message, "AutoKeywords failed to saved", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 _ = this.BeginInvoke(new Action<Exception, string>(Logger.Error), ex, "LoadAutoKeywords");
             }
         }
@@ -1210,7 +1210,7 @@ namespace PhotoTagsSynchronizer
         private void PopulateMetadataCameraOwner(DataGridView dataGridView)
         {
             isCellValueUpdating = true;
-            DataGridViewHandler dataGridViewHandler = new DataGridViewHandler(dataGridView, (KryptonPalette)kryptonManager1.GlobalPalette, "CameraMakeModelOwner", "Camera Make/Model", DataGridViewSize.ConfigSize, allowUserToAddRow: false);
+            DataGridViewHandler dataGridViewHandler = new DataGridViewHandler(dataGridView, (KryptonCustomPaletteBase)kryptonManager1.GlobalPalette, "CameraMakeModelOwner", "Camera Make/Model", DataGridViewSize.ConfigSize, allowUserToAddRow: false);
             DataGridViewHandler.Clear(dataGridView, DataGridViewSize.ConfigSize);
             DataGridViewHandler.SetIsAgregated(dataGridView, true);
 
@@ -1391,7 +1391,7 @@ namespace PhotoTagsSynchronizer
         private void PopulateMetadataLocationNames(DataGridView dataGridView)
         {
             isCellValueUpdating = true;
-            DataGridViewHandler dataGridViewHandler = new DataGridViewHandler(dataGridView, (KryptonPalette)kryptonManager1.GlobalPalette, "LocationNames", "Location names", DataGridViewSize.ConfigSize, allowUserToAddRow: false);
+            DataGridViewHandler dataGridViewHandler = new DataGridViewHandler(dataGridView, (KryptonCustomPaletteBase)kryptonManager1.GlobalPalette, "LocationNames", "Location names", DataGridViewSize.ConfigSize, allowUserToAddRow: false);
             DataGridViewHandler.Clear(dataGridView, DataGridViewSize.ConfigSize);
             DataGridViewHandler.SetIsAgregated(dataGridView, true);
 
@@ -1476,11 +1476,11 @@ namespace PhotoTagsSynchronizer
                     string output = JsonConvert.SerializeObject(locationRecords);
                     System.IO.File.WriteAllText(saveFileDialog1.FileName, output, Encoding.UTF8);
 
-                    KryptonMessageBox.Show(locationRecords.Count.ToString() + " locations exported", "Location file exported", MessageBoxButtons.OK, KryptonMessageBoxIcon.Information, showCtrlCopy: true);
+                    KryptonMessageBox.Show(locationRecords.Count.ToString() + " locations exported", "Location file exported", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Information, showCtrlCopy: true);
                 }
             } catch (Exception ex)
             {
-                KryptonMessageBox.Show("Error saving JSON file!\r\n\r\n" + ex.Message, "Was not able to save JSON file", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Error saving JSON file!\r\n\r\n" + ex.Message, "Was not able to save JSON file", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -1513,12 +1513,12 @@ namespace PhotoTagsSynchronizer
                     Dictionary<LocationCoordinate, LocationDescription> locationNames = new Dictionary<LocationCoordinate, LocationDescription>();
                     foreach (LocationRecord locationRecord in readResult) locationNames.Add(locationRecord.LocationCoordinate, locationRecord.LocationDescription);
                     PopulateMetadataLocationNames(dataGridView, locationNames);
-                    KryptonMessageBox.Show(locationNames.Count.ToString() + " locations imported", "Location file imported", MessageBoxButtons.OK, KryptonMessageBoxIcon.Information, showCtrlCopy: true);
+                    KryptonMessageBox.Show(locationNames.Count.ToString() + " locations imported", "Location file imported", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Information, showCtrlCopy: true);
                 }
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show("Error loading JSON file!\r\n\r\n" + ex.Message, "Was not able to load JSON file", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Error loading JSON file!\r\n\r\n" + ex.Message, "Was not able to load JSON file", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -1614,7 +1614,7 @@ namespace PhotoTagsSynchronizer
                     KryptonMessageBox.Show(
                         (GlobalData.isRunningWinSmode ? "Your Windows is running Windows 10 S / 11 S mode.\r\n" +
                         "The Chromium Web Browser doesn't support this mode.\r\n\r\n" : "") +
-                        ex.Message, "Syntax Error", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                        ex.Message, "Syntax Error", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 }
             }
         }
@@ -1647,7 +1647,7 @@ namespace PhotoTagsSynchronizer
                 KryptonMessageBox.Show(
                     (GlobalData.isRunningWinSmode ? "Your Windows is running Windows 10 S / 11 S mode.\r\n" +
                     "The Chromium Web Browser doesn't support this mode.\r\n\r\n" : "") +
-                    ex.Message, "Syntax Error", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                    ex.Message, "Syntax Error", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion 
@@ -1667,7 +1667,7 @@ namespace PhotoTagsSynchronizer
                 KryptonMessageBox.Show(
                     (GlobalData.isRunningWinSmode ? "Your Windows is running Windows 10 S / 11 S mode.\r\n" +
                     "The Chromium Web Browser doesn't support this mode.\r\n\r\n" : "") +
-                    ex.Message, "Syntax Error", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                    ex.Message, "Syntax Error", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -1706,7 +1706,7 @@ namespace PhotoTagsSynchronizer
                     KryptonMessageBox.Show(
                         (GlobalData.isRunningWinSmode ? "Your Windows is running Windows 10 S / 11 S mode.\r\n" +
                         "The Chromium Web Browser doesn't support this mode.\r\n\r\n" : "") +
-                        ex.Message, "Syntax Error", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                        ex.Message, "Syntax Error", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 }
             }
             catch (Exception ex)
@@ -1714,7 +1714,7 @@ namespace PhotoTagsSynchronizer
                 KryptonMessageBox.Show(
                     (GlobalData.isRunningWinSmode ? "Your Windows is running Windows 10 S / 11 S mode.\r\n" +
                     "The Chromium Web Browser doesn't support this mode.\r\n\r\n" : "") +
-                    ex.Message, "Syntax Error", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                    ex.Message, "Syntax Error", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -2139,7 +2139,7 @@ namespace PhotoTagsSynchronizer
         private void PopulateMetadataRead(DataGridView dataGridView)
         {
             isCellValueUpdating = true;
-            DataGridViewHandler dataGridViewHandler = new DataGridViewHandler(dataGridView, (KryptonPalette)kryptonManager1.GlobalPalette, "MetadataRead", "Tags", DataGridViewSize.ConfigSize, allowUserToAddRow: false);
+            DataGridViewHandler dataGridViewHandler = new DataGridViewHandler(dataGridView, (KryptonCustomPaletteBase)kryptonManager1.GlobalPalette, "MetadataRead", "Tags", DataGridViewSize.ConfigSize, allowUserToAddRow: false);
             DataGridViewHandler.Clear(dataGridView, DataGridViewSize.ConfigSize);
             DataGridViewHandler.SetIsAgregated(dataGridView, true);
 
@@ -2925,7 +2925,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show("Was not able top open the log file.\r\n\r\n" + ex.Message, "Can't open file...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Was not able top open the log file.\r\n\r\n" + ex.Message, "Can't open file...", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
 
             try
@@ -2952,7 +2952,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show("Was not able to open the log file.\r\n\r\n" + ex.Message, "Can open file...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Was not able to open the log file.\r\n\r\n" + ex.Message, "Can open file...", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -2969,7 +2969,7 @@ namespace PhotoTagsSynchronizer
                 fastColoredTextBoxShowPipe32Log.Clear();
             } catch (Exception ex)
             {
-                KryptonMessageBox.Show("Was not able to delete the log files.\r\n\r\n" + ex.Message, "Can't delete the files...", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                KryptonMessageBox.Show("Was not able to delete the log files.\r\n\r\n" + ex.Message, "Can't delete the files...", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion 
@@ -3208,7 +3208,7 @@ namespace PhotoTagsSynchronizer
         private void AddDummyDataPaletteDataGridView()
         {
             kryptonDataGridViewShowPalette.Rows.Clear();
-            dataGridViewHandlerPalette = new DataGridViewHandler(kryptonDataGridViewShowPalette, (KryptonPalette)kryptonManager1.GlobalPalette, "Palette", "Test", DataGridViewSize.Small, allowUserToAddRow: false);
+            dataGridViewHandlerPalette = new DataGridViewHandler(kryptonDataGridViewShowPalette, (KryptonCustomPaletteBase)kryptonManager1.GlobalPalette, "Palette", "Test", DataGridViewSize.Small, allowUserToAddRow: false);
 
             //Header
             kryptonDataGridViewShowPalette.Columns[0].HeaderCell.Style.BackColor = DataGridViewHandler.ColorBackHeaderNormal(kryptonDataGridViewShowPalette);            
@@ -3335,12 +3335,12 @@ namespace PhotoTagsSynchronizer
             if (isPaletteProperyChanged)
             {
                 string paletteProperyFile = FileHandeling.FileHandler.GetLocalApplicationDataPath("Palette.xml", deleteOldTempFile: true);
-                ((KryptonPalette)kryptonManager1.GlobalPalette).Export(paletteProperyFile, false);
-                KryptonPaletteHandler.PaletteFilename = paletteProperyFile;
+                ((KryptonCustomPaletteBase)kryptonManager1.GlobalPalette).Export(paletteProperyFile, false);
+                KryptonCustomPaletteBaseHandler.PaletteFilename = paletteProperyFile;
             }
-            Properties.Settings.Default.KryptonPaletteDropShadow = KryptonPaletteHandler.UseDropShadow;
-            Properties.Settings.Default.KryptonPaletteFullFilename = KryptonPaletteHandler.PaletteFilename;
-            Properties.Settings.Default.KryptonPaletteName = KryptonPaletteHandler.PaletteName;
+            Properties.Settings.Default.KryptonCustomPaletteBaseDropShadow = KryptonCustomPaletteBaseHandler.UseDropShadow;
+            Properties.Settings.Default.KryptonCustomPaletteBaseFullFilename = KryptonCustomPaletteBaseHandler.PaletteFilename;
+            Properties.Settings.Default.KryptonCustomPaletteBaseName = KryptonCustomPaletteBaseHandler.PaletteName;
 
         }
         #endregion
@@ -3348,120 +3348,120 @@ namespace PhotoTagsSynchronizer
         #region LoadPaletteSettings
         private void LoadPaletteSettings()
         {
-            KryptonPaletteHandler.PaletteFilename = Properties.Settings.Default.KryptonPaletteFullFilename;
-            KryptonPaletteHandler.PaletteName = Properties.Settings.Default.KryptonPaletteName;
-            KryptonPaletteHandler.UseDropShadow = Properties.Settings.Default.KryptonPaletteDropShadow;
+            KryptonCustomPaletteBaseHandler.PaletteFilename = Properties.Settings.Default.KryptonCustomPaletteBaseFullFilename;
+            KryptonCustomPaletteBaseHandler.PaletteName = Properties.Settings.Default.KryptonCustomPaletteBaseName;
+            KryptonCustomPaletteBaseHandler.UseDropShadow = Properties.Settings.Default.KryptonCustomPaletteBaseDropShadow;
         }
         #endregion
 
         #region SetPalette
-        private void SetPalette(IPalette newKryptonPalette, bool isSystemPalette, bool enableDropShadow)
+        private void SetPalette(PaletteBase  newKryptonCustomPaletteBase, bool isSystemPalette, bool enableDropShadow)
         {
             isPaletteProperyChanged = false;
             IsKryptonManagerChanged = true;
-            KryptonPaletteHandler.SetPalette(this, kryptonManager1, newKryptonPalette, isSystemPalette, enableDropShadow);
+            KryptonCustomPaletteBaseHandler.SetPalette(this, kryptonManager1, newKryptonCustomPaletteBase, isSystemPalette, enableDropShadow);
             propertyGrid.SelectedObject = kryptonManager1.GlobalPalette;
             AddDummyDataPaletteDataGridView();
-            KryptonPaletteHandler.SetImageListViewPalettes(kryptonManager1, imageListView1);
+            KryptonCustomPaletteBaseHandler.SetImageListViewPalettes(kryptonManager1, imageListView1);
         }
         #endregion
 
         #region buttonPalette_Click
         private void buttonOffice2010Blue_Click(object sender, EventArgs e)
         {
-            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2010Blue)), true, true);
+            SetPalette(KryptonCustomPaletteBaseHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2010Blue)), true, true);
         }
 
         private void buttonOffice2010Silver_Click(object sender, EventArgs e)
         {
-            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2010Silver)), true, true);
+            SetPalette(KryptonCustomPaletteBaseHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2010Silver)), true, true);
         }
 
         private void buttonOffice2010Black_Click(object sender, EventArgs e)
         {
-            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2010Black)), true, true);
+            SetPalette(KryptonCustomPaletteBaseHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2010Black)), true, true);
         }
 
         private void buttonOffice2010White_Click(object sender, EventArgs e)
         {
-            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2010White)), true, true);
+            SetPalette(KryptonCustomPaletteBaseHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2010White)), true, true);
         }
 
         private void buttonOffice2007Blue_Click(object sender, EventArgs e)
         {
-            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2007Blue)), true, true);
+            SetPalette(KryptonCustomPaletteBaseHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2007Blue)), true, true);
         }
 
         private void buttonOffice2007Silver_Click(object sender, EventArgs e)
         {
-            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2007Silver)), true, true);
+            SetPalette(KryptonCustomPaletteBaseHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2007Silver)), true, true);
         }
 
         private void buttonOffice2007Black_Click(object sender, EventArgs e)
         {
-            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2007Black)), true, true);
+            SetPalette(KryptonCustomPaletteBaseHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2007Black)), true, true);
         }
 
         private void buttonOffice2007White_Click(object sender, EventArgs e)
         {
-            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2007White)), true, true);
+            SetPalette(KryptonCustomPaletteBaseHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2007White)), true, true);
         }
 
         private void buttonOffice2003_Click(object sender, EventArgs e)
         {
-            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.ProfessionalOffice2003)), true, true);
+            SetPalette(KryptonCustomPaletteBaseHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.ProfessionalOffice2003)), true, true);
         }
       
 
         private void buttonSystem_Click(object sender, EventArgs e)
         {
-            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.ProfessionalSystem)), true, false);
+            SetPalette(KryptonCustomPaletteBaseHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.ProfessionalSystem)), true, false);
         }
 
         private void buttonSparkleBlue_Click(object sender, EventArgs e)
         {
-            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.SparkleBlue)), true, true);
+            SetPalette(KryptonCustomPaletteBaseHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.SparkleBlue)), true, true);
         }
 
         private void buttonSparkleOrange_Click(object sender, EventArgs e)
         {
-            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.SparkleOrange)), true, true);
+            SetPalette(KryptonCustomPaletteBaseHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.SparkleOrange)), true, true);
         }
 
         private void buttonSparklePurple_Click(object sender, EventArgs e)
         {
-            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.SparklePurple)), true, true);
+            SetPalette(KryptonCustomPaletteBaseHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.SparklePurple)), true, true);
         }
 
         private void buttonOffice2013White_Click(object sender, EventArgs e)
         {
-            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2013White)), true, true);
+            SetPalette(KryptonCustomPaletteBaseHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office2013White)), true, true);
         }
 
         private void buttonDarkMode_Click(object sender, EventArgs e)
         {
             string darkModeFilename = FileHandler.CombineApplicationPathWithFilename("Themes\\PhotoTags Synchronizer Dark mode.xml");
-            SetPalette(KryptonPaletteHandler.Load(darkModeFilename, ""), false, true);
+            SetPalette(KryptonCustomPaletteBaseHandler.Load(darkModeFilename, ""), false, true);
         }
 
-        private void buttonOffice365Black_Click(object sender, EventArgs e)
+        private void buttonMicrosoft365Black_Click(object sender, EventArgs e)
         {
-            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office365Black)), true, true);
+            SetPalette(KryptonCustomPaletteBaseHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Microsoft365Black)), true, true);
         }
 
-        private void buttonOffice365Blue_Click(object sender, EventArgs e)
+        private void buttonMicrosoft365Blue_Click(object sender, EventArgs e)
         {
-            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office365Blue)), true, true);
+            SetPalette(KryptonCustomPaletteBaseHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Microsoft365Blue)), true, true);
         }
 
-        private void buttonOffice365Silver_Click(object sender, EventArgs e)
+        private void buttonMicrosoft365Silver_Click(object sender, EventArgs e)
         {
-            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office365Silver)), true, true);
+            SetPalette(KryptonCustomPaletteBaseHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Microsoft365Silver)), true, true);
         }
 
-        private void buttonOffice365White_Click(object sender, EventArgs e)
+        private void buttonMicrosoft365White_Click(object sender, EventArgs e)
         {
-            SetPalette(KryptonPaletteHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Office365White)), true, true);
+            SetPalette(KryptonCustomPaletteBaseHandler.Load("", ThemeManager.ReturnPaletteModeAsString(PaletteMode.Microsoft365White)), true, true);
         }
         #endregion
 
@@ -3482,13 +3482,13 @@ namespace PhotoTagsSynchronizer
                     // Get the actual file selected by the user
                     if (dialog.ShowDialog() == DialogResult.OK && File.Exists(dialog.FileName))
                     {
-                        KryptonPalette kryptonPalette = KryptonPaletteHandler.Load(dialog.FileName, "");
-                        SetPalette(kryptonPalette, KryptonPaletteHandler.IsSystemPalette, true);
+                        KryptonCustomPaletteBase kryptonPalette = KryptonCustomPaletteBaseHandler.Load(dialog.FileName, "");
+                        SetPalette(kryptonPalette, KryptonCustomPaletteBaseHandler.IsSystemPalette, true);
                     }
                     else
                     {
                         KryptonMessageBox.Show("Was not able to import Theme Palette\r\n" + dialog.FileName,
-                                    "Loading Palette for Theme failed", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                                    "Loading Palette for Theme failed", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                     }
 
                 }
@@ -3498,7 +3498,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 KryptonMessageBox.Show("Was not able to import Theme Palette\n\n Error:" + ex.Message,
-                                    "Loading Palette for Theme failed", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                                    "Loading Palette for Theme failed", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
             }
         }
         #endregion
@@ -3521,9 +3521,9 @@ namespace PhotoTagsSynchronizer
                     if (dialog.ShowDialog() == DialogResult.OK)
                     {
                         paletteFilename = dialog.FileName;
-                        ((KryptonPalette)kryptonManager1.GlobalPalette).SetCustomisedKryptonPaletteFilePath(Path.GetFullPath(dialog.FileName));
-                        paletteFilename = ((KryptonPalette)kryptonManager1.GlobalPalette).Export(dialog.FileName, true, true);
-                        KryptonPaletteHandler.Save(paletteFilename);
+                        KryptonCustomPaletteBase kryptonPalette = KryptonCustomPaletteBaseHandler.Load(dialog.FileName, "");
+                        SetPalette(kryptonPalette, KryptonCustomPaletteBaseHandler.IsSystemPalette, true);
+                        KryptonCustomPaletteBaseHandler.Save(paletteFilename);
                         IsKryptonManagerChanged = true;
                     }
 
@@ -3533,7 +3533,7 @@ namespace PhotoTagsSynchronizer
             } catch (Exception ex)
             {                
                 KryptonMessageBox.Show($"Export to file '{paletteFilename}' failed.\n\n Error:{ex.Message}",
-                                @"Palette Export", MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
+                                @"Palette Export", (KryptonMessageBoxButtons)MessageBoxButtons.OK, KryptonMessageBoxIcon.Error, showCtrlCopy: true);
                 
             }
         }
@@ -3556,7 +3556,7 @@ namespace PhotoTagsSynchronizer
         {
             isPaletteProperyChanged = true;
             AddDummyDataPaletteDataGridView();
-            KryptonPaletteHandler.SetImageListViewPalettes(kryptonManager1, imageListView1);
+            KryptonCustomPaletteBaseHandler.SetImageListViewPalettes(kryptonManager1, imageListView1);
         }
 
         #endregion

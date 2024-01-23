@@ -55,11 +55,11 @@
   
   <ItemGroup>
     <PackageReference Include="FCTB" Version="2.16.24" />
-    <PackageReference Include="Krypton.Docking" Version="70.22.11.312" />
-    <PackageReference Include="Krypton.Navigator" Version="70.22.11.312" />
-    <PackageReference Include="Krypton.Ribbon" Version="70.22.11.312" />
-    <PackageReference Include="Krypton.Toolkit" Version="70.22.11.312" />
-    <PackageReference Include="Krypton.Workspace" Version="70.22.11.312" />
+    <PackageReference Include="Krypton.Docking" Version="80.23.11.321" />
+    <PackageReference Include="Krypton.Navigator" Version="80.23.11.321" />
+    <PackageReference Include="Krypton.Ribbon" Version="80.23.11.321" />
+    <PackageReference Include="Krypton.Toolkit" Version="80.23.11.321" />
+    <PackageReference Include="Krypton.Workspace" Version="80.23.11.321" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
   

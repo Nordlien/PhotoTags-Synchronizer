@@ -43,14 +43,14 @@ namespace DataGridViewGeneric
         public static Color ColorBackCellNormal(DataGridView dataGridView)
         {
             if (dataGridView == null || dataGridView.TopLeftHeaderCell.Tag == null) return SystemColors.ControlLightLight;
-            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonPalette.GridStyles.GridCommon.StateNormal.DataCell.Back.Color1;
+            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonCustomPaletteBase.GridStyles.GridCommon.StateNormal.DataCell.Back.Color1;
         }
 
 
         public static Color ColorTextCellNormal(DataGridView dataGridView)
         {
             if (dataGridView == null || dataGridView.TopLeftHeaderCell.Tag == null) return SystemColors.ControlText;
-            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonPalette.GridStyles.GridCommon.StateNormal.DataCell.Content.Color1;
+            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonCustomPaletteBase.GridStyles.GridCommon.StateNormal.DataCell.Content.Color1;
         }
         #endregion
 
@@ -58,13 +58,13 @@ namespace DataGridViewGeneric
         public static Color ColorBackCellFavorite(DataGridView dataGridView)
         {
             if (dataGridView == null || dataGridView.TopLeftHeaderCell.Tag == null) return SystemColors.ControlLight;
-            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonPalette.GridStyles.GridCommon.StateNormal.DataCell.Back.Color2;
+            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonCustomPaletteBase.GridStyles.GridCommon.StateNormal.DataCell.Back.Color2;
         }
 
         public static Color ColorTextCellFavorite(DataGridView dataGridView)
         {
             if (dataGridView == null || dataGridView.TopLeftHeaderCell.Tag == null) return SystemColors.ControlText;
-            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonPalette.GridStyles.GridCommon.StateNormal.DataCell.Content.Color2;
+            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonCustomPaletteBase.GridStyles.GridCommon.StateNormal.DataCell.Content.Color2;
         }
         #endregion
 
@@ -72,13 +72,13 @@ namespace DataGridViewGeneric
         public static Color ColorBackCellReadOnly(DataGridView dataGridView)
         {
             if (dataGridView == null || dataGridView.TopLeftHeaderCell.Tag == null) return SystemColors.GradientInactiveCaption;
-            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonPalette.GridStyles.GridCommon.StateDisabled.DataCell.Back.Color1;
+            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonCustomPaletteBase.GridStyles.GridCommon.StateDisabled.DataCell.Back.Color1;
         }
 
         public static Color ColorTextCellReadOnly(DataGridView dataGridView)
         {
             if (dataGridView == null || dataGridView.TopLeftHeaderCell.Tag == null) return SystemColors.ControlText;
-            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonPalette.GridStyles.GridCommon.StateDisabled.DataCell.Content.Color1;
+            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonCustomPaletteBase.GridStyles.GridCommon.StateDisabled.DataCell.Content.Color1;
         }
         #endregion
 
@@ -86,13 +86,13 @@ namespace DataGridViewGeneric
         public static Color ColorBackCellFavoriteReadOnly(DataGridView dataGridView)
         {
             if (dataGridView == null || dataGridView.TopLeftHeaderCell.Tag == null) return SystemColors.MenuHighlight;
-            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonPalette.GridStyles.GridCommon.StateDisabled.DataCell.Back.Color2;
+            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonCustomPaletteBase.GridStyles.GridCommon.StateDisabled.DataCell.Back.Color2;
         }
 
         public static Color ColorTextCellFavoriteReadOnly(DataGridView dataGridView)
         {
             if (dataGridView == null || dataGridView.TopLeftHeaderCell.Tag == null) return SystemColors.ControlText;
-            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonPalette.GridStyles.GridCommon.StateDisabled.DataCell.Content.Color2;
+            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonCustomPaletteBase.GridStyles.GridCommon.StateDisabled.DataCell.Content.Color2;
         }
         #endregion
 
@@ -100,13 +100,13 @@ namespace DataGridViewGeneric
         public static Color ColorBackCellError(DataGridView dataGridView)
         {
             if (dataGridView == null || dataGridView.TopLeftHeaderCell.Tag == null) return Color.FromArgb(255, 192, 192);
-            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonPalette.GridStyles.GridCustom2.StateNormal.DataCell.Back.Color1;
+            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonCustomPaletteBase.GridStyles.GridCustom2.StateNormal.DataCell.Back.Color1;
         }
 
         public static Color ColorTextCellError(DataGridView dataGridView)
         {
             if (dataGridView == null || dataGridView.TopLeftHeaderCell.Tag == null) return SystemColors.ControlText;
-            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonPalette.GridStyles.GridCustom2.StateNormal.DataCell.Content.Color1;
+            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonCustomPaletteBase.GridStyles.GridCustom2.StateNormal.DataCell.Content.Color1;
         }
         #endregion
 
@@ -114,13 +114,13 @@ namespace DataGridViewGeneric
         public static Color ColorBackCellImage(DataGridView dataGridView)
         {
             if (dataGridView == null || dataGridView.TopLeftHeaderCell.Tag == null) return Color.White;
-            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonPalette.GridStyles.GridCustom3.StateNormal.DataCell.Back.Color1;
+            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonCustomPaletteBase.GridStyles.GridCustom3.StateNormal.DataCell.Back.Color1;
         }
 
         public static Color ColorTextCellImage(DataGridView dataGridView)
         {
             if (dataGridView == null || dataGridView.TopLeftHeaderCell.Tag == null) return SystemColors.ControlText;
-            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonPalette.GridStyles.GridCustom3.StateNormal.DataCell.Content.Color1;
+            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonCustomPaletteBase.GridStyles.GridCustom3.StateNormal.DataCell.Content.Color1;
         }
         #endregion
 
@@ -128,13 +128,13 @@ namespace DataGridViewGeneric
         public static Color ColorBackHeaderNormal(DataGridView dataGridView)
         {
             if (dataGridView == null || dataGridView.TopLeftHeaderCell.Tag == null) return SystemColors.Control;
-            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonPalette.GridStyles.GridCommon.StateCommon.HeaderColumn.Back.Color1;
+            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonCustomPaletteBase.GridStyles.GridCommon.StateCommon.HeaderColumn.Back.Color1;
         }
 
         public static Color ColorTextHeaderNormal(DataGridView dataGridView)
         {
             if (dataGridView == null || dataGridView.TopLeftHeaderCell.Tag == null) return SystemColors.ControlText;
-            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonPalette.GridStyles.GridCommon.StateCommon.HeaderColumn.Content.Color1;
+            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonCustomPaletteBase.GridStyles.GridCommon.StateCommon.HeaderColumn.Content.Color1;
         }
         #endregion
 
@@ -142,13 +142,13 @@ namespace DataGridViewGeneric
         public static Color ColorBackHeaderWarning(DataGridView dataGridView)
         {
             if (dataGridView == null || dataGridView.TopLeftHeaderCell.Tag == null) return Color.Yellow;
-            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonPalette.GridStyles.GridCustom1.StateCommon.HeaderColumn.Back.Color1;
+            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonCustomPaletteBase.GridStyles.GridCustom1.StateCommon.HeaderColumn.Back.Color1;
         }
 
         public static Color ColorTextHeaderWarning(DataGridView dataGridView)
         {
             if (dataGridView == null || dataGridView.TopLeftHeaderCell.Tag == null) return SystemColors.ControlText;
-            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonPalette.GridStyles.GridCustom1.StateCommon.HeaderColumn.Content.Color1;
+            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonCustomPaletteBase.GridStyles.GridCustom1.StateCommon.HeaderColumn.Content.Color1;
         }
         #endregion
 
@@ -156,13 +156,13 @@ namespace DataGridViewGeneric
         public static Color ColorBackHeaderError(DataGridView dataGridView)
         {
             if (dataGridView == null || dataGridView.TopLeftHeaderCell.Tag == null) return Color.Red;
-            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonPalette.GridStyles.GridCustom2.StateCommon.HeaderColumn.Back.Color1;
+            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonCustomPaletteBase.GridStyles.GridCustom2.StateCommon.HeaderColumn.Back.Color1;
         }
 
         public static Color ColorTextHeaderError(DataGridView dataGridView)
         {
             if (dataGridView == null || dataGridView.TopLeftHeaderCell.Tag == null) return SystemColors.ControlText;
-            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonPalette.GridStyles.GridCustom2.StateCommon.HeaderColumn.Content.Color1;
+            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonCustomPaletteBase.GridStyles.GridCustom2.StateCommon.HeaderColumn.Content.Color1;
         }
         #endregion
 
@@ -170,13 +170,13 @@ namespace DataGridViewGeneric
         public static Color ColorBackHeaderImage(DataGridView dataGridView)
         {
             if (dataGridView == null || dataGridView.TopLeftHeaderCell.Tag == null) return Color.LightSteelBlue;
-            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonPalette.GridStyles.GridCustom3.StateCommon.HeaderColumn.Back.Color1;
+            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonCustomPaletteBase.GridStyles.GridCustom3.StateCommon.HeaderColumn.Back.Color1;
         }
 
         public static Color ColorTextHeaderImage(DataGridView dataGridView)
         {
             if (dataGridView == null || dataGridView.TopLeftHeaderCell.Tag == null) return SystemColors.ControlText;
-            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonPalette.GridStyles.GridCustom3.StateCommon.HeaderColumn.Content.Color1;
+            return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).KryptonCustomPaletteBase.GridStyles.GridCustom3.StateCommon.HeaderColumn.Content.Color1;
         }
         #endregion
 
@@ -358,11 +358,11 @@ namespace DataGridViewGeneric
 
         #region DataGridViewInitGenericData
         private static void DataGridViewInitGenericData(
-            DataGridView dataGridView, KryptonPalette palette, string dataGridViewName, string topLeftHeaderCellName, DataGridViewSize cellSize, 
+            DataGridView dataGridView, KryptonCustomPaletteBase palette, string dataGridViewName, string topLeftHeaderCellName, DataGridViewSize cellSize, 
             List<ColumnNameAndWidth> columnNameAndWidthsLarge, List<ColumnNameAndWidth> columnNameAndWidthsMedium, List<ColumnNameAndWidth> columnNameAndWidthsSmall)
         {
             DataGridViewGenericData dataGridViewGenericData = new DataGridViewGenericData();
-            dataGridViewGenericData.KryptonPalette = palette;
+            dataGridViewGenericData.KryptonCustomPaletteBase = palette;
             dataGridViewGenericData.TopCellName = topLeftHeaderCellName;
             dataGridViewGenericData.DataGridViewName = dataGridViewName;
             dataGridViewGenericData.FavoriteList = FavouriteRead(CreateFavoriteFilename(dataGridViewGenericData.DataGridViewName));
@@ -393,12 +393,12 @@ namespace DataGridViewGeneric
         }
         #endregion
 
-        public DataGridViewHandler(DataGridView dataGridView, KryptonPalette palette, string dataGridViewName, string topLeftHeaderCellName,
+        public DataGridViewHandler(DataGridView dataGridView, KryptonCustomPaletteBase palette, string dataGridViewName, string topLeftHeaderCellName,
             DataGridViewSize cellSize, bool allowUserToAddRow) : this
             (dataGridView, palette, dataGridViewName, topLeftHeaderCellName, cellSize, null, null, null, allowUserToAddRow) {
         }
 
-        public DataGridViewHandler(DataGridView dataGridView, KryptonPalette palette, string dataGridViewName, string topLeftHeaderCellName, 
+        public DataGridViewHandler(DataGridView dataGridView, KryptonCustomPaletteBase palette, string dataGridViewName, string topLeftHeaderCellName, 
             DataGridViewSize cellSize, List<ColumnNameAndWidth> columnNameAndWidthsLarge, List<ColumnNameAndWidth> columnNameAndWidthsMedium, 
             List<ColumnNameAndWidth> columnNameAndWidthsSmall, bool allowUserToAddRow)
         {

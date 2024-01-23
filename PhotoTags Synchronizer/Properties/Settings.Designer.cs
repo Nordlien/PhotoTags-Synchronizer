@@ -2285,36 +2285,36 @@ explorer ms-photos?filename=""{FileFullPath}""")]
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool KryptonPaletteDropShadow {
+        public bool KryptonCustomPaletteBaseDropShadow {
             get {
-                return ((bool)(this["KryptonPaletteDropShadow"]));
+                return ((bool)(this["KryptonCustomPaletteBaseDropShadow"]));
             }
             set {
-                this["KryptonPaletteDropShadow"] = value;
+                this["KryptonCustomPaletteBaseDropShadow"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string KryptonPaletteFullFilename {
+        public string KryptonCustomPaletteBaseFullFilename {
             get {
-                return ((string)(this["KryptonPaletteFullFilename"]));
+                return ((string)(this["KryptonCustomPaletteBaseFullFilename"]));
             }
             set {
-                this["KryptonPaletteFullFilename"] = value;
+                this["KryptonCustomPaletteBaseFullFilename"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string KryptonPaletteName {
+        public string KryptonCustomPaletteBaseName {
             get {
-                return ((string)(this["KryptonPaletteName"]));
+                return ((string)(this["KryptonCustomPaletteBaseName"]));
             }
             set {
-                this["KryptonPaletteName"] = value;
+                this["KryptonCustomPaletteBaseName"] = value;
             }
         }
         
