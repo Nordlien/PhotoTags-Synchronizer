@@ -55,7 +55,7 @@
   
   
   <ItemGroup>
-    <PackageReference Include="Krypton.Toolkit" Version="80.23.11.321" />
+    <PackageReference Include="Krypton.Toolkit" Version="80.24.3.64" />
     <PackageReference Include="System.DirectoryServices" Version="7.0.1" />
     <PackageReference Include="System.Management" Version="7.0.0" />
   </ItemGroup>

@@ -156,17 +156,17 @@
   <ItemGroup>
     <PackageReference Include="cef.redist.x64" Version="120.2.7" />
     <PackageReference Include="cef.redist.x86" Version="120.2.7" />
-    <PackageReference Include="CefSharp.Common" Version="120.2.70" />
-    <PackageReference Include="CefSharp.WinForms" Version="120.2.70" />
+    <PackageReference Include="CefSharp.Common" Version="121.3.130" />
+    <PackageReference Include="CefSharp.WinForms" Version="121.3.130" />
     <PackageReference Include="CyotekImageBox">
       <Version>1.3.1</Version>
     </PackageReference>
     <PackageReference Include="FCTB" Version="2.16.24" />
-    <PackageReference Include="Krypton.Docking" Version="80.23.11.321" />
-    <PackageReference Include="Krypton.Navigator" Version="80.23.11.321" />
-    <PackageReference Include="Krypton.Ribbon" Version="80.23.11.321" />
-    <PackageReference Include="Krypton.Toolkit" Version="80.23.11.321" />
-    <PackageReference Include="Krypton.Workspace" Version="80.23.11.321" />
+    <PackageReference Include="Krypton.Docking" Version="80.24.3.64" />
+    <PackageReference Include="Krypton.Navigator" Version="80.24.3.64" />
+    <PackageReference Include="Krypton.Ribbon" Version="80.24.3.64" />
+    <PackageReference Include="Krypton.Toolkit" Version="80.24.3.64" />
+    <PackageReference Include="Krypton.Workspace" Version="80.24.3.64" />
     <PackageReference Include="LibVLCSharp.WinForms" Version="3.8.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="NLog">
