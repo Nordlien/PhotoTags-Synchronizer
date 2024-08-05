@@ -1025,11 +1025,23 @@ namespace MetadataLibrary
             set => locationLatitude = (value == null ? (float?)null : (float?)Math.Round((float)value, SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals));
         }
 
+        [JsonProperty("LocationLatitudeRef")]
+        public string LocationLatitudeRef
+        {
+            get => locationLatitude == null ? null : locationLatitude.Value < 0 ? "S" : "N";
+        }
+
         [JsonProperty("LocationLongitude")]
         public float? LocationLongitude
         {
             get => locationLongitude;
             set => locationLongitude = (value == null ? (float?)null : (float?)Math.Round((float)value, SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals));
+        }
+
+        [JsonProperty("LocationLongitudeRef")]
+        public string LocationLongitudeRef
+        {
+            get => LocationLongitude == null ? null : LocationLongitude.Value < 0 ? "W" : "E";
         }
 
         [JsonProperty("LocationDateTime")]
@@ -1398,8 +1410,10 @@ namespace MetadataLibrary
             listOfProperties.Add("{LocationAltitude}");
             listOfProperties.Add("{IfLocationLatitudeChanged}"); 
             listOfProperties.Add("{LocationLatitude}");
+            listOfProperties.Add("{LocationLatitudeRef}");
             listOfProperties.Add("{IfLocationLongitudeChanged}");
             listOfProperties.Add("{LocationLongitude}");
+            listOfProperties.Add("{LocationLongitudeRef}");
             listOfProperties.Add("{IfLocationDateTimeChanged}"); 
             listOfProperties.Add("{LocationDateTime}");
             listOfProperties.Add("{LocationDateTimeUTC}");
@@ -1949,9 +1963,17 @@ namespace MetadataLibrary
                 case "{LocationLatitude}":
                     result = LocationLatitude == null ? null : ((float)LocationLatitude).ToString(CultureInfo.InvariantCulture);
                     break;
+                case "{LocationLatitudeRef}":
+                    result = LocationLatitudeRef;
+                    break;
+
                 case "{LocationLongitude}":
                     result = LocationLongitude == null ? null : ((float)LocationLongitude).ToString(CultureInfo.InvariantCulture);
                     break;
+                case "{LocationLongitudeRef}":
+                    result = LocationLongitudeRef;
+                    break;
+
                 case "{LocationDateTime}":
                     if (useExifFormat) result = TimeZoneLibrary.ToStringExiftool(LocationDateTime);
                     else result = TimeZoneLibrary.ToStringFilename(LocationDateTime);
