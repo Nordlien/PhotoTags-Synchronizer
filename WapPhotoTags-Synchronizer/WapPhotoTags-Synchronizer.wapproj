@@ -160,9 +160,6 @@
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
   <ItemGroup>
-    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1" PrivateAssets="all" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\PhotoTags Synchronizer\PhotoTags Synchronizer.csproj" />
   </ItemGroup>
   <ItemGroup>

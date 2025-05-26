@@ -154,10 +154,10 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="CefSharp.Common" Version="126.2.180" />
-    <PackageReference Include="CefSharp.WinForms" Version="126.2.180" />
-    <PackageReference Include="chromiumembeddedframework.runtime.win-x64" Version="126.2.18" />
-    <PackageReference Include="chromiumembeddedframework.runtime.win-x86" Version="126.2.18" />
+    <PackageReference Include="CefSharp.Common" Version="136.1.40" />
+    <PackageReference Include="CefSharp.WinForms" Version="136.1.40" />
+    <PackageReference Include="chromiumembeddedframework.runtime.win-x64" Version="136.1.4" />
+    <PackageReference Include="chromiumembeddedframework.runtime.win-x86" Version="136.1.4" />
     <PackageReference Include="CyotekImageBox">
       <Version>1.3.1</Version>
     </PackageReference>
