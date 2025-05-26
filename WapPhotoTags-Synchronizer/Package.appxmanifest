@@ -9,7 +9,7 @@
   <Identity
     Name="36037Nordlien.PhotoTags-Synchronizer"
     Publisher="CN=Nordlien"
-    Version="2024.8.8.0" />
+    Version="2025.5.26.0" />
 
   <Properties>
     <DisplayName>PhotoTags-Synchronizer</DisplayName>
